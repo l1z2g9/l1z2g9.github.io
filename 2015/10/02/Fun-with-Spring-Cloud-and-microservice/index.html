@@ -1,0 +1,243 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Fun with Spring Cloud and microservice | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Fun with Spring Cloud and microservice"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-10-02T04:08:17.000Z"><a href="/2015/10/02/Fun-with-Spring-Cloud-and-microservice/">2015-10-02</a></time>
+      
+      
+  
+    <h1 class="title">Fun with Spring Cloud and microservice</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <ul>
+<li><p>Excellent Blog</p>
+<ul>
+<li><p>Must read<br><a href="http://callistaenterprise.se/blogg/teknik/2015/05/20/blog-series-building-microservices/" target="_blank" rel="external">Blog Series - Building Microservices</a><br><a href="http://www.kennybastani.com/2015/07/spring-cloud-docker-microservices.html" target="_blank" rel="external">Building Microservices with Spring Cloud and Docker</a></p>
+</li>
+<li><p>Spring<br><a href="https://spring.io/blog/2015/01/20/microservice-registration-and-discovery-with-spring-cloud-and-netflix-s-eureka" target="_blank" rel="external">Microservice Registration and Discovery with Spring Cloud and Netflix’s Eureka</a><br><a href="https://spring.io/blog/2015/07/14/microservices-with-spring" target="_blank" rel="external">Microservices with Spring</a><br><a href="https://dzone.com/articles/learning-spring-cloud-writing" target="_blank" rel="external">Learning Spring-Cloud - Writing a Microservice</a><br><a href="https://spring.io/guides/gs/spring-boot-docker/" target="_blank" rel="external">Spring Boot with Docker</a><br><a href="http://12factor.net/zh_cn/disposability" target="_blank" rel="external">12factor app</a></p>
+</li>
+</ul>
+</li>
+<li><p>GitHub<br><a href="https://github.com/spring-cloud-samples" target="_blank" rel="external">spring-cloud-samples</a><br><a href="https://github.com/spring-cloud/" target="_blank" rel="external">spring-cloud</a></p>
+</li>
+</ul>
+<hr>
+<ul>
+<li><p>Install docker</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">export http_proxy=http://<span class="number">192.168</span>.<span class="number">56.1</span>:<span class="number">21</span></div><div class="line">curl -<span class="keyword">x</span> <span class="number">192.168</span>.<span class="number">56.1</span>:<span class="number">21</span> -sSL http<span class="variable">s:</span>//<span class="built_in">get</span>.docker.<span class="keyword">com</span>/gpg | sudo apt-key <span class="built_in">add</span> -</div><div class="line">curl -<span class="keyword">x</span> <span class="number">192.168</span>.<span class="number">56.1</span>:<span class="number">21</span> -sSL http<span class="variable">s:</span>//<span class="built_in">get</span>.docker.<span class="keyword">com</span>/ | <span class="keyword">sh</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>Clone spring project</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="keyword">clone</span> <span class="title">https</span>://github.com/kbastani/spring-cloud-microservice-example --config <span class="string">"http.proxy=http://192.168.56.1:21"</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>cd spring-cloud-microservice-example/</p>
+<ul>
+<li><p>Install docker-compose</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -x <span class="symbol">http:</span>/<span class="regexp">/192.168.56.1:21 -L https:/</span><span class="regexp">/github.com/docker</span><span class="regexp">/compose/releases</span><span class="regexp">/download/</span><span class="number">1.4</span>.<span class="number">0</span>/docker-compose-<span class="string">`uname -s`</span>-<span class="string">`uname -m`</span> &gt; <span class="regexp">/usr/local</span><span class="regexp">/bin/docker</span>-compose</div></pre></td></tr></table></figure>
+</li>
+<li><p>Install Maven<br><code>wget http://apache.communilink.net//maven/maven-3/3.3.3/binaries/apache-maven-3.3.3-bin.tar.gz</code><br>set proxy and repository path (shared by user and root) in conf/settings.xml</p>
+</li>
+<li><p>Install Gradle<br><code>gradle -Dhttp.proxyHost=192.168.56.1 -Dhttp.proxyPort=21 -Dhttps.proxyHost=192.168.56.1 -Dhttps.proxyPort=21 build</code></p>
+</li>
+<li><p>Install Java (Refer to <a href="http://www.tecmint.com/install-java-jdk-jre-in-linux/" target="_blank" rel="external">http://www.tecmint.com/install-java-jdk-jre-in-linux/</a> or <a href="http://tecadmin.net/install-java-8-on-centos-rhel-and-fedora/" target="_blank" rel="external">http://tecadmin.net/install-java-8-on-centos-rhel-and-fedora/</a>)<br>Download jdk-8u60-linux-x64.gz</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo update-alternatives --install <span class="regexp">/usr/</span>bin<span class="regexp">/java java /</span>home<span class="regexp">/user/</span>Software<span class="regexp">/jdk1.8.0_60/</span>bin/java <span class="number">3</span></div><div class="line">sudo update-alternatives --install <span class="regexp">/usr/</span>bin<span class="regexp">/javac javac /</span>home<span class="regexp">/user/</span>Software<span class="regexp">/jdk1.8.0_60/</span>bin/javac <span class="number">3</span></div><div class="line">sudo update-alternatives --set jar <span class="regexp">/home/</span>user<span class="regexp">/Software/</span>jdk1<span class="number">.8</span><span class="number">.0</span>_60<span class="regexp">/bin/</span>jar</div><div class="line">sudo update-alternatives --set javac <span class="regexp">/home/</span>user<span class="regexp">/Software/</span>jdk1<span class="number">.8</span><span class="number">.0</span>_60<span class="regexp">/bin/</span>javac</div></pre></td></tr></table></figure>
+</li>
+<li><p>Setup docker proxy<br>edit <code>/etc/default/docker</code> to set proxy (<code>/etc/sysconfig/docker</code> in CentOS)<br><code>service docker restart</code><br>or</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo HTTP_PROXY=<span class="string">http:</span><span class="comment">//192.168.56.1:21/ docker -d &amp;</span></div><div class="line">sudo usermod -aG docker username</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<p>Installed software and component</p>
+<ul>
+<li>rover-master (<a href="https://github.com/lecram/rover" target="_blank" rel="external">https://github.com/lecram/rover</a>)</li>
+<li>otp_src_18.0 (Erlang)</li>
+<li>rabbitmq_server-3.5.4</li>
+<li>spring-cloud<ul>
+<li><a href="https://github.com/callistaenterprise/blog-microservices.git" target="_blank" rel="external">https://github.com/callistaenterprise/blog-microservices.git</a></li>
+<li><a href="https://github.com/bijukunjummen/spring-cloud-ping-pong-sample" target="_blank" rel="external">https://github.com/bijukunjummen/spring-cloud-ping-pong-sample</a></li>
+<li><a href="https://github.com/joshlong/service-registration-and-discovery" target="_blank" rel="external">https://github.com/joshlong/service-registration-and-discovery</a></li>
+<li><a href="https://github.com/paulc4/microservices-demo" target="_blank" rel="external">https://github.com/paulc4/microservices-demo</a></li>
+<li><a href="https://github.com/kbastani/spring-cloud-microservice-example" target="_blank" rel="external">https://github.com/kbastani/spring-cloud-microservice-example</a></li>
+<li><a href="https://github.com/spring-guides/gs-spring-boot-docker.git" target="_blank" rel="external">https://github.com/spring-guides/gs-spring-boot-docker.git</a></li>
+</ul>
+</li>
+<li>elinks-0.12-20150916</li>
+<li>Python-2.7.3</li>
+<li>ranger-1.7.1</li>
+<li>torrent<ul>
+<li>transmission-2.84</li>
+<li>libevent-2.0.22-stable</li>
+<li>curl-7.44.0</li>
+<li>intltool-0.51.0</li>
+</ul>
+</li>
+<li>tmux-2.0</li>
+<li>ncurses-6.0</li>
+<li>apache-maven-3.3.3</li>
+<li>git-1.8.5.4</li>
+<li>phpredis</li>
+<li>redis-2.8.21</li>
+<li>ffmpeg_sources<ul>
+<li>ffmpeg (git clone)</li>
+<li>x264 (git clone)</li>
+<li>libvorbis-1.3.4 (libvorbis-1.3.4.tar.gz)</li>
+<li>lame-3.99.5 (lame-3.99.5.tar.gz)</li>
+<li>libvpx (git clone)</li>
+<li>libogg-1.3.0 (libogg-1.3.0.tar.gz)</li>
+<li>yasm-1.2.0 (yasm-1.2.0.tar.gz)</li>
+<li>yasm (git clone)</li>
+<li>xvidcore (git clone)</li>
+</ul>
+</li>
+<li>shadowsocks-libev (<a href="https://github.com/shadowsocks/shadowsocks-libev.git" target="_blank" rel="external">https://github.com/shadowsocks/shadowsocks-libev.git</a>)</li>
+<li>jdk1.8.0_60</li>
+<li>magento-sample-data-1.9.1.0</li>
+<li>youtube-dl (<a href="https://rg3.github.io/youtube-dl/" target="_blank" rel="external">https://rg3.github.io/youtube-dl/</a>)</li>
+<li>jq (<a href="https://stedolan.github.io/jq/" target="_blank" rel="external">https://stedolan.github.io/jq/</a>)</li>
+</ul>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/日常记录/">日常记录</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

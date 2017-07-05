@@ -1,0 +1,176 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Crystal Clear出现X connection to :0.0 broken (exp... | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Crystal Clear出现X connection to :0.0 broken (exp..."/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-06-12T03:57:44.000Z"><a href="/2012/06/12/Crystal-Clear出现X-connection-to-0.0-broken- exp.../">2012-06-12</a></time>
+      
+      
+  
+    <h1 class="title">Crystal Clear出现X connection to :0.0 broken (exp...</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>Crystal Clear遇到个问题，在AIX的native_stderr.log看到X connection to :0.0 broken (explicit kill or server shutdown).<br>运行xhost，hold住了，没有反应。</p>
+<p>折腾了一天，解决方法很简单，将DISPLAY由:0.0改为:100.0，虽然有些古怪，but it works.</p>
+<p>这个问题让自己了解到更多X Server的内容。</p>
+<h2 id="要启动AIX上的X-Server"><a href="#要启动AIX上的X-Server" class="headerlink" title="要启动AIX上的X Server"></a>要启动AIX上的X Server</h2><p><code>/usr/dt/bin/dtlogin -daemon</code></p>
+<h3 id="然后产生如下进程："><a href="#然后产生如下进程：" class="headerlink" title="然后产生如下进程："></a>然后产生如下进程：</h3><figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">/usr/lpp/X11/bin/X -x abx -x dbe -x GLX -D /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">X11</span>//<span class="title">rgb</span> -<span class="title">T</span> -<span class="title">force</span> :0 -<span class="title">auth</span> /<span class="title">var</span>/<span class="title">dt</span>/<span class="title">A</span>:0-<span class="title">vcgtMa</span></span></div><div class="line">/usr/bin/X11/X -force -vfb -x abx -x dbe -x GLX :<span class="number">100</span></div></pre></td></tr></table></figure>
+<p>如果DISPLAY=:100.0 用 <code>netstat -an|grep 100</code> 会看到6100端口开启了，等待连接。</p>
+<h3 id="以下是一些摘录的内容："><a href="#以下是一些摘录的内容：" class="headerlink" title="以下是一些摘录的内容："></a>以下是一些摘录的内容：</h3><p>The X server can be disabled and then killed with the following</p>
+<p>commands:<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="regexp">/usr/</span>dt<span class="regexp">/bin/</span>dtconfig -d</div><div class="line"><span class="regexp">/usr/</span>dt<span class="regexp">/bin/</span>dtconfig -kill</div></pre></td></tr></table></figure></p>
+<p>The X server can be restored after applying the fix with the following commands:<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="regexp">/usr/</span>dt<span class="regexp">/bin/</span>dtconfig -e</div><div class="line"><span class="regexp">/usr/</span>bin<span class="regexp">/startsrc -s dtsrc</span></div></pre></td></tr></table></figure></p>
+<h2 id="Others"><a href="#Others" class="headerlink" title="Others"></a>Others</h2><ol>
+<li>Open a terminal emulator window, and log in as root.</li>
+<li>Obtain the process ID of the Login Manager by typing the following:<br><code>cat /var/dt/Xpid</code></li>
+<li>Stop the Login Manager by typing:<br><code>kill -term process_id</code></li>
+</ol>
+<h3 id="Starting-the-Common-Desktop-Environment-manually-Use-this-procedure-to-start-the-Common-Desktop-Environment-manually"><a href="#Starting-the-Common-Desktop-Environment-manually-Use-this-procedure-to-start-the-Common-Desktop-Environment-manually" class="headerlink" title="Starting the Common Desktop Environment manually. Use this procedure to start the Common Desktop Environment manually."></a>Starting the Common Desktop Environment manually. Use this procedure to start the Common Desktop Environment manually.</h3><ol>
+<li>Log in to your system as root.</li>
+<li>At the command line, type the following:<br><code>/usr/dt/bin/dtlogin -daemon</code><br><code>tail /var/dt/Xerrors</code></li>
+</ol>
+<h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p><a href="https://groups.google.com/group/comp.unix.aix/browse_thread/thread/9ccd826368903176?pli=1" target="_blank" rel="external">https://groups.google.com/group/comp.unix.aix/browse_thread/thread/9ccd826368903176?pli=1</a><br><a href="http://blog.csdn.net/huang_tg/article/details/6120409" target="_blank" rel="external">http://blog.csdn.net/huang_tg/article/details/6120409</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/工作日志/">工作日志</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

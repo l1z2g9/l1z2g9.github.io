@@ -1,0 +1,162 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>dds4 and tsm backup | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="dds4 and tsm backup"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-11-23T06:25:57.000Z"><a href="/2012/11/23/dds4-and-tsm-backup/">2012-11-23</a></time>
+      
+      
+  
+    <h1 class="title">dds4 and tsm backup</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="Backup"><a href="#Backup" class="headerlink" title="Backup"></a>Backup</h1><p> <code>find /tmp/forest | backup -ivqf /dev/rmt0</code></p>
+<h2 id="Commands-of-controlling-DDS4-tape"><a href="#Commands-of-controlling-DDS4-tape" class="headerlink" title="Commands of controlling DDS4 tape"></a>Commands of controlling DDS4 tape</h2><figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mt -t <span class="regexp">/dev/</span>rmt0 rewind</div><div class="line">mt -t <span class="regexp">/dev/</span>rmt0 offline</div></pre></td></tr></table></figure>
+<h1 id="Daily-backup"><a href="#Daily-backup" class="headerlink" title="Daily backup:"></a>Daily backup:</h1><h2 id="Backup-dh-db-bkup-exp-expora-dow-dmp-gz"><a href="#Backup-dh-db-bkup-exp-expora-dow-dmp-gz" class="headerlink" title="Backup /dh/db/bkup/exp/expora{dow}.dmp.gz"></a>Backup /dh/db/bkup/exp/exp<em>ora</em>{dow}.dmp.gz</h2><figure class="highlight stata"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">restore</span> -Tvqf /dev/rmt0 (<span class="keyword">View</span>)</div><div class="line"><span class="keyword">restore</span> -Tqdvf /dev/rmt0 /dh/<span class="keyword">db</span>/bkup/<span class="built_in">exp</span></div><div class="line"><span class="keyword">restore</span> -rvqf /dev/rmt0 (<span class="keyword">Restore</span>)</div><div class="line"><span class="keyword">restore</span> -xvqf /dev/rmt0</div><div class="line"><span class="keyword">restore</span> -xdvqf /dev/rmt0 /dh/<span class="keyword">db</span>/bkup/<span class="built_in">exp</span></div></pre></td></tr></table></figure>
+<h2 id="Weekly-backup-system-backup"><a href="#Weekly-backup-system-backup" class="headerlink" title="Weekly backup(system backup):"></a>Weekly backup(system backup):</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">restore</span> -s4 -Tvqf /dev/rmt0<span class="number">.1</span> (<span class="keyword">View</span>)</div><div class="line">lsmksysb -f /dev/rmt0</div><div class="line"><span class="keyword">restore</span> -s4 -rvqf /dev/rmt0<span class="number">.1</span> (<span class="keyword">Restore</span>)</div></pre></td></tr></table></figure>
+<p>  <a href="http://www.oucs.ox.ac.uk/hfs/backup/allcli/index.xml?splitLevel=-1" target="_blank" rel="external">http://www.oucs.ox.ac.uk/hfs/backup/allcli/index.xml?splitLevel=-1</a><br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">dsmc</span> restore /dh/db/<span class="keyword">bkup/exp/exp_ora_1.dmp.gz</span></div><div class="line"><span class="symbol">dsmc</span> restore /dh/db/<span class="keyword">bkup/exp/exp_ora_1.dmp.gz </span>/tmp/xx/</div><div class="line"><span class="symbol">dsmc</span> restore /dh/db/<span class="keyword">bkup/exp/* </span>/tmp/xx/</div><div class="line"><span class="symbol">dsmc</span> query file</div><div class="line"><span class="symbol">dsmc</span> query <span class="keyword">backup </span><span class="string">"/dh/db/bkup/*"</span> -<span class="keyword">subdir=yes</span></div><div class="line"><span class="symbol">dsmc</span> q <span class="keyword">ba </span><span class="string">"/dsmdb/bkup/exp/*"</span> -<span class="keyword">subdir=yes </span>(-inactive)</div><div class="line"><span class="symbol">dsmc</span> q <span class="keyword">ba </span><span class="string">"/dh/db/bkup/arch/*"</span> -su<span class="symbol">=yes</span></div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/工作日志/">工作日志</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

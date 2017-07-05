@@ -1,0 +1,170 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Install Python in AIX | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Install Python in AIX"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2013-11-15T04:54:38.000Z"><a href="/2013/11/15/Install-Python-in-AIX/">2013-11-15</a></time>
+      
+      
+  
+    <h1 class="title">Install Python in AIX</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="Download-Python"><a href="#Download-Python" class="headerlink" title="Download Python"></a>Download Python</h1><p>download the archive zip from <a href="http://www.bullfreeware.com/affichage.php?id=1495" target="_blank" rel="external">http://www.bullfreeware.com/affichage.php?id=1495</a></p>
+<h1 id="Install-Python"><a href="#Install-Python" class="headerlink" title="Install Python"></a>Install Python</h1><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">rpm -ivh libiconv-<span class="number">1.14</span>-<span class="number">1</span><span class="selector-class">.aix6</span>.<span class="number">1</span><span class="selector-class">.ppc</span><span class="selector-class">.rpm</span> –nodeps <span class="comment">// important, otherwise throw error of libintl.so </span></div><div class="line">rpm -ivh gettext-<span class="number">0.17</span>-<span class="number">8</span><span class="selector-class">.aix6</span>.<span class="number">1</span><span class="selector-class">.ppc</span><span class="selector-class">.rpm</span> –nodeps </div><div class="line">rpm -ivh gdbm-<span class="number">1.10</span>-<span class="number">1</span><span class="selector-class">.aix6</span>.<span class="number">1</span><span class="selector-class">.ppc</span><span class="selector-class">.rpm</span> </div><div class="line">rpm -ivh ncurses-<span class="number">5.9</span>-<span class="number">3</span><span class="selector-class">.aix6</span>.<span class="number">1</span><span class="selector-class">.ppc</span><span class="selector-class">.rpm</span> </div><div class="line">rpm -ivh info-<span class="number">5.0</span>-<span class="number">2</span><span class="selector-class">.aix6</span>.<span class="number">1</span><span class="selector-class">.ppc</span><span class="selector-class">.rpm</span> </div><div class="line">rpm -ivh readline-<span class="number">6.2</span>-<span class="number">3</span><span class="selector-class">.aix6</span>.<span class="number">1</span><span class="selector-class">.ppc</span><span class="selector-class">.rpm</span> </div><div class="line">rpm -ivh sqlite-<span class="number">3.7</span>.<span class="number">15.2</span>-<span class="number">2</span><span class="selector-class">.aix6</span>.<span class="number">1</span><span class="selector-class">.ppc</span><span class="selector-class">.rpm</span> </div><div class="line">rpm -ivh gmp-<span class="number">5.1</span>.<span class="number">3</span>-<span class="number">1</span><span class="selector-class">.aix6</span>.<span class="number">1</span><span class="selector-class">.ppc</span><span class="selector-class">.rpm</span> </div><div class="line">rpm -ivh db-<span class="number">4.8</span>.<span class="number">24</span>-<span class="number">4</span><span class="selector-class">.aix6</span>.<span class="number">1</span><span class="selector-class">.ppc</span><span class="selector-class">.rpm</span> </div><div class="line">rpm -ivh zlib-<span class="number">1.2</span>.<span class="number">5</span>-<span class="number">6</span><span class="selector-class">.aix6</span>.<span class="number">1</span><span class="selector-class">.ppc</span><span class="selector-class">.rpm</span> </div><div class="line">rpm -ivh libffi-<span class="number">3.0</span>.<span class="number">9</span>-<span class="number">3</span><span class="selector-class">.aix6</span>.<span class="number">1</span><span class="selector-class">.ppc</span><span class="selector-class">.rpm</span> </div><div class="line">rpm -ivh bzip2-<span class="number">1.0</span>.<span class="number">6</span>-<span class="number">2</span><span class="selector-class">.aix6</span>.<span class="number">1</span><span class="selector-class">.ppc</span><span class="selector-class">.rpm</span> </div><div class="line">rpm -ivh expat-<span class="number">2.1</span>.<span class="number">0</span>-<span class="number">1</span><span class="selector-class">.aix6</span>.<span class="number">1</span><span class="selector-class">.ppc</span><span class="selector-class">.rpm</span> </div><div class="line">rpm -ivh openssl-<span class="number">1.0</span>.<span class="number">0</span>k-<span class="number">2</span><span class="selector-class">.aix6</span>.<span class="number">1</span><span class="selector-class">.ppc</span><span class="selector-class">.rpm</span> </div><div class="line">rpm -ivh python-<span class="number">2.7</span>.<span class="number">2</span>-<span class="number">3</span><span class="selector-class">.aix6</span>.<span class="number">1</span><span class="selector-class">.ppc</span><span class="selector-class">.rpm</span> </div><div class="line">rpm -ivh python-devel-<span class="number">2.7</span>.<span class="number">2</span>-<span class="number">3</span><span class="selector-class">.aix6</span>.<span class="number">1</span><span class="selector-class">.ppc</span><span class="selector-class">.rpm</span></div></pre></td></tr></table></figure>
+<h1 id="Create-Makefile-amp-pyconfig-h-Sovled-after-install-python-devel-2-7-2-3-aix6-1-ppc-rpm"><a href="#Create-Makefile-amp-pyconfig-h-Sovled-after-install-python-devel-2-7-2-3-aix6-1-ppc-rpm" class="headerlink" title="Create Makefile &amp; pyconfig.h (Sovled after install python-devel-2.7.2-3.aix6.1.ppc.rpm)"></a>Create Makefile &amp; pyconfig.h (Sovled after install <code>python-devel-2.7.2-3.aix6.1.ppc.rpm</code>)</h1><figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mkdir /opt/freeware/<span class="class"><span class="keyword">lib</span>/<span class="title">python2</span>.7/<span class="title">config</span> <span class="title">touch</span> /<span class="title">opt</span>/<span class="title">freeware</span>/<span class="title">lib</span>/<span class="title">python2</span>.7/<span class="title">config</span>/<span class="title">Makefile</span></span></div><div class="line">mkdir /opt/freeware/<span class="keyword">include</span>/python2.<span class="number">7</span> touch /opt/freeware/<span class="keyword">include</span>/python2.<span class="number">7</span>/pyconfig.h</div></pre></td></tr></table></figure>
+<h1 id="Problem-solve"><a href="#Problem-solve" class="headerlink" title="Problem solve"></a>Problem solve</h1><ul>
+<li>No module <em>unittest</em> found<ul>
+<li>copy unittest from windows to aix</li>
+</ul>
+</li>
+<li>aix not support “O_NOFOLLOW”<ul>
+<li><a href="https://github.com/pypa/pip/pull/935" target="_blank" rel="external">https://github.com/pypa/pip/pull/935</a><br><code>sudo vi /opt/freeware/lib/python2.7/site-packages/pip-1.4.1-py2.7.egg/pip/locations.py</code><br>remove os.O_NOFOLLOW</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/AIX/">AIX</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

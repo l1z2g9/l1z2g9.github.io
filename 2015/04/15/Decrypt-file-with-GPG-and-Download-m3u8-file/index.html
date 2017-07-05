@@ -1,0 +1,178 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Decrypt file with GPG and Download m3u8 file | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Decrypt file with GPG and Download m3u8 file"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-04-15T08:45:15.000Z"><a href="/2015/04/15/Decrypt-file-with-GPG-and-Download-m3u8-file/">2015-04-15</a></time>
+      
+      
+  
+    <h1 class="title">Decrypt file with GPG and Download m3u8 file</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="Decrypt-file-with-GPG"><a href="#Decrypt-file-with-GPG" class="headerlink" title="Decrypt file with GPG"></a>Decrypt file with GPG</h1><ul>
+<li>Import keys to gpg<figure class="highlight elm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="title">gpg</span> –<span class="keyword">import</span> secring.skr</div><div class="line"><span class="title">gpg</span> –<span class="keyword">import</span> pubring.pkr</div><div class="line"><span class="title">gpg</span> –list-keys</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>result as below,<br><figure class="highlight subunit"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">pub 2048R/82F66E2C 2014<span class="string">-01</span><span class="string">-06</span> [expires: 2017<span class="string">-01</span><span class="string">-06</span>]</div><div class="line">Key fingerprint = 4BA1 30AA 793A 1D54 2787  F287 F87E 5CFF 82F6 6E2C</div><div class="line">uid xxxx<span class="string">-999999999</span><span class="string">-20140106</span> sub 2048R/A1EBDC74 2014<span class="string">-01</span><span class="string">-06</span> [expires: 2017<span class="string">-01</span><span class="string">-06</span>]</div><div class="line">pub 4096R/A05189D6 2014<span class="string">-01</span><span class="string">-02</span> [expires: 2017<span class="string">-12</span><span class="string">-31</span>]</div><div class="line">Key fingerprint = 674A 9A1D 5675 ED25 802C  574C F591 50E3 A051 89D6</div><div class="line">uid CEMailBxHKEPSC2017<span class="string">-12</span><span class="string">-31</span> sub 4096R/B47C7A5B 2014<span class="string">-01</span><span class="string">-02</span> [expires: 2017<span class="string">-12</span><span class="string">-31</span>]</div></pre></td></tr></table></figure></p>
+<ul>
+<li>Run <code>sftp -P 38024 ephp2650@203.112.90.74</code> to login</li>
+<li>Download PPSCDDMMYY.pgp from server</li>
+<li>Run <code>gpg PPSCDDMMYY.pgp</code> to decrypt and <code>mv PPSCDDMMYY PPSCDDMMYY.zip</code> and <code>unzip PPSCDDMMYY.zip</code> to get file <strong>MERCHANT.TXT</strong></li>
+</ul>
+<h1 id="Download-m3u8-file"><a href="#Download-m3u8-file" class="headerlink" title="Download m3u8 file"></a>Download m3u8 file</h1><ul>
+<li>Install Chrome Cache View from <a href="http://www.nirsoft.net/utils/chrome_cache_view.html" target="_blank" rel="external">NirSoft</a></li>
+<li><p>Install ffmpeg</p>
+<figure class="highlight smali"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo<span class="built_in"> add-apt-repository </span>ppa:mc3man/trusty-media</div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install ffmpeg gstreamer0.10-ffmpeg</div></pre></td></tr></table></figure>
+</li>
+<li><p>find m3u8 url in Chrome Cache View</p>
+</li>
+<li>run<br><code>ffmpeg -i http://stmw.rthk.hk/aod/_definst_/radio/archive/radio1/City_Snapshot/mp3/mp3:20150413.mp3/playlist.m3u8 -c copy City_Snapshot-20150413-.mp3</code> to download</li>
+</ul>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference:"></a>Reference:</h1><h2 id="GnuPG"><a href="#GnuPG" class="headerlink" title="GnuPG"></a>GnuPG</h2><p><a href="http://www.pgpi.org/doc/pgpintro/" target="_blank" rel="external">http://www.pgpi.org/doc/pgpintro/</a><br><a href="http://www.hanewin.net/encrypt/PGcrypt.htm" target="_blank" rel="external">http://www.hanewin.net/encrypt/PGcrypt.htm</a><br><a href="http://support.gpgtools.org/kb/gpgservices-faq/how-to-encrypt-and-sign-text-or-files-with-gpgservices" target="_blank" rel="external">http://support.gpgtools.org/kb/gpgservices-faq/how-to-encrypt-and-sign-text-or-files-with-gpgservices</a><br><a href="http://science.opposingviews.com/decrypt-file-using-pgp-23391.html" target="_blank" rel="external">http://science.opposingviews.com/decrypt-file-using-pgp-23391.html</a><br>ftp://ftp.pgpi.org/pub/pgp/6.5/docs/english/PGPCmdLineGuide.pdf<br><a href="http://askubuntu.com/questions/100281/how-do-i-make-a-pgp-key" target="_blank" rel="external">http://askubuntu.com/questions/100281/how-do-i-make-a-pgp-key</a><br><a href="https://help.ubuntu.com/community/GnuPrivacyGuardHowto" target="_blank" rel="external">https://help.ubuntu.com/community/GnuPrivacyGuardHowto</a><br><a href="http://www.techrepublic.com/blog/linux-and-open-source/encrypting-and-decrypting-files-with-gnupg/" target="_blank" rel="external">http://www.techrepublic.com/blog/linux-and-open-source/encrypting-and-decrypting-files-with-gnupg/</a><br><a href="http://ubuntuforums.org/showthread.php?t=680292" target="_blank" rel="external">http://ubuntuforums.org/showthread.php?t=680292</a><br><a href="http://askubuntu.com/questions/332020/how-do-i-import-a-private-key-into-gpg-so-that-it-becomes-the-default-key" target="_blank" rel="external">http://askubuntu.com/questions/332020/how-do-i-import-a-private-key-into-gpg-so-that-it-becomes-the-default-key</a><br><a href="https://www.madboa.com/geek/gpg-quickstart/" target="_blank" rel="external">https://www.madboa.com/geek/gpg-quickstart/</a><br><a href="http://www.spywarewarrior.com/uiuc/gpg/gpg-com-4.htm" target="_blank" rel="external">http://www.spywarewarrior.com/uiuc/gpg/gpg-com-4.htm</a></p>
+<h2 id="Download-m3u8"><a href="#Download-m3u8" class="headerlink" title="Download m3u8"></a>Download m3u8</h2><p><a href="http://swimminginthought.com/download-m3u8-file/" target="_blank" rel="external">http://swimminginthought.com/download-m3u8-file/</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/日常记录/">日常记录</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

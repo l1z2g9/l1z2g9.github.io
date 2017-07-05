@@ -1,0 +1,166 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>在AIX上空闲卷上重建文件系统 | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="在AIX上空闲卷上重建文件系统"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-05-11T08:37:06.000Z"><a href="/2012/05/11/在AIX上空闲卷上重建文件系统/">2012-05-11</a></time>
+      
+      
+  
+    <h1 class="title">在AIX上空闲卷上重建文件系统</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h3 id="在卷组vg01上重建具有5个物理分区的逻辑卷，卷名为mytest，类型jfs2（一个物理分区大小为128或512M，具体用命令lsvg-vg01查看PP-Size）"><a href="#在卷组vg01上重建具有5个物理分区的逻辑卷，卷名为mytest，类型jfs2（一个物理分区大小为128或512M，具体用命令lsvg-vg01查看PP-Size）" class="headerlink" title="在卷组vg01上重建具有5个物理分区的逻辑卷，卷名为mytest，类型jfs2（一个物理分区大小为128或512M，具体用命令lsvg vg01查看PP Size）"></a>在卷组vg01上重建具有5个物理分区的逻辑卷，卷名为mytest，类型jfs2（一个物理分区大小为128或512M，具体用命令lsvg vg01查看PP Size）</h3><p>  <code>mklv -y mytest -t jfs2 vg01 5</code></p>
+<h3 id="在逻辑卷mytest上重建可读写的jfs2文件系统，并新建挂载文件夹-mounttest"><a href="#在逻辑卷mytest上重建可读写的jfs2文件系统，并新建挂载文件夹-mounttest" class="headerlink" title="在逻辑卷mytest上重建可读写的jfs2文件系统，并新建挂载文件夹/mounttest"></a>在逻辑卷mytest上重建可读写的jfs2文件系统，并新建挂载文件夹/mounttest</h3><p>  <code>crfs -v jfs2 -d mytest -p rw -m /mounttest</code></p>
+<h3 id="查看逻辑卷："><a href="#查看逻辑卷：" class="headerlink" title="查看逻辑卷："></a>查看逻辑卷：</h3><p>  <code>lslv mytest</code><br>  <code>lsvg -l vg01</code></p>
+<h3 id="查看-etc-filesystems文件，看到"><a href="#查看-etc-filesystems文件，看到" class="headerlink" title="查看/etc/filesystems文件，看到"></a>查看/etc/filesystems文件，看到</h3><figure class="highlight nix"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">/mounttest:</div><div class="line">  <span class="attr">dev</span>             = /dev/mytest</div><div class="line">  <span class="attr">vfs</span>             = jfs2</div><div class="line">  <span class="attr">log</span>             = /dev/loglv04</div><div class="line">  <span class="attr">mount</span>           = <span class="literal">false</span></div><div class="line">  <span class="attr">options</span>         = rw</div><div class="line">  <span class="attr">account</span>         = <span class="literal">false</span></div></pre></td></tr></table></figure>
+<h3 id="此时mytest的LV-STATE为closed-syncd，直到将其挂载到-mounttest才能使用。"><a href="#此时mytest的LV-STATE为closed-syncd，直到将其挂载到-mounttest才能使用。" class="headerlink" title="此时mytest的LV STATE为closed/syncd，直到将其挂载到/mounttest才能使用。"></a>此时mytest的LV STATE为closed/syncd，直到将其挂载到/mounttest才能使用。</h3><p>  <code>mount /dev/mytest /mounttest</code></p>
+<h3 id="用lsvg-l-vg01看LV-STATE转为open-syncd"><a href="#用lsvg-l-vg01看LV-STATE转为open-syncd" class="headerlink" title="用lsvg -l vg01看LV STATE转为open/syncd"></a>用lsvg -l vg01看LV STATE转为open/syncd</h3><h3 id="查看文件系统：df-g，看到-mounttest已挂载。"><a href="#查看文件系统：df-g，看到-mounttest已挂载。" class="headerlink" title="查看文件系统：df -g，看到/mounttest已挂载。"></a>查看文件系统：df -g，看到/mounttest已挂载。</h3><h3 id="卸载文件系统"><a href="#卸载文件系统" class="headerlink" title="卸载文件系统:"></a>卸载文件系统:</h3><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">umount <span class="string">/mounttest</span> <span class="params">(LV STATE转为closed/syncd)</span></div><div class="line">rmfs <span class="string">/mounttest</span></div><div class="line">rmlv loglv04</div></pre></td></tr></table></figure>
+<h3 id="有以下这些概念需要注意："><a href="#有以下这些概念需要注意：" class="headerlink" title="有以下这些概念需要注意："></a>有以下这些概念需要注意：</h3><figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">vg_name</span></div><div class="line">pv_name</div><div class="line">lv_name</div><div class="line">mountpoint</div><div class="line">vg01</div><div class="line">hdisk0</div><div class="line">mytest</div><div class="line">mountest</div></pre></td></tr></table></figure>
+<h3 id="找出一个物理卷可用到空间：lspv-p-hdisk1，找到state显示free的部分。"><a href="#找出一个物理卷可用到空间：lspv-p-hdisk1，找到state显示free的部分。" class="headerlink" title="找出一个物理卷可用到空间：lspv -p hdisk1，找到state显示free的部分。"></a>找出一个物理卷可用到空间：lspv -p hdisk1，找到state显示free的部分。</h3><h3 id="了解以下命令有帮助："><a href="#了解以下命令有帮助：" class="headerlink" title="了解以下命令有帮助："></a>了解以下命令有帮助：</h3><figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">lscfg</span></div><div class="line"><span class="symbol">prtconf</span></div><div class="line"><span class="symbol">lsdev</span> -Cc hdisk</div><div class="line"><span class="symbol">lsattr</span> -El hdisk0</div><div class="line"><span class="symbol">lsvg</span></div><div class="line"><span class="symbol">lspv</span></div><div class="line"><span class="keyword">lslv</span></div><div class="line"><span class="symbol">lsfs</span></div></pre></td></tr></table></figure>
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference:"></a>Reference:</h3><p><a href="http://study.chyangwa.com/IT/AIX/aixcmds1/crfs.htm" target="_blank" rel="external">http://study.chyangwa.com/IT/AIX/aixcmds1/crfs.htm</a><br><a href="http://www.tek-tips.com/faqs.cfm?fid=3180" target="_blank" rel="external">http://www.tek-tips.com/faqs.cfm?fid=3180</a><br><a href="http://www.ibm.com/developerworks/aix/library/au-dutta_cmds.html" target="_blank" rel="external">http://www.ibm.com/developerworks/aix/library/au-dutta_cmds.html</a><br><a href="http://www.cnblogs.com/Mainz/articles/1027105.html" target="_blank" rel="external">http://www.cnblogs.com/Mainz/articles/1027105.html</a><br><a href="http://blog.csdn.net/tglg/article/details/4557948" target="_blank" rel="external">http://blog.csdn.net/tglg/article/details/4557948</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/AIX/">AIX</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

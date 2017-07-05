@@ -1,0 +1,186 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>stackpack | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="stackpack"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2014-10-16T04:13:57.000Z"><a href="/2014/10/16/stackpack/">2014-10-16</a></time>
+      
+      
+  
+    <h1 class="title">stackpack</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <ul>
+<li><strong>Get all snapshot</strong></li>
+</ul>
+<p><code>select * from STATS$snapshot;</code></p>
+<ul>
+<li><p><strong>Check database instance</strong></p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">select * <span class="keyword">from</span> STATS<span class="variable">$DATABASE_INSTANCE</span>; – <span class="keyword">in</span> case database restarted, an <span class="builtin-name">error</span> will be thrown as ORA-20200: The<span class="built_in"> instance </span>was shutdown between snapshots 981 <span class="keyword">and</span> 982</div><div class="line">select * <span class="keyword">from</span> v<span class="variable">$instance</span>;</div></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Run stackpack</strong></p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sqlplus perfstat/password@“<span class="params">(<span class="attr">DESCRIPTION</span>=(<span class="attr">ADDRESS</span>=(<span class="attr">PROTOCOL</span>=TCP)</span><span class="params">(<span class="attr">HOST</span>=server)</span><span class="params">(<span class="attr">PORT</span>=1521)</span>)<span class="params">(<span class="attr">CONNECT_DATA</span>=(<span class="attr">SERVICE_NAME</span>=xxrac)</span>))”</div><div class="line">@$ORACLE_HOME/rdbms/admin/spreport.sql</div><div class="line">OR</div><div class="line">@?<span class="string">/rdbms/admin/spreport.sql</span></div></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Purge stackpack</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@$<span class="keyword">ORACLE_HOME</span>/<span class="keyword">rdbms</span>/<span class="keyword">admin</span>/<span class="keyword">sppurge</span>.<span class="keyword">sql</span></div><div class="line">OR</div><div class="line">@?/rdbms/admin/sppurge.sql</div></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Oracle jobs</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> user_jobs; <span class="keyword">SELECT</span> job, next_date, next_sec, failures, broken, <span class="keyword">SUBSTR</span>(what,<span class="number">1</span>,<span class="number">40</span>) DESCRIPTION <span class="keyword">FROM</span> dba_jobs; </div><div class="line">EXEC dbms_job.broken(24, false); </div><div class="line">EXEC dbms_job.run(24, false); – <span class="keyword">reset</span> job <span class="keyword">when</span> <span class="keyword">failure</span> <span class="number">16</span> attemps <span class="keyword">to</span> run</div></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Oracle job for schedule run sppurge</strong></p>
+</li>
+</ul>
+<p>——————– Check the snap present before 20 days ——————–<br><figure class="highlight n1ql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> <span class="built_in">count</span>(*) <span class="keyword">from</span> stats$snapshot <span class="keyword">where</span> snap_time &lt; sysdate<span class="number">-20</span></div><div class="line"></div><div class="line">----<span class="keyword">Create</span> the <span class="keyword">procedure</span> which will purge statspack snapshot after <span class="number">20</span> days gap---------</div><div class="line"><span class="keyword">create</span> <span class="keyword">or</span> <span class="built_in">replace</span> <span class="keyword">procedure</span> statspackpurge <span class="keyword">is</span></div><div class="line">var_lo_snap <span class="keyword">number</span>;</div><div class="line">var_hi_snap number;</div><div class="line">var_db_id number;</div><div class="line">var_instance_no number;</div><div class="line">noofsnapshot number;</div><div class="line">n_count number ;</div><div class="line">begin</div><div class="line"></div><div class="line">n_count := 0;</div><div class="line"></div><div class="line"><span class="keyword">select</span> <span class="built_in">count</span>(*) <span class="keyword">into</span> n_count <span class="keyword">from</span> stats$snapshot <span class="keyword">where</span> snap_time &lt; sysdate<span class="number">-20</span>;</div><div class="line"></div><div class="line">if n_count &gt; 0 then</div><div class="line"></div><div class="line"><span class="keyword">select</span> <span class="built_in">min</span>(s.snap_id) , <span class="built_in">max</span>(s.snap_id),<span class="built_in">max</span>(di.dbid),<span class="built_in">max</span>(di.instance_number) <span class="keyword">into</span>  var_lo_snap, var_hi_snap,var_db_id,var_instance_no</div><div class="line">  <span class="keyword">from</span> stats$snapshot s</div><div class="line">     , stats$database_instance di</div><div class="line"> <span class="keyword">where</span> s.dbid              = di.dbid</div><div class="line">   <span class="keyword">and</span> s.instance_number   = di.instance_number</div><div class="line">   <span class="keyword">and</span> di.startup_time     = s.startup_time</div><div class="line">   <span class="keyword">and</span> s.snap_time &lt; sysdate<span class="number">-20</span>;</div><div class="line"></div><div class="line">  noofsnapshot := statspack.purge( i_begin_snap      =&gt; var_lo_snap</div><div class="line">                                      , i_end_snap        =&gt; var_hi_snap</div><div class="line">                                      , i_snap_range      =&gt; true</div><div class="line">                                      , i_extended_purge  =&gt; false</div><div class="line">                                      , i_dbid            =&gt; var_db_id</div><div class="line">                                      , i_instance_number =&gt; var_instance_no);</div><div class="line"></div><div class="line"> dbms_output.Put_line('snapshot deleted'||to_char(noofsnapshot));</div><div class="line"></div><div class="line">end if;</div><div class="line">end;</div><div class="line">/</div></pre></td></tr></table></figure></p>
+<p>——————– check the job already exits in the database  ——————–<br><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT  <span class="keyword">job, </span>next_date, next_sec, failures, <span class="keyword">broken, </span><span class="keyword">SUBSTR(what,1,40) </span>DESCRIPTION FROM dba_jobs<span class="comment">;</span></div></pre></td></tr></table></figure></p>
+<p>——————– scheduled the  job at mid night ——————–<br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">declare</span></div><div class="line">  my_job <span class="built_in">number</span>;</div><div class="line">begin</div><div class="line">  dbms_job.submit(<span class="function"><span class="params">job</span> =&gt;</span> my_job,</div><div class="line">    <span class="function"><span class="params">what</span> =&gt;</span> <span class="string">'statspackpurge;'</span>,</div><div class="line">    <span class="function"><span class="params">next_date</span> =&gt;</span> trunc(sysdate)+<span class="number">1</span>,</div><div class="line">    <span class="function"><span class="params">interval</span> =&gt;</span> <span class="string">'trunc(sysdate)+1'</span>);</div><div class="line">end;</div><div class="line"><span class="regexp">/</span></div></pre></td></tr></table></figure></p>
+<p>————–  Another way———————————————————-<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">variable v_jobno number;</div><div class="line"><span class="keyword">begin</span></div><div class="line">dbms_job.submit(:v_jobno,<span class="string">'statspack.purge(i_num_days=&gt;15,i_extended_purge=&gt;TRUE);'</span>,trunc(<span class="keyword">sysdate</span>)+<span class="number">1</span>+<span class="number">2</span>/<span class="number">24</span>,<span class="string">'SYSDATE'</span>,<span class="literal">TRUE</span>);</div><div class="line"><span class="keyword">commit</span>;</div><div class="line"><span class="keyword">end</span>;</div><div class="line">/</div></pre></td></tr></table></figure></p>
+<ul>
+<li>Reference</li>
+</ul>
+<p><strong>Stackpack</strong><br><a href="http://www.oracle-base.com/articles/8i/statspack-8i.php" target="_blank" rel="external">http://www.oracle-base.com/articles/8i/statspack-8i.php</a><br><a href="http://docs.oracle.com/cd/B10500_01/server.920/a96533/statspac.htm" target="_blank" rel="external">http://docs.oracle.com/cd/B10500_01/server.920/a96533/statspac.htm</a></p>
+<p><strong>Oracle job</strong><br><a href="http://www.orafaq.com/wiki/DBMS_JOB" target="_blank" rel="external">http://www.orafaq.com/wiki/DBMS_JOB</a><br><a href="http://www.dba-oracle.com/tips_oracle_statspack_purge_utility.htm" target="_blank" rel="external">http://www.dba-oracle.com/tips_oracle_statspack_purge_utility.htm</a><br><a href="http://myoracleworld.hobby-electronics.net/DB-statspack.html" target="_blank" rel="external">http://myoracleworld.hobby-electronics.net/DB-statspack.html</a><br><a href="http://dbaworks-sunny.blogspot.hk/2012/12/statspack-purge-script-for-scheduling.html" target="_blank" rel="external">http://dbaworks-sunny.blogspot.hk/2012/12/statspack-purge-script-for-scheduling.html</a><br><a href="http://docs.oracle.com/cd/B19306_01/appdev.102/b14258/d_job.htm#i1000769" target="_blank" rel="external">http://docs.oracle.com/cd/B19306_01/appdev.102/b14258/d_job.htm#i1000769</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Oracle/">Oracle</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

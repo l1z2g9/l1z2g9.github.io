@@ -1,0 +1,169 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>hadoop on nitrous.io | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="hadoop on nitrous.io"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2013-10-11T10:27:08.000Z"><a href="/2013/10/11/hadoop-on-nitrous.io/">2013-10-11</a></time>
+      
+      
+  
+    <h1 class="title">hadoop on nitrous.io</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="Prepare-SSH"><a href="#Prepare-SSH" class="headerlink" title="Prepare SSH"></a>Prepare SSH</h1><figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ssh-keygen -t dsa -P <span class="string">''</span> -f ~<span class="regexp">/.ssh/id</span>_dsa</div><div class="line">cat ~<span class="regexp">/.ssh/id</span>_dsa.pub <span class="meta">&gt;&gt; </span>~<span class="regexp">/.ssh/authorized</span>_keys</div><div class="line">chmod <span class="number">600</span> ~<span class="regexp">/.ssh/authorized</span>_keys</div></pre></td></tr></table></figure>
+<h1 id="Configuration"><a href="#Configuration" class="headerlink" title="Configuration"></a>Configuration</h1><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">vim</span> /home/action/software/hadoop-<span class="number">1.2</span>.<span class="number">1</span>/<span class="keyword">conf</span>/hadoop-env.<span class="keyword">sh</span></div><div class="line">export JAVA_HOME=/usr/lib/jvm/java-<span class="number">7</span>-oracle</div><div class="line"></div><div class="line">bin/hadoop namenode -format</div><div class="line"></div><div class="line">bin/hadoop fs -<span class="built_in">mkdir</span> <span class="built_in">input</span></div><div class="line">bin/hadoop fs -<span class="keyword">put</span> <span class="keyword">conf</span> <span class="built_in">input</span></div><div class="line">bin/hadoop fs -<span class="keyword">cp</span> <span class="keyword">conf</span>/*.xml <span class="built_in">input</span></div><div class="line"></div><div class="line">bin/start-<span class="keyword">all</span>.<span class="keyword">sh</span></div><div class="line"></div><div class="line">bin/hadoop jar hadoop-examples-<span class="number">1.2</span>.<span class="number">1</span>.jar <span class="keyword">grep</span> <span class="built_in">input</span> output <span class="string">'dfs[a-z.]+'</span></div><div class="line">bin/hadoop fs -rmr output</div><div class="line"></div><div class="line">bin/hadoop jar hadoop-examples-<span class="number">1.2</span>.<span class="number">1</span>.jar wordcount <span class="built_in">input</span> output</div><div class="line">bin/hadoop fs -rmr output</div><div class="line"></div><div class="line">bin/<span class="keyword">stop</span>-<span class="keyword">all</span>.<span class="keyword">sh</span></div></pre></td></tr></table></figure>
+<h2 id="core-site-xml"><a href="#core-site-xml" class="headerlink" title="core-site.xml"></a>core-site.xml</h2><figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="params">&lt;configuration&gt;</span></div><div class="line">    <span class="params">&lt;property&gt;</span></div><div class="line">     <span class="params">&lt;name&gt;</span>fs.default.name<span class="params">&lt;/name&gt;</span></div><div class="line">     <span class="params">&lt;value&gt;</span>hdfs:<span class="comment">//localhost:9000&lt;/value&gt;</span></div><div class="line">    <span class="params">&lt;/property&gt;</span></div><div class="line">　　<span class="params">&lt;property&gt;</span></div><div class="line">　　　　<span class="params">&lt;name&gt;</span>hadoop.tmp.dir<span class="params">&lt;/name&gt;</span></div><div class="line">　　　　<span class="params">&lt;value&gt;</span><span class="meta-keyword">/home/</span>action/tmp<span class="params">&lt;/value&gt;</span></div><div class="line">　　<span class="params">&lt;/property&gt;</span></div><div class="line"><span class="params">&lt;/configuration&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="hdfs-site-xml"><a href="#hdfs-site-xml" class="headerlink" title="hdfs-site.xml"></a>hdfs-site.xml</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.replication<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>1<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line"> <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="mapred-site-xml"><a href="#mapred-site-xml" class="headerlink" title="mapred-site.xml"></a>mapred-site.xml</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line"> <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapred.job.tracker<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">value</span>&gt;</span>localhost:9001<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line"> <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div></pre></td></tr></table></figure>
+<p><em>hadoop.tmp.dir</em> must be set, or it will throw error</p>
+<h2 id="admin-interface"><a href="#admin-interface" class="headerlink" title="admin interface"></a>admin interface</h2><ul>
+<li><a href="http://localhost:50030/" target="_blank" rel="external">http://localhost:50030/</a> Hadoop 管理介面 </li>
+<li><a href="http://localhost:50060/" target="_blank" rel="external">http://localhost:50060/</a> Hadoop Task Tracker 状态</li>
+<li><a href="http://localhost:50070/" target="_blank" rel="external">http://localhost:50070/</a> Hadoop DFS 状态</li>
+</ul>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="http://angelosun.iteye.com/blog/1844780" target="_blank" rel="external">angelosun.iteye.com</a><br><a href="http://shaurong.blogspot.hk/2013/07/hadoop-112-centos-64-x64.html" target="_blank" rel="external">shaurong.blogspot.hk</a><br><a href="http://blog.csdn.net/zwkwd/article/details/11740589" target="_blank" rel="external">blog.csdn.net</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/日常记录/">日常记录</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

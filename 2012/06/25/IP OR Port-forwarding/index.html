@@ -1,0 +1,166 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>IP/Port forwarding | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="IP/Port forwarding"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-06-25T09:29:30.000Z"><a href="/2012/06/25/IP OR Port-forwarding/">2012-06-25</a></time>
+      
+      
+  
+    <h1 class="title">IP/Port forwarding</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h3 id="nix"><a href="#nix" class="headerlink" title="*nix"></a>*nix</h3><p>rinetd (<a href="http://www.boutell.com/rinetd/" target="_blank" rel="external">http://www.boutell.com/rinetd/</a>)</p>
+<p>netcat ( <a href="http://netcat.sourceforge.net/" target="_blank" rel="external">http://netcat.sourceforge.net/</a>)</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mkfifo backpipe</div><div class="line">nc -l <span class="number">12345</span>  <span class="number">0</span>&lt;backpipe | nc www.google.com <span class="number">80</span> <span class="number">1</span>&gt;backpipe</div></pre></td></tr></table></figure>
+<p>socat (<a href="http://www.dest-unreach.org/socat/" target="_blank" rel="external">http://www.dest-unreach.org/socat/</a>)</p>
+<p>iptables (<a href="http://www.netfilter.org/downloads.html" target="_blank" rel="external">http://www.netfilter.org/downloads.html</a>)</p>
+<h3 id="ssh"><a href="#ssh" class="headerlink" title="ssh"></a>ssh</h3><figure class="highlight dns"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">ssh user@<span class="number">10.13.135.47</span> -L <span class="number">7001:10.13</span>.<span class="number">135.54:9081</span> -g</div><div class="line">端口<span class="number">7001</span>在当前运行这个命令的机器上打开</div><div class="line">ssh user@<span class="number">10.13.135.47</span> -R <span class="number">7001:10.13</span>.<span class="number">135.54:9081</span> -g</div><div class="line">端口<span class="number">7001在10.13</span>.<span class="number">135</span>.<span class="number">47</span>机器上打开</div><div class="line"></div><div class="line"><span class="keyword">A</span>跟B是同一个网络，B跟C是一个网络，C跟D同一个网络，但<span class="keyword">A</span>不能到达D。</div><div class="line"></div><div class="line">B机上运行</div><div class="line">ssh root@C_host -L <span class="number">7001</span>:D_host:<span class="number">9081</span> -g</div><div class="line"></div><div class="line">B机上运行</div><div class="line">netstat -an|grep <span class="number">7001</span></div><div class="line">会看到<span class="number">0.0.0.0</span>的端口<span class="number">7001</span>在监听（如果没有-g，会显示<span class="number">127.0.0.1</span>:<span class="number">7001</span>在监听）</div><div class="line"></div><div class="line">这样<span class="keyword">A</span>可以通过B的<span class="number">7001</span>端口发送数据可以到达D的<span class="number">9081</span>端口，其中B到C的数据链路是被加密了的，而<span class="keyword">A</span>-&gt;B和C-&gt;D是没有的。</div><div class="line"></div><div class="line">反向代理</div><div class="line">如果<span class="keyword">A</span>可以到B，但由于防火墙导致B不能到<span class="keyword">A</span>，那么就可以使用ssh -R，让端口开在B。例如<span class="keyword">A</span>是proxy，希望让B可以访问internet，可以使用如下方法：</div><div class="line">在<span class="keyword">A</span>上运行：ssh -R <span class="number">7001</span>:localhost:<span class="number">8080</span> B</div><div class="line">再在B上运行：export http_proxy=http://localhost:<span class="number">7001</span></div><div class="line"></div><div class="line">题外话：</div><div class="line">如果在C上配置nginx/squid了，这样可以使用C为proxy。</div><div class="line"><span class="keyword">A</span>-&gt;B(<span class="number">7001</span>)-&gt;C(<span class="number">9081</span>)-&gt;C(<span class="number">80</span>/<span class="number">443</span>)</div></pre></td></tr></table></figure>
+<h3 id="java"><a href="#java" class="headerlink" title="java"></a>java</h3><p>mina (<a href="http://mina.apache.org" target="_blank" rel="external">http://mina.apache.org</a>)<br>netty (<a href="http://netty.io" target="_blank" rel="external">http://netty.io</a>)<br>openportmapper (<a href="http://openportmapper.sf.net" target="_blank" rel="external">http://openportmapper.sf.net</a>)</p>
+<h3 id="window"><a href="#window" class="headerlink" title="window"></a>window</h3><p>netcat (<a href="http://joncraton.org/blog/46/netcat-for-windows" target="_blank" rel="external">http://joncraton.org/blog/46/netcat-for-windows</a>)<br>ncat (<a href="http://nmap.org" target="_blank" rel="external">http://nmap.org</a>)<br>3proxy (<a href="http://3proxy.ru/" target="_blank" rel="external">http://3proxy.ru/</a>)</p>
+<h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref:"></a>Ref:</h2><p><a href="http://en.wikipedia.org/wiki/Netcat" target="_blank" rel="external">http://en.wikipedia.org/wiki/Netcat</a><br><a href="http://www.debianadmin.com/howto-use-ssh-local-and-remote-port-forwarding.html" target="_blank" rel="external">http://www.debianadmin.com/howto-use-ssh-local-and-remote-port-forwarding.html</a><br><a href="http://fsfoundry.org/codefreak/2006/05/18/ssh-port-forwarding-basics/" target="_blank" rel="external">http://fsfoundry.org/codefreak/2006/05/18/ssh-port-forwarding-basics/</a><br><a href="https://www.ibm.com/developerworks/cn/linux/l-cn-sshforward/" target="_blank" rel="external">https://www.ibm.com/developerworks/cn/linux/l-cn-sshforward/</a><br><a href="http://blog.moonforest.org/2011/02/use-sshtunnel-and-nginx-as-proxy-on-android/" target="_blank" rel="external">http://blog.moonforest.org/2011/02/use-sshtunnel-and-nginx-as-proxy-on-android/</a><br><a href="http://madeye.me/2011/02/10/ssh-tunnel-on-the-android-application-puff-android-edition" target="_blank" rel="external">http://madeye.me/2011/02/10/ssh-tunnel-on-the-android-application-puff-android-edition</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/工作日志/">工作日志</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

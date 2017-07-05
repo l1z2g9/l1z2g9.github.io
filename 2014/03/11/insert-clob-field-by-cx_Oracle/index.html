@@ -1,0 +1,157 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>insert clob field by cx_Oracle | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="insert clob field by cx_Oracle"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2014-03-11T07:16:02.000Z"><a href="/2014/03/11/insert-clob-field-by-cx_Oracle/">2014-03-11</a></time>
+      
+      
+  
+    <h1 class="title">insert clob field by cx_Oracle</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> cx_Oracle, os</div><div class="line"></div><div class="line">os.environ[<span class="string">"NLS_LANG"</span>] = <span class="string">"TRADITIONAL CHINESE_HONG KONG.AL32UTF8"</span></div><div class="line"></div><div class="line">def main():</div><div class="line">    dsn_tns = cx_Oracle.makedsn(<span class="string">'server'</span>, <span class="number">1521</span>, service_name=<span class="string">'xxrac'</span>)</div><div class="line">    con = cx_Oracle.connect(<span class="string">'user'</span>,<span class="string">'password'</span>,dsn_tns)</div><div class="line"></div><div class="line">    try:</div><div class="line">        cur = con.cursor()</div><div class="line">        <span class="keyword">for</span> i in <span class="keyword">range</span>(<span class="number">50</span>):</div><div class="line">            report_id = <span class="string">'%LSA'</span> + str(i).rjust(<span class="number">3</span>, <span class="string">'0'</span>) + <span class="string">'%'</span></div><div class="line">            #<span class="built_in">print</span> report_id</div><div class="line">            cur.execute(<span class="string">"SELECT rpt_url from print_para where rpt_url like '%s' ORDER BY last_update desc"</span> %(report_id))</div><div class="line">            row = cur.fetchone()</div><div class="line">            <span class="keyword">if</span> row != None:</div><div class="line">                <span class="built_in">print</span> <span class="string">'http://xxserver'</span> + row[<span class="number">0</span>]</div><div class="line"></div><div class="line">        cur.<span class="built_in">close</span>()</div><div class="line">    finally:</div><div class="line">        <span class="built_in">print</span> <span class="string">'close connection'</span></div><div class="line">        con.<span class="built_in">close</span>()</div><div class="line"></div><div class="line">def insert_news():</div><div class="line">    dsn_tns = cx_Oracle.makedsn(<span class="string">'server'</span>, <span class="number">1521</span>, service_name=<span class="string">'xxrac'</span>)</div><div class="line">    con = cx_Oracle.connect(<span class="string">'user2'</span>,<span class="string">'user2uat0675'</span>,dsn_tns)</div><div class="line"></div><div class="line">    dhprd_dsn_tns = cx_Oracle.makedsn(<span class="string">'server2'</span>, <span class="number">1521</span>, <span class="string">'prd'</span>)</div><div class="line">    dhprd_con = cx_Oracle.connect(<span class="string">'user2x'</span>,<span class="string">'password'</span>,prd_dsn_tns)</div><div class="line"></div><div class="line">    try:</div><div class="line">        dhprd_cur = dhprd_con.cursor()</div><div class="line">        dhprd_cur.execute(<span class="string">"SELECT NEWS_ID,GROUP_ID,CREATION_DATE,PUBLISH_START_DATE,PUBLISH_END_DATE,NEWS_TITLE,NEWS_TITLE_CHI,STATUS,LAST_UPDATE,UPDATE_BY,UPDATE_ROLE,NEWS_TYPE,URL,URL_CHI,URL_SIMP_CHI,PRESS_RELEASE, NEWS_CONTENT from news "</span>)</div><div class="line">        res = dhprd_cur.fetchall()</div><div class="line"></div><div class="line">        <span class="keyword">for</span> row in res:</div><div class="line">            cur = con.cursor()</div><div class="line">            <span class="built_in">print</span> row[<span class="number">0</span>]</div><div class="line">            NEWS_ID = row[<span class="number">0</span>]</div><div class="line">            GROUP_ID = row[<span class="number">1</span>]</div><div class="line">            CREATION_DATE = row[<span class="number">2</span>]</div><div class="line">            PUBLISH_START_DATE = row[<span class="number">3</span>]</div><div class="line">            PUBLISH_END_DATE = row[<span class="number">4</span>]</div><div class="line">            NEWS_TITLE = row[<span class="number">5</span>]</div><div class="line">            NEWS_TITLE_CHI = row[<span class="number">6</span>]</div><div class="line">            STATUS = row[<span class="number">7</span>]</div><div class="line">            LAST_UPDATE = row[<span class="number">8</span>]</div><div class="line">            UPDATE_BY = row[<span class="number">9</span>]</div><div class="line">            UPDATE_ROLE = row[<span class="number">10</span>]</div><div class="line">            NEWS_TYPE = row[<span class="number">11</span>]</div><div class="line">            URL = row[<span class="number">12</span>]</div><div class="line">            URL_CHI = row[<span class="number">13</span>]</div><div class="line">            URL_SIMP_CHI = row[<span class="number">14</span>]</div><div class="line">            PRESS_RELEASE = row[<span class="number">15</span>]</div><div class="line">            NEWS_CONTENT = row[<span class="number">16</span>]</div><div class="line"></div><div class="line">            #cur.execute(<span class="string">"insert into news(NEWS_ID,GROUP_ID,CREATION_DATE,PUBLISH_START_DATE,PUBLISH_END_DATE,NEWS_TITLE,NEWS_TITLE_CHI,STATUS,LAST_UPDATE,UPDATE_BY,UPDATE_ROLE,NEWS_TYPE,URL,URL_CHI,URL_SIMP_CHI,PRESS_RELEASE) values (:NEWS_ID,:GROUP_ID,:CREATION_DATE,:PUBLISH_START_DATE,:PUBLISH_END_DATE,:NEWS_TITLE,:NEWS_TITLE_CHI,:STATUS,:LAST_UPDATE,:UPDATE_BY,:UPDATE_ROLE,:NEWS_TYPE,:URL,:URL_CHI,:URL_SIMP_CHI,:PRESS_RELEASE)"</span>, &#123;<span class="string">'NEWS_ID'</span> : NEWS_ID,<span class="string">'GROUP_ID'</span> : GROUP_ID,<span class="string">'CREATION_DATE'</span> : CREATION_DATE,<span class="string">'PUBLISH_START_DATE'</span> : PUBLISH_START_DATE,<span class="string">'PUBLISH_END_DATE'</span> : PUBLISH_END_DATE,<span class="string">'NEWS_TITLE'</span> : NEWS_TITLE,<span class="string">'NEWS_TITLE_CHI'</span> : NEWS_TITLE_CHI,<span class="string">'STATUS'</span> : STATUS,<span class="string">'LAST_UPDATE'</span> : LAST_UPDATE,<span class="string">'UPDATE_BY'</span> : UPDATE_BY,<span class="string">'UPDATE_ROLE'</span> : UPDATE_ROLE,<span class="string">'NEWS_TYPE'</span> : NEWS_TYPE,<span class="string">'URL'</span> : URL,<span class="string">'URL_CHI'</span> : URL_CHI,<span class="string">'URL_SIMP_CHI'</span> : URL_SIMP_CHI,<span class="string">'PRESS_RELEASE'</span> : PRESS_RELEASE&#125;)</div><div class="line"></div><div class="line">            #cur.execute(<span class="string">"update news set NEWS_CONTENT = :NEWS_CONTENT, NEWS_CONTENT_CHI = :NEWS_CONTENT_CHI where news_id = :news_id"</span>, &#123;<span class="string">'news_id'</span>:NEWS_ID, <span class="string">'NEWS_CONTENT'</span>:<span class="string">'aa'</span>, <span class="string">'NEWS_CONTENT_CHI'</span>:<span class="string">'bb'</span>&#125;)</div><div class="line"></div><div class="line">            #cur.execute(<span class="string">"select NEWS_CONTENT from news where news_id = :news_id for update"</span>, &#123;<span class="string">'news_id'</span>:NEWS_ID&#125;)</div><div class="line">            <span class="built_in">print</span> NEWS_CONTENT.read()</div><div class="line">            <span class="string">'''</span>row2, = cur.fetchone()</div><div class="line">            <span class="built_in">print</span> NEWS_CONTENT.read()</div><div class="line">            row2.write(NEWS_CONTENT.read())<span class="string">'''</span></div><div class="line">            #con.commit()</div><div class="line">            cur.<span class="built_in">close</span>()</div><div class="line">            <span class="keyword">break</span></div><div class="line"></div><div class="line">        dhprd_cur.<span class="built_in">close</span>()</div><div class="line"></div><div class="line">    finally:</div><div class="line">        <span class="built_in">print</span> <span class="string">'close connection'</span></div><div class="line">        con.<span class="built_in">close</span>()</div><div class="line">        dhprd_con.<span class="built_in">close</span>()</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">def insert_news_content():</div><div class="line">    dsn_tns = cx_Oracle.makedsn(<span class="string">'server'</span>, <span class="number">1521</span>, service_name=<span class="string">'xxrac'</span>)</div><div class="line">    con = cx_Oracle.connect(<span class="string">'user2'</span>,<span class="string">'user2uat0675'</span>,dsn_tns)</div><div class="line"></div><div class="line">    dhprd_dsn_tns = cx_Oracle.makedsn(<span class="string">'server2'</span>, <span class="number">1521</span>, <span class="string">'prd'</span>)</div><div class="line">    dhprd_con = cx_Oracle.connect(<span class="string">'user2'</span>,<span class="string">'password'</span>,dhprd_dsn_tns)</div><div class="line"></div><div class="line">    try:</div><div class="line">        dhprd_cur = dhprd_con.cursor()</div><div class="line">        dhprd_cur.execute(<span class="string">"SELECT NEWS_ID from news order by NEWS_ID"</span>)</div><div class="line">        res = dhprd_cur.fetchall()</div><div class="line">        news_ids = []</div><div class="line">        <span class="keyword">for</span> row in res:</div><div class="line">            news_ids.<span class="built_in">append</span>(row[<span class="number">0</span>])</div><div class="line"></div><div class="line"></div><div class="line">        <span class="keyword">for</span> NEWS_ID in news_ids:</div><div class="line">            dhprd_cur.execute(<span class="string">"SELECT NEWS_ID, NEWS_CONTENT, NEWS_CONTENT_CHI from news where NEWS_ID = :NEWS_ID"</span>, &#123;<span class="string">'NEWS_ID'</span>:NEWS_ID&#125;)</div><div class="line">            row = dhprd_cur.fetchone()</div><div class="line"></div><div class="line">            NEWS_ID = row[<span class="number">0</span>]</div><div class="line">            NEWS_CONTENT = row[<span class="number">1</span>].read()</div><div class="line">            NEWS_CONTENT_CHI = row[<span class="number">2</span>].read()</div><div class="line"></div><div class="line">            cur = con.cursor()</div><div class="line"></div><div class="line">            <span class="built_in">print</span> NEWS_ID</div><div class="line">            cur.execute(<span class="string">'select news_content, news_content_chi from news where news_id = :news_id for update'</span>, &#123;<span class="string">'news_id'</span>:NEWS_ID&#125;)</div><div class="line">            c1, c2 = cur.fetchone()</div><div class="line">            c1.open()</div><div class="line">            c1.trim()</div><div class="line">            c1.write(NEWS_CONTENT)</div><div class="line">            c1.<span class="built_in">close</span>()</div><div class="line"></div><div class="line">            c2.open()</div><div class="line">            c2.trim()</div><div class="line">            c2.write(NEWS_CONTENT_CHI)</div><div class="line">            c2.<span class="built_in">close</span>()</div><div class="line"></div><div class="line">        con.commit()</div><div class="line">        cur.<span class="built_in">close</span>()</div><div class="line">        dhprd_cur.<span class="built_in">close</span>()</div><div class="line"></div><div class="line">    finally:</div><div class="line">        <span class="built_in">print</span> <span class="string">'close connection'</span></div><div class="line">        con.<span class="built_in">close</span>()</div><div class="line">        dhprd_con.<span class="built_in">close</span>()</div><div class="line"></div><div class="line">insert_news_content()</div></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Oracle/">Oracle</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

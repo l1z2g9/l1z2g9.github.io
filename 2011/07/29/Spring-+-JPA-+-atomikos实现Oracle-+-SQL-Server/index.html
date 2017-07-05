@@ -1,0 +1,161 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Spring + JPA + atomikos实现Oracle + SQL Server | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Spring + JPA + atomikos实现Oracle + SQL Server"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2011-07-29T09:41:47.000Z"><a href="/2011/07/29/Spring-+-JPA-+-atomikos实现Oracle-+-SQL-Server/">2011-07-29</a></time>
+      
+      
+  
+    <h1 class="title">Spring + JPA + atomikos实现Oracle + SQL Server</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="persistence-xml"><a href="#persistence-xml" class="headerlink" title="persistence.xml"></a>persistence.xml</h1><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span><span class="meta">?&gt;</span></span></div><div class="line"><span class="tag">&lt;<span class="name">persistence</span> <span class="attr">version</span>=<span class="string">"1.0"</span></span></div><div class="line">	<span class="attr">xmlns</span>=<span class="string">"http://java.sun.com/xml/ns/persistence"</span></div><div class="line">	<span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></div><div class="line">	<span class="attr">xsi:schemaLocation</span>=<span class="string">"http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"</span>&gt;</div><div class="line"></div><div class="line">	<span class="tag">&lt;<span class="name">persistence-unit</span> <span class="attr">name</span>=<span class="string">"orcaleXA"</span> <span class="attr">transaction-type</span>=<span class="string">"JTA"</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">provider</span>&gt;</span>org.hibernate.ejb.HibernatePersistence<span class="tag">&lt;/<span class="name">provider</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">properties</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"hibernate.dialect"</span></span></div><div class="line">				<span class="attr">value</span>=<span class="string">"org.hibernate.dialect.Oracle10gDialect"</span> /&gt;</div><div class="line">			<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"hibernate.connection.driver_class"</span></span></div><div class="line">				<span class="attr">value</span>=<span class="string">"oracle.jdbc.xa.client.OracleXADataSource"</span> /&gt;</div><div class="line">			<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"hibernate.connection.url"</span></span></div><div class="line">				<span class="attr">value</span>=<span class="string">"jdbc:oracle:thin:name/password@192.168.201.215:1521:XE"</span> /&gt;</div><div class="line">			<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"hibernate.show_sql"</span> <span class="attr">value</span>=<span class="string">"true"</span> /&gt;</span></div><div class="line">			<span class="comment">&lt;!-- property name="hibernate.transaction.factory_class" </span></div><div class="line">				value="com.atomikos.icatch.jta.hibernate3.AtomikosJTATransactionFactory" /--&gt;</div><div class="line">			<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"hibernate.transaction.manager_lookup_class"</span></span></div><div class="line">				<span class="attr">value</span>=<span class="string">"com.atomikos.icatch.jta.hibernate3.TransactionManagerLookup"</span> /&gt;</div><div class="line">		<span class="tag">&lt;/<span class="name">properties</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">persistence-unit</span>&gt;</span></div><div class="line"></div><div class="line"></div><div class="line">	<span class="tag">&lt;<span class="name">persistence-unit</span> <span class="attr">name</span>=<span class="string">"sqlServerXA"</span> <span class="attr">transaction-type</span>=<span class="string">"JTA"</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">provider</span>&gt;</span>org.hibernate.ejb.HibernatePersistence<span class="tag">&lt;/<span class="name">provider</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">properties</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"hibernate.dialect"</span></span></div><div class="line">				<span class="attr">value</span>=<span class="string">"org.hibernate.dialect.SQLServerDialect"</span> /&gt;</div><div class="line">			<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"hibernate.transaction.manager_lookup_class"</span></span></div><div class="line">				<span class="attr">value</span>=<span class="string">"com.atomikos.icatch.jta.hibernate3.TransactionManagerLookup"</span> /&gt;</div><div class="line">			<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"hibernate.show_sql"</span> <span class="attr">value</span>=<span class="string">"true"</span> /&gt;</span></div><div class="line">		<span class="tag">&lt;/<span class="name">properties</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">persistence-unit</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">persistence</span>&gt;</span></div></pre></td></tr></table></figure>
+<p> atomikos文档上说不用设置hibernate.transaction.factory_class，另外发现在WAS配置Hibernate JPA也应该不要设置hibernate.transaction.factory_class。</p>
+<h1 id="applicationContext-xml"><a href="#applicationContext-xml" class="headerlink" title="applicationContext.xml"></a>applicationContext.xml</h1><figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div></pre></td><td class="code"><pre><div class="line">&lt;?xml <span class="built_in">version</span>=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span>?&gt;</div><div class="line">&lt;beans xmlns=<span class="string">"http://www.springframework.org/schema/beans"</span></div><div class="line">  xmlns:xsi=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></div><div class="line">  xmlns:aop=<span class="string">"http://www.springframework.org/schema/aop"</span></div><div class="line">  xmlns:context=<span class="string">"http://www.springframework.org/schema/context"</span></div><div class="line">  xmlns:tx=<span class="string">"http://www.springframework.org/schema/tx"</span></div><div class="line">  xsi:schemaLocation=<span class="string">"</span></div><div class="line">    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd</div><div class="line">    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd</div><div class="line">    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd</div><div class="line">    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd"&gt;</div><div class="line"></div><div class="line">  &lt;context:component-scan base-package=<span class="string">"xx.yy.mypackage"</span> /&gt;</div><div class="line">  &lt;context:annotation-config /&gt;</div><div class="line"></div><div class="line">  &lt;bean <span class="built_in">id</span>=<span class="string">"dataSource"</span></div><div class="line">    <span class="built_in">class</span>=<span class="string">"com.atomikos.jdbc.AtomikosDataSourceBean"</span> init-method=<span class="string">"init"</span> destroy-method=<span class="string">"close"</span>&gt;</div><div class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"uniqueResourceName"</span>&gt;</div><div class="line">      &lt;value&gt;XADBMS&lt;/value&gt;</div><div class="line">    &lt;/<span class="keyword">property</span>&gt;</div><div class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"xaDataSourceClassName"</span>&gt;</div><div class="line">      &lt;value&gt;com.microsoft.sqlserver.jdbc.SQLServerXADataSource&lt;/value&gt;</div><div class="line">    &lt;/<span class="keyword">property</span>&gt;</div><div class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"xaProperties"</span>&gt;</div><div class="line">      &lt;props&gt;</div><div class="line">        &lt;<span class="keyword">prop</span> key=<span class="string">"user"</span>&gt;sa&lt;/<span class="keyword">prop</span>&gt;</div><div class="line">        &lt;<span class="keyword">prop</span> key=<span class="string">"password"</span>&gt;Passw0rd&lt;/<span class="keyword">prop</span>&gt;</div><div class="line">        &lt;<span class="keyword">prop</span> key=<span class="string">"serverName"</span>&gt;<span class="number">192.168</span><span class="number">.201</span><span class="number">.214</span>&lt;/<span class="keyword">prop</span>&gt;</div><div class="line">        &lt;<span class="keyword">prop</span> key=<span class="string">"databaseName"</span>&gt;myDataBase&lt;/<span class="keyword">prop</span>&gt;</div><div class="line">      &lt;/props&gt;</div><div class="line">    &lt;/<span class="keyword">property</span>&gt;</div><div class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"poolSize"</span>&gt;</div><div class="line">      &lt;value&gt;<span class="number">1</span>&lt;/value&gt;</div><div class="line">    &lt;/<span class="keyword">property</span>&gt;</div><div class="line">  &lt;/bean&gt;</div><div class="line"></div><div class="line">  &lt;bean <span class="built_in">id</span>=<span class="string">"orcaleXAEntityManagerFactory"</span></div><div class="line">    <span class="built_in">class</span>=<span class="string">"org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"</span>&gt;</div><div class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"persistenceXmlLocation"</span></div><div class="line">      value=<span class="string">"/META-INF/persistence.xml"</span> /&gt;</div><div class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"persistenceUnitName"</span> value=<span class="string">"orcaleXA"</span> /&gt;</div><div class="line">  &lt;/bean&gt;</div><div class="line"></div><div class="line">  &lt;bean <span class="built_in">id</span>=<span class="string">"sqlServerXAEntityManagerFactory"</span></div><div class="line">    <span class="built_in">class</span>=<span class="string">"org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"</span>&gt;</div><div class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"persistenceXmlLocation"</span></div><div class="line">      value=<span class="string">"/META-INF/persistence.xml"</span> /&gt;</div><div class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"persistenceUnitName"</span> value=<span class="string">"sqlServerXA"</span> /&gt;</div><div class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"dataSource"</span> <span class="keyword">ref</span>=<span class="string">"dataSource"</span> /&gt;</div><div class="line">  &lt;/bean&gt;</div><div class="line"></div><div class="line">  &lt;!<span class="comment">-- bean id="transactionManager"</span></div><div class="line">  <span class="built_in">class</span>=<span class="string">"org.springframework.orm.jpa.JpaTransactionManager"</span>&gt;</div><div class="line">  &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"entityManagerFactory"</span> <span class="keyword">ref</span>=<span class="string">"emf"</span> /&gt;</div><div class="line">  &lt;/bean<span class="comment">--&gt;</span></div><div class="line"></div><div class="line">  &lt;bean <span class="built_in">id</span>=<span class="string">"AtomikosTransactionManager"</span></div><div class="line">    <span class="built_in">class</span>=<span class="string">"com.atomikos.icatch.jta.UserTransactionManager"</span></div><div class="line">    init-method=<span class="string">"init"</span> destroy-method=<span class="string">"close"</span>&gt;</div><div class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"forceShutdown"</span> value=<span class="string">"false"</span> /&gt;</div><div class="line">  &lt;/bean&gt;</div><div class="line"></div><div class="line">  &lt;bean <span class="built_in">id</span>=<span class="string">"AtomikosUserTransaction"</span></div><div class="line">    <span class="built_in">class</span>=<span class="string">"com.atomikos.icatch.jta.UserTransactionImp"</span>&gt;</div><div class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"transactionTimeout"</span> value=<span class="string">"300"</span> /&gt;</div><div class="line">  &lt;/bean&gt;</div><div class="line"></div><div class="line">  &lt;bean <span class="built_in">id</span>=<span class="string">"transactionManager"</span></div><div class="line">    <span class="built_in">class</span>=<span class="string">"org.springframework.transaction.jta.JtaTransactionManager"</span>&gt;</div><div class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"transactionManager"</span></div><div class="line">      <span class="keyword">ref</span>=<span class="string">"AtomikosTransactionManager"</span> /&gt;</div><div class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"userTransaction"</span> <span class="keyword">ref</span>=<span class="string">"AtomikosUserTransaction"</span> /&gt;</div><div class="line">  &lt;/bean&gt;</div><div class="line"></div><div class="line">  &lt;tx:annotation-driven <span class="keyword">transaction</span>-manager=<span class="string">"transactionManager"</span> /&gt;</div><div class="line"></div><div class="line">  &lt;tx:advice <span class="built_in">id</span>=<span class="string">"txAdvice"</span> <span class="keyword">transaction</span>-manager=<span class="string">"transactionManager"</span>&gt;</div><div class="line">    &lt;tx:attributes&gt;</div><div class="line">      &lt;tx:method <span class="built_in">name</span>=<span class="string">"get*"</span> <span class="built_in">read</span>-only=<span class="string">"true"</span> /&gt;</div><div class="line">      &lt;tx:method <span class="built_in">name</span>=<span class="string">"find"</span> <span class="built_in">read</span>-only=<span class="string">"true"</span> /&gt;</div><div class="line">      &lt;tx:method <span class="built_in">name</span>=<span class="string">"check"</span> <span class="built_in">read</span>-only=<span class="string">"true"</span> /&gt;</div><div class="line">      &lt;tx:method <span class="built_in">name</span>=<span class="string">"*"</span> <span class="built_in">read</span>-only=<span class="string">"false"</span> /&gt;</div><div class="line">    &lt;/tx:attributes&gt;</div><div class="line">  &lt;/tx:advice&gt;</div><div class="line"></div><div class="line">  &lt;aop:config&gt;</div><div class="line">    &lt;aop:pointcut <span class="built_in">id</span>=<span class="string">"txPointcut"</span></div><div class="line">      expression=<span class="string">"execution(public * xx.yy.mypacke..*Service.*(..))"</span> /&gt;</div><div class="line">    &lt;aop:advisor advice-<span class="keyword">ref</span>=<span class="string">"txAdvice"</span></div><div class="line">      pointcut-<span class="keyword">ref</span>=<span class="string">"txPointcut"</span> /&gt;</div><div class="line">  &lt;/aop:config&gt;</div><div class="line">&lt;/beans&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Service</span></div><div class="line">  public <span class="class"><span class="keyword">class</span> <span class="title">XxService</span> </span>&#123;</div><div class="line">    <span class="meta">@PersistenceContext</span>(unitName = <span class="string">"orcaleXA"</span>)</div><div class="line">    <span class="keyword">private</span> <span class="type">EntityManager</span> oracleXaEm;</div><div class="line"></div><div class="line">    <span class="meta">@PersistenceContext</span>(unitName = <span class="string">"sqlServerXA"</span>)</div><div class="line">    <span class="keyword">private</span> <span class="type">EntityManager</span> sqlServerXaEm;</div><div class="line">    public void run()&#123;</div><div class="line">      oracleXaEm.createQuery(<span class="string">"..."</span>);</div><div class="line">      sqlServerXaEm.createQuery(<span class="string">"..."</span>);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="meta">@ContextConfiguration</span>(locations = <span class="string">"/applicationContext.xml"</span>)</div><div class="line">  public <span class="class"><span class="keyword">class</span> <span class="title">TestXA</span> <span class="keyword">extends</span> <span class="title">AbstractJUnit38SpringContextTests</span> </span>&#123;</div><div class="line">    <span class="meta">@Autowired</span></div><div class="line">    <span class="keyword">private</span> <span class="type">XxService</span> xxService;</div><div class="line"></div><div class="line">    public void testRun() &#123;</div><div class="line">      <span class="type">System</span>.out.println(<span class="string">"&lt;&lt;"</span>);</div><div class="line">      myService.go();</div><div class="line">    &#125;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<h1 id="lib"><a href="#lib" class="headerlink" title="lib:"></a>lib:</h1><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">atomikos-util<span class="selector-class">.jar</span> </div><div class="line">transactions-jta<span class="selector-class">.jar</span> </div><div class="line">transactions-api<span class="selector-class">.jar</span> </div><div class="line">transactions<span class="selector-class">.jar</span> </div><div class="line">transactions-hibernate3<span class="selector-class">.jar</span> </div><div class="line">transactions-jdbc.jar</div></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/工作日志/">工作日志</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

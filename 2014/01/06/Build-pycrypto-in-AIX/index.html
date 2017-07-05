@@ -1,0 +1,172 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Build pycrypto in AIX | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Build pycrypto in AIX"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2014-01-06T08:48:15.000Z"><a href="/2014/01/06/Build-pycrypto-in-AIX/">2014-01-06</a></time>
+      
+      
+  
+    <h1 class="title">Build pycrypto in AIX</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <ul>
+<li>Download pycrypto-2.6.1 from <a href="https://www.dlitz.net/software/pycrypto/" target="_blank" rel="external">https://www.dlitz.net/software/pycrypto/</a> </li>
+<li>Unzip pycrypto <code>tar xzvf pycrypto-2.6.1.tar.gz</code></li>
+<li>set environment vairable and build source code <code>export ac_cv_func_malloc_0_nonnull=yes</code>(It would throw Error “undefined symbol rpl_malloc”) <code>python setup.py build</code>Refer to <a href="http://embetek.blogspot.hk/2012/04/iperf-for-arm-cross-compile.html" target="_blank" rel="external">iperf-for-arm-cross-compile</a> and <a href="https://forum.openwrt.org/viewtopic.php?pid=4158" target="_blank" rel="external">openwrt</a></li>
+<li><p>Download dependencies and install them <a href="http://www.bullfreeware.com/recherche.php" target="_blank" rel="external">http://www.bullfreeware.com/recherche.php</a></p>
+<ul>
+<li>gmp-devel-5.1.3-1.aix6.1.ppc.rpm<br><a href="http://www.perzl.org/aix/index.php" target="_blank" rel="external">http://www.perzl.org/aix/index.php</a></li>
+<li>libtomcrypt-1.17-1.aix5.1.ppc.rpm</li>
+<li>libtomcrypt-devel-1.17-1.aix5.1.ppc.rpm</li>
+<li>libtommath-0.42.0-1.aix5.1.ppc.rpm</li>
+</ul>
+</li>
+<li><p>Makefile as below </p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div></pre></td><td class="code"><pre><div class="line">CC=gcc</div><div class="line">CFLAGS=-pthread -fno-strict-aliasing -fwrapv -Wall -Wstrict-prototypes -fPIC -std=c99 -O3 -fomit-frame-pointer -Isrc/ -I/opt/freeware/include/python2.<span class="number">7</span> -c</div><div class="line">LDFLAGS=-pthread -shared -lpython2.<span class="number">7</span></div><div class="line">OBJ_DIR=build/temp<span class="selector-class">.aix-7</span>.<span class="number">1</span>-<span class="number">2.7</span>/src</div><div class="line">SO_DIR=build/lib<span class="selector-class">.aix-7</span>.<span class="number">1</span>-<span class="number">2.7</span>/Crypto</div><div class="line"></div><div class="line">all:</div><div class="line">    echo <span class="string">"building 'Crypto.PublicKey._fastmath' extension"</span></div><div class="line">    $(CC) $(CFLAGS) src/_fastmath<span class="selector-class">.c</span> -o $(OBJ_DIR)/fastmath<span class="selector-class">.o</span></div><div class="line">    $(CC) $(LDFLAGS) -lgmp -lm $(OBJ_DIR)/fastmath<span class="selector-class">.o</span> -o $(SO_DIR)/PublicKey/_fastmath<span class="selector-class">.so</span>  (added -lgmp -lm)</div><div class="line"></div><div class="line">    echo <span class="string">"building 'Crypto.Hash._MD2' extension"</span></div><div class="line">    $(CC) $(CFLAGS) src/MD2<span class="selector-class">.c</span> -o $(OBJ_DIR)/MD2<span class="selector-class">.o</span></div><div class="line">    $(CC) $(LDFLAGS) $(OBJ_DIR)/MD2<span class="selector-class">.o</span> -o $(SO_DIR)/Hash/_MD2<span class="selector-class">.so</span></div><div class="line"></div><div class="line">    echo <span class="string">"building 'Crypto.Hash._SHA256' extension"</span></div><div class="line">    $(CC) $(CFLAGS) src/MD2<span class="selector-class">.c</span> -o $(OBJ_DIR)/SHA256<span class="selector-class">.o</span></div><div class="line">    $(CC) $(LDFLAGS) $(OBJ_DIR)/MD2<span class="selector-class">.o</span> -o $(SO_DIR)/Hash/_SHA256<span class="selector-class">.so</span></div><div class="line"></div><div class="line">    echo <span class="string">"building 'Crypto.Hash._SHA224' extension"</span></div><div class="line">    $(CC) $(CFLAGS) src/SHA224<span class="selector-class">.c</span> -o $(OBJ_DIR)/SHA224<span class="selector-class">.o</span></div><div class="line">    $(CC) $(LDFLAGS) $(OBJ_DIR)/SHA224<span class="selector-class">.o</span> -o $(SO_DIR)/Hash/_SHA224<span class="selector-class">.so</span></div><div class="line"></div><div class="line">    echo <span class="string">"building 'Crypto.Hash._SHA384' extension"</span></div><div class="line">    $(CC) $(CFLAGS) src/SHA384<span class="selector-class">.c</span> -o $(OBJ_DIR)/SHA384<span class="selector-class">.o</span></div><div class="line">    $(CC) $(LDFLAGS) $(OBJ_DIR)/SHA384<span class="selector-class">.o</span> -o $(SO_DIR)/Hash/_SHA384<span class="selector-class">.so</span></div><div class="line"></div><div class="line">    echo <span class="string">"building 'Crypto.Hash._SHA512' extension"</span></div><div class="line">    $(CC) $(CFLAGS) src/SHA512<span class="selector-class">.c</span> -o $(OBJ_DIR)/SHA512<span class="selector-class">.o</span></div><div class="line">    $(CC) $(LDFLAGS) $(OBJ_DIR)/SHA512<span class="selector-class">.o</span> -o $(SO_DIR)/Hash/_SHA512<span class="selector-class">.so</span></div><div class="line"></div><div class="line">    echo <span class="string">"building 'Crypto.Hash._RIPEMD160' extension"</span></div><div class="line">    $(CC) $(CFLAGS) src/RIPEMD160<span class="selector-class">.c</span> -o $(OBJ_DIR)/RIPEMD160<span class="selector-class">.o</span></div><div class="line">    $(CC) $(LDFLAGS) $(OBJ_DIR)/RIPEMD160<span class="selector-class">.o</span> -o $(SO_DIR)/Hash/_RIPEMD160<span class="selector-class">.so</span></div><div class="line"></div><div class="line">    echo <span class="string">"building 'Crypto.Cipher._AES' extension"</span></div><div class="line">    $(CC) $(CFLAGS) src/AES<span class="selector-class">.c</span> -o $(OBJ_DIR)/AES<span class="selector-class">.o</span></div><div class="line">    $(CC) $(LDFLAGS) $(OBJ_DIR)/AES<span class="selector-class">.o</span> -o $(SO_DIR)/Cipher/_AES<span class="selector-class">.so</span></div><div class="line"></div><div class="line">    echo <span class="string">"building 'Crypto.Cipher._ARC2' extension"</span></div><div class="line">    $(CC) $(CFLAGS) src/ARC2<span class="selector-class">.c</span> -o $(OBJ_DIR)/ARC2<span class="selector-class">.o</span></div><div class="line">    $(CC) $(LDFLAGS) $(OBJ_DIR)/ARC2<span class="selector-class">.o</span> -o $(SO_DIR)/Cipher/_ARC2<span class="selector-class">.so</span></div><div class="line"></div><div class="line">    echo <span class="string">"building 'Crypto.Cipher._Blowfish' extension"</span></div><div class="line">    $(CC) $(CFLAGS) src/Blowfish<span class="selector-class">.c</span> -o $(OBJ_DIR)/Blowfish<span class="selector-class">.o</span></div><div class="line">    $(CC) $(LDFLAGS) $(OBJ_DIR)/Blowfish<span class="selector-class">.o</span> -o $(SO_DIR)/Cipher/_Blowfish<span class="selector-class">.so</span></div><div class="line"></div><div class="line">    echo <span class="string">"building 'Crypto.Cipher._CAST' extension"</span></div><div class="line">    $(CC) $(CFLAGS) src/CAST<span class="selector-class">.c</span> -o $(OBJ_DIR)/CAST<span class="selector-class">.o</span></div><div class="line">    $(CC) $(LDFLAGS) $(OBJ_DIR)/CAST<span class="selector-class">.o</span> -o $(SO_DIR)/Cipher/_CAST<span class="selector-class">.so</span></div><div class="line"></div><div class="line">    echo <span class="string">"building 'Crypto.Cipher._DES' extension"</span></div><div class="line">    $(CC) $(CFLAGS) -I/opt/freeware/include/tomcrypt src/DES<span class="selector-class">.c</span> -o $(OBJ_DIR)/DES<span class="selector-class">.o</span> (added -I/opt/freeware/include/tomcrypt)</div><div class="line">    $(CC) $(LDFLAGS) -ltomcrypt $(OBJ_DIR)/DES<span class="selector-class">.o</span> -o $(SO_DIR)/Cipher/_DES<span class="selector-class">.so</span>  (added -ltomcrypt)</div><div class="line"></div><div class="line">    echo <span class="string">"building 'Crypto.Cipher._DES3' extension"</span></div><div class="line">    $(CC) $(CFLAGS) -I/opt/freeware/include/tomcrypt src/DES3<span class="selector-class">.c</span> -o $(OBJ_DIR)/DES3<span class="selector-class">.o</span>  (added -I/opt/freeware/include/tomcrypt)</div><div class="line">    $(CC) $(LDFLAGS) -ltomcrypt $(OBJ_DIR)/DES3<span class="selector-class">.o</span> -o $(SO_DIR)/Cipher/_DES3<span class="selector-class">.so</span> (added -ltomcrypt)</div><div class="line"></div><div class="line">    echo <span class="string">"building 'Crypto.Cipher._ARC4' extension"</span></div><div class="line">    $(CC) $(CFLAGS) src/ARC4<span class="selector-class">.c</span> -o $(OBJ_DIR)/ARC4<span class="selector-class">.o</span></div><div class="line">    $(CC) $(LDFLAGS) $(OBJ_DIR)/ARC4<span class="selector-class">.o</span> -o $(SO_DIR)/Cipher/_ARC4<span class="selector-class">.so</span></div><div class="line"></div><div class="line">    echo <span class="string">"building 'Crypto.Cipher._XOR' extension"</span></div><div class="line">    $(CC) $(CFLAGS) src/XOR<span class="selector-class">.c</span> -o $(OBJ_DIR)/XOR<span class="selector-class">.o</span></div><div class="line">    $(CC) $(LDFLAGS) $(OBJ_DIR)/XOR<span class="selector-class">.o</span> -o $(SO_DIR)/Cipher/_XOR<span class="selector-class">.so</span></div><div class="line"></div><div class="line">    echo <span class="string">"building 'Crypto.Util.strxor' extension"</span></div><div class="line">    $(CC) $(CFLAGS) src/strxor<span class="selector-class">.c</span> -o $(OBJ_DIR)/strxor<span class="selector-class">.o</span></div><div class="line">    $(CC) $(LDFLAGS) $(OBJ_DIR)/strxor<span class="selector-class">.o</span> -o $(SO_DIR)/Util/strxor<span class="selector-class">.so</span></div><div class="line"></div><div class="line">    echo <span class="string">"building 'Crypto.Util._counter' extension"</span></div><div class="line">    $(CC) $(CFLAGS) src/_counter<span class="selector-class">.c</span> -o $(OBJ_DIR)/counter<span class="selector-class">.o</span></div><div class="line">    $(CC) $(LDFLAGS) $(OBJ_DIR)/counter<span class="selector-class">.o</span> -o $(SO_DIR)/Util/_counter.so</div></pre></td></tr></table></figure></li>
+</ul>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/AIX/">AIX</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

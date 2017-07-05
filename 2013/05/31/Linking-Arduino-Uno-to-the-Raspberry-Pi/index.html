@@ -1,0 +1,159 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Linking Arduino Uno to the Raspberry Pi | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Linking Arduino Uno to the Raspberry Pi"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2013-05-31T02:00:56.000Z"><a href="/2013/05/31/Linking-Arduino-Uno-to-the-Raspberry-Pi/">2013-05-31</a></time>
+      
+      
+  
+    <h1 class="title">Linking Arduino Uno to the Raspberry Pi</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">sudo apt-<span class="built_in">get</span> install arduino ( It will install openjdk<span class="number">-6</span>-jre, librxtx-java, avr-libc, avrdude etc )&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;  </div><div class="line">sudo apt-<span class="built_in">get</span> install python-pip  </div><div class="line">pip install ino  </div><div class="line"><span class="built_in">mkdir</span> <span class="built_in">blink</span>; cd <span class="built_in">blink</span>  </div><div class="line">ino init -t <span class="built_in">blink</span>  </div><div class="line">ino build   </div><div class="line">ino upload (port: &lt;span&gt;<span class="built_in">default</span> /dev/ttyACM0 <span class="built_in">for</span> Uno)&lt;/span&gt;  </div><div class="line">ino serial</div></pre></td></tr></table></figure>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference:"></a>Reference:</h1><p><a href="http://www.recantha.co.uk/blog/?p=1103" target="_blank" rel="external">http://www.recantha.co.uk/blog/?p=1103</a><br><a href="http://inotool.org/quickstart" target="_blank" rel="external">http://inotool.org/quickstart</a><br><a href="http://netduinoplusfun.wordpress.com/2012/06/13/arduino-ide/" target="_blank" rel="external">http://netduinoplusfun.wordpress.com/2012/06/13/arduino-ide/</a><br><a href="http://elinux.org/RPi_Serial_Connection" target="_blank" rel="external">http://elinux.org/RPi_Serial_Connection</a><br><a href="http://www.suppertime.co.uk/blogmywiki/2012/09/pi-shall-tweet-unto-arduino/" target="_blank" rel="external">http://www.suppertime.co.uk/blogmywiki/2012/09/pi-shall-tweet-unto-arduino/</a><br><a href="http://www.satsignal.eu/ntp/Raspberry-Pi-NTP.html" target="_blank" rel="external">http://www.satsignal.eu/ntp/Raspberry-Pi-NTP.html</a><br><a href="http://blog.oscarliang.net/raspberry-pi-and-arduino-connected-serial-gpio/" target="_blank" rel="external">http://blog.oscarliang.net/raspberry-pi-and-arduino-connected-serial-gpio/</a><br><a href="http://baldwisdom.com/category/raspberry-pi/" target="_blank" rel="external">http://baldwisdom.com/category/raspberry-pi/</a><br>The linux document Project <a href="http://www.tldp.org/HOWTO/Text-Terminal-HOWTO-10.html" target="_blank" rel="external">http://www.tldp.org/HOWTO/Text-Terminal-HOWTO-10.html</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Raspberry-Pi/">Raspberry Pi</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

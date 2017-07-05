@@ -1,0 +1,180 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Websphere下的Scheduler | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Websphere下的Scheduler"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2011-09-06T02:41:48.000Z"><a href="/2011/09/06/Websphere下的Scheduler/">2011-09-06</a></time>
+      
+      
+  
+    <h1 class="title">Websphere下的Scheduler</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>项目需要些一个在Websphere下写一个Scheduler，很自然想到使用Quartz，可是总出现unmanaged thead的问题，<br>折腾多时最后放弃使用org.springframework.transaction.jta.WebSphereUowTransactionManager，改用<br>com.atomikos.icatch.jta.UserTransactionManager，问题就解决了</p>
+<p>applicationContext.xml<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div></pre></td><td class="code"><pre><div class="line">&lt;?xml <span class="built_in">version</span>=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span>?&gt;</div><div class="line">&lt;beans xmlns=<span class="string">"http://www.springframework.org/schema/beans"</span></div><div class="line">	xmlns:xsi=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></div><div class="line">	xmlns:aop=<span class="string">"http://www.springframework.org/schema/aop"</span></div><div class="line">	xmlns:context=<span class="string">"http://www.springframework.org/schema/context"</span></div><div class="line">	xmlns:tx=<span class="string">"http://www.springframework.org/schema/tx"</span></div><div class="line">	xmlns:jee=<span class="string">"http://www.springframework.org/schema/jee"</span></div><div class="line">	xsi:schemaLocation=<span class="string">"</span></div><div class="line">    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd</div><div class="line">    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd</div><div class="line">    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd</div><div class="line">    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd</div><div class="line">    http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd"&gt;</div><div class="line"></div><div class="line">	&lt;context:component-scan base-package=<span class="string">"xx.yy"</span> /&gt;</div><div class="line">	&lt;context:annotation-config /&gt;</div><div class="line"></div><div class="line">	&lt;jee:jndi-lookup <span class="built_in">id</span>=<span class="string">"spds"</span> jndi-<span class="built_in">name</span>=<span class="string">"jdbc/X1"</span></div><div class="line">		cache=<span class="string">"true"</span> expected-type=<span class="string">"javax.sql.DataSource"</span></div><div class="line">		lookup-<span class="keyword">on</span>-startup=<span class="string">"true"</span> /&gt;</div><div class="line"></div><div class="line">	&lt;jee:jndi-lookup <span class="built_in">id</span>=<span class="string">"srsds"</span> jndi-<span class="built_in">name</span>=<span class="string">"jdbc/X2"</span></div><div class="line">		cache=<span class="string">"true"</span> expected-type=<span class="string">"javax.sql.DataSource"</span></div><div class="line">		lookup-<span class="keyword">on</span>-startup=<span class="string">"true"</span> /&gt;</div><div class="line"></div><div class="line">	&lt;jee:jndi-lookup <span class="built_in">id</span>=<span class="string">"casds"</span> jndi-<span class="built_in">name</span>=<span class="string">"jdbc/X3"</span></div><div class="line">		cache=<span class="string">"true"</span> expected-type=<span class="string">"javax.sql.DataSource"</span></div><div class="line">		lookup-<span class="keyword">on</span>-startup=<span class="string">"true"</span> /&gt;</div><div class="line"></div><div class="line">	&lt;bean <span class="built_in">id</span>=<span class="string">"entityManagerFactory"</span></div><div class="line">		<span class="built_in">class</span>=<span class="string">"org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"</span>&gt;</div><div class="line">		&lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"persistenceXmlLocation"</span></div><div class="line">			value=<span class="string">"classpath:META-INF/persistence.xml"</span> /&gt;</div><div class="line">		&lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"persistenceUnitName"</span> value=<span class="string">"sp"</span> /&gt;</div><div class="line">		&lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"dataSource"</span> <span class="keyword">ref</span>=<span class="string">"spds"</span> /&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line"></div><div class="line">	&lt;bean <span class="built_in">id</span>=<span class="string">"srsEntityManagerFactory"</span></div><div class="line">		<span class="built_in">class</span>=<span class="string">"org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"</span>&gt;</div><div class="line">		&lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"persistenceXmlLocation"</span></div><div class="line">			value=<span class="string">"classpath:META-INF/persistence.xml"</span> /&gt;</div><div class="line">		&lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"persistenceUnitName"</span> value=<span class="string">"srs"</span> /&gt;</div><div class="line">		&lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"dataSource"</span> <span class="keyword">ref</span>=<span class="string">"srsds"</span> /&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line"></div><div class="line">	&lt;bean <span class="built_in">id</span>=<span class="string">"casEntityManagerFactory"</span></div><div class="line">		<span class="built_in">class</span>=<span class="string">"org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"</span>&gt;</div><div class="line">		&lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"persistenceXmlLocation"</span></div><div class="line">			value=<span class="string">"classpath:META-INF/persistence.xml"</span> /&gt;</div><div class="line">		&lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"persistenceUnitName"</span> value=<span class="string">"cas"</span> /&gt;</div><div class="line">		&lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"dataSource"</span> <span class="keyword">ref</span>=<span class="string">"casds"</span> /&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line"></div><div class="line">	&lt;bean <span class="built_in">id</span>=<span class="string">"AtomikosTransactionManager"</span></div><div class="line">		<span class="built_in">class</span>=<span class="string">"com.atomikos.icatch.jta.UserTransactionManager"</span></div><div class="line">		init-method=<span class="string">"init"</span> destroy-method=<span class="string">"close"</span>&gt;</div><div class="line"></div><div class="line">		&lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"forceShutdown"</span> value=<span class="string">"false"</span> /&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line"></div><div class="line">	&lt;bean <span class="built_in">id</span>=<span class="string">"AtomikosUserTransaction"</span></div><div class="line">		<span class="built_in">class</span>=<span class="string">"com.atomikos.icatch.jta.UserTransactionImp"</span>&gt;</div><div class="line">		&lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"transactionTimeout"</span> value=<span class="string">"300"</span> /&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line"></div><div class="line">	&lt;bean <span class="built_in">id</span>=<span class="string">"transactionManager"</span></div><div class="line">		<span class="built_in">class</span>=<span class="string">"org.springframework.transaction.jta.JtaTransactionManager"</span>&gt;</div><div class="line">		&lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"transactionManager"</span></div><div class="line">			<span class="keyword">ref</span>=<span class="string">"AtomikosTransactionManager"</span> /&gt;</div><div class="line">		&lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"userTransaction"</span> <span class="keyword">ref</span>=<span class="string">"AtomikosUserTransaction"</span> /&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line"></div><div class="line">	&lt;tx:annotation-driven <span class="keyword">transaction</span>-manager=<span class="string">"transactionManager"</span> /&gt;</div><div class="line"></div><div class="line">	&lt;tx:advice <span class="built_in">id</span>=<span class="string">"cronAdvice"</span></div><div class="line">		<span class="keyword">transaction</span>-manager=<span class="string">"transactionManager"</span>&gt;</div><div class="line">		&lt;tx:attributes&gt;</div><div class="line">			&lt;tx:method <span class="built_in">name</span>=<span class="string">"get*"</span> <span class="built_in">read</span>-only=<span class="string">"true"</span> /&gt;</div><div class="line">			&lt;tx:method <span class="built_in">name</span>=<span class="string">"*"</span> <span class="built_in">read</span>-only=<span class="string">"false"</span> /&gt;</div><div class="line">		&lt;/tx:attributes&gt;</div><div class="line">	&lt;/tx:advice&gt;</div><div class="line"></div><div class="line">	&lt;aop:config&gt;</div><div class="line">		&lt;aop:pointcut <span class="built_in">id</span>=<span class="string">"cronOperation"</span></div><div class="line">			expression=<span class="string">"execution(public * xx.yy..*Service(..))"</span> /&gt;</div><div class="line">		&lt;aop:advisor advice-<span class="keyword">ref</span>=<span class="string">"cronAdvice"</span></div><div class="line">			pointcut-<span class="keyword">ref</span>=<span class="string">"cronOperation"</span> /&gt;</div><div class="line">	&lt;/aop:config&gt;</div><div class="line"></div><div class="line">	&lt;!<span class="comment">-- mail --&gt;</span></div><div class="line">	&lt;context:<span class="keyword">property</span>-placeholder location=<span class="string">"WEB-INF/mail.properties"</span> /&gt;</div><div class="line">	&lt;bean <span class="built_in">id</span>=<span class="string">"mailSender"</span></div><div class="line">		<span class="built_in">class</span>=<span class="string">"org.springframework.mail.javamail.JavaMailSenderImpl"</span>&gt;</div><div class="line">		&lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"host"</span> value=<span class="string">"$&#123;mail.host&#125;"</span> /&gt;</div><div class="line">		&lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"username"</span> value=<span class="string">"$&#123;mail.username&#125;"</span> /&gt;</div><div class="line">		&lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"password"</span> value=<span class="string">"$&#123;mail.password&#125;"</span> /&gt;</div><div class="line">		&lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"port"</span> value=<span class="string">"$&#123;mail.port&#125;"</span> /&gt;</div><div class="line">		&lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"javaMailProperties"</span>&gt;</div><div class="line">			&lt;props&gt;</div><div class="line">				&lt;<span class="keyword">prop</span> key=<span class="string">"mail.debug"</span>&gt;<span class="literal">false</span>&lt;/<span class="keyword">prop</span>&gt;</div><div class="line">				&lt;<span class="keyword">prop</span> key=<span class="string">"mail.smtp.auth"</span>&gt;<span class="literal">true</span>&lt;/<span class="keyword">prop</span>&gt;</div><div class="line">			&lt;/props&gt;</div><div class="line">		&lt;/<span class="keyword">property</span>&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line">	&lt;bean <span class="built_in">id</span>=<span class="string">"templateMessage"</span></div><div class="line">		<span class="built_in">class</span>=<span class="string">"org.springframework.mail.SimpleMailMessage"</span>&gt;</div><div class="line">		&lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"from"</span> value=<span class="string">"$&#123;mail.from&#125;"</span> /&gt;</div><div class="line">	&lt;/bean&gt;</div><div class="line"></div><div class="line">&lt;/beans&gt;</div></pre></td></tr></table></figure></p>
+<p>applicationContext-Quartz.xml<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line">&lt;?xml <span class="built_in">version</span>=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span>?&gt;</div><div class="line">&lt;beans xmlns=<span class="string">"http://www.springframework.org/schema/beans"</span></div><div class="line">  xmlns:xsi=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></div><div class="line">  xmlns:aop=<span class="string">"http://www.springframework.org/schema/aop"</span></div><div class="line">  xmlns:context=<span class="string">"http://www.springframework.org/schema/context"</span></div><div class="line">  xmlns:tx=<span class="string">"http://www.springframework.org/schema/tx"</span></div><div class="line">  xmlns:jee=<span class="string">"http://www.springframework.org/schema/jee"</span></div><div class="line">  xsi:schemaLocation=<span class="string">"</span></div><div class="line">    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd</div><div class="line">    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd</div><div class="line">    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd</div><div class="line">    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd</div><div class="line">    http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd"&gt;</div><div class="line"></div><div class="line"></div><div class="line">  &lt;bean <span class="built_in">id</span>=<span class="string">"ttl006Timer"</span></div><div class="line">    <span class="built_in">class</span>=<span class="string">"org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"</span>&gt;</div><div class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"targetObject"</span> <span class="keyword">ref</span>=<span class="string">"txnSyncJob"</span> /&gt;</div><div class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"targetMethod"</span> value=<span class="string">"run"</span> /&gt;</div><div class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"concurrent"</span> value=<span class="string">"false"</span> /&gt;</div><div class="line">  &lt;/bean&gt;</div><div class="line"></div><div class="line">  &lt;bean <span class="built_in">id</span>=<span class="string">"ttl06cronTrigger"</span></div><div class="line">    <span class="built_in">class</span>=<span class="string">"org.springframework.scheduling.quartz.CronTriggerBean"</span>&gt;</div><div class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"jobDetail"</span> <span class="keyword">ref</span>=<span class="string">"ttl006Timer"</span> /&gt;</div><div class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"cronExpression"</span> value=<span class="string">"0/30 * * * * ?"</span> /&gt;</div><div class="line">  &lt;/bean&gt;</div><div class="line"></div><div class="line"></div><div class="line">  &lt;bean <span class="built_in">id</span>=<span class="string">"act016Timer"</span></div><div class="line">    <span class="built_in">class</span>=<span class="string">"org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"</span>&gt;</div><div class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"targetObject"</span> <span class="keyword">ref</span>=<span class="string">"activityJob"</span> /&gt;</div><div class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"targetMethod"</span> value=<span class="string">"run"</span> /&gt;</div><div class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"concurrent"</span> value=<span class="string">"false"</span> /&gt;</div><div class="line">  &lt;/bean&gt;</div><div class="line"></div><div class="line">  &lt;bean <span class="built_in">id</span>=<span class="string">"act016cronTrigger"</span></div><div class="line">    <span class="built_in">class</span>=<span class="string">"org.springframework.scheduling.quartz.CronTriggerBean"</span>&gt;</div><div class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"jobDetail"</span> <span class="keyword">ref</span>=<span class="string">"act016Timer"</span> /&gt;</div><div class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"cronExpression"</span> value=<span class="string">"0/50 * * * * ?"</span> /&gt;</div><div class="line">  &lt;/bean&gt;</div><div class="line"></div><div class="line"></div><div class="line">  &lt;bean</div><div class="line">    <span class="built_in">class</span>=<span class="string">"org.springframework.scheduling.quartz.SchedulerFactoryBean"</span> destroy-method=<span class="string">"destroy"</span>&gt;</div><div class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"waitForJobsToCompleteOnShutdown"</span> value=<span class="string">"false"</span>/&gt;</div><div class="line">    &lt;<span class="keyword">property</span> <span class="built_in">name</span>=<span class="string">"triggers"</span>&gt;</div><div class="line">      &lt;<span class="built_in">list</span>&gt;</div><div class="line">        &lt;<span class="keyword">ref</span> bean=<span class="string">"ttl06cronTrigger"</span> /&gt;</div><div class="line">        &lt;<span class="keyword">ref</span> bean=<span class="string">"act016cronTrigger"</span> /&gt;</div><div class="line">      &lt;/<span class="built_in">list</span>&gt;</div><div class="line">    &lt;/<span class="keyword">property</span>&gt;</div><div class="line">  &lt;/bean&gt;</div><div class="line"></div><div class="line">&lt;/beans&gt;</div></pre></td></tr></table></figure></p>
+<p>web.xml</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;web-app xmlns=&quot;http://java.sun.com/xml/ns/j2ee&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd&quot; version=&quot;2.4&quot;&gt;
+  &lt;context-param&gt;
+    &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
+    &lt;param-value&gt;/WEB-INF/applicationContext.xml, /WEB-INF/applicationContext-Quartz.xml&lt;/param-value&gt;
+  &lt;/context-param&gt;
+
+  &lt;context-param&gt;
+    &lt;param-name&gt;log4jConfigLocation&lt;/param-name&gt;
+    &lt;param-value&gt;/WEB-INF/classes/log4j.xml&lt;/param-value&gt;
+  &lt;/context-param&gt;
+  &lt;listener&gt;
+    &lt;listener-class&gt;org.springframework.web.util.Log4jConfigListener&lt;/listener-class&gt;
+  &lt;/listener&gt;
+  &lt;listener&gt;
+    &lt;listener-class&gt;org.springframework.web.context.ContextLoaderListener&lt;/listener-class&gt;
+  &lt;/listener&gt;
+&lt;/web-app&gt;
+</code></pre><p> 参考<br><a href="http://www.ibm.com/developerworks/websphere/techjournal/0609_alcott/0609_alcott.html" target="_blank" rel="external">http://www.ibm.com/developerworks/websphere/techjournal/0609_alcott/0609_alcott.html</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/工作日志/">工作日志</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

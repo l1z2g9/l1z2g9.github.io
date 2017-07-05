@@ -1,0 +1,229 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Things on Chromebook | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Things on Chromebook"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-03-12T00:22:55.000Z"><a href="/2015/03/12/Things-on-Chromebook/">2015-03-12</a></time>
+      
+      
+  
+    <h1 class="title">Things on Chromebook</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>I am pleased for the performance and design with my chromebook Acer C720.<br>I had installed crouton by following the procedure,</p>
+<ul>
+<li>Enable develop mode -&gt; esc + refresh + power button, then crtl + d.</li>
+<li>Open crosh window by crtl + alt + t, type <code>shell</code>, run <code>sudo sh -e ./crouton -t xfce</code> the default system installed in your chroot will be ubuntu 12.04 precise. To see the usage of crouton, <code>sh ./crouton -h</code> or <code>sh ./crouton -t list</code> or <code>sh ./crouton -r list</code></li>
+<li>Do not use the argument -P which install crouton via proxy, since opengpg verification would be failed by proxy, then process will pause.</li>
+<li>To enter into ubuntu, just type <code>sudo enter-chroot</code> or <code>sudo startxfce4</code>, switch system by crtl + alt + forward then refresh and crtl + alt + backward</li>
+<li>Recommend to install crouton integration extension in chrome from web store in google</li>
+<li>Update ubuntu, <code>sudo sh ./crouton -u -t xiwi,extension,keyboard</code>, target xiwi should be placed at first, then <code>sudo startxfce4 -b</code>, ubuntu will run in a chrome tab, that is amazing. An issue encounterred when install xiwi is missing the dependency xserver-xorg-core, <code>sudo enter-chroot</code> then <code>sudo apt-get install xserver-xorg-core</code></li>
+<li>Some things to do after installing ubuntu, such as <code>sudo apt-get purge xcreensaver</code>, install leafpad, VLC etc.</li>
+</ul>
+<p>I would like to leverage usb tethering insteads of wifi tethering from my phone. At beginning, I had tried easytether wihch works perfectly with my dual systems, but the lite version only support http, not include https. I have to find another way to surf internet using usb tethering.</p>
+<ul>
+<li>To run easytether, install easytether lite from google play, in ubuntu, run <code>sudo apt-get install libusb-1.0.0</code> and <code>sudo dpkg -i easytether_0.7.4-1_i386.deb</code>, it will install the easytether package in your system, type <code>easytether connect</code>, allow the connection in your phone, a new net interface will appear by <code>ip addr</code></li>
+<li><p>Another way to usb tethering, install adb in ubuntu, socks proxy way to surf intenet. Add ppa repository as below,</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">sudo apt-<span class="builtin-name">get</span> install software-properties-common</div><div class="line">sudo apt-<span class="builtin-name">get</span> install python-software-properties # <span class="keyword">to</span> <span class="builtin-name">add</span> apt-add-repository utility</div><div class="line">sudo add-apt-repository ppa:nilarimogard/webupd8</div><div class="line">sudo apt-<span class="builtin-name">get</span> update</div><div class="line">sudo apt-<span class="builtin-name">get</span> install android-tools-adb</div><div class="line">sudo apt-<span class="builtin-name">get</span> install android-tools-fastboot</div><div class="line">sudo apt-<span class="builtin-name">get</span> install usbutils # <span class="keyword">to</span> <span class="builtin-name">add</span> lsusb command</div></pre></td></tr></table></figure>
+<ul>
+<li><p>Install tools to create a virtual interface to let chromeos can connet to an Ethenent<br><code>sudo apt-get install bridge-utils uml-utilities iptables</code></p>
+</li>
+<li><p>bridge-utils for brctl</p>
+</li>
+<li>uml-utilities for tunctl<br>Add following rule in file <strong>/etc/udev/rules.d/99-android.rules</strong><br><code>SUBSYSTEM==&quot;usb&quot;, ATTR{idVendor}==&quot;0fce&quot;, ATTR{idProduct}==&quot;61a9&quot;, MODE=&quot;0666&quot;, GROUP=&quot;plugdev&quot;</code><br><code>sudo service udev restart</code><br>Plug my phone to chromebook, type <code>lsusb</code>, my phone can be recognized as <code>Bus 001 Device 005: ID 0fce:61a9 Sony Ericsson Mobile Communications AB</code>.</li>
+<li>Follow these steps to connect internet with usb tethering</li>
+<li>run below script<br><code>adb forward tcp:41927 tcp:41927</code><br><code>adb forward --list</code></li>
+<li>At mobile, run AzLink, at ubuntu run <code>openvpn azilink.ovpn</code></li>
+<li><p>Add bridge interface by</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">brctl addbr br0</div><div class="line">ifconfig br0 <span class="number">192.168</span><span class="number">.56</span><span class="number">.3</span> netmask <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span> up</div><div class="line">iptables -I FORWARD -i tun0 -o br0 -j ACCEPT</div><div class="line">iptables -I FORWARD -i br0 -o tun0 -j ACCEPT</div><div class="line">iptables -t nat -A POSTROUTING -o tun0 -j MASQUERADE</div><div class="line">echo “nameserver <span class="number">8.8</span><span class="number">.8</span><span class="number">.8</span> <span class="number">8.8</span><span class="number">.4</span><span class="number">.4</span>” &gt; /etc/resolv.conf</div></pre></td></tr></table></figure>
+</li>
+<li><p>At this time, ubuntu can already connect to internet, but chromeos cannot. You need to setup internet connection at Setting Pannel, you just confirm the setting, nothing need to input, then you will see “Conneted to Ethernet”, chromeos now can surf internet.<br>If you find the “The Web page is not available” message suddenly, you may re-configure the file /etc/resolv.conf with <code>nameserver 8.8.8.8 8.8.4.4</code> or <code>nameserver 192.168.56.1</code></p>
+</li>
+</ul>
+</li>
+<li><p>Chinese display</p>
+<ul>
+<li>Check locales /usr/share/i18n/SUPPORTED, /usr/share/locale, /usr/lib/locale</li>
+<li>Add zh_CN.UTF-8 in /var/lib/locales/supported.d/local<ul>
+<li>re-gen locale : <code>sudo locale-gen</code> <code>sudo dpkg-reconfigure locales</code></li>
+<li>Add environment: add zh_CN.UTF-8 in /etc/environment</li>
+<li>change default language, just export LANG=en_US.UTF-8 or zh_CN.UTF-8</li>
+<li>Install zh_TW and zh_HK by <code>sudo apt-get install language-support-fonts-zh-hant</code></li>
+<li>Install chinese fonts by <code>sudo apt-get install xfonts-wqy</code></li>
+<li>Refer to <a href="http://www.davidpai.tw/ubuntu/2011/ubuntu-set-locale/" target="_blank" rel="external">http://www.davidpai.tw/ubuntu/2011/ubuntu-set-locale/</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Fix issue of no sound in crouton<br> Test sound <code>$ sudo enter-chroot aplay /usr/share/sounds/alsa/Front_Center.wav</code><br> Re-install pulseaudio and alsa-base</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo apt-<span class="builtin-name">get</span> install mplayer smplayer ubuntu-restricted-extras</div><div class="line">sudo apt-<span class="builtin-name">get</span> <span class="builtin-name">remove</span> --purge pulseaudio alsa-base</div><div class="line">sudo apt-<span class="builtin-name">get</span> install pulseaudio alsa-base</div></pre></td></tr></table></figure>
+</li>
+<li><p>Install latest version of git and golang</p>
+<figure class="highlight plain"><figcaption><span>add-apt-repository ppa:git-core/ppa</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:bcandrea/backports</div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install git</div><div class="line">sudo apt-get install golang</div><div class="line">sudo go get github.com/djimenez/iconv-go // Install chinese encoding package</div></pre></td></tr></table></figure>
+</li>
+<li><p>Connect to RPi with adafruit serial cable <code>sudo screen /dev/ttyUSB0 115200</code></p>
+</li>
+<li>Install Android Runtime for Chrome and ARC Welder to launch Android app to play with .</li>
+<li><p>Tor on ChromeOS</p>
+<ul>
+<li>Install apps of Orbot and Proxy Server on android mobile</li>
+<li>Start Orbot, setup port forward on Proxy Server 127.0.0.1:8080 -&gt; 127.0.0.1:8118 (Orbot service)</li>
+<li>In crosh, type <code>adb forward tcp:8080 tcp:8080</code></li>
+<li>Ensure ChromeOS has a IP (assigned by wifi or bridged), configure the proxy as 127.0.0.1:8080</li>
+<li><p>Now it is time to access following urls,<br><a href="http://check.torproject.org/" target="_blank" rel="external">http://check.torproject.org/</a><br><a href="https://duckduckgo.com/" target="_blank" rel="external">https://duckduckgo.com/</a><br><a href="https://www.tor2web.org/" target="_blank" rel="external">https://www.tor2web.org/</a> <a href="http://thehiddenwiki.org/" target="_blank" rel="external">http://thehiddenwiki.org/</a></p>
+</li>
+<li><p>Install tor-browser (it is firefox based) in ubuntu</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">sudo vi <span class="regexp">/etc/</span>apt<span class="regexp">/apt.conf.d/</span><span class="number">10</span>proxy (<span class="string">Acquire:</span>:<span class="string">http:</span>:Proxy <span class="string">"http://192.168.137.1:21/"</span>;)</div><div class="line">export <span class="string">http:</span><span class="comment">//192.168.137.1:21/</span></div><div class="line">export http_proxy=<span class="string">http:</span><span class="comment">//192.168.137.1:21/</span></div><div class="line">export https_proxy=<span class="string">http:</span><span class="comment">//192.168.137.1:21/</span></div><div class="line">sudo -E add-apt-repository <span class="string">ppa:</span>webupd8team/tor-browser</div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install tor-browser</div></pre></td></tr></table></figure>
+</li>
+<li><p>If you do not want to surf internet with Tor, just stop Orbot and Proxy Server, start Proxoid</p>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference:"></a>Reference:</h1><p><a href="http://www.omgchrome.com/an-introduction-to-tor-on-chrome-os/" target="_blank" rel="external">http://www.omgchrome.com/an-introduction-to-tor-on-chrome-os/</a><br><a href="https://docs.google.com/document/d/1I1lBG1P2GOf3ooNhX-5pyrVF6RnxmpuEw62pi17Tb0I/edit" target="_blank" rel="external">https://docs.google.com/document/d/1I1lBG1P2GOf3ooNhX-5pyrVF6RnxmpuEw62pi17Tb0I/edit</a><br><a href="http://www.ubertechblog.com/2011/07/beginners-guide-to-deep-web-or-darknet.html" target="_blank" rel="external">http://www.ubertechblog.com/2011/07/beginners-guide-to-deep-web-or-darknet.html</a></p>
+<h1 id="Fix-issue-of-“read-from-TUN-TAP-File-descriptor-in-bad-state-code-77-”-when-run-openvpn-azilink-ovpn-after-upgrading-chromeos"><a href="#Fix-issue-of-“read-from-TUN-TAP-File-descriptor-in-bad-state-code-77-”-when-run-openvpn-azilink-ovpn-after-upgrading-chromeos" class="headerlink" title="Fix issue of “read from TUN/TAP : File descriptor in bad state (code=77)” when run openvpn azilink.ovpn after upgrading chromeos"></a>Fix issue of “read from TUN/TAP : File descriptor in bad state (code=77)” when run <code>openvpn azilink.ovpn</code> after upgrading chromeos</h1><p>  Run the following command in your shell on ChromeOS (the shell, not crosh)<br><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo <span class="literal">stop</span> shill</div><div class="line">sudo <span class="literal">start</span> shill <span class="attr">BLACKLISTED_DEVICES=</span>tun0</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/日常记录/">日常记录</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

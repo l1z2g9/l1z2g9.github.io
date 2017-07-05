@@ -1,0 +1,187 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Setup Display On Rpi | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Setup Display On Rpi"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2017-01-16T09:22:55.000Z"><a href="/2017/01/16/Setup-Display-On-Rpi/">2017-01-16</a></time>
+      
+      
+  
+    <h1 class="title">Setup Display On Rpi</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="Xorg-Display-Server"><a href="#Xorg-Display-Server" class="headerlink" title="Xorg Display Server"></a>Xorg Display Server</h1><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo apt-get <span class="keyword">install </span>--no-<span class="keyword">install-recommends </span>xserver-<span class="keyword">xorg</span></div><div class="line">sudo apt-get <span class="keyword">install </span>--no-<span class="keyword">install-recommends </span>xinit (for command *startx* to start the <span class="keyword">Xorg </span><span class="keyword">Display </span>Server)</div></pre></td></tr></table></figure>
+<h1 id="Desktop-Environment-and-Openbox-Window-Manager"><a href="#Desktop-Environment-and-Openbox-Window-Manager" class="headerlink" title="Desktop Environment and Openbox Window Manager"></a>Desktop Environment and Openbox Window Manager</h1><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo apt-<span class="built_in">get</span> install lxde-core</div><div class="line">sudo apt-<span class="built_in">get</span> install lxappearance (Optional, <span class="keyword">for</span> changing <span class="keyword">the</span> look <span class="keyword">of</span> applications such <span class="keyword">as</span> panels, icons, progress bars, cursors, <span class="keyword">and</span> so <span class="keyword">on</span>, <span class="title">give</span> <span class="title">yourself</span> <span class="title">more</span> <span class="title">customization</span> <span class="title">abilities</span>)</div></pre></td></tr></table></figure>
+<h1 id="Login-Manager"><a href="#Login-Manager" class="headerlink" title="Login Manager"></a>Login Manager</h1><p><code>sudo apt-get install lightdm</code><br> if no login manager was installed, then just login via the command line! At anytime, you can launch the Xorg Display Server by typing in:<br> <code>startx</code></p>
+<h1 id="Ubuntu-lt-gt-RPi"><a href="#Ubuntu-lt-gt-RPi" class="headerlink" title="Ubuntu &lt;=&gt; RPi"></a>Ubuntu &lt;=&gt; RPi</h1><h2 id="tightvncserver"><a href="#tightvncserver" class="headerlink" title="tightvncserver"></a>tightvncserver</h2><p> Install tightvncserver <code>sudo apt-get install tightvncserver</code> (For RPi to install tightvncserver, it needs to install xfonts-base)<br> Fix gray screen when login to ubuntu 14.04. Update file /.vnc/xstartup as below<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/sh</span></div><div class="line">def</div><div class="line"><span class="built_in">export</span> XKL_XMODMAP_DISABLE=1</div><div class="line"><span class="built_in">unset</span> SESSION_MANAGER</div><div class="line"><span class="built_in">unset</span> DBUS_SESSION_BUS_ADDRESS</div><div class="line"> </div><div class="line">gnome-panel &amp;</div><div class="line">gnome-settings-daemon &amp;</div><div class="line">metacity &amp;</div><div class="line">nautilus &amp;</div><div class="line">gnome-terminal &amp;</div></pre></td></tr></table></figure></p>
+<ol>
+<li>Start vnc server by <code>tightvncserver</code> or with more options <code>vncserver :0 -geometry 1920x1080 -depth 24</code><br>tightvncserver == vncserver</li>
+<li>Stop vnc server by <code>tightvncserver -kill :1</code><br>3 .Download tvnjviewer-2.8.3-bin-gnugpl and connect to vnc server by <code>java -jar tightvnc-jviewer.jar</code></li>
+</ol>
+<h2 id="x2x"><a href="#x2x" class="headerlink" title="x2x"></a>x2x</h2><p> On RPi</p>
+<ol>
+<li><code>sudo apt-get install x2x</code></li>
+<li>make sure <code>X11Forwarding yes</code> in /etc/ssh/sshd_config<br>On Workstation</li>
+<li><code>ssh -X pi@192.168.42.100 x2x -west -to :0</code> (-west, -north, -south) (-to :X &lt;= <code>echo $DISPLAY</code> on RPi)</li>
+</ol>
+<h2 id="Another-option-xdotool"><a href="#Another-option-xdotool" class="headerlink" title="Another option xdotool"></a>Another option xdotool</h2><p>  <code>DISPLAY=:0 xdotool getactivewindow key Down</code><br>  <code>DISPLAY=:0 xdotool getactivewindow type &#39;your text here&#39;</code><br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">xdotool click <span class="number">1</span>` 按下滑鼠左鍵（左鍵：<span class="number">1</span>、滾輪：<span class="number">2</span>、右鍵：<span class="number">3</span>、滾輪上/下：<span class="number">4</span>/<span class="number">5</span>）</div><div class="line">xdotool mousedown</div><div class="line">xdotool mouseup</div></pre></td></tr></table></figure></p>
+<h2 id="Android-lt-gt-RPi"><a href="#Android-lt-gt-RPi" class="headerlink" title="Android &lt;=&gt; RPi"></a>Android &lt;=&gt; RPi</h2><ol>
+<li><p>Install simplecomputerremote on RPi</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash"> wget http://philproctor.github.io/SimpleComputerRemote/downloads/simplecomputerremote_1.2_armhf.deb</span></div><div class="line"><span class="meta">#</span><span class="bash"> sudo dpkg -i simplecomputerremote_1.2_armhf.deb</span></div><div class="line"><span class="meta">#</span><span class="bash"> /opt/rekap/SimpleComputerRemote</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>Configure simplecomputerremote to run after desktop environment startup</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">mkdir</span> /<span class="built_in">home</span>/pi/.<span class="built_in">config</span>/autostart (<span class="built_in">if</span> the directory does <span class="keyword">not</span> exist.)</div><div class="line">cd /<span class="built_in">home</span>/pi/.<span class="built_in">config</span>/autostart</div><div class="line">sudo nano SimpleComputerRemote.desktop</div></pre></td></tr></table></figure>
+<p>Add following line in SimpleComputerRemote.desktop file</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">[Desktop Entry]</div><div class="line"><span class="attribute">name</span>=SimpleComputerRemote</div><div class="line"><span class="attribute">GenericName</span>=Remote Control</div><div class="line"><span class="attribute">Comment</span>=Allow remote control using<span class="built_in"> Simple </span>Computer Remote</div><div class="line"><span class="attribute">Exec</span>=/opt/rekap/SimpleComputerRemote</div><div class="line"><span class="attribute">Terminal</span>=<span class="literal">False</span></div><div class="line"><span class="attribute">Type</span>=Application</div></pre></td></tr></table></figure>
+</li>
+<li><p>As the app no longer exists in Google Play, you should need to download the apk from other market and install com.rekap.remote.apk on Android. Open the app, go to “Settings &gt; Select Server” and you will see RPi on the list.</p>
+</li>
+</ol>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p>Display<br><a href="https://www.raspberrypi.org/forums/viewtopic.php?f=66&amp;t=133691" target="_blank" rel="external">https://www.raspberrypi.org/forums/viewtopic.php?f=66&amp;t=133691</a></p>
+<p>x2x<br><a href="http://raspberrypi.stackexchange.com/questions/4253/forward-mouse-and-keyboard-input-to-x-session" target="_blank" rel="external">http://raspberrypi.stackexchange.com/questions/4253/forward-mouse-and-keyboard-input-to-x-session</a><br><a href="http://linuxcommando.blogspot.hk/2014/07/share-keyboard-and-mouse-on-two-x.html" target="_blank" rel="external">http://linuxcommando.blogspot.hk/2014/07/share-keyboard-and-mouse-on-two-x.html</a><br><a href="https://help.ubuntu.com/community/X2xHowto" target="_blank" rel="external">https://help.ubuntu.com/community/X2xHowto</a><br><a href="https://github.com/dottedmag/x2x" target="_blank" rel="external">https://github.com/dottedmag/x2x</a></p>
+<p>Simple Computer Remote<br><a href="https://www.raspberrypi.org/forums/viewtopic.php?f=27&amp;t=40797" target="_blank" rel="external">https://www.raspberrypi.org/forums/viewtopic.php?f=27&amp;t=40797</a><br><a href="http://sanjosetech.blogspot.hk/2013/10/raspberry-pi-remote-control.html" target="_blank" rel="external">http://sanjosetech.blogspot.hk/2013/10/raspberry-pi-remote-control.html</a><br><a href="http://randomcompstuff.blogspot.hk/2014/07/how-to-install-simple-computer-remote.html" target="_blank" rel="external">http://randomcompstuff.blogspot.hk/2014/07/how-to-install-simple-computer-remote.html</a><br><a href="http://onkea.com/ubuntu-vnc-grey-screen/" target="_blank" rel="external">Fix grey screen on connecting VNC server when setting up Ubuntu 14.04 with VNC</a><br><a href="https://solenerotech1.wordpress.com/" target="_blank" rel="external">quadcopter control by RPi</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Raspberry-Pi/">Raspberry Pi</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

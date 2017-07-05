@@ -1,0 +1,173 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Install Docker on CentOS 6 | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Install Docker on CentOS 6"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-10-07T07:16:02.000Z"><a href="/2015/10/07/Install-Docker-on-CentOS6/">2015-10-07</a></time>
+      
+      
+  
+    <h1 class="title">Install Docker on CentOS 6</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="Update-OS"><a href="#Update-OS" class="headerlink" title="Update OS"></a>Update OS</h1><p><code>yum update -y</code></p>
+<h1 id="Upgrade-kernel-3-10"><a href="#Upgrade-kernel-3-10" class="headerlink" title="Upgrade kernel 3.10"></a>Upgrade kernel 3.10</h1><h2 id="Check-kernel-version"><a href="#Check-kernel-version" class="headerlink" title="Check kernel version"></a>Check kernel version</h2><p><code>uname -r</code> =&gt; 2.6.32-279.el6.x86_64</p>
+<h2 id="Import-ELRepo-public-keys"><a href="#Import-ELRepo-public-keys" class="headerlink" title="Import ELRepo public keys"></a>Import ELRepo public keys</h2><figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">rpm --<span class="keyword">import</span> <span class="string">https:</span><span class="comment">//www.elrepo.org/RPM-GPG-KEY-elrepo.org</span></div><div class="line">rpm -Uvh <span class="string">http:</span><span class="comment">//www.elrepo.org/elrepo-release-6-6.el6.elrepo.noarch.rpm</span></div></pre></td></tr></table></figure>
+<h2 id="Install-kernel"><a href="#Install-kernel" class="headerlink" title="Install kernel"></a>Install kernel</h2><p><code>yum --enablerepo=elrepo-kernel install kernel-lt</code><br><code>uname -r</code> =&gt; 3.10.90-1.el6.elrepo.x86_64</p>
+<h2 id="Configure-grub"><a href="#Configure-grub" class="headerlink" title="Configure grub"></a>Configure grub</h2><p>Change the kernel boot order at <code>/etc/grub.conf</code>, change default from 1 to 0 as below,<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">default</span>=0</div><div class="line"><span class="attribute">timeout</span>=5</div><div class="line">splashimage=(hd0,0)/grub/splash.xpm.gz</div><div class="line">hiddenmenu</div><div class="line">title CentOS (3.10.90-1.el6.elrepo.x86_64)</div><div class="line">        root (hd0,0)</div><div class="line">        kernel /vmlinuz-3.10.90-1.el6.elrepo.x86_64 ro <span class="attribute">root</span>=/dev/mapper/VolGroup-lv_root rd_NO_LUKS <span class="attribute">LANG</span>=en_US.UTF-8 rd_NO_MD <span class="attribute">console</span>=hvc0  <span class="attribute">KEYTABLE</span>=us <span class="attribute">rd_LVM_LV</span>=VolGroup/lv_swap <span class="attribute">SYSFONT</span>=latarcyrheb-sun16 <span class="attribute">crashkernel</span>=auto <span class="attribute">rd_LVM_LV</span>=VolGroup/lv_root rd_NO_DM rhgb quiet</div><div class="line">        initrd /initramfs-3.10.90-1.el6.elrepo.x86_64.img</div><div class="line">title CentOS (2.6.32-573.7.1.el6.x86_64)</div><div class="line">        root (hd0,0)</div><div class="line">        kernel /vmlinuz-2.6.32-573.7.1.el6.x86_64 ro <span class="attribute">root</span>=/dev/mapper/VolGroup-lv_root rd_NO_LUKS <span class="attribute">LANG</span>=en_US.UTF-8 rd_NO_MD <span class="attribute">console</span>=hvc0  <span class="attribute">KEYTABLE</span>=us <span class="attribute">rd_LVM_LV</span>=VolGroup/lv_swap <span class="attribute">SYSFONT</span>=latarcyrheb-sun16 <span class="attribute">crashkernel</span>=auto <span class="attribute">rd_LVM_LV</span>=VolGroup/lv_root rd_NO_DM rhgb quiet</div><div class="line">        initrd /initramfs-2.6.32-573.7.1.el6.x86_64.img</div><div class="line">title CentOS (2.6.32-279.el6.x86_64)</div><div class="line">        root (hd0,0)</div><div class="line">        kernel /vmlinuz-2.6.32-279.el6.x86_64 ro <span class="attribute">root</span>=/dev/mapper/VolGroup-lv_root rd_NO_LUKS <span class="attribute">LANG</span>=en_US.UTF-8 rd_NO_MD <span class="attribute">console</span>=hvc0  <span class="attribute">KEYTABLE</span>=us <span class="attribute">rd_LVM_LV</span>=VolGroup/lv_swap <span class="attribute">SYSFONT</span>=latarcyrheb-sun16 <span class="attribute">crashkernel</span>=auto <span class="attribute">rd_LVM_LV</span>=VolGroup/lv_root rd_NO_DM rhgb quiet</div><div class="line">        initrd /initramfs-2.6.32-279.el6.x86_64.img</div></pre></td></tr></table></figure></p>
+<h2 id="Check-kernel-configuration-as-a-suitable-docker-host"><a href="#Check-kernel-configuration-as-a-suitable-docker-host" class="headerlink" title="Check kernel configuration as a suitable docker host"></a>Check kernel configuration as a suitable docker host</h2><p><code>wget https://raw.githubusercontent.com/docker/docker/master/contrib/check-config.sh</code></p>
+<figure class="highlight haml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div></pre></td><td class="code"><pre><div class="line">./check-config.sh</div><div class="line">warning: /proc/config.gz does not exist, searching other paths for kernel config ...</div><div class="line">info: reading kernel config from /boot/config-3.10.90-1.el6.elrepo.x86_64 ...</div><div class="line"></div><div class="line">Generally Necessary:</div><div class="line">-<span class="ruby"> cgroup <span class="symbol">hierarchy:</span> properly mounted [<span class="regexp">/cgroup]</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_NAMESPACES: enabled</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_NET_NS: enabled</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_PID_NS: enabled</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_IPC_NS: enabled</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_UTS_NS: enabled</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_DEVPTS_MULTIPLE_INSTANCES: enabled</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_CGROUPS: enabled</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_CGROUP_CPUACCT: enabled</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_CGROUP_DEVICE: enabled</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_CGROUP_FREEZER: enabled</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_CGROUP_SCHED: enabled</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_CPUSETS: enabled</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_MEMCG: enabled</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_MACVLAN: enabled (as module)</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_VETH: enabled (as module)</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_BRIDGE: enabled (as module)</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_BRIDGE_NETFILTER: enabled</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_NF_NAT_IPV4: enabled (as module)</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_IP_NF_FILTER: enabled (as module)</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_IP_NF_TARGET_MASQUERADE: enabled (as module)</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_NETFILTER_XT_MATCH_ADDRTYPE: enabled (as module)</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_NETFILTER_XT_MATCH_CONNTRACK: enabled (as module)</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_NF_NAT: enabled (as module)</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_NF_NAT_NEEDED: enabled</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_POSIX_MQUEUE: enabled</span></span></div><div class="line"></div><div class="line">Optional Features:</div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_MEMCG_KMEM: enabled</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_MEMCG_SWAP: enabled</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_MEMCG_SWAP_ENABLED: missing</span></span></div><div class="line">    (note that cgroup swap accounting is not enabled in your kernel config, you can enable it by setting boot option "swapaccount=1")</div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_RESOURCE_COUNTERS: enabled</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_BLK_CGROUP: enabled</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_IOSCHED_CFQ: enabled</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_BLK_DEV_THROTTLING: enabled</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_CGROUP_PERF: enabled</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_CGROUP_HUGETLB: missing</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_NET_CLS_CGROUP: enabled</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_NETPRIO_CGROUP: enabled (as module)</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_CFS_BANDWIDTH: enabled</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_FAIR_GROUP_SCHED: enabled</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_RT_GROUP_SCHED: enabled</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_EXT3_FS: enabled (as module)</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_EXT3_FS_XATTR: enabled</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_EXT3_FS_POSIX_ACL: enabled</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_EXT3_FS_SECURITY: enabled</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_EXT4_FS: enabled (as module)</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_EXT4_FS_POSIX_ACL: enabled</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> CONFIG_EXT4_FS_SECURITY: enabled</span></span></div><div class="line">-<span class="ruby"><span class="regexp"> Storage Drivers:</span></span></div><div class="line">  -<span class="ruby"><span class="regexp"> "aufs":</span></span></div><div class="line">    -<span class="ruby"><span class="regexp"> CONFIG_AUFS_FS: missing</span></span></div><div class="line">  -<span class="ruby"><span class="regexp"> "btrfs":</span></span></div><div class="line">    -<span class="ruby"><span class="regexp"> CONFIG_BTRFS_FS: enabled (as module)</span></span></div><div class="line">  -<span class="ruby"><span class="regexp"> "devicemapper":</span></span></div><div class="line">    -<span class="ruby"><span class="regexp"> CONFIG_BLK_DEV_DM: enabled (as module)</span></span></div><div class="line">    -<span class="ruby"><span class="regexp"> CONFIG_DM_THIN_PROVISIONING: enabled (as module)</span></span></div><div class="line">  -<span class="ruby"><span class="regexp"> "overlay":</span></span></div><div class="line">    -<span class="ruby"><span class="regexp"> CONFIG_OVERLAY_FS: missing</span></span></div><div class="line">  -<span class="ruby"><span class="regexp"> "zfs":</span></span></div><div class="line">    -<span class="ruby"><span class="regexp"> /dev</span><span class="regexp">/zfs: missing</span></span></div><div class="line">    -<span class="ruby"><span class="regexp"> zfs command: missing</span></span></div><div class="line">    -<span class="ruby"><span class="regexp"> zpool command: missing</span></span></div></pre></td></tr></table></figure>
+<h1 id="Install-Docker"><a href="#Install-Docker" class="headerlink" title="Install Docker"></a>Install Docker</h1><h2 id="Install-epel-repository"><a href="#Install-epel-repository" class="headerlink" title="Install epel repository"></a>Install epel repository</h2><p><code>rpm -iUvh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm</code></p>
+<h2 id="Update-packages"><a href="#Update-packages" class="headerlink" title="Update packages"></a>Update packages</h2><p><code>yum update -y</code></p>
+<h2 id="Install-Docker-1"><a href="#Install-Docker-1" class="headerlink" title="Install Docker"></a>Install Docker</h2><p><code>yum install docker-io</code></p>
+<h2 id="Start-docker-daemon"><a href="#Start-docker-daemon" class="headerlink" title="Start docker daemon"></a>Start docker daemon</h2><p><code>service docker start</code></p>
+<h2 id="Configure-docker-to-start-when-os-boots"><a href="#Configure-docker-to-start-when-os-boots" class="headerlink" title="Configure docker to start when os boots"></a>Configure docker to start when os boots</h2><p><code>chkconfig docker on</code></p>
+<h2 id="Test-docker"><a href="#Test-docker" class="headerlink" title="Test docker"></a>Test docker</h2><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">docker pull busybox</div><div class="line">docker pull centos</div><div class="line"></div><div class="line">docker <span class="keyword">run</span><span class="bash"> -i -t busybox /bin/sh</span></div><div class="line">docker <span class="keyword">run</span><span class="bash"> -i -t centos /bin/bash</span></div></pre></td></tr></table></figure>
+<h2 id="Install-docker-compose"><a href="#Install-docker-compose" class="headerlink" title="Install docker-compose"></a>Install docker-compose</h2><figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -L <span class="symbol">https:</span>/<span class="regexp">/github.com/docker</span><span class="regexp">/compose/releases</span><span class="regexp">/download/</span><span class="number">1.4</span>.<span class="number">2</span>/docker-compose-<span class="string">`uname -s`</span>-<span class="string">`uname -m`</span> &gt; <span class="regexp">/usr/local</span><span class="regexp">/bin/docker</span>-compose</div></pre></td></tr></table></figure>
+<p>Test docker-compose from <a href="https://docs.docker.com/compose/" target="_blank" rel="external">https://docs.docker.com/compose/</a></p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="http://bicofino.io/blog/2014/10/25/install-kernel-3-dot-10-on-centos-6-dot-5/" target="_blank" rel="external">Install Kernel 3.10 on CentOS 6.5</a><br><a href="http://dockerpool.com/article/1415195109" target="_blank" rel="external">阿里云的Centos 6.5 模板上使用Docker</a><br><a href="http://elrepo.org/tiki/tiki-index.php" target="_blank" rel="external">http://elrepo.org/tiki/tiki-index.php</a><br><a href="http://elrepo.org/tiki/kernel-lt" target="_blank" rel="external">kernel-lt</a><br><a href="http://www.liquidweb.com/kb/how-to-install-docker-on-centos-6/" target="_blank" rel="external">How To Install Docker on CentOS 6</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Oracle/">Oracle</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

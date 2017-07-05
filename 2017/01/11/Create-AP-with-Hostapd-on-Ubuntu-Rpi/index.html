@@ -1,0 +1,218 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Create SoftAP with Hostapd on Ubuntu and Rpi.md | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Create SoftAP with Hostapd on Ubuntu and Rpi.md"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2017-01-11T09:22:55.000Z"><a href="/2017/01/11/Create-AP-with-Hostapd-on-Ubuntu-Rpi/">2017-01-11</a></time>
+      
+      
+  
+    <h1 class="title">Create SoftAP with Hostapd on Ubuntu and Rpi.md</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="In-Ubuntu-14-04"><a href="#In-Ubuntu-14-04" class="headerlink" title="In Ubuntu 14.04"></a>In Ubuntu 14.04</h1><h2 id="Check-whether-the-module-8188eu-is-load-lsmod-grep-8188-or-lsusb"><a href="#Check-whether-the-module-8188eu-is-load-lsmod-grep-8188-or-lsusb" class="headerlink" title="Check whether the module 8188eu is load lsmod|grep 8188 or lsusb"></a>Check whether the module 8188eu is load <code>lsmod|grep 8188</code> or <code>lsusb</code></h2><h2 id="Download-and-compile-latest-hostapd-with-RTL8188-drivers"><a href="#Download-and-compile-latest-hostapd-with-RTL8188-drivers" class="headerlink" title="Download and compile latest hostapd with RTL8188 drivers"></a>Download and compile latest hostapd with RTL8188 drivers</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">git clone http<span class="variable">s:</span>//github.<span class="keyword">com</span>/lostincynicism/hostapd-rtl8188</div><div class="line">sudo apt-<span class="built_in">get</span> install libnl-<span class="number">3</span>-dev # Fix fatal-error-netlink-genl-genl-h-<span class="keyword">no</span>-such-<span class="keyword">file</span>-<span class="built_in">or</span>-directory</div><div class="line">sudo apt-<span class="built_in">get</span> install libnl-genl-<span class="number">3</span>-dev</div><div class="line"><span class="keyword">cd</span> hostapd-rtl8188/hostapd &amp;&amp; sudo <span class="keyword">make</span> <span class="keyword">all</span></div></pre></td></tr></table></figure>
+<h2 id="The-complete-options-in-usr-share-doc-hostapd-examples-hostadp-8188eu-conf"><a href="#The-complete-options-in-usr-share-doc-hostapd-examples-hostadp-8188eu-conf" class="headerlink" title="The complete options in /usr/share/doc/hostapd/examples/hostadp.8188eu.conf"></a>The complete options in /usr/share/doc/hostapd/examples/hostadp.8188eu.conf</h2><figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="attr">interface</span>=wlan0</div><div class="line"><span class="attr">driver</span>=rtl871xdrv</div><div class="line"><span class="attr">ssid</span>=Soft-AP</div><div class="line"><span class="attr">hw_mode</span>=g</div><div class="line"><span class="attr">channel</span>=<span class="number">6</span></div><div class="line"><span class="attr">macaddr_acl</span>=<span class="number">0</span></div><div class="line"><span class="attr">auth_algs</span>=<span class="number">1</span></div><div class="line"><span class="attr">ignore_broadcast_ssid</span>=<span class="number">0</span></div><div class="line"><span class="comment">#wpa=1</span></div><div class="line"><span class="comment">#wpa_pairwise=CCMP</span></div><div class="line"><span class="attr">wpa</span>=<span class="number">2</span></div><div class="line"><span class="attr">rsn_pairwise</span>=TKIP CCMP</div><div class="line"><span class="attr">wpa_passphrase</span>=<span class="number">123456789</span></div><div class="line"><span class="attr">wpa_key_mgmt</span>=WPA-PSK</div></pre></td></tr></table></figure>
+<h2 id="Fix-“Cannot-find-the-ssid-problem”"><a href="#Fix-“Cannot-find-the-ssid-problem”" class="headerlink" title="Fix “Cannot find the ssid problem”"></a>Fix “Cannot find the ssid problem”</h2><figure class="highlight maxima"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo nmcli <span class="built_in">nm</span> wifi off</div><div class="line">sudo rfkill unblock wlan # disable power <span class="built_in">saving</span> mode, use **sudo nmcli radio wifi off** <span class="keyword">if</span> Error: Object '<span class="built_in">nm</span>' <span class="built_in">is</span> <span class="literal">unknown</span> <span class="keyword">then</span> use this instead:</div></pre></td></tr></table></figure>
+<p>Following maybe not work but for reference<br><figure class="highlight fortran"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">sudo systemctl disable NetworkManager.service </div><div class="line">sudo systemctl enable networking.service</div><div class="line"></div><div class="line">sudo systemctl <span class="keyword">status</span> wpa_supplicant.service</div><div class="line"></div><div class="line">sudo systemctl --force <span class="keyword">stop</span> wpa_supplicant.service</div><div class="line">wpa_cli -i wlan0 terminate # <span class="keyword">stop</span> wpa_supplicant <span class="function"><span class="keyword">program</span></span> as it is conflicted with hostapd</div></pre></td></tr></table></figure></p>
+<h2 id="Start-hostapd"><a href="#Start-hostapd" class="headerlink" title="Start hostapd"></a>Start hostapd</h2><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cd hostapd-rtl8188/hostapd</div><div class="line">sudo ./hostapd -dd /usr/share/doc/hostapd/examples/hostadp<span class="number">.8188</span>eu.conf</div><div class="line">sudo ifconfig wlan0 <span class="number">192.168</span><span class="number">.42</span><span class="number">.1</span></div></pre></td></tr></table></figure>
+<h1 id="In-Raspberry-Pi"><a href="#In-Raspberry-Pi" class="headerlink" title="In Raspberry Pi"></a>In Raspberry Pi</h1><h2 id="Configure-IP-sudo-ifconfig-wlan0-192-168-42-100"><a href="#Configure-IP-sudo-ifconfig-wlan0-192-168-42-100" class="headerlink" title="Configure IP sudo ifconfig wlan0 192.168.42.100"></a>Configure IP <code>sudo ifconfig wlan0 192.168.42.100</code></h2><h2 id="Scan-ssid-iwlist-wlan0-scan"><a href="#Scan-ssid-iwlist-wlan0-scan" class="headerlink" title="Scan ssid iwlist wlan0 scan"></a>Scan ssid <code>iwlist wlan0 scan</code></h2><h2 id="Connect-to-ssid-“Soft-AP”"><a href="#Connect-to-ssid-“Soft-AP”" class="headerlink" title="Connect to ssid “Soft-AP”"></a>Connect to ssid “Soft-AP”</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash"> wpa_cli</span></div><div class="line"><span class="meta">&gt;</span><span class="bash">scan</span></div><div class="line"><span class="meta">&gt;</span><span class="bash">scan_results</span></div><div class="line"><span class="meta">&gt;</span><span class="bash">add_network</span></div><div class="line"><span class="meta">&gt;</span><span class="bash">set_network 0 ssid <span class="string">"Soft-AP"</span></span></div><div class="line"><span class="meta">&gt;</span><span class="bash">set_network 0 psk <span class="string">"123456789"</span></span></div><div class="line"><span class="meta">&gt;</span><span class="bash">enable_network 0</span></div><div class="line"><span class="meta">&gt;</span><span class="bash">quit</span></div><div class="line"><span class="meta">#</span><span class="bash"> ping 192.168.42.1 or iwconfig</span></div><div class="line"></div><div class="line"></div><div class="line">wpa_cli -i wlan0 terminate (關閉wpa_supplicant)</div><div class="line">wpa_cli -i wlan0 save_config (儲存寫入到wpa_supplicant.conf中，否責變更無效) need "update_config=1" in /etc/wpa_supplicant/wpa_supplicant.conf</div><div class="line">wpa_cli -i wlan0 select_network (選擇不同的AP，id為AP代號0,1,2,3...)</div><div class="line">wpa_cli -i wlan0 disable_network</div><div class="line">wpa_cli -i wlan0 remove_network (刪除AP資訊)</div><div class="line">wpa_cli -i wlan0 disconnect (斷線)</div><div class="line">wpa_cli -i wlan0 reconnect (重新連線)</div><div class="line">wpa_cli -i wlan0 list_networks (查看wpa_supplicant.conf檔裡的設定)</div><div class="line">wpa_cli -i wlan0 interface (查看有那些無線網卡介面)</div></pre></td></tr></table></figure>
+<h1 id="Others"><a href="#Others" class="headerlink" title="Others"></a>Others</h1><h2 id="In-Ubuntu"><a href="#In-Ubuntu" class="headerlink" title="In Ubuntu"></a>In Ubuntu</h2><ul>
+<li>Set proxy <code>java -cp lib/log4j-1.2.16.jar:lib/jboss-common-logging-spi.jar:lib/netty.jar org.jboss.netty.example.proxy.HexDumpProxy 8081 10.13.135.115 8080</code></li>
+</ul>
+<h2 id="In-RaspPi"><a href="#In-RaspPi" class="headerlink" title="In RaspPi"></a>In RaspPi</h2><ul>
+<li>Setting Up apt-get with proxy. Add file proxy.conf in “/etc/apt/“ with content <code>Acquire::http::Proxy &quot;http://192.168.42.1:8081/&quot;;</code></li>
+<li><p>Setting Up http proxy by </p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="builtin-name">export</span> <span class="attribute">http_proxy</span>=http://192.168.42.1:8081/</div><div class="line"><span class="builtin-name">export</span> <span class="attribute">https_proxy</span>=http://192.168.42.1:8081/</div></pre></td></tr></table></figure>
+</li>
+<li><p>Run <code>sudo apt-get install apt-transport-https</code> if problem “E: The method driver /usr/lib/apt/methods/https could not be found.” occurs when <code>sudo apt-get update</code></p>
+</li>
+<li>Install mpv from <a href="https://nwgat.ninja/quick-easy-compiling-mpv-for-raspberry-pi/" target="_blank" rel="external">https://nwgat.ninja/quick-easy-compiling-mpv-for-raspberry-pi/</a> </li>
+<li>Install livestreamer </li>
+</ul>
+<ol>
+<li>Download setuptools from <a href="https://pypi.python.org/pypi/setuptools#downloads" target="_blank" rel="external">https://pypi.python.org/pypi/setuptools#downloads</a></li>
+<li>Install setuptools <code>python setup.py install</code> and <code>sudo -E easy_install livestreamer</code></li>
+<li>Test the audio <code>livestreamer --https-proxy=http://192.168.42.1:8081 --http-proxy=http://192.168.42.1:8081 hlsvariant://http://rthkaudio1-lh.akamaihd.net/i/radio1_1@355864/master.m3u8 best -p mpv</code></li>
+<li>Change the volumn by<br>4.1 <code>amixer controls</code> to show the Master Playback Volume<br>4.2 Get details of the master playback volume control by <code>amixer cget numid=3</code>, it shows a pair of volume values=65536,65536(for left and right channels)<br><code>alsamixer</code>, save volumn level via <code>sudo alsactl store</code><br><code>amixer cset numid=1 -- 80%</code> or <code>amixer cset numid=3 80%</code> Or <code>amixer set Master 100%</code><br>4.3 To mute the sound by <code>amixer cset numid=4 off</code> (Control 4), this also affects the volume values on control 3<br>Reference <a href="http://blog.scphillips.com/posts/2013/01/sound-configuration-on-raspberry-pi-with-alsa/" target="_blank" rel="external">http://blog.scphillips.com/posts/2013/01/sound-configuration-on-raspberry-pi-with-alsa/</a></li>
+<li>Set audio output device <code>amixer cset numid=3 N</code> (N=0=auto, 1=analog, 2=hdmi)</li>
+</ol>
+<ul>
+<li>Start openssh-server <code>sudo service ssh start</code></li>
+<li>Install openvpn <code>sudo apt-get install openvpn</code></li>
+<li>Install adb and fastboot by <code>sudo apt-get install android-tools-adb android-tools-fastboot</code></li>
+<li><p>Configure udev service for detecting the pluged phone </p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo wget -O <span class="regexp">/etc/</span>udev<span class="regexp">/rules.d/</span><span class="number">51</span>-android.rules <span class="string">https:</span><span class="comment">//raw.githubusercontent.com/NicolasBernaerts/ubuntu-scripts/master/android/51-android.rules</span></div><div class="line">sudo chmod a+r <span class="regexp">/etc/</span>udev<span class="regexp">/rules.d/</span><span class="number">51</span>-android.rules</div><div class="line">sudo service udev restart</div></pre></td></tr></table></figure>
+</li>
+<li><p>Plug the mobile and mount the sdcard by <code>sudo mount /dev/sda1 /mnt</code><br>Check the disk by</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo fdisk -l <span class="regexp">/dev/</span>sda</div><div class="line">sudo lsblk</div><div class="line">df -h</div></pre></td></tr></table></figure>
+</li>
+<li><p>USB tethering</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">adb</span> <span class="selector-tag">forward</span> <span class="selector-tag">tcp</span><span class="selector-pseudo">:41927</span> <span class="selector-tag">tcp</span><span class="selector-pseudo">:41927</span></div><div class="line"><span class="selector-tag">sudo</span> <span class="selector-tag">openvpn</span> <span class="selector-tag">azilink</span><span class="selector-class">.ovpn</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol>
+<li>Write PiCast application with golang<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> (</div><div class="line">	<span class="string">"fmt"</span></div><div class="line">	<span class="string">"github.com/gorilla/mux"</span></div><div class="line">	<span class="string">"io/ioutil"</span></div><div class="line">	<span class="string">"net/http"</span></div><div class="line">	<span class="string">"os"</span></div><div class="line">	<span class="string">"os/exec"</span></div><div class="line">	<span class="string">"strings"</span></div><div class="line">	<span class="string">"syscall"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	r := mux.NewRouter()</div><div class="line">	r.HandleFunc(<span class="string">"/"</span>, Home)</div><div class="line">	<span class="comment">//r.HandleFunc("/yt-stream/&#123;args&#125;", Youtube)</span></div><div class="line">	r.HandleFunc(<span class="string">"/yt-stream"</span>, Youtube)</div><div class="line"></div><div class="line">	bind := fmt.Sprintf(<span class="string">"%s:%s"</span>, os.Getenv(<span class="string">"HOST"</span>), os.Getenv(<span class="string">"PORT"</span>))</div><div class="line">	fmt.Printf(<span class="string">"listening on %s...\n"</span>, bind)</div><div class="line">	err := http.ListenAndServe(bind, r)</div><div class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</div><div class="line">		<span class="built_in">panic</span>(err)</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">Home</span><span class="params">(res http.ResponseWriter, req *http.Request)</span></span> &#123;</div><div class="line">	fmt.Fprint(res, <span class="string">"Welcome to PiCAST! In the URL, type what you want to do...\n"</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">Youtube</span><span class="params">(res http.ResponseWriter, req *http.Request)</span></span> &#123;</div><div class="line">	body := readReqBody(req)</div><div class="line">	url := body[<span class="string">"url"</span>]</div><div class="line"></div><div class="line">	<span class="keyword">if</span> url == <span class="string">""</span> &#123;</div><div class="line">		args := body[<span class="string">"args"</span>]</div><div class="line">		url = <span class="string">"https://www.youtube.com/watch?v="</span> + args</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	p := body[<span class="string">"proxy"</span>]</div><div class="line"></div><div class="line">	http_proxy := <span class="string">""</span></div><div class="line">	https_proxy := <span class="string">""</span></div><div class="line"></div><div class="line">	<span class="keyword">if</span> p != <span class="string">""</span> &#123;</div><div class="line">		http_proxy = <span class="string">"--https-proxy="</span> + p</div><div class="line">		https_proxy = <span class="string">"--http-proxy="</span> + p</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	args := []<span class="keyword">string</span>&#123;http_proxy, https_proxy, url, <span class="string">"best"</span>, <span class="string">"--player=mpv"</span>&#125;</div><div class="line">	fmt.Println(args)</div><div class="line"></div><div class="line">	run(args)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">run</span><span class="params">(args []<span class="keyword">string</span>)</span></span> &#123;</div><div class="line">    exec.Command(<span class="string">"killall livestreamer"</span>).Run()</div><div class="line"></div><div class="line">	binary, lookErr := exec.LookPath(<span class="string">"livestreamer"</span>)</div><div class="line">	<span class="keyword">if</span> lookErr != <span class="literal">nil</span> &#123;</div><div class="line">		<span class="built_in">panic</span>(lookErr)</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	env := os.Environ()</div><div class="line"></div><div class="line">	execErr := syscall.Exec(binary, args, env)</div><div class="line">	<span class="keyword">if</span> execErr != <span class="literal">nil</span> &#123;</div><div class="line">		fmt.Println(<span class="string">"execErr"</span>, execErr)</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">runOld</span><span class="params">(args []<span class="keyword">string</span>)</span></span> &#123;</div><div class="line">	cmd := exec.Command(<span class="string">"livestreamer"</span>, args...)</div><div class="line">	fmt.Println(cmd.Path)</div><div class="line">	fmt.Println(cmd.Args)</div><div class="line">	fmt.Println(cmd.Env)</div><div class="line"></div><div class="line">	<span class="keyword">if</span> err := cmd.Start(); err != <span class="literal">nil</span> &#123;</div><div class="line">		fmt.Printf(<span class="string">"cmd.Start: %v\n"</span>, err)</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">if</span> err := cmd.Wait(); err != <span class="literal">nil</span> &#123;</div><div class="line">		<span class="keyword">if</span> exiterr, ok := err.(*exec.ExitError); ok &#123;</div><div class="line">			<span class="keyword">if</span> status, ok := exiterr.Sys().(syscall.WaitStatus); ok &#123;</div><div class="line">				fmt.Printf(<span class="string">"Exit Status: %d\n"</span>, status.ExitStatus())</div><div class="line">			&#125;</div><div class="line">		&#125; <span class="keyword">else</span> &#123;</div><div class="line">			fmt.Printf(<span class="string">"cmd.Wait: %v\n"</span>, err)</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">readReqBody</span><span class="params">(req *http.Request)</span> <span class="title">map</span>[<span class="title">string</span>]<span class="title">string</span></span> &#123;</div><div class="line">	body, _ := ioutil.ReadAll(req.Body)</div><div class="line">	<span class="comment">// Info.Println("body = ", string(body))</span></div><div class="line">	m := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span>)</div><div class="line"></div><div class="line">	content := strings.Split(<span class="keyword">string</span>(body), <span class="string">"&amp;"</span>)</div><div class="line">	<span class="keyword">for</span> _, c := <span class="keyword">range</span> content &#123;</div><div class="line">		p := strings.Split(c, <span class="string">"="</span>)</div><div class="line">		<span class="keyword">if</span> <span class="built_in">len</span>(p) == <span class="number">2</span> &#123;</div><div class="line">			m[p[<span class="number">0</span>]] = p[<span class="number">1</span>]</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> m</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<ul>
+<li><p>Cross compile this web application in linux</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">env GOOS=linux GOARCH=arm go build -ldflags=<span class="string">"-s -w"</span> main.go</div><div class="line">scp -i id_rsa main pi<span class="variable">@192</span>.<span class="number">168.42</span>.<span class="number">100</span><span class="symbol">:/home/pi/</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>Install tmux on ubuntu<br><code>sudo apt-get install tmux</code></p>
+<pre>
+ctrl+b % - split window vertically
+ctrl+b " - split window horizontally
+ctrl+b o - Goto next pane
+ctrl+b c - Create new window
+ctrl+b w - List all windows 
+ctrl+b l - Move to the previously selected window
+</pre>
+
+</li>
+</ul>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://developer.mozilla.org/en-US/docs/Archive/Firefox_OS/Debugging/Installing_ADB" target="_blank" rel="external">ADB FIFO example</a><br><a href="https://wiki.archlinux.org/index.php/android_tethering" target="_blank" rel="external">USB tethering</a><br><a href="https://github.com/lanceseidman/PiCAST" target="_blank" rel="external">https://github.com/lanceseidman/PiCAST</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Raspberry-Pi/">Raspberry Pi</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Root lenovo A916 and Sony Xperia T2 Ultra | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Root lenovo A916 and Sony Xperia T2 Ultra"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-06-04T10:13:04.000Z"><a href="/2015/06/04/Root-lenovo-A916-and-Sony-Xperia-T2-Ultra/">2015-06-04</a></time>
+      
+      
+  
+    <h1 class="title">Root lenovo A916 and Sony Xperia T2 Ultra</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>Root lenovo A916 and Sony Xperia T2 Ultra.<br>Download adb and fastboot1. </p>
+<ul>
+<li>In windows, download <a href="http://downloads.rubenalamina.mx/custom-installers/Android%20ADB%20Fastboot%201.3.msi" target="_blank" rel="external">Android ADB Fastboot 1.3.msi</a></li>
+<li>In Ubuntu, <code>apt-get install android-tools-adb android-tools-fastboot</code> unlock bootloader, flash cwm-recovery and root phone<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">adb reboot-bootloader</div><div class="line">fastboot devices</div><div class="line">fastboot oem <span class="keyword">unlock</span></div><div class="line">fastboot reboot</div><div class="line">fastboot flash <span class="keyword">recovery</span> cwm-recovery.img</div><div class="line">fastboot reboot</div><div class="line">adb push <span class="keyword">UPDATE</span>-SuperSU-v2<span class="number">.46</span>.zip /sdcard/</div><div class="line"><span class="keyword">Install</span> SuperSU zip according <span class="keyword">by</span> ClockworkMod menu</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>Extra: check information</p>
+<ul>
+<li>A916 -&gt; adb reboot recovery -&gt; check internel version, found version: A916_S205_141013, call <code>*#*#5448264#*#*</code> to enable dual sim dual standby</li>
+<li>D5303 -&gt; call <code>*#*#7378423#*#*</code> to check service information</li>
+</ul>
+<p>Reference:<br>Dual Sim card dual standby <a href="http://ask.lenovomobile.com/index.php?question/view/598417.html" target="_blank" rel="external">http://ask.lenovomobile.com/index.php?question/view/598417.html</a><br><a href="https://forums.lenovo.com/t5/A-and-P-Series/Lenovo-phone-a916-A916-S1205-141013/td-p/2049911" target="_blank" rel="external">https://forums.lenovo.com/t5/A-and-P-Series/Lenovo-phone-a916-A916-S1205-141013/td-p/2049911</a><br><a href="http://pdadb.net/index.php?m=specs&amp;id=6663&amp;c=lenovo_a916_dual_sim_td-lte" target="_blank" rel="external">http://pdadb.net/index.php?m=specs&amp;id=6663&amp;c=lenovo_a916_dual_sim_td-lte</a></p>
+<p>Download A916 offical ROM and CWM Recovery <a href="http://ask.lenovomobile.com/?q-594219.html" target="_blank" rel="external">http://ask.lenovomobile.com/?q-594219.html</a></p>
+<p>Dual SIM Dual Standby Official ROM <a href="http://blog.cellphonemic.com/?p=624" target="_blank" rel="external">http://blog.cellphonemic.com/?p=624</a><br>Recovery <a href="http://blog.cellphonemic.com/?p=694" target="_blank" rel="external">http://blog.cellphonemic.com/?p=694</a><br>One Key Root <a href="http://blog.cellphonemic.com/?p=627" target="_blank" rel="external">http://blog.cellphonemic.com/?p=627</a></p>
+<p>unlock bootloader of T2 Ultra <a href="http://developer.sonymobile.com/unlockbootloader/" target="_blank" rel="external">http://developer.sonymobile.com/unlockbootloader/</a></p>
+<p>HTC/华为/酷派手机官方解锁教程 <a href="http://bbs.360safe.com/thread-4954939-1-1.html" target="_blank" rel="external">http://bbs.360safe.com/thread-4954939-1-1.html</a></p>
+<p>All in this post (VERY USEFUL) <a href="http://forum.xda-developers.com/showthread.php?t=2788632" target="_blank" rel="external">[GUIDE] OnePlus One - How to Unlock Bootloader, Install Custom Recovery and Root</a></p>
+<p><a href="http://forum.gamer.com.tw/C.php?bsn=60528&amp;snA=4057" target="_blank" rel="external">【攻略】Android 進階開發教學：讓你一次補足所有知識！</a></p>
+<p>lifehacker<br><a href="http://lifehacker.com/the-most-useful-things-you-can-do-with-adb-and-fastboot-1590337225" target="_blank" rel="external">The Most Useful Things You Can Do with ADB and Fastboot on Android</a><br><a href="http://lifehacker.com/how-to-flash-a-rom-to-your-android-phone-30885281" target="_blank" rel="external">How to Flash a ROM to Your Android Phone</a></p>
+<p>WIKI Of CM and CWM recovery <a href="http://wiki.cyanogenmod.org/w/Doc:_fastboot_intro" target="_blank" rel="external">http://wiki.cyanogenmod.org/w/Doc:_fastboot_intro</a><br>(fix the issue of “wait for the device”)<br><a href="http://wiki.cyanogenmod.org/w/All_About_Recovery_Images" target="_blank" rel="external">http://wiki.cyanogenmod.org/w/All_About_Recovery_Images</a><br><a href="http://wiki.cyanogenmod.org/w/ClockWorkMod_Instructions" target="_blank" rel="external">http://wiki.cyanogenmod.org/w/ClockWorkMod_Instructions</a></p>
+<p>Unlock bootloader and install recovery<br><a href="http://playfuldroid.com/how-to-root-lenovo-a916-phablet-in-less-than-an-hour/" target="_blank" rel="external">How to root Lenovo A916 phablet in less than an hour</a><br><a href="http://http://www.cwm-twrp-recovery.org/mp3-0/lenovo-a916-6855.html" target="_blank" rel="external">Download CWM &amp; TWRP Recovery for Lenovo A916</a><br><a href="https://forums.oneplus.net/threads/root-recovery-root.61595/" target="_blank" rel="external">用臨時Recovery root機</a><br><a href="http://www.androidtablets.net/threads/howto-unlocking-the-bootloader-windows.52434/" target="_blank" rel="external">[HowTo] Unlocking the Bootloader (Windows)</a></p>
+<p>Reference:<br>木子软件 <a href="http://www.muzisoft.com/recovery/" target="_blank" rel="external">http://www.muzisoft.com/recovery/</a> <a href="http://www.muzisoft.com/root/" target="_blank" rel="external">http://www.muzisoft.com/root/</a><br>刷机网 <a href="http://www.shuaji.net/" target="_blank" rel="external">http://www.shuaji.net/</a><br>线刷宝 - 华为fastboot机型解锁教程 <a href="http://www.xianshuabao.com/skill/285.html" target="_blank" rel="external">http://www.xianshuabao.com/skill/285.html</a></p>
+<p>Root Sony WT19i<br><a href="http://forum.xda-developers.com/showthread.php?t=1559685" target="_blank" rel="external">http://forum.xda-developers.com/showthread.php?t=1559685</a><br><a href="http://forum.xda-developers.com/showthread.php?t=1865037" target="_blank" rel="external">http://forum.xda-developers.com/showthread.php?t=1865037</a><br><a href="http://www.android.gs/root-sony-xperia-live-walkman-wt19i/" target="_blank" rel="external">http://www.android.gs/root-sony-xperia-live-walkman-wt19i/</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/日常记录/">日常记录</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Play audio/video using livestreamer | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Play audio/video using livestreamer"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2017-01-09T10:38:56.000Z"><a href="/2017/01/09/Play-audiovideo-using-livestreamer/">2017-01-09</a></time>
+      
+      
+  
+    <h1 class="title">Play audio/video using livestreamer</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <ul>
+<li>Download livestreamer-v1.12.2-win32.zip from <a href="http://docs.livestreamer.io/install.html#windows-binaries" target="_blank" rel="external">http://docs.livestreamer.io/install.html#windows-binaries</a></li>
+</ul>
+<h2 id="Play-stream"><a href="#Play-stream" class="headerlink" title="Play stream"></a>Play stream</h2><h3 id="City-Snapshot-from-rthk"><a href="#City-Snapshot-from-rthk" class="headerlink" title="City_Snapshot from rthk"></a>City_Snapshot from rthk</h3><p>  <code>livestreamer --https-proxy=http://proxy1.scig.gov.hk:8080 --http-proxy=http://proxy1.scig.gov.hk:8080 hlsvariant://http://stmw.rthk.hk/aod/_definst_/radio/archive/radio1/City_Snapshot/mp3/mp3:20161129.mp3/playlist.m3u8 best -p &quot;C:\Program Files\VideoLAN\VLC\vlc.exe&quot; --verbose-player --stream-types=hls</code></p>
+<h3 id="RTHK-Radio-1"><a href="#RTHK-Radio-1" class="headerlink" title="RTHK Radio 1"></a>RTHK Radio 1</h3><p>  <code>livestreamer --https-proxy=http://proxy1.scig.gov.hk:8080 --http-proxy=http://proxy1.scig.gov.hk:8080 hlsvariant://http://rthkaudio1-lh.akamaihd.net/i/radio1_1@355864/master.m3u8 best -p C:\Users\User\Downloads\mpv-x86_64-20170102-git-8e41f31\mpv.exe</code></p>
+<h3 id="RTHK-Radio-2"><a href="#RTHK-Radio-2" class="headerlink" title="RTHK Radio 2"></a>RTHK Radio 2</h3><p>  <code>livestreamer --https-proxy=http://proxy1.scig.gov.hk:8080 --http-proxy=http://proxy1.scig.gov.hk:8080 hlsvariant://http://rthkaudio2-lh.akamaihd.net/i/radio2_1@355865/master.m3u8 best -p C:\Users\User\Downloads\mpv-x86_64-20170102-git-8e41f31\mpv.exe</code></p>
+<h3 id="Play-香港卫视"><a href="#Play-香港卫视" class="headerlink" title="Play 香港卫视"></a>Play 香港卫视</h3><p>  <code>livestreamer --https-proxy=http://proxy1.scig.gov.hk:8080 --http-proxy=http://proxy1.scig.gov.hk:8080 hlsvariant://http://live.hkstv.hk.lxdns.com/live/hks/playlist.m3u8 best -p &quot;C:\Program Files\VideoLAN\VLC\vlc.exe&quot;</code></p>
+<h3 id="Play-Faded-from-Alan-Walker"><a href="#Play-Faded-from-Alan-Walker" class="headerlink" title="Play Faded from Alan Walker"></a>Play Faded from Alan Walker</h3><p>  <code>livestreamer --https-proxy=http://proxy1.scig.gov.hk:8080 --http-proxy=http://proxy1.scig.gov.hk:8080 https://www.youtube.com/watch?v=60ItHLz5WEA best -p &quot;C:\Program Files\VideoLAN\VLC\vlc.exe&quot;</code></p>
+<h3 id="Play-RTMP-stream-Need-rtmpdump-exe-in-the-current-folder"><a href="#Play-RTMP-stream-Need-rtmpdump-exe-in-the-current-folder" class="headerlink" title="Play RTMP stream (Need rtmpdump.exe in the current folder)"></a>Play RTMP stream (Need rtmpdump.exe in the current folder)</h3><p>  <code>livestreamer --https-proxy=http://proxy1.scig.gov.hk:8080 --http-proxy=http://proxy1.scig.gov.hk:8080 rtmp://live.hkstv.hk.lxdns.com/live/hks best -p &quot;C:\Program Files\VideoLAN\VLC\vlc.exe&quot;</code></p>
+<h2 id="Play-by-external-player"><a href="#Play-by-external-player" class="headerlink" title="Play by external player"></a>Play by external player</h2><ol>
+<li><p><code>livestreamer --https-proxy=http://10.13.135.115:8080 --http-proxy=http://10.13.135.115:8080 hlsvariant://http://stmw.rthk.hk/aod/_definst_/radio/archive/radio1/City_Snapshot/mp3/mp3:20161214.mp3/playlist.m3u8 best --player-external-http --player-external-http-port=12345 --verbose-player --stream-types=hls</code></p>
+</li>
+<li><p><code>livestreamer --https-proxy=http://10.13.135.115:8080 --http-proxy=http://10.13.135.115:8080 hlsvariant://http://live.hkstv.hk.lxdns.com/live/hks/playlist.m3u8 best --player-external-http --player-external-http-port=12345 --verbose-player --stream-types=hls</code></p>
+</li>
+</ol>
+<h2 id="Some-player-gstreamer-ffplay-vlc-wmplayer-mpc-hc-mpv-potplayer"><a href="#Some-player-gstreamer-ffplay-vlc-wmplayer-mpc-hc-mpv-potplayer" class="headerlink" title="Some player: gstreamer, ffplay, vlc, wmplayer, mpc-hc, mpv, potplayer"></a>Some player: gstreamer, ffplay, vlc, wmplayer, mpc-hc, mpv, potplayer</h2><ul>
+<li><p>Reference:<br><a href="http://docs.livestreamer.io/" target="_blank" rel="external">http://docs.livestreamer.io/</a><br><a href="https://github.com/streamlink/streamlink" target="_blank" rel="external">https://github.com/streamlink/streamlink</a><br><a href="https://github.com/chrippa/livestreamer/issues/624" target="_blank" rel="external">livestreamer UPnP/DLNA output - https://github.com/chrippa/livestreamer/issues/624</a><br><a href="https://wiki.videolan.org/Documentation:Streaming_HowTo/Command_Line_Examples/#MMS_.2F_MMSH_streaming_to_Windows_Media_Player" target="_blank" rel="external">MMS / MMSH streaming to Windows Media Player by VLC</a></p>
+</li>
+<li><p>Others<br><a href="http://www.jianshu.com/p/e7d2c3a624f6" target="_blank" rel="external">网络流媒体下载的 10 种方法(以下载 Echo 音乐为例)</a><br><a href="http://www.jianshu.com/p/a3f8df948395" target="_blank" rel="external">You-Get——基于Python3的媒体下载工具</a><br><a href="http://www.coolapk.com/apk/com.phantom.onetapvideodownload" target="_blank" rel="external">一键下载视频:Xposed One Tap Video Download</a><br><a href="https://blog.gtwang.org/iot/raspberry-pi-nginx-rtmp-server-live-streaming/" target="_blank" rel="external">樹莓派架設 RTMP 串流（Streaming）伺服器</a><br><a href="https://nwgat.ninja/installing-mpv-with-hardware-decoding-on-raspberry-pi-1-2-3-zero/" target="_blank" rel="external">Installing MPV with Hardware Decoding on Raspberry Pi</a><br><a href="http://serviio.org/component/content/article/10-uncategorised/42-online-content-management" target="_blank" rel="external">serviio dlna server</a></p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/工作日志/">工作日志</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Install gevent in AIX with gcc | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Install gevent in AIX with gcc"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2013-12-31T10:55:50.000Z"><a href="/2013/12/31/Install-gevent-in-AIX-with-gcc/">2013-12-31</a></time>
+      
+      
+  
+    <h1 class="title">Install gevent in AIX with gcc</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="greenlet"><a href="#greenlet" class="headerlink" title="greenlet"></a>greenlet</h1><p>Download greenlet-0.4.1.zip from <a href="https://github.com/python-greenlet/greenlet" target="_blank" rel="external">https://github.com/python-greenlet/greenlet</a><br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo gcc -pthread -fno-strict-aliasing -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -fPIC -fno-tree-dominator-opts -I. -I/opt/freeware/<span class="keyword">include</span>/python2.<span class="number">7</span> -c greenlet.c -o build/greenlet.o</div><div class="line">sudo gcc -shared -lpthreads -lpython2.<span class="number">7</span> -o build/greenlet.so build/greenlet.o</div><div class="line">sudo cp build/greenlet.so /opt/freeware/<span class="class"><span class="keyword">lib</span>/<span class="title">python2</span>.7/<span class="title">site</span>-<span class="title">packages</span>/</span></div></pre></td></tr></table></figure></p>
+<h1 id="libev"><a href="#libev" class="headerlink" title="libev"></a>libev</h1><p>Download libev-4.15.tar.gz from <a href="http://dist.schmorp.de/libev/" target="_blank" rel="external">http://dist.schmorp.de/libev/</a><br><figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">.<span class="regexp">/configure --prefix=/u</span>sr<span class="regexp">/local/</span>libev</div><div class="line">gmake &amp;&amp; sudo gmake install</div></pre></td></tr></table></figure></p>
+<h1 id="c-ares"><a href="#c-ares" class="headerlink" title="c-ares"></a>c-ares</h1><p>Download c-ares from <a href="http://c-ares.haxx.se/" target="_blank" rel="external">http://c-ares.haxx.se/</a><br><figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">.<span class="regexp">/configure --prefix=/u</span>sr<span class="regexp">/local/</span>c-ares</div><div class="line">gmake &amp;&amp; sudo gmake install</div></pre></td></tr></table></figure></p>
+<p>Or just run<br>run <code>configure CONFIG_COMMANDS= CONFIG_FILES=</code></p>
+<h1 id="gevent"><a href="#gevent" class="headerlink" title="gevent"></a>gevent</h1><ul>
+<li><p>Download gevent-1.0.tar.gz from <a href="https://pypi.python.org/pypi/gevent#downloads" target="_blank" rel="external">https://pypi.python.org/pypi/gevent#downloads</a></p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">mkdir</span> build</div><div class="line"><span class="built_in">mkdir</span> build/gevent</div><div class="line"><span class="keyword">cp</span> gevent/*<span class="keyword">py</span> build/gevent</div></pre></td></tr></table></figure>
+</li>
+<li><p>build core.so </p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo gcc -pthread -fno-strict-aliasing -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -fPIC -fno-tree-dominator-opts -I/opt/freeware/<span class="keyword">include</span>/python2.<span class="number">7</span> -I/usr/local/libev/<span class="keyword">include</span> gevent/gevent.core.c -c -o build/gevent/core.o </div><div class="line">gcc -pthread -shared -lpython2.<span class="number">7</span> -L/usr/local/libev/<span class="class"><span class="keyword">lib</span> -<span class="title">lev</span> -<span class="title">lm</span> <span class="title">build</span>/<span class="title">gevent</span>/<span class="title">core</span>.<span class="title">o</span> -<span class="title">o</span> <span class="title">build</span>/<span class="title">gevent</span>/<span class="title">core</span>.<span class="title">so</span> ( **-<span class="title">lm</span> <span class="title">should</span> <span class="title">be</span> <span class="title">added</span>** <span class="title">otherwise</span> <span class="title">error</span> <span class="title">throw</span> “<span class="title">ld</span>: 0711-317 <span class="title">ERROR</span>: <span class="title">Undefined</span> <span class="title">symbol</span>: .<span class="title">floor</span>”)</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>build ares.so<br>1.change folder to c-ares and then run <code>configure CONFIG_COMMANDS= CONFIG_FILES=</code><br>In file gevent/dnshelper.c, replace</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> HAVE_NETDB_H</span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netdb.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>to<br><code>#include &lt;netdb.h&gt;</code> reason: Error throw “dereferencing pointer to incomplete type” <strong>Ref to</strong><br><a href="http://richliu.pixnet.net/blog/post/25765892-gcc-%3A-error%3A-dereferencing-pointer-to-incomplete-type" target="_blank" rel="external">http://richliu.pixnet.net/blog/post/25765892-gcc-%3A-error%3A-dereferencing-pointer-to-incomplete-type</a><br><a href="http://blog.csdn.net/david_xtd/article/details/7781160" target="_blank" rel="external">http://blog.csdn.net/david_xtd/article/details/7781160</a><br><a href="http://liuzhigong.blog.163.com/blog/static/1782723752011314113857852/" target="_blank" rel="external">http://liuzhigong.blog.163.com/blog/static/1782723752011314113857852/</a></p>
+<p>2.build share object<br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">gcc -pthread -fno-strict-aliasing -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -fPIC -fno-tree-dominator-opts -I/opt/freeware/<span class="keyword">include</span>/python2.<span class="number">7</span> -Ic-ares gevent/gevent.ares.c -c -o build/gevent/gevent.ares.o</div><div class="line">gcc -pthread -shared -lpython2.<span class="number">7</span> -L/home/sms_dev/soft/usr/local/c-ares/<span class="class"><span class="keyword">lib</span> -<span class="title">lcares</span> -<span class="title">lrt</span> -<span class="title">o</span> <span class="title">build</span>/<span class="title">gevent</span>/<span class="title">ares</span>.<span class="title">so</span> <span class="title">build</span>/<span class="title">gevent</span>/<span class="title">gevent</span>.<span class="title">ares</span>.<span class="title">o</span></span></div></pre></td></tr></table></figure></p>
+<ul>
+<li><p>build semaphore.so </p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo gcc -pthread -fno-strict-aliasing -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -fPIC -fno-tree-dominator-opts -I/opt/freeware/include/python2.<span class="number">7</span> gevent/gevent.**semaphore<span class="selector-class">.c</span> -c -o build/gevent/gevent.**semaphore<span class="selector-class">.o</span> </div><div class="line">gcc -pthread -shared -lpython2.<span class="number">7</span> build/gevent/gevent.**semaphore<span class="selector-class">.o</span> -o build/gevent<span class="comment">/**semaphore.so</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>build **util.so </p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo gcc -pthread -fno-strict-aliasing -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -fPIC -fno-tree-dominator-opts -I/opt/freeware/include/python2.<span class="number">7</span> gevent/gevent.**util<span class="selector-class">.c</span> -c -o build/gevent/gevent._util<span class="selector-class">.o</span> </div><div class="line">gcc -pthread -shared -lpython2.<span class="number">7</span> build/gevent/gevent.**util<span class="selector-class">.o</span> -o build/gevent<span class="comment">/**util.so</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference:"></a>Reference:</h1><p><a href="http://blog.longwin.com.tw/2013/03/linux-a-so-la-library-diff-2013/" target="_blank" rel="external">Linux 的 .a / .so / .la 函式庫的差異</a><br><a href="http://bbs.chinaunix.net/thread-1332374-1-1.html" target="_blank" rel="external">问个.a和.so的区别</a><br><a href="http://blog.csdn.net/rich_baba/article/details/6138110" target="_blank" rel="external">Linux下静态链接库与动态链接库的区别</a><br><a href="http://yxmhero1989.blog.163.com/blog/static/11215795620131124944442/" target="_blank" rel="external">凡你醉处 你说过 皆非他乡</a><br><a href="http://blog.ez2learn.com/2010/07/17/talk-about-coroutine-and-gevent/" target="_blank" rel="external">淺談coroutine與gevent</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/AIX/">AIX</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

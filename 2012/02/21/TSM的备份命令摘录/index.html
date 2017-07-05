@@ -1,0 +1,159 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>TSM的备份命令摘录 | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="TSM的备份命令摘录"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-02-21T04:15:26.000Z"><a href="/2012/02/21/TSM的备份命令摘录/">2012-02-21</a></time>
+      
+      
+  
+    <h1 class="title">TSM的备份命令摘录</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <figure class="highlight vhdl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div></pre></td><td class="code"><pre><div class="line">   LOCATE <span class="keyword">TYPE</span> ID:</div><div class="line">   tapeutil -f /dev/smc0 inventory | more</div><div class="line"></div><div class="line">  <span class="number">1</span>. Login <span class="keyword">to</span> TSM: dsmadmc(user:support, pass:lovedh02)</div><div class="line"></div><div class="line">  <span class="number">2</span>. TSM commands:</div><div class="line">     CHECK <span class="keyword">OUT</span> LTO TAPE:</div><div class="line">          <span class="comment">-----------------------------------------------------</span></div><div class="line">          q libv</div><div class="line">          checkout libv LTOLIB DH22S0 remove=no checklabel=no (<span class="keyword">use</span> <span class="keyword">label</span> <span class="keyword">of</span> yesterday tape)</div><div class="line">          q pro</div><div class="line">          update volume DH22S0 <span class="keyword">access</span>=unavailable</div><div class="line">          q vol DH22S0 format=detailed</div><div class="line">          <span class="comment">------------------------------------------------------</span></div><div class="line">  <span class="number">3</span>. <span class="keyword">Exit</span> TSM: quit</div><div class="line"></div><div class="line">  <span class="number">4</span>. commands:</div><div class="line">          tapeutil -f /dev/smc0 inventory | more</div><div class="line">          tapeutil -f /dev/smc0 move <span class="number">4096</span> <span class="number">16</span></div><div class="line">          tapeutil -f /dev/smc0 inventory | more</div><div class="line"></div><div class="line">  <span class="number">5</span>. CHANGE TAPE</div><div class="line">  <span class="keyword">exit</span></div><div class="line"></div><div class="line">  <span class="number">6</span>. LOG BACK INTO dsmadmc</div><div class="line"></div><div class="line">  <span class="number">7</span>. CHECK <span class="keyword">IN</span> LTO TAPE:</div><div class="line">          <span class="comment">-----------------------------------------------------</span></div><div class="line">          (MAKE SURE THE TAPE NUMBER <span class="keyword">IS</span> CORRECT, WATCHOUT THE DH31S0 HAS BEEN CHANGED <span class="keyword">TO</span> DH31S1) (today number)</div><div class="line"></div><div class="line">          delete v DH21S0 discarddata=yes  [notes : delete TODAY<span class="symbol">'s</span> <span class="keyword">label</span>]</div><div class="line"></div><div class="line">          (MAKE SURE IT <span class="keyword">IS</span> DONE BEFORE GO INTO THE <span class="keyword">NEXT</span> <span class="literal">LINE</span>)</div><div class="line">          q pro</div><div class="line"></div><div class="line">          <span class="keyword">label</span> libv ltolib search=bulk labelsource=barcode checkin=scratch overwrite=yes</div><div class="line"></div><div class="line">          q req</div><div class="line"></div><div class="line">          rep ???&lt;output <span class="number">3</span> digit from command q req&gt;</div><div class="line">      (<span class="keyword">WAIT</span> <span class="keyword">FOR</span> <span class="number">2</span> MINUTES)</div><div class="line">          (MAKE SURE THERE<span class="symbol">'S</span> NO ACTIVE <span class="keyword">PROCESS</span> FOUND)</div><div class="line">          q pro</div><div class="line"></div><div class="line">          q libv</div><div class="line"></div><div class="line">  *******************************************************</div><div class="line">  THE FOLLOWINGS ARE COMMAND OUTPUT:</div><div class="line"></div><div class="line">  tsm: TSM&gt;q pro</div><div class="line"></div><div class="line">   <span class="keyword">Process</span> <span class="keyword">Process</span> Description  Status</div><div class="line">    Number</div><div class="line">  <span class="comment">-------- -------------------- -------------------------------------------------</span></div><div class="line">        <span class="number">39</span> <span class="keyword">LABEL</span> LIBVOLUME      ANR8805I Labelling volumes <span class="keyword">in</span> <span class="keyword">library</span> LTOLIB; <span class="number">0</span></div><div class="line">                                 volumes(s) labelled.\</div><div class="line"></div><div class="line">  tsm: TSM&gt;q pro</div><div class="line">  ANR0944E QUERY <span class="keyword">PROCESS</span>: No active processes found.</div><div class="line">  ANS8001I <span class="keyword">Return</span> code <span class="number">11</span>.</div><div class="line"></div><div class="line">  tsm: TSM&gt;q libv</div><div class="line"></div><div class="line">  <span class="keyword">Library</span> Name  Volume Name  Status      Owner       Last <span class="keyword">Use</span>   Home     Device</div><div class="line">                                                                Element  <span class="keyword">Type</span></div><div class="line">  <span class="comment">------------  -----------  ----------  ----------  ---------  -------  ------</span></div><div class="line">  LTOLIB        DH15S0       Scratch                            <span class="number">4</span>,<span class="number">096</span>    LTO</div><div class="line"></div><div class="line">  *******************************************************</div><div class="line">          <span class="comment">-----------------------------</span></div><div class="line">  <span class="number">8</span>. <span class="keyword">Exit</span> TSM: quit</div><div class="line">  <span class="keyword">exit</span></div><div class="line"></div><div class="line">  <span class="comment">--------</span></div><div class="line">  define volume LTOSTGPOOL DH24S0</div><div class="line">  query actlog begindate=today begintime=<span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> endtime=<span class="number">09</span>:<span class="number">30</span>:<span class="number">00</span></div><div class="line">  q drive</div><div class="line">  q path</div><div class="line">  update path tsm ltodrive01 srctype=server desttype=drive <span class="keyword">library</span>=ltolib device=/dev/rmt1 online=yes</div><div class="line">  update path tsm ltodrive02 srctype=server desttype=drive <span class="keyword">library</span>=ltolib device=/dev/rmt2 online=yes</div><div class="line">  checkin libv LTOLIB DH21S0 status=scratch</div><div class="line"></div><div class="line">q actlog</div><div class="line">help query <span class="keyword">process</span></div><div class="line"><span class="keyword">select</span> VOLUME_NAME,<span class="keyword">ACCESS</span> from volumes where <span class="keyword">access</span> !=<span class="symbol">'READWRITE</span>'</div></pre></td></tr></table></figure>
+<p> <a href="http://publib.boulder.ibm.com/infocenter/tivihelp/v1r1/index.jsp?topic=%2Fcom.ibm.itsmhpn.doc%2Fb_adminref_hpux217.htm" target="_blank" rel="external">http://publib.boulder.ibm.com/infocenter/tivihelp/v1r1/index.jsp?topic=%2Fcom.ibm.itsmhpn.doc%2Fb_adminref_hpux217.htm</a><br> tsm script : <a href="http://www.4bcad.com/doc/misc/tsm_cmds" target="_blank" rel="external">http://www.4bcad.com/doc/misc/tsm_cmds</a><br> <a href="http://adsm.org/forum/showthread.php?21614-LABEL-LIBVOLUME-0-volume(s)-labeled-0-volume(s)-checked-in" target="_blank" rel="external">http://adsm.org/forum/showthread.php?21614-LABEL-LIBVOLUME-0-volume(s)-labeled-0-volume(s)-checked-in</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/AIX/">AIX</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

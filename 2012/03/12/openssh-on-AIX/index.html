@@ -1,0 +1,167 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>openssh on AIX | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="openssh on AIX"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-03-12T09:19:26.000Z"><a href="/2012/03/12/openssh-on-AIX/">2012-03-12</a></time>
+      
+      
+  
+    <h1 class="title">openssh on AIX</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="在AIX上安装ssh"><a href="#在AIX上安装ssh" class="headerlink" title="在AIX上安装ssh"></a>在AIX上安装ssh</h1><p>Download openssh(OpenSSH_5.8.0.6102.tar.Z) and openssl(openssl-0.9.8.1800.tar.Z) from<br><a href="https://www14.software.ibm.com/webapp/iwm/web/preLogin.do?source=aixbp" target="_blank" rel="external">https://www14.software.ibm.com/webapp/iwm/web/preLogin.do?source=aixbp</a></p>
+<h4 id="Procedure"><a href="#Procedure" class="headerlink" title="Procedure:"></a>Procedure:</h4><p>   Uncompress openssl-0.9.8.1800.tar.Z<br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">tar</span> xvf openssl</div><div class="line"><span class="keyword">smitty </span>install_all</div></pre></td></tr></table></figure></p>
+<p>   Uncompress OpenSSH_5.8.0.6102.tar.Z<br><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">tar xvf openssh</div><div class="line">smitty install_all</div><div class="line">* INPUT device / <span class="built_in">directory</span> <span class="keyword">for</span> software [.] (note <span class="keyword">a</span> period)</div><div class="line">SOFTWARE <span class="built_in">to</span> install []  <span class="keyword">using</span> F4</div><div class="line">select filesets <span class="keyword">using</span> F7</div><div class="line">openssh.base, openssh.license, openssh.man.en_US,</div><div class="line">openssl.base ,openssl.license, <span class="keyword">and</span> openssl.man.en_US filesets.</div><div class="line"></div><div class="line">Enter yes <span class="built_in">to</span> accept license agreement</div></pre></td></tr></table></figure></p>
+<h1 id="列出有关ssh的已安装文件"><a href="#列出有关ssh的已安装文件" class="headerlink" title="列出有关ssh的已安装文件"></a>列出有关ssh的已安装文件</h1><p>   <code>lslpp -L|grep ssh</code></p>
+<h4 id="卸装ssh的文件"><a href="#卸装ssh的文件" class="headerlink" title="卸装ssh的文件"></a>卸装ssh的文件</h4><p>   <code>installp -u  openssh.base openssh.license openssh.man.en_US</code></p>
+<h4 id="额外地可以列出安装介质中包含的软件"><a href="#额外地可以列出安装介质中包含的软件" class="headerlink" title="额外地可以列出安装介质中包含的软件"></a>额外地可以列出安装介质中包含的软件</h4><p>   <code>installp -L -d /dev/cd0</code></p>
+<h4 id="安装失败后如何清理系统"><a href="#安装失败后如何清理系统" class="headerlink" title="安装失败后如何清理系统"></a>安装失败后如何清理系统</h4><p>   <code>installp -C</code></p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference:"></a>Reference:</h1><p><a href="http://www-01.ibm.com/support/docview.wss?uid=isg3T1012923" target="_blank" rel="external">http://www-01.ibm.com/support/docview.wss?uid=isg3T1012923</a><br><a href="http://www.ahinc.com/aix/install.htm" target="_blank" rel="external">http://www.ahinc.com/aix/install.htm</a></p>
+<h4 id="AIX-Toolbox"><a href="#AIX-Toolbox" class="headerlink" title="AIX Toolbox"></a>AIX Toolbox</h4><p><a href="http://gnome.bullfreeware.com/aixtoolbox/RPMS/ppc" target="_blank" rel="external">http://gnome.bullfreeware.com/aixtoolbox/RPMS/ppc</a></p>
+<h4 id="Open-Source-Software-Archive-for-AIX"><a href="#Open-Source-Software-Archive-for-AIX" class="headerlink" title="Open Source Software Archive for AIX"></a>Open Source Software Archive for AIX</h4><p><a href="http://www.bullfreeware.com/" target="_blank" rel="external">http://www.bullfreeware.com/</a><br><a href="http://www.aixchina.net/?viewnews-16007.html" target="_blank" rel="external">http://www.aixchina.net/?viewnews-16007.html</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/AIX/">AIX</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

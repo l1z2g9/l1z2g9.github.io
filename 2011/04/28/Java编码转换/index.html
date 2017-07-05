@@ -1,0 +1,162 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java编码转换 | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Java编码转换"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2011-04-28T06:09:20.000Z"><a href="/2011/04/28/Java编码转换/">2011-04-28</a></time>
+      
+      
+  
+    <h1 class="title">Java编码转换</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="gbk-cp18030-cp936-转unicode-cp1200"><a href="#gbk-cp18030-cp936-转unicode-cp1200" class="headerlink" title="gbk(cp18030/cp936)转unicode(cp1200)"></a>gbk(cp18030/cp936)转unicode(cp1200)</h1><figure class="highlight lisp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">String str = <span class="string">"没有任何意义的一句说话"</span><span class="comment">;</span></div><div class="line">for (<span class="name">int</span> i = <span class="number">0</span><span class="comment">; i &lt; str.length(); i++) &#123;</span></div><div class="line">    String charactor = str.substring(<span class="name">i</span>, i + <span class="number">1</span>)<span class="comment">;</span></div><div class="line">    byte[] b = charactor.getBytes(<span class="string">"UTF-16BE"</span>)<span class="comment">; // 如果是UTF-16LE，则高低位翻转</span></div><div class="line">    String s1 = Integer.toHexString(<span class="name">b</span>[<span class="number">0</span>]).replace(<span class="string">"ffffff"</span>, <span class="string">""</span>)<span class="comment">;</span></div><div class="line">    String s2 = Integer.toHexString(<span class="name">b</span>[<span class="number">1</span>]).replace(<span class="string">"ffffff"</span>, <span class="string">""</span>)<span class="comment">;</span></div><div class="line">    if (<span class="name">s1</span>.length() &lt; <span class="number">2</span>)</div><div class="line">        s1 = <span class="string">"0"</span> + s1<span class="comment">;</span></div><div class="line">    if (<span class="name">s2</span>.length() &lt; <span class="number">2</span>)</div><div class="line">        s2 = <span class="string">"0"</span> + s2<span class="comment">;</span></div><div class="line">    String s = s1 + s2<span class="comment">;</span></div><div class="line">    out.println(<span class="name">String</span>.format(<span class="string">"十六进制的表示 &amp;#x%s;"</span>, s))<span class="comment">;</span></div><div class="line">    out.println(<span class="name">String</span>.format(<span class="string">"十进制的表示   &amp;#%s;"</span>, Integer.parseInt(<span class="name">s</span>, <span class="number">16</span>)))<span class="comment">; //Integer.valueOf(s, 16) or Integer.decode("0x" + s)</span></div><div class="line">    out.println()<span class="comment">;</span></div><div class="line">&#125;&lt;span class=<span class="string">"Apple-style-span"</span> style=<span class="string">"font-family:''sans serif', tahoma, verdana, helvetica';font-size:x-large;"</span>&gt;&lt;span class=<span class="string">"Apple-style-span"</span> style=<span class="string">"font-size:19px;line-height:19px;white-space:normal;"</span>&gt; &lt;/span&gt;&lt;/span&gt;</div></pre></td></tr></table></figure>
+<h1 id="numeric-character-reference-NCR"><a href="#numeric-character-reference-NCR" class="headerlink" title="numeric character reference(NCR)"></a>numeric character reference(NCR)</h1><p> 以&amp;#x03A3(16进制);或&amp;#0931(十进制);都可以在html显示unicode字符，例如:Σ<br> Python的方法会简单一些：<br> unicode(‘没有任何意义的一句说话‘,’gbk’)可以输出它的unicode编码<br> 显示十进制结果：int(‘3A3’, 16) </p>
+<h1 id="还原big5文字"><a href="#还原big5文字" class="headerlink" title="还原big5文字"></a>还原big5文字</h1><p> char.txt文件保存的汉字是繁体big5编码的【書院】，但显示为【皘】 </p>
+<p> 编写如下代码还原<br><figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">InputStreamReader reader = <span class="keyword">new</span> InputStreamReader(<span class="keyword">new</span> FileInputStream(<span class="string">"char.txt"</span>));</div><div class="line"><span class="keyword">char</span>[] chars = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="number">892600</span>];</div><div class="line"><span class="keyword">int</span> len = reader.<span class="built_in">read</span>(chars);</div><div class="line"><span class="keyword">String</span> sql = <span class="keyword">new</span> <span class="keyword">String</span>(chars, <span class="number">0</span>, len);</div><div class="line">out.<span class="built_in">println</span>(<span class="keyword">new</span> <span class="keyword">String</span>(sql.getBytes(), <span class="string">"big5_hkscs"</span>));</div><div class="line">reader.<span class="built_in">close</span>();</div></pre></td></tr></table></figure></p>
+<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><p> <a href="http://en.wikipedia.org/wiki/Numeric_character_reference&quot;&gt;http://en.wikipedia.org/wiki/" target="_blank" rel="external">Numeric_character_reference</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/工作日志/">工作日志</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

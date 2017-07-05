@@ -1,0 +1,162 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Spring事务的一些应用 | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Spring事务的一些应用"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2011-08-30T08:42:24.000Z"><a href="/2011/08/30/Spring事务的一些应用/">2011-08-30</a></time>
+      
+      
+  
+    <h1 class="title">Spring事务的一些应用</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>  TransactionManager通过TransactionSynchronizationManager进行事务控制，TransactionTemplate就使用transactionManager运行sql。 </p>
+<p>  TransactionTemplate -&gt; PlatformTransactionManager  -&gt; TransactionSynchronizationManager </p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">TransactionTemplate transactionTemplate = <span class="keyword">new</span> TransactionTemplate(transactionManager);</div><div class="line">transactionTemplate.execute(<span class="keyword">new</span> TransactionCallbackWithoutResult() &#123;</div><div class="line">  <span class="meta">@Override</span></div><div class="line">  <span class="keyword">protected</span> <span class="function"><span class="keyword">void</span> <span class="title">doInTransactionWithoutResult</span><span class="params">(TransactionStatus arg0)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> count = em.createNativeQuery(<span class="string">"delete XX"</span>).executeUpdate();</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>  可以利用TransactionAspectSupport.currentTransactionStatus()控制事务状态，利用setRollbackOnly<br>  要知道是否一个活动事务可以用TransactionSynchronizationManager.isActualTransactionActive() </p>
+<p>  写了一个Audit，目的在事务结束前调用一个oracle的package，记录所有变化的数据。 </p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.lang.reflect.Field;</div><div class="line"><span class="keyword">import</span> java.sql.CallableStatement;</div><div class="line"><span class="keyword">import</span> java.sql.Connection;</div><div class="line"><span class="keyword">import</span> java.sql.SQLException;</div><div class="line"><span class="keyword">import</span> java.util.Map;</div><div class="line"></div><div class="line"><span class="keyword">import</span> javax.persistence.EntityManager;</div><div class="line"></div><div class="line"><span class="keyword">import</span> oracle.jdbc.driver.OracleTypes;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.apache.log4j.Logger;</div><div class="line"><span class="keyword">import</span> org.aspectj.lang.JoinPoint;</div><div class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.After;</div><div class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.Aspect;</div><div class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.Before;</div><div class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.Pointcut;</div><div class="line"><span class="keyword">import</span> org.hibernate.Session;</div><div class="line"><span class="keyword">import</span> org.hibernate.jdbc.Work;</div><div class="line"><span class="keyword">import</span> org.springframework.orm.jpa.EntityManagerFactoryInfo;</div><div class="line"><span class="keyword">import</span> org.springframework.orm.jpa.EntityManagerHolder;</div><div class="line"><span class="keyword">import</span> org.springframework.orm.jpa.LocalEntityManagerFactoryBean;</div><div class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</div><div class="line"><span class="keyword">import</span> org.springframework.transaction.interceptor.TransactionAspectSupport;</div><div class="line"><span class="keyword">import</span> org.springframework.transaction.support.TransactionSynchronizationManager;</div><div class="line"></div><div class="line">@<span class="type">Component</span></div><div class="line">@<span class="type">Aspect</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AuditRecorder</span> </span>&#123;</div><div class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Logger</span> log = <span class="type">Logger</span>.getLogger(<span class="type">AuditRecorder</span>.<span class="keyword">class</span>);</div><div class="line"></div><div class="line">  @<span class="type">After</span>(<span class="string">"execution(public * xx.yy..*Service.*(..)) &amp;&amp; @annotation(auditable)"</span>)</div><div class="line">  <span class="keyword">public</span> void recordUsage(<span class="type">JoinPoint</span> jp) &#123;</div><div class="line">    audit();</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">private</span> void audit() &#123;</div><div class="line">    <span class="keyword">if</span> (<span class="type">TransactionSynchronizationManager</span>.isActualTransactionActive()) &#123;</div><div class="line">      <span class="type">Map</span> <span class="built_in">map</span> = <span class="type">TransactionSynchronizationManager</span>.getResourceMap();</div><div class="line">      log.info(<span class="string">"mapsize "</span> + <span class="built_in">map</span>.size());</div><div class="line">      <span class="keyword">for</span> (<span class="type">Object</span> key : <span class="built_in">map</span>.keySet()) &#123;</div><div class="line">        log.debug(<span class="string">"key  "</span> + key + <span class="string">" , "</span> + <span class="built_in">map</span>.<span class="keyword">get</span>(key));</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (key instanceof <span class="type">EntityManagerFactoryInfo</span>) &#123;</div><div class="line">          <span class="type">EntityManagerFactoryInfo</span> info = (<span class="type">EntityManagerFactoryInfo</span>) key;</div><div class="line"></div><div class="line">          <span class="type">String</span> unitName = info.getPersistenceUnitName();</div><div class="line">          <span class="keyword">if</span> (!unitName.<span class="built_in">contains</span>(<span class="string">"srs"</span>) &amp;&amp; !unitName.<span class="built_in">contains</span>(<span class="string">"cas"</span>)) &#123;</div><div class="line">            log.debug(<span class="string">"call audit procedure."</span>);</div><div class="line">            <span class="keyword">if</span> (<span class="built_in">map</span>.<span class="keyword">get</span>(key) instanceof <span class="type">EntityManagerHolder</span>) &#123;</div><div class="line">              <span class="type">EntityManagerHolder</span> emHolder = (<span class="type">EntityManagerHolder</span>) <span class="built_in">map</span></div><div class="line">                  .<span class="keyword">get</span>(key);</div><div class="line">              <span class="type">EntityManager</span> em = emHolder.getEntityManager();</div><div class="line">              <span class="type">Session</span> s = (<span class="type">Session</span>) em.getDelegate();</div><div class="line">              s.doWork(new <span class="type">Work</span>() &#123;</div><div class="line">                <span class="keyword">public</span> void execute(<span class="type">Connection</span> conn)</div><div class="line">                    <span class="keyword">throws</span> <span class="type">SQLException</span> &#123;</div><div class="line">                  <span class="type">String</span> sql = <span class="string">"&#123;call SP_COMMON.setloginuser(?)&#125;"</span>;</div><div class="line">                  <span class="type">CallableStatement</span> call = conn</div><div class="line">                      .prepareCall(sql);</div><div class="line">                  call.setString(<span class="number">1</span>, <span class="string">"test"</span>);</div><div class="line">                  call.executeUpdate();</div><div class="line"></div><div class="line">                  <span class="type">CallableStatement</span> call2 = conn</div><div class="line">                      .prepareCall(<span class="string">"&#123;? = call SP_COMMON.getloginuser&#125;"</span>);</div><div class="line">                  call2.registerOutParameter(<span class="number">1</span>,</div><div class="line">                      <span class="type">OracleTypes</span>.<span class="type">VARCHAR</span>);</div><div class="line">                  call2.executeQuery();</div><div class="line"></div><div class="line">                  <span class="type">System</span>.out.<span class="built_in">println</span>(<span class="string">"&lt;&lt; "</span></div><div class="line">                      + call2.getString(<span class="number">1</span>));</div><div class="line">                &#125;</div><div class="line">              &#125;);</div><div class="line">            &#125;</div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/工作日志/">工作日志</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Connect server to upload/download by using ftp4j | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Connect server to upload/download by using ftp4j"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-04-12T02:37:02.000Z"><a href="/2012/04/12/Connect-server-to-upload OR download-by-using-ftp4j/">2012-04-12</a></time>
+      
+      
+  
+    <h1 class="title">Connect server to upload/download by using ftp4j</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>My machine’s charset is traditional chinese(cp950) while server’s charset is utf-8, it must be decoded/encoded characters when uploading/downloading.</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div></pre></td><td class="code"><pre><div class="line">package ftp;</div><div class="line"></div><div class="line"><span class="keyword">import</span> it.sauronsoftware.ftp4j.FTPClient;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.<span class="built_in">File</span>;</div><div class="line"><span class="keyword">import</span> java.io.FileInputStream;</div><div class="line"><span class="keyword">import</span> java.io.FileOutputStream;</div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.io.InputStreamReader;</div><div class="line"><span class="keyword">import</span> java.io.OutputStream;</div><div class="line"><span class="keyword">import</span> java.io.OutputStreamWriter;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.apache.commons.cli.CommandLine;</div><div class="line"><span class="keyword">import</span> org.apache.commons.cli.CommandLineParser;</div><div class="line"><span class="keyword">import</span> org.apache.commons.cli.Options;</div><div class="line"><span class="keyword">import</span> org.apache.commons.cli.PosixParser;</div><div class="line"></div><div class="line"><span class="keyword">public</span> class FileFetch &#123;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * @param args</div><div class="line">   * @throws Exception</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="keyword">String</span>[] args) throws Exception &#123;</div><div class="line">    <span class="built_in">run</span>(args);</div><div class="line">    <span class="comment">//changeFormat("test.txt");</span></div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> changeFormat(<span class="keyword">String</span> file) throws IOException &#123;</div><div class="line">    <span class="keyword">String</span> tmp = <span class="string">"tmp"</span>;</div><div class="line">    InputStreamReader reader = <span class="keyword">new</span> InputStreamReader(<span class="keyword">new</span> FileInputStream(</div><div class="line">        file), <span class="string">"cp936"</span>);</div><div class="line">    OutputStream ow = <span class="keyword">new</span> FileOutputStream(tmp);</div><div class="line"></div><div class="line">    <span class="keyword">char</span>[] <span class="built_in">buffer</span> = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="number">4096</span>];</div><div class="line"></div><div class="line">    <span class="keyword">int</span> len = <span class="number">0</span>;</div><div class="line">    <span class="built_in">while</span> (len != <span class="number">-1</span>) &#123;</div><div class="line">      len = reader.<span class="built_in">read</span>(<span class="built_in">buffer</span>);</div><div class="line">      <span class="built_in">if</span> (len != <span class="number">-1</span>) &#123;</div><div class="line">        ow.<span class="built_in">write</span>(<span class="keyword">new</span> <span class="keyword">String</span>(<span class="keyword">new</span> <span class="keyword">String</span>(<span class="built_in">buffer</span>, <span class="number">0</span>, len)</div><div class="line">            .getBytes(<span class="string">"cp936"</span>)).getBytes(<span class="string">"utf-8"</span>));</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">    reader.<span class="built_in">close</span>();</div><div class="line">    ow.<span class="built_in">close</span>();</div><div class="line"></div><div class="line">    <span class="keyword">new</span> <span class="built_in">File</span>(file).<span class="keyword">delete</span>();</div><div class="line">    <span class="keyword">new</span> <span class="built_in">File</span>(tmp).renameTo(<span class="keyword">new</span> <span class="built_in">File</span>(file));</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="built_in">run</span>(<span class="keyword">String</span>[] args) throws Exception &#123;</div><div class="line">    Options options = <span class="keyword">new</span> Options();</div><div class="line">    options.addOption(<span class="string">"ip"</span>, true, <span class="string">"FTP Server IP"</span>);</div><div class="line">    options.addOption(<span class="string">"u"</span>, <span class="string">"user"</span>, true, <span class="string">"login user name"</span>);</div><div class="line">    options.addOption(<span class="string">"p"</span>, <span class="string">"password"</span>, true, <span class="string">"login password"</span>);</div><div class="line">    options.addOption(<span class="string">"rr"</span>, <span class="string">"remoateRoot"</span>, true,</div><div class="line">        <span class="string">"remote file path to be fetch"</span>);</div><div class="line">    options.addOption(<span class="string">"rd"</span>, <span class="string">"remoteDir"</span>, true,</div><div class="line">        <span class="string">"remote file path to be fetch"</span>);</div><div class="line">    options.addOption(<span class="string">"d"</span>, <span class="string">"drive"</span>, true, <span class="string">"storage file path drive"</span>);</div><div class="line">    options.addOption(<span class="string">"f"</span>, <span class="string">"file"</span>, true, <span class="string">"storage file path"</span>);</div><div class="line">    options.addOption(<span class="string">"dn"</span>, <span class="string">"down"</span>, false, <span class="string">"flag to down"</span>);</div><div class="line">    options.addOption(<span class="string">"up"</span>, <span class="string">"upload"</span>, false, <span class="string">"flag to upload"</span>);</div><div class="line"></div><div class="line">    CommandLineParser parser = <span class="keyword">new</span> PosixParser();</div><div class="line">    CommandLine <span class="built_in">line</span> = parser.parse(options, args);</div><div class="line"></div><div class="line">    <span class="keyword">String</span> ip = <span class="built_in">line</span>.getOptionValue(<span class="string">"ip"</span>);</div><div class="line">    <span class="keyword">String</span> user = <span class="built_in">line</span>.getOptionValue(<span class="string">"user"</span>);</div><div class="line">    <span class="keyword">String</span> password = <span class="built_in">line</span>.getOptionValue(<span class="string">"password"</span>);</div><div class="line">    <span class="keyword">String</span> remoateRoot = <span class="built_in">line</span>.getOptionValue(<span class="string">"remoateRoot"</span>);</div><div class="line">    <span class="keyword">String</span> remoteDir = <span class="built_in">line</span>.getOptionValue(<span class="string">"remoteDir"</span>);</div><div class="line">    <span class="keyword">String</span> drive = <span class="built_in">line</span>.getOptionValue(<span class="string">"drive"</span>);</div><div class="line">    <span class="keyword">String</span> filePath = <span class="built_in">line</span>.getOptionValue(<span class="string">"file"</span>);</div><div class="line">    <span class="built_in">if</span> (<span class="built_in">line</span>.hasOption(<span class="string">"down"</span>)) &#123;</div><div class="line">      getFiles(ip, user, password, remoateRoot, remoteDir, drive,</div><div class="line">          filePath, true);</div><div class="line">    &#125; <span class="built_in">else</span> <span class="built_in">if</span> (<span class="built_in">line</span>.hasOption(<span class="string">"upload"</span>)) &#123;</div><div class="line">      getFiles(ip, user, password, remoateRoot, remoteDir, drive,</div><div class="line">          filePath, false);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> getFiles(<span class="keyword">String</span> ip, <span class="keyword">String</span> user, <span class="keyword">String</span> passwd,</div><div class="line">      <span class="keyword">String</span> remoateRoot, <span class="keyword">String</span> remoteDir, <span class="keyword">String</span> drive,</div><div class="line">      <span class="keyword">String</span> fileName, <span class="keyword">boolean</span> down) throws Exception &#123;</div><div class="line">    FTPClient client = <span class="keyword">new</span> FTPClient();</div><div class="line">    <span class="keyword">String</span>[] ret = client.<span class="built_in">connect</span>(ip);</div><div class="line">    <span class="built_in">for</span> (<span class="keyword">String</span> r : ret) &#123;</div><div class="line">      System.out.<span class="built_in">println</span>(<span class="string">"out "</span> + r);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    client.login(user, passwd);</div><div class="line"></div><div class="line">    client.changeDirectory(remoateRoot);</div><div class="line">    client.changeDirectory(remoteDir);</div><div class="line">    <span class="keyword">String</span>[] fileNames = client.listNames();</div><div class="line">    <span class="built_in">for</span> (<span class="keyword">String</span> file : fileNames) &#123;</div><div class="line">      <span class="built_in">if</span> (file.matches(fileName)) &#123;</div><div class="line">        <span class="keyword">String</span> filePath = drive + <span class="string">"/"</span> + remoteDir + <span class="string">"/"</span> + file;</div><div class="line">        client.setCharset(<span class="string">"UTF-8"</span>);</div><div class="line">        <span class="built_in">if</span> (down) &#123;</div><div class="line">          <span class="built_in">File</span> dir = <span class="keyword">new</span> <span class="built_in">File</span>(drive + <span class="string">"/"</span> + remoteDir);</div><div class="line">          <span class="built_in">if</span> (!dir.<span class="built_in">exists</span>()) &#123;</div><div class="line">            dir.mkdirs();</div><div class="line">          &#125;</div><div class="line">          OutputStream f = <span class="keyword">new</span> FileOutputStream(filePath);</div><div class="line">          client.download(file, f, <span class="number">-1</span>, null);</div><div class="line">          OutputStreamWriter wr = <span class="keyword">new</span> OutputStreamWriter(f, <span class="string">"UTF-8"</span>);</div><div class="line">          wr.<span class="built_in">flush</span>();</div><div class="line">          wr.<span class="built_in">close</span>();</div><div class="line">          changeFormat(filePath);</div><div class="line">          System.out.<span class="built_in">println</span>(<span class="string">"file "</span> + filePath + <span class="string">" is downloaded."</span>);</div><div class="line"></div><div class="line">        &#125; <span class="built_in">else</span> &#123;</div><div class="line">          client.upload(<span class="keyword">new</span> <span class="built_in">File</span>(filePath));</div><div class="line">          System.out.<span class="built_in">println</span>(<span class="string">"file "</span> + filePath + <span class="string">" is uploaded."</span>);</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>  ftpfetch.bat<br><code>java -cp bin;lib/ftp4j-1.7.jar;lib/commons-cli-1.2.jar ftp.FileFetch -ip 10.13.135.81 -u root -p password -rr /piers/apps/uat/installedApps/XXApps.ear/xx.war -d C:\xx -up -rd . -f pros.*</code></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/工作日志/">工作日志</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

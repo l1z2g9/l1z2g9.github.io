@@ -1,0 +1,157 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>git config | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="git config"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2017-07-05T10:55:09.000Z"><a href="/2017/07/05/git_config/">2017-07-05</a></time>
+      
+      
+  
+    <h1 class="title">git config</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <figure class="highlight smalltalk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line">[core]</div><div class="line">  repositoryformatversion = <span class="number">0</span></div><div class="line">  filemode = <span class="keyword">false</span></div><div class="line">  bare = <span class="keyword">false</span></div><div class="line">  logallrefupdates = <span class="keyword">true</span></div><div class="line">  symlinks = <span class="keyword">false</span></div><div class="line">  ignorecase = <span class="keyword">true</span></div><div class="line">  hideDotFiles = dotGitOnly</div><div class="line">[alias]</div><div class="line">  st=status</div><div class="line">  ci=commit</div><div class="line">  co=checkout</div><div class="line">  br=branch</div><div class="line">  di=difftool</div><div class="line">  mt=mergetool</div><div class="line">[remote <span class="comment">"origin"</span>]</div><div class="line">  url = https://<span class="number">192.168</span><span class="number">.1</span><span class="number">.107</span>/git/my-repo.git</div><div class="line">  fetch = +refs/heads/*:refs/remotes/origin/*</div><div class="line">[remote <span class="comment">"usb"</span>]</div><div class="line">  url = <span class="type">G</span>:\\share_drive\\<span class="type">Other</span>\\my-repo.git</div><div class="line">  fetch = +refs/heads/*:refs/remotes/origin/*</div><div class="line"></div><div class="line">[diff]</div><div class="line">    tool = bc3</div><div class="line">[difftool]</div><div class="line">    prompt = <span class="keyword">false</span></div><div class="line">[difftool <span class="comment">"bc3"</span>]</div><div class="line">    <span class="symbol">#use</span> cygpath to transform cygwin path <span class="string">$L</span>OCAL (something like /tmp/<span class="type">U5VvP1_abc</span>) to windows path, because bc3 is a windows software</div><div class="line">    <span class="symbol">#cmd</span> = \<span class="comment">"c:/program files/beyond compare 3/bcomp.exe\"</span> <span class="comment">"$(cygpath -w $LOCAL)"</span> <span class="comment">"$REMOTE"</span></div><div class="line">    cmd = \<span class="comment">"C:/Software/Beyond Compare 3/bcomp.exe\"</span> \<span class="comment">"$LOCAL\"</span> \<span class="comment">"$REMOTE\"</span></div><div class="line">[merge]</div><div class="line">    tool = bc3</div><div class="line">[mergetool]</div><div class="line">    prompt = <span class="keyword">false</span></div><div class="line">[mergetool <span class="comment">"bc3"</span>]</div><div class="line">    <span class="symbol">#trustExitCode</span> = <span class="keyword">true</span></div><div class="line">    cmd = \<span class="comment">"C:/Software/Beyond Compare 3/bcomp.exe\"</span> <span class="comment">"$LOCAL"</span> <span class="comment">"$REMOTE"</span> <span class="comment">"$BASE"</span> <span class="comment">"$MERGED"</span></div><div class="line"></div><div class="line">[user]</div><div class="line">  name = <span class="type">Forrest</span> <span class="type">Wan</span></div><div class="line">  email = forrest.wkwan.hpe@gmail.com</div><div class="line">[http]</div><div class="line">  <span class="symbol">#proxy</span> = http://proxy1.scig.gov.hk:<span class="number">8080</span></div><div class="line">  sslVerify=<span class="keyword">false</span></div><div class="line">[https]</div><div class="line">  <span class="symbol">#proxy</span> = http://proxy1.scig.gov.hk:<span class="number">8080</span></div><div class="line">[credential]</div><div class="line">  helper = store</div></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/工作日志/">工作日志</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

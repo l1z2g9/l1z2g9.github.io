@@ -1,0 +1,166 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>简易I18n转换Engine | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="简易I18n转换Engine"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2011-07-29T03:04:57.000Z"><a href="/2011/07/29/简易I18n转换Engine/">2011-07-29</a></time>
+      
+      
+  
+    <h1 class="title">简易I18n转换Engine</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>  分三部分： </p>
+<ol>
+<li>I18nFiled </li>
+<li>在Entity里面指定i18n字段 </li>
+<li>调用convertI18n(xEntity).getI18nShortDesc() </li>
+</ol>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">import</span> <span class="selector-tag">java</span><span class="selector-class">.lang</span><span class="selector-class">.annotation</span><span class="selector-class">.ElementType</span>;</div><div class="line"><span class="selector-tag">import</span> <span class="selector-tag">java</span><span class="selector-class">.lang</span><span class="selector-class">.annotation</span><span class="selector-class">.Retention</span>;</div><div class="line"><span class="selector-tag">import</span> <span class="selector-tag">java</span><span class="selector-class">.lang</span><span class="selector-class">.annotation</span><span class="selector-class">.RetentionPolicy</span>;</div><div class="line"><span class="selector-tag">import</span> <span class="selector-tag">java</span><span class="selector-class">.lang</span><span class="selector-class">.annotation</span><span class="selector-class">.Target</span>;</div><div class="line"></div><div class="line">@<span class="keyword">Target</span>( &#123; <span class="selector-tag">ElementType</span><span class="selector-class">.METHOD</span>, <span class="selector-tag">ElementType</span><span class="selector-class">.FIELD</span> &#125;)</div><div class="line">@<span class="keyword">Retention</span>(<span class="keyword">RetentionPolicy</span>.<span class="keyword">RUNTIME</span>)</div><div class="line">public @interface I18nFiled &#123;</div><div class="line">  <span class="selector-tag">String</span> <span class="selector-tag">en</span>();</div><div class="line"></div><div class="line">  <span class="selector-tag">String</span> <span class="selector-tag">sc</span>();</div><div class="line"></div><div class="line">  <span class="selector-tag">String</span> <span class="selector-tag">tc</span>();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">XEntity</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</div><div class="line">	<span class="meta">@Transient</span></div><div class="line">	<span class="meta">@I</span>18nFiled(en = <span class="string">"shortDescEn"</span>, sc = <span class="string">"shortDescSc"</span>, tc = <span class="string">"shortDescTc"</span>)</div><div class="line">	<span class="keyword">private</span> String i18nShortDesc;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getI18nShortDesc</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> i18nShortDesc;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setI18nShortDesc</span><span class="params">(String shortDesc)</span> </span>&#123;</div><div class="line">		i18nShortDesc = shortDesc;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>  AUser的默认语言是英文，BUser的默认语言是繁体中文<br><figure class="highlight processing"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div></pre></td><td class="code"><pre><div class="line"> <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> defaultLanguage(<span class="keyword">Object</span> i18n, Locale locale,</div><div class="line">		<span class="built_in">boolean</span> AUser, I18nFiled i18nFiled, Field f)</div><div class="line">		<span class="keyword">throws</span> SecurityException, NoSuchFieldException,</div><div class="line">		IllegalArgumentException, IllegalAccessException &#123;</div><div class="line">	<span class="built_in">log</span>.info(<span class="string">"default locale"</span>);</div><div class="line">	<span class="keyword">if</span> (AUser) &#123;</div><div class="line">		Field enField = i18n.getClass().getDeclaredField(i18nFiled.en());</div><div class="line">		enField.setAccessible(<span class="keyword">true</span>);</div><div class="line">		<span class="keyword">String</span> enValue = enField.<span class="built_in">get</span>(i18n).toString();</div><div class="line">		f.<span class="built_in">set</span>(i18n, enValue);</div><div class="line">	&#125; <span class="keyword">else</span> &#123;</div><div class="line">		<span class="comment">// BUser</span></div><div class="line">		Field tcField = i18n.getClass().getDeclaredField(i18nFiled.tc());</div><div class="line">		tcField.setAccessible(<span class="keyword">true</span>);</div><div class="line">		<span class="keyword">String</span> tcValue = tcField.<span class="built_in">get</span>(i18n).toString();</div><div class="line">		<span class="keyword">if</span> (StringUtils.isNotEmpty(tcValue)) &#123;</div><div class="line">			<span class="comment">// show english</span></div><div class="line">			Field enField = i18n.getClass()</div><div class="line">					.getDeclaredField(i18nFiled.en());</div><div class="line">			enField.setAccessible(<span class="keyword">true</span>);</div><div class="line">			<span class="keyword">String</span> enValue = enField.<span class="built_in">get</span>(i18n).toString();</div><div class="line">			f.<span class="built_in">set</span>(i18n, enValue);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> convertI18n(<span class="keyword">Object</span> i18n, Locale locale, <span class="built_in">boolean</span> AUser) &#123;</div><div class="line">	<span class="built_in">log</span>.info(<span class="string">"locale: "</span> + locale);</div><div class="line">	Field[] fields = i18n.getClass().getDeclaredFields();</div><div class="line">	<span class="keyword">for</span> (Field f : fields) &#123;</div><div class="line">		<span class="keyword">if</span> (f.isAnnotationPresent(I18nFiled.class)) &#123;</div><div class="line">			f.setAccessible(<span class="keyword">true</span>);</div><div class="line">			I18nFiled i18nFiled = f.getAnnotation(I18nFiled.class);</div><div class="line">			<span class="keyword">if</span> (Locale.SIMPLIFIED_CHINESE.equals(locale)) &#123;</div><div class="line">				Field scField = i18n.getClass().getDeclaredField(</div><div class="line">						i18nFiled.sc());</div><div class="line">				scField.setAccessible(<span class="keyword">true</span>);</div><div class="line">				<span class="keyword">String</span> scValue = scField.<span class="built_in">get</span>(i18n).toString();</div><div class="line">				<span class="keyword">if</span> (StringUtils.isNotEmpty(scValue)) &#123;</div><div class="line">					f.<span class="built_in">set</span>(i18n, scValue);</div><div class="line">				&#125; <span class="keyword">else</span> &#123;</div><div class="line">					defaultLanguage(i18n, locale, AUser, i18nFiled, f);</div><div class="line">				&#125;</div><div class="line">			&#125; <span class="keyword">else</span> <span class="keyword">if</span> (Locale.TRADITIONAL_CHINESE.equals(locale)) &#123;</div><div class="line">				Field tcField = i18n.getClass().getDeclaredField(</div><div class="line">						i18nFiled.tc());</div><div class="line">				tcField.setAccessible(<span class="keyword">true</span>);</div><div class="line">				<span class="keyword">String</span> tcValue = tcField.<span class="built_in">get</span>(i18n).toString();</div><div class="line">				<span class="keyword">if</span> (StringUtils.isNotEmpty(tcValue)) &#123;</div><div class="line">					f.<span class="built_in">set</span>(i18n, tcValue);</div><div class="line">				&#125; <span class="keyword">else</span> &#123;</div><div class="line">					defaultLanguage(i18n, locale, AUser, i18nFiled, f);</div><div class="line">				&#125;</div><div class="line">			&#125; <span class="keyword">else</span> &#123;</div><div class="line">				defaultLanguage(i18n, locale, AUser, i18nFiled, f);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; T convertI18n(T i18n, PortletRequest request) &#123;</div><div class="line">	Locale locale = request.getLocale();</div><div class="line">	User user = User.getCurrentUser(request);</div><div class="line">	UserInfo info = user.getUserInfo();</div><div class="line">	<span class="keyword">if</span> (info <span class="keyword">instanceof</span> AUserUserInfo) &#123;</div><div class="line">		convertI18n(i18n, locale, <span class="keyword">true</span>);</div><div class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> (info <span class="keyword">instanceof</span> BUserUserInfo) &#123;</div><div class="line">		convertI18n(i18n, locale, <span class="keyword">false</span>);</div><div class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> (info <span class="keyword">instanceof</span> UnknownUserInfo) &#123;</div><div class="line">		convertI18n(i18n, locale, <span class="keyword">true</span>);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> i18n;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; T convertI18n(T i18n) &#123;</div><div class="line">	PortletRequest request = (PortletRequest) FacesContext</div><div class="line">			.getCurrentInstance().getExternalContext().getRequest();</div><div class="line">	<span class="keyword">return</span> convertI18n(i18n, request);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/工作日志/">工作日志</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

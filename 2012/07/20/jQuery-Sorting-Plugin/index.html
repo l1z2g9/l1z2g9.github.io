@@ -1,0 +1,160 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>jQuery Sorting Plugin | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="jQuery Sorting Plugin"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-07-20T07:50:21.000Z"><a href="/2012/07/20/jQuery-Sorting-Plugin/">2012-07-20</a></time>
+      
+      
+  
+    <h1 class="title">jQuery Sorting Plugin</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="xxAction"><a href="#xxAction" class="headerlink" title="xxAction()"></a>xxAction()</h1><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">pubilc void xxAction()&#123;</div><div class="line">  String <span class="keyword">orderBy </span>= request.getParameter(<span class="string">"orderBy"</span>)<span class="comment">;</span></div><div class="line">  System.out.println(<span class="string">"orderBy "</span> + <span class="keyword">orderBy);</span></div><div class="line"></div><div class="line">  String sql = <span class="string">"select x.a, x.b from xx"</span><span class="comment">;</span></div><div class="line"></div><div class="line">  if (<span class="keyword">orderBy </span>!= null &amp;&amp; <span class="keyword">orderBy.length() </span>&gt; <span class="number">0</span>) &#123;</div><div class="line">    sql += <span class="string">" order by "</span></div><div class="line">        + fieldSort.getSortBy()</div><div class="line">        + (fieldSort.getAsc().equals(<span class="keyword">Boolean.TRUE) </span>? <span class="string">" asc"</span></div><div class="line">            : <span class="string">" desc"</span>)<span class="comment">;</span></div><div class="line">  &#125; else &#123;</div><div class="line">    <span class="keyword">orderBy </span>= <span class="string">"xx"</span><span class="comment">;</span></div><div class="line">    sql += <span class="string">" order by "</span> + <span class="keyword">orderBy;</span></div><div class="line"></div><div class="line">    request.setAttribute(<span class="string">"sortBy"</span>, <span class="keyword">orderBy);</span></div><div class="line">    request.setAttribute(<span class="string">"order"</span>, <span class="string">"up"</span>)<span class="comment">;</span></div><div class="line">    fieldSort.setAsc(<span class="keyword">Boolean.TRUE);</span></div><div class="line">    fieldSort.setSortBy(<span class="keyword">orderBy);</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="FieldSort-java"><a href="#FieldSort-java" class="headerlink" title="FieldSort.java"></a>FieldSort.java</h1><figure class="highlight lasso"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.io.Serializable;</div><div class="line"></div><div class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</div><div class="line"></div><div class="line"><span class="keyword">public</span> class FieldSort implements Serializable &#123;</div><div class="line"></div><div class="line">  <span class="keyword">private</span> static final long serialVersionUID = <span class="number">5877056172946099482</span>L;</div><div class="line">  <span class="keyword">private</span> <span class="built_in">String</span> sortBy;</div><div class="line">  <span class="keyword">private</span> <span class="built_in">Boolean</span> asc;</div><div class="line"></div><div class="line">  <span class="keyword">private</span> FieldSort() &#123;</div><div class="line"></div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">public</span> <span class="built_in">String</span> getSortBy() &#123;</div><div class="line">    <span class="keyword">return</span> sortBy;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">public</span> <span class="literal">void</span> setSortBy(<span class="built_in">String</span> sortBy) &#123;</div><div class="line">    this.sortBy = sortBy;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">public</span> <span class="built_in">Boolean</span> getAsc() &#123;</div><div class="line">    <span class="keyword">return</span> asc;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">public</span> <span class="literal">void</span> setAsc(<span class="built_in">Boolean</span> asc) &#123;</div><div class="line">    this.asc = asc;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">public</span> static FieldSort createSorting(HttpServletRequest request,</div><div class="line">      <span class="built_in">String</span> orderBy, <span class="built_in">String</span> className) &#123;</div><div class="line">    <span class="built_in">String</span> orderKey = className + <span class="string">"lastFieldSort"</span>;</div><div class="line">    Object lastFieldSort = request.getSession().getAttribute(orderKey);</div><div class="line">    FieldSort fieldSort = <span class="built_in">null</span>;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (lastFieldSort == <span class="built_in">null</span>) &#123;</div><div class="line">      fieldSort = <span class="literal">new</span> FieldSort();</div><div class="line">      fieldSort.setSortBy(orderBy);</div><div class="line">      fieldSort.setAsc(<span class="built_in">Boolean</span>.<span class="literal">TRUE</span>);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      fieldSort = (FieldSort) lastFieldSort;</div><div class="line"></div><div class="line">      <span class="keyword">if</span> (fieldSort.getSortBy() != <span class="built_in">null</span></div><div class="line">          &amp;&amp; fieldSort.getSortBy().<span class="keyword">equals</span>(orderBy)) &#123;</div><div class="line">        <span class="keyword">if</span> (fieldSort.getAsc().<span class="keyword">equals</span>(<span class="built_in">Boolean</span>.<span class="literal">TRUE</span>)) &#123;</div><div class="line">          fieldSort.setAsc(<span class="built_in">Boolean</span>.<span class="literal">FALSE</span>);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">          fieldSort.setAsc(<span class="built_in">Boolean</span>.<span class="literal">TRUE</span>);</div><div class="line">        &#125;</div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">        fieldSort.setSortBy(orderBy);</div><div class="line">        fieldSort.setAsc(<span class="built_in">Boolean</span>.<span class="literal">TRUE</span>);</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    request.setAttribute(<span class="string">"sortBy"</span>, fieldSort.getSortBy());</div><div class="line">    request.getSession().setAttribute(orderKey, fieldSort);</div><div class="line">    <span class="keyword">if</span> (fieldSort.getAsc().<span class="keyword">equals</span>(<span class="built_in">Boolean</span>.<span class="literal">FALSE</span>)) &#123;</div><div class="line">      request.setAttribute(<span class="string">"order"</span>, <span class="string">"down"</span>);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      request.setAttribute(<span class="string">"order"</span>, <span class="string">"up"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> fieldSort;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="jquery-sortingTable-js"><a href="#jquery-sortingTable-js" class="headerlink" title="jquery.sortingTable.js"></a>jquery.sortingTable.js</h1><figure class="highlight clojure"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div></pre></td><td class="code"><pre><div class="line">(<span class="name">function</span>($) &#123;</div><div class="line">  $.fn.sortingTable = function(<span class="name">options</span>)&#123;</div><div class="line">    $(<span class="string">"head"</span>).append(<span class="string">"&lt;style type='text/css'&gt;.link &#123; cursor: pointer&#125;)&lt;/style&gt;"</span>)<span class="comment">;</span></div><div class="line"></div><div class="line">    var opts = $.extend(&#123;&#125;, $.fn.sortingTable.defaults, options)<span class="comment">;</span></div><div class="line"></div><div class="line">    var tableId = this.attr(<span class="name">'id'</span>)<span class="comment">;</span></div><div class="line">    var formName = opts.formName;</div><div class="line"></div><div class="line">    $(<span class="string">"form[name='"</span> + formName + <span class="string">"']"</span>).append(<span class="name">'&lt;input</span> type=<span class="string">"hidden"</span> name=<span class="string">"orderBy"</span> value=<span class="string">""</span>&gt;')<span class="comment">;</span></div><div class="line"></div><div class="line">    if( opts.sortColumns.length &gt; <span class="number">0</span> )&#123;</div><div class="line">      $.each(<span class="name">opts.sortColumns</span>, function(<span class="name">col</span>)&#123;</div><div class="line">        $(<span class="name">'#'</span> + tableId + <span class="string">" thead th:eq("</span> + (<span class="name">col</span> - <span class="number">1</span>) +<span class="string">")"</span>).addClass(<span class="string">"link"</span>)<span class="comment">;</span></div><div class="line">      &#125;)<span class="comment">;</span></div><div class="line">    &#125;else if(<span class="name">opts.excludeSortColumns.length</span> == <span class="number">0</span>) &#123;</div><div class="line">      this.find(<span class="string">"thead th"</span>).addClass(<span class="string">"link"</span>)<span class="comment">;</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    if( opts.excludeSortColumns.length &gt; <span class="number">0</span> )&#123;</div><div class="line">      this.find(<span class="name">'thead</span> th').each(<span class="name">function</span>(<span class="name">index</span>, dom)&#123;</div><div class="line">        if($.inArray((<span class="name">index</span> + <span class="number">1</span>), opts.excludeSortColumns) == <span class="number">-1</span>)&#123;</div><div class="line">          $(<span class="name">this</span>).addClass(<span class="string">"link"</span>)<span class="comment">;</span></div><div class="line">        &#125;</div><div class="line">      &#125;)<span class="comment">;</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    this.find(<span class="string">"thead th"</span>).each(<span class="name">function</span>()&#123;</div><div class="line">      if( $(<span class="name">this</span>).hasClass(<span class="string">"link"</span>) ) &#123;</div><div class="line">        $(<span class="name">this</span>).click(<span class="name">function</span>()&#123;</div><div class="line">          var id = $(<span class="name">this</span>).attr(<span class="name">'id'</span>)<span class="comment">;</span></div><div class="line">          $(<span class="string">":hidden[name='orderBy']"</span>).val(<span class="name">id</span>)<span class="comment">;</span></div><div class="line"></div><div class="line">          var form = $(<span class="string">"form[name='"</span> + formName + <span class="string">"']"</span>)<span class="comment">;</span></div><div class="line">          form.submit()<span class="comment">;</span></div><div class="line">        &#125;)<span class="comment">;</span></div><div class="line">      &#125;</div><div class="line">    &#125;)<span class="comment">;</span></div><div class="line"></div><div class="line">    sorting(<span class="name">this</span>, opts.sortBy, opts.order)<span class="comment">;</span></div><div class="line"></div><div class="line">    $.each(<span class="name">opts.mergeColumns</span>, function(<span class="name"><span class="builtin-name">num</span></span>)&#123;</div><div class="line">      _w_table_rowspan(<span class="name">'#'</span> + tableId, num)<span class="comment">;</span></div><div class="line">    &#125;)<span class="comment">;</span></div><div class="line">  &#125;<span class="comment">;</span></div><div class="line"></div><div class="line"></div><div class="line">  var sorting = function(<span class="name">table</span>, sortBy, order)&#123;</div><div class="line">    var position = <span class="number">0</span><span class="comment">;</span></div><div class="line">    var header = '';</div><div class="line">    table.find(<span class="string">"thead th"</span>).each(<span class="name">function</span>(<span class="name">index</span>, dom)&#123;</div><div class="line">      if(<span class="name">sortBy</span> == $(<span class="name">dom</span>).attr(<span class="name">'id'</span>))&#123;</div><div class="line">        position = index;</div><div class="line">        header = $(<span class="name">dom</span>).text()<span class="comment">;</span></div><div class="line">      &#125;</div><div class="line">    &#125;)<span class="comment">;</span></div><div class="line"></div><div class="line">    table.find(<span class="string">"thead th:eq("</span> + position + <span class="string">")"</span>).html(<span class="string">"&lt;font color='yellow'&gt;"</span> + header + <span class="string">"&lt;/font&gt;&amp;nbsp;&lt;img src='images/arrow_"</span> + order + <span class="string">".gif'/&gt;"</span>)<span class="comment">;</span></div><div class="line">  &#125;</div><div class="line"></div><div class="line">  var _w_table_rowspan = function(<span class="name">_w_table_id</span>,_w_table_colnum)&#123;</div><div class="line">    _w_table_firsttd = <span class="string">""</span><span class="comment">;</span></div><div class="line">    _w_table_currenttd = <span class="string">""</span><span class="comment">;</span></div><div class="line">    _w_table_SpanNum = <span class="number">0</span><span class="comment">;</span></div><div class="line">    _w_table_Obj = $(<span class="name">_w_table_id</span> + <span class="string">" tr td:nth-child("</span> + _w_table_colnum + <span class="string">")"</span>)<span class="comment">;</span></div><div class="line">    _w_table_Obj.each(<span class="name">function</span>(<span class="name">i</span>)&#123;</div><div class="line">       if(<span class="name">i==0</span>)&#123;</div><div class="line">           _w_table_firsttd = $(<span class="name">this</span>)<span class="comment">;</span></div><div class="line">           _w_table_SpanNum = <span class="number">1</span><span class="comment">;</span></div><div class="line">       &#125;else&#123;</div><div class="line">           _w_table_currenttd = $(<span class="name">this</span>)<span class="comment">;</span></div><div class="line">           if(<span class="name">_w_table_firsttd.text</span>()==_w_table_currenttd.text())&#123;</div><div class="line">                //var firstSection = _w_table_firsttd.parent().find(<span class="name">'td:eq</span>(<span class="number">4</span>)').text()<span class="comment">;</span></div><div class="line">                //var currentSection = _w_table_currenttd.parent().find(<span class="name">'td:eq</span>(<span class="number">4</span>)').text()<span class="comment">;</span></div><div class="line"></div><div class="line">                 _w_table_SpanNum++;</div><div class="line">                 _w_table_currenttd.hide()<span class="comment">; //remove();</span></div><div class="line">                 _w_table_firsttd.attr(<span class="string">"rowSpan"</span>,_w_table_SpanNum)<span class="comment">;</span></div><div class="line">           &#125;else&#123;</div><div class="line">               _w_table_firsttd = $(<span class="name">this</span>)<span class="comment">;</span></div><div class="line">               _w_table_SpanNum = <span class="number">1</span><span class="comment">;</span></div><div class="line">           &#125;</div><div class="line">       &#125;</div><div class="line">   &#125;)<span class="comment">;</span></div><div class="line">  &#125;</div><div class="line"></div><div class="line">  $.fn.sortingTable.defaults = &#123;</div><div class="line">    formName: 'form1',</div><div class="line">    sortBy: '',</div><div class="line">    order: 'asc',</div><div class="line">    sortColumns: [],</div><div class="line">    excludeSortColumns: [],</div><div class="line">    mergeColumns: []</div><div class="line">  &#125;<span class="comment">;</span></div><div class="line">&#125;)(<span class="name">jQuery</span>)</div></pre></td></tr></table></figure>
+<h1 id="xx-html"><a href="#xx-html" class="headerlink" title="xx.html"></a>xx.html</h1><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line">$(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  $(<span class="string">"#result"</span>).sortingTable(&#123;</div><div class="line">    <span class="attr">formName</span>: <span class="string">'form1'</span>,</div><div class="line">    <span class="attr">sortBy</span>: <span class="string">'$&#123;sortBy&#125;'</span>,</div><div class="line">    <span class="attr">order</span>: <span class="string">'$&#123;order&#125;'</span>,</div><div class="line">    <span class="attr">excludeSortColumns</span>: [<span class="number">1</span>],</div><div class="line">    <span class="attr">mergeColumns</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">10</span>]</div><div class="line">  &#125;);</div><div class="line">&#125;);</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">id</span>=<span class="string">"result"</span> <span class="attr">border</span>=<span class="string">"1"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">thead</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">tr</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">th</span> <span class="attr">id</span>=<span class="string">"xx.a"</span>&gt;</span>Chapter<span class="tag">&lt;/<span class="name">th</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">th</span> <span class="attr">id</span>=<span class="string">"xx.b"</span>&gt;</span>Section/Regulation<span class="tag">&lt;/<span class="name">th</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">thead</span>&gt;</span></div><div class="line">  ...</div><div class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></div></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/工作日志/">工作日志</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

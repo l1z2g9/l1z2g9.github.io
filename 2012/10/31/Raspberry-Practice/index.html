@@ -1,0 +1,179 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Raspberry Practice | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Raspberry Practice"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-10-31T06:44:31.000Z"><a href="/2012/10/31/Raspberry-Practice/">2012-10-31</a></time>
+      
+      
+  
+    <h1 class="title">Raspberry Practice</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <ol>
+<li>Run raspi-config to set parameter</li>
+<li>Login as pi/raspberry, sudo passwd root</li>
+<li>Run sudo vi /boot/config.txt to set framebuffer</li>
+<li>Install JDK1.8.0 and run javafx samples  <a href="http://javafx.steveonjava.com/javafx-on-raspberry-pi-3-easy-steps" target="_blank" rel="external">http://javafx.steveonjava.com/javafx-on-raspberry-pi-3-easy-steps</a></li>
+<li>Install Tomcat</li>
+<li>Install TightVNC <a href="http://www.neil-black.co.uk/raspberry-pi-beginners-guide" target="_blank" rel="external">raspberry-pi-beginners-guide</a> <a href="http://www.penguintutor.com/linux/tightvnc" target="_blank" rel="external">tightvnc</a></li>
+<li>Install transmission-daemon, transmission-remote-gui/java remember to disable rpc-white-list and set the login user/password <a href="http://www.lijingquan.net/pt-linux-vps.html" target="_blank" rel="external">pt-linux-vps</a> <a href="http://www.webupd8.org/2009/12/setting-up-transmission-remote-gui-in.html" target="_blank" rel="external">setting-up-transmission-remote-gui-in</a></li>
+<li><p>Install samba <code>sudo apt-get install samba</code><br>/etc/samba/smb.conf</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">[bt-download]</div><div class="line">comment = transmission download folder</div><div class="line">browsable = yes</div><div class="line">path = /var/lib/transmission-daemon/downloads</div><div class="line">public = yes</div><div class="line">writable = yes</div><div class="line">guest ok = yes</div></pre></td></tr></table></figure>
+</li>
+<li><p>Install chromium <code>sudo apt-get install chromium</code></p>
+</li>
+<li>Install wiringPi <a href="https://projects.drogon.net/raspberry-pi/wiringpi/download-and-install" target="_blank" rel="external">https://projects.drogon.net/raspberry-pi/wiringpi/download-and-install</a></li>
+<li>Install xrdp (ru tightvncserver in backend imho) <code>sudo apt-get install xrdp</code></li>
+<li>Install bluetooth <code>sudo apt-get install bluez blueman</code></li>
+<li>Install mpd <code>sudo apt-get install mpd mpc icecast2</code><br>set bind_to_address to 0.0.0.0 in mpd.conf<br>uncomment the block Icecast of audio_output<br><a href="http://www.t3node.com/blog/streaming-audio-with-mpd-and-icecast2-on-raspberry-pi/" target="_blank" rel="external">streaming-audio-with-mpd-and-icecast2-on-raspberry-pi</a></li>
+<li>Install Pifm <a href="http://www.icrobotics.co.uk/wiki/index.php/Turning_the_Raspberry_Pi_Into_an_FM_Transmitter" target="_blank" rel="external">Turning_the_Raspberry_Pi_Into_an_FM_Transmitter</a></li>
+<li>check revision cat <code>/proc/cpuinfo</code> <a href="http://elinux.org/RPi_Hub" target="_blank" rel="external">http://elinux.org/RPi_Hub</a> And <a href="http://rpitc.blogspot.hk/" target="_blank" rel="external">http://rpitc.blogspot.hk/</a></li>
+</ol>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p>  <a href="http://whatswhat.no/computer/linux/raspberry-pi/481-raspberry-pi-mediacenter-raspbmc-setup-and-use-ipad-or-iphone-as-remote" target="_blank" rel="external">http://whatswhat.no/computer/linux/raspberry-pi/481-raspberry-pi-mediacenter-raspbmc-setup-and-use-ipad-or-iphone-as-remote</a><br>  <a href="http://blog.thestateofme.com/2012/05/27/raspberry-pi-on-ipad/" target="_blank" rel="external">http://blog.thestateofme.com/2012/05/27/raspberry-pi-on-ipad/</a><br>  <a href="http://www.oracle.com/technetwork/articles/java/raspberrypi-1704896.html" target="_blank" rel="external">http://www.oracle.com/technetwork/articles/java/raspberrypi-1704896.html</a></p>
+<p>  <a href="http://projectdp.wordpress.com/2012/09/24/pi-k3w-kindle-3-display-for-raspberry-pi/" target="_blank" rel="external">http://projectdp.wordpress.com/2012/09/24/pi-k3w-kindle-3-display-for-raspberry-pi/</a><br>  <a href="http://www.raspberrypi.org" target="_blank" rel="external">http://www.raspberrypi.org</a><br>  <a href="https://www.riscosopen.org/news/articles/2012/10/26/risc-os-pi-released-risc-os-for-the-raspberry-pi" target="_blank" rel="external">https://www.riscosopen.org/news/articles/2012/10/26/risc-os-pi-released-risc-os-for-the-raspberry-pi</a><br>  <a href="http://www.reddit.com/r/raspberry_pi/comments/zoivv/kindleberry_pi/" target="_blank" rel="external">http://www.reddit.com/r/raspberry_pi/comments/zoivv/kindleberry_pi/</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Raspberry-Pi/">Raspberry Pi</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

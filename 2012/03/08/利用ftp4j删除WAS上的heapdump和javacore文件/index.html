@@ -1,0 +1,157 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>利用ftp4j删除WAS上的heapdump和javacore文件 | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="利用ftp4j删除WAS上的heapdump和javacore文件"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-03-08T04:03:59.000Z"><a href="/2012/03/08/利用ftp4j删除WAS上的heapdump和javacore文件/">2012-03-08</a></time>
+      
+      
+  
+    <h1 class="title">利用ftp4j删除WAS上的heapdump和javacore文件</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> it.sauronsoftware.ftp4j.FTPClient;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.<span class="built_in">File</span>;</div><div class="line"></div><div class="line"><span class="keyword">void</span> init(<span class="keyword">String</span> server, <span class="keyword">String</span> user, <span class="keyword">String</span> passwd, <span class="keyword">String</span> path) &#123;</div><div class="line">  FTPClient client = <span class="keyword">new</span> FTPClient();</div><div class="line">  <span class="built_in">try</span> &#123;</div><div class="line">    <span class="keyword">String</span>[] ret = client.<span class="built_in">connect</span>(server);</div><div class="line">    <span class="built_in">for</span> (<span class="keyword">String</span> r : ret) &#123;</div><div class="line">      System.out.<span class="built_in">println</span>(<span class="string">"out "</span> + r);</div><div class="line">    &#125;</div><div class="line">    client.login(user, passwd);</div><div class="line"></div><div class="line">    client.changeDirectory(path);</div><div class="line">    </div><div class="line">    <span class="built_in">if</span> (!<span class="keyword">new</span> <span class="built_in">File</span>(server).<span class="built_in">isDirectory</span>()) &#123;</div><div class="line">      System.out.<span class="built_in">println</span>(<span class="string">"making directory "</span> + server);</div><div class="line">      <span class="keyword">new</span> <span class="built_in">File</span>(server).<span class="built_in">mkdir</span>();</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">String</span>[] fileNames = client.listNames();</div><div class="line">    <span class="built_in">for</span> (<span class="keyword">String</span> file : fileNames) &#123;</div><div class="line">      <span class="built_in">if</span> (file.indexOf(<span class="string">"heapdump"</span>) != <span class="number">-1</span></div><div class="line">          || file.indexOf(<span class="string">"javacore"</span>) != <span class="number">-1</span>) &#123;</div><div class="line">        System.out.<span class="built_in">println</span>(<span class="string">"download file "</span> + file);</div><div class="line">        client.download(file, <span class="keyword">new</span> <span class="built_in">File</span>(server + <span class="string">"/"</span> + file));</div><div class="line">        client.deleteFile(file);</div><div class="line">        System.out.<span class="built_in">println</span>(<span class="string">"file "</span> + file + <span class="string">" deleted."</span>);</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//			client.deleteFile("test.txt");</span></div><div class="line">    <span class="comment">//</span></div><div class="line">    client.logout();</div><div class="line">    client.<span class="built_in">disconnect</span>(true);</div><div class="line">  &#125; <span class="built_in">catch</span> (Exception e) &#123;</div><div class="line">    <span class="comment">// TODO Auto-generated catch block</span></div><div class="line">    e.printStackTrace();</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">void</span> main() &#123;</div><div class="line">  <span class="keyword">String</span> server = <span class="string">"server"</span>;</div><div class="line">  <span class="keyword">String</span> user = <span class="string">"root"</span>;</div><div class="line">  <span class="keyword">String</span> passwd = <span class="string">"password"</span>;</div><div class="line">  <span class="keyword">String</span> path = <span class="string">"/usr/WebSphere/AppServer/logs/dhwas1"</span>;</div><div class="line">  <span class="built_in">if</span> (bsh.args.length &gt; <span class="number">0</span>) &#123;</div><div class="line">    server = bsh.args[<span class="number">0</span>];</div><div class="line">    user = bsh.args[<span class="number">1</span>];</div><div class="line">    passwd = bsh.args[<span class="number">2</span>];</div><div class="line">    path = bsh.args[<span class="number">3</span>];</div><div class="line">  &#125; <span class="built_in">else</span> &#123;</div><div class="line">    System.out</div><div class="line">        .<span class="built_in">println</span>(<span class="string">"usage: java -cp bin;ftp4j-1.7.jar;bsh-2.0b4.jar bsh.Interpreter cleanLog.sh serverName root password /usr/WebSphere/AppServer/logs/dhwas1"</span>);</div><div class="line">  &#125;</div><div class="line">  init(server, user, passwd, path);</div><div class="line">&#125;</div><div class="line"></div><div class="line">main();</div></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/AIX/">AIX</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

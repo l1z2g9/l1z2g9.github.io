@@ -1,0 +1,194 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Install Hostapd On Rpi | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Install Hostapd On Rpi"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2017-01-13T09:22:55.000Z"><a href="/2017/01/13/Install-Hostapd-On-Rpi/">2017-01-13</a></time>
+      
+      
+  
+    <h1 class="title">Install Hostapd On Rpi</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="List-all-enabled-services"><a href="#List-all-enabled-services" class="headerlink" title="List all enabled services."></a>List all enabled services.</h1><p><code>systemctl list-unit-files | grep enabled</code></p>
+<h1 id="List-all-running-services"><a href="#List-all-running-services" class="headerlink" title="List all running services."></a>List all running services.</h1><p><code>systemctl | grep running</code></p>
+<h1 id="Get-sshd-to-start-on-boot-as-it-is-disabled-by-default"><a href="#Get-sshd-to-start-on-boot-as-it-is-disabled-by-default" class="headerlink" title="Get sshd to start on boot as it is disabled by default"></a>Get sshd to start on boot as it is disabled by default</h1><p><code>sudo systemctl enable ssh.socket</code></p>
+<h1 id="Get-dhcpd-to-stop-on-boot-as-it-need-more-time-to-boot"><a href="#Get-dhcpd-to-stop-on-boot-as-it-need-more-time-to-boot" class="headerlink" title="Get dhcpd to stop on boot as it need more time to boot"></a>Get dhcpd to stop on boot as it need more time to boot</h1><p><code>sudo systemctl disable dhcpcd.service</code></p>
+<h1 id="Install-hostapd"><a href="#Install-hostapd" class="headerlink" title="Install hostapd"></a>Install hostapd</h1><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">git clone http<span class="variable">s:</span>//github.<span class="keyword">com</span>/lostincynicism/hostapd-rtl8188</div><div class="line">sudo apt-<span class="built_in">get</span> install libnl-<span class="number">3</span>-dev # Fix fatal-error-netlink-genl-genl-h-<span class="keyword">no</span>-such-<span class="keyword">file</span>-<span class="built_in">or</span>-directory</div><div class="line">sudo apt-<span class="built_in">get</span> install libnl-genl-<span class="number">3</span>-dev</div><div class="line"><span class="keyword">cd</span> hostapd-rtl8188/hostapd &amp;&amp; sudo <span class="keyword">make</span> <span class="keyword">all</span></div></pre></td></tr></table></figure>
+<h1 id="Add-following-lines-to-boot-my-hostapd-sh-file"><a href="#Add-following-lines-to-boot-my-hostapd-sh-file" class="headerlink" title="Add following lines to /boot/my-hostapd.sh file"></a>Add following lines to /boot/my-hostapd.sh file</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash">!/bin/sh -</span></div><div class="line"><span class="meta">#</span><span class="bash">ifconfig wlan0 192.168.42.100 up</span></div><div class="line"><span class="meta">#</span><span class="bash">sleep 0.5</span></div><div class="line"><span class="meta">#</span><span class="bash">wpa_cli -i wlan0 terminate <span class="comment"># Stop wpa_supplicant process</span></span></div><div class="line"><span class="meta">#</span><span class="bash">sleep 0.5</span></div><div class="line">/home/pi/hostapd-rtl8188/hostapd/hostapd /boot/hostadp.8188eu.conf</div></pre></td></tr></table></figure>
+<h1 id="For-ip-configuration-it-is-more-applicable-to-update-etc-network-interfaces-file-but-for-Jessie-Debian-it-needs-to-disable-dhcpd-first-refering-to-http-raspberrypi-stackexchange-com-questions-37920-how-do-i-set-up-networking-wifi-static-ip-address-and-https-www-raspberrypi-org-documentation-hardware-raspberrypi-bootmodes-net-tutorial-md"><a href="#For-ip-configuration-it-is-more-applicable-to-update-etc-network-interfaces-file-but-for-Jessie-Debian-it-needs-to-disable-dhcpd-first-refering-to-http-raspberrypi-stackexchange-com-questions-37920-how-do-i-set-up-networking-wifi-static-ip-address-and-https-www-raspberrypi-org-documentation-hardware-raspberrypi-bootmodes-net-tutorial-md" class="headerlink" title="For ip configuration, it is more applicable to update /etc/network/interfaces file, but for Jessie Debian, it needs to disable dhcpd first refering to http://raspberrypi.stackexchange.com/questions/37920/how-do-i-set-up-networking-wifi-static-ip-address and https://www.raspberrypi.org/documentation/hardware/raspberrypi/bootmodes/net_tutorial.md"></a>For ip configuration, it is more applicable to update <code>/etc/network/interfaces</code> file, but for Jessie Debian, it needs to disable dhcpd first refering to <a href="http://raspberrypi.stackexchange.com/questions/37920/how-do-i-set-up-networking-wifi-static-ip-address" target="_blank" rel="external">http://raspberrypi.stackexchange.com/questions/37920/how-do-i-set-up-networking-wifi-static-ip-address</a> and <a href="https://www.raspberrypi.org/documentation/hardware/raspberrypi/bootmodes/net_tutorial.md" target="_blank" rel="external">https://www.raspberrypi.org/documentation/hardware/raspberrypi/bootmodes/net_tutorial.md</a></h1><figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo systemctl <span class="builtin-name">disable</span> dhcpcd</div><div class="line">sudo systemctl <span class="builtin-name">enable</span> networking</div></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">auto lo</div><div class="line"></div><div class="line">iface lo inet loopback</div><div class="line">iface eth0 inet dhcp</div><div class="line"></div><div class="line">allow-hotplug wlan0</div><div class="line">iface wlan0 inet static</div><div class="line"> <span class="built_in"> address </span>192.168.42.100</div><div class="line">  netmask 255.255.255.0</div><div class="line"></div><div class="line"><span class="comment">#allow-hotplug wlan0</span></div><div class="line"><span class="comment">#iface wlan0 inet manual</span></div><div class="line"><span class="comment">#wpa-roam /etc/wpa_supplicant/wpa_supplicant.conf</span></div><div class="line"><span class="comment">#iface default inet dhcp</span></div></pre></td></tr></table></figure>
+<h1 id="Settings-in-boot-hostadp-8188eu-conf"><a href="#Settings-in-boot-hostadp-8188eu-conf" class="headerlink" title="Settings in /boot/hostadp.8188eu.conf"></a>Settings in /boot/hostadp.8188eu.conf</h1><figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="attr">interface</span>=wlan0</div><div class="line"><span class="attr">driver</span>=rtl871xdrv</div><div class="line"><span class="attr">ssid</span>=RasPi-AP</div><div class="line"><span class="attr">hw_mode</span>=g</div><div class="line"><span class="attr">channel</span>=<span class="number">1</span></div><div class="line"><span class="attr">macaddr_acl</span>=<span class="number">0</span></div><div class="line"><span class="attr">auth_algs</span>=<span class="number">1</span></div><div class="line"><span class="attr">ignore_broadcast_ssid</span>=<span class="number">0</span></div><div class="line"><span class="attr">wpa</span>=<span class="number">1</span></div><div class="line"><span class="attr">wpa_pairwise</span>=CCMP</div><div class="line"><span class="comment">#wpa=2</span></div><div class="line"><span class="comment">#rsn_pairwise=TKIP CCMP</span></div><div class="line"><span class="attr">wpa_passphrase</span>=<span class="number">123456789</span></div><div class="line"><span class="attr">wpa_key_mgmt</span>=WPA-PSK</div></pre></td></tr></table></figure>
+<h1 id="Settings-in-lib-systemd-system-hostapd-service-as-below"><a href="#Settings-in-lib-systemd-system-hostapd-service-as-below" class="headerlink" title="Settings in /lib/systemd/system/hostapd.service as below"></a>Settings in /lib/systemd/system/hostapd.service as below</h1><figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">[Unit]</div><div class="line"><span class="attribute">Description</span>=My Hostapd<span class="built_in"> Service</span></div><div class="line"><span class="attribute">After</span>=multi-user.target</div><div class="line"></div><div class="line">[Service]</div><div class="line"><span class="attribute">Type</span>=idle</div><div class="line"><span class="attribute">ExecStart</span>=/boot/my-hostapd.sh</div><div class="line"></div><div class="line">[Install]</div><div class="line"><span class="attribute">WantedBy</span>=multi-user.target</div></pre></td></tr></table></figure>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo chmod <span class="number">644</span> /<span class="class"><span class="keyword">lib</span>/<span class="title">systemd</span>/<span class="title">system</span>/<span class="title">hostapd</span>.<span class="title">service</span></span></div><div class="line">sudo systemctl daemon-reload  <span class="comment"># 重载所有修改过的配置文件</span></div><div class="line">sudo systemctl enable hostapd.service</div></pre></td></tr></table></figure>
+<h1 id="Check-the-hostapd-service"><a href="#Check-the-hostapd-service" class="headerlink" title="Check the hostapd.service"></a>Check the hostapd.service</h1><p><code>sudo systemctl status hostapd.service</code></p>
+<h1 id="Start-Stop-Restart-the-hostapd-service"><a href="#Start-Stop-Restart-the-hostapd-service" class="headerlink" title="Start/Stop/Restart the hostapd.service"></a>Start/Stop/Restart the hostapd.service</h1><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo systemctl start hostapd<span class="selector-class">.service</span></div><div class="line">sudo systemctl stop hostapd<span class="selector-class">.service</span></div><div class="line">sudo systemctl restart hostapd.service</div></pre></td></tr></table></figure>
+<h1 id="Run-tmux-in-Ubuntu"><a href="#Run-tmux-in-Ubuntu" class="headerlink" title="Run tmux in Ubuntu"></a>Run tmux in Ubuntu</h1><p>options in /etc/wpa_supplicant/wpa_supplicant.conf<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">ctrl_interface=/var/run/wpa_supplicant</div><div class="line">update_config=1</div><div class="line"></div><div class="line">network=&#123;</div><div class="line">    ssid=<span class="string">"RasPi-AP"</span></div><div class="line">    psk=<span class="string">"iplababab1411"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="Notes"><a href="#Notes" class="headerlink" title="Notes"></a>Notes</h1><ol>
+<li>In one pane, run <code>sudo wpa_supplicant -Dnl80211,wext -iwlan0 -c /etc/wpa_supplicant/wpa_supplicant.conf</code><br>The option of ‘wext’ is the 8188eu driver for wpa_supplicant</li>
+<li>In other pane, run <code>sudo wpa_cli</code> or <code>sudo iwlist wlan0 scan</code></li>
+<li>iw command for “nl80211”, iwconfig/iwlist(wireless_tools) for “wext” (rtl871xdrv)</li>
+<li>wpa_supplicant - works with both wext and nl80211.<figure class="highlight lisp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">iwconfig wlan0 =&gt; iw dev wlan0 link (<span class="name">Getting</span> info on wlan0)</div><div class="line">iwconfig wlan0 essid foo =&gt; iw wlan0 connect foo (<span class="name">Connecting</span> to an open network)</div><div class="line">iwconfig wlan0 essid off =&gt; iw wlan0 ibss leave (<span class="name">Leave</span> an IBSS (<span class="name">ad-hoc</span> network))</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="Install-udhcpd"><a href="#Install-udhcpd" class="headerlink" title="Install udhcpd"></a>Install udhcpd</h1><ol>
+<li><code>sudo apt-get install udhcpd</code></li>
+<li><p>Settings in /etc/udhcpd.conf</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">start <span class="number">192.168</span><span class="number">.42</span><span class="number">.2</span> # This is the range of IPs that the hostspot will give to client devices.</div><div class="line">end <span class="number">192.168</span><span class="number">.42</span><span class="number">.20</span></div><div class="line">interface wlan0 # The device uDHCP listens on.</div><div class="line">max_leases <span class="number">10</span></div><div class="line">remaining yes</div><div class="line">opt dns <span class="number">8.8</span><span class="number">.8</span><span class="number">.8</span> <span class="number">4.2</span><span class="number">.2</span><span class="number">.2</span> # The DNS servers client devices will use.</div><div class="line">opt subnet <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></div><div class="line">opt router <span class="number">192.168</span><span class="number">.42</span><span class="number">.100</span> # The Pi's IP address on wlan0 which we will set up shortly.</div><div class="line">opt lease <span class="number">864000</span> # <span class="number">10</span> day DHCP lease time in seconds</div></pre></td></tr></table></figure>
+</li>
+<li><p>Enable dhcpd <code>#DHCPD_ENABLED=&quot;no&quot;</code> in /etc/default/udhcpd </p>
+</li>
+<li><p>Start service</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo systemctl restart hostapd.service</div><div class="line">sudo<span class="built_in"> service </span>udhcpd restart</div></pre></td></tr></table></figure>
+</li>
+<li><p>Check result<br><code>service udhcpd status</code> Or<br><code>cat /var/log/syslog | grep udhcpd</code></p>
+</li>
+<li><p>Get the udhcpd to start on boot<br><code>sudo update-rc.d udhcpd enable</code></p>
+</li>
+</ol>
+<p>Reference<br><a href="http://www.raspberrypi-spy.co.uk/2015/10/how-to-autorun-a-python-script-on-boot-using-systemd/" target="_blank" rel="external">http://www.raspberrypi-spy.co.uk/2015/10/how-to-autorun-a-python-script-on-boot-using-systemd/</a><br><a href="https://wiki.archlinux.org/index.php/WPA_supplicant" target="_blank" rel="external">https://wiki.archlinux.org/index.php/WPA_supplicant</a><br><a href="https://wiki.archlinux.org/index.php/Wireless_network_configuration" target="_blank" rel="external">https://wiki.archlinux.org/index.php/Wireless_network_configuration</a><br><a href="http://elinux.org/RPI-Wireless-Hotspot" target="_blank" rel="external">http://elinux.org/RPI-Wireless-Hotspot</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Raspberry-Pi/">Raspberry Pi</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

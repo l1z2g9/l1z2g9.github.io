@@ -1,0 +1,170 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Backup / Restore Oracle DB | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Backup / Restore Oracle DB"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-05-14T02:12:19.000Z"><a href="/2015/05/14/Backup- OR -Restore-Oracle-DB/">2015-05-14</a></time>
+      
+      
+  
+    <h1 class="title">Backup / Restore Oracle DB</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <ul>
+<li>Backup Oracle DB in NOARCHIVELOG mode.In sqlplus console,<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span><span class="bash"> sqlplus / as sysdba (sqlplus /nolog <span class="keyword">then</span> conn /as sysdba)</span></div><div class="line"><span class="meta">SQL&gt;</span><span class="bash"> archive <span class="built_in">log</span> list;</span></div><div class="line"><span class="meta">SQL&gt;</span><span class="bash"> show parameter DB_RECOVERY_FILE_DEST;</span></div><div class="line"><span class="meta">SQL&gt;</span><span class="bash"> alter system <span class="built_in">set</span> db_recovery_file_dest=<span class="string">'/flash_recovery_area'</span> scope=both;</span></div><div class="line"><span class="meta">SQL&gt;</span><span class="bash"> shutdown immediate;</span></div><div class="line"><span class="meta">SQL&gt;</span><span class="bash"> startup mount;</span></div><div class="line"> // at this time, run RMAN&gt; backup database;</div><div class="line"> // OR change archive log mode</div><div class="line"><span class="meta">SQL&gt;</span><span class="bash"> alter database archivelog;</span></div><div class="line"><span class="meta">SQL&gt;</span><span class="bash"> alter database open;</span></div><div class="line"><span class="meta">SQL&gt;</span><span class="bash"> archive <span class="built_in">log</span> list;</span></div><div class="line"><span class="meta">SQL&gt;</span><span class="bash"> alter system switch logfile; ( OR alter system archive <span class="built_in">log</span> current)</span></div><div class="line"><span class="meta">SQL&gt;</span><span class="bash"> select operation, status, mbytes_processed, start_time, end_time from v<span class="variable">$rman_status</span> order by start_time;</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>If archivelog mode is enabled<br><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">RMAN&gt; <span class="keyword">backup </span>incremental level <span class="number">0</span> database plus archivelog delete input<span class="comment">;</span></div><div class="line"><span class="keyword">OR</span></div><div class="line">RMAN&gt; <span class="keyword">backup </span>as compressed <span class="keyword">backupset </span>incremental level <span class="number">0</span> database include current controlfile plus archivelog<span class="comment">;</span></div><div class="line"><span class="keyword">OR</span></div><div class="line">RMAN&gt; <span class="keyword">backup </span>as compressed <span class="keyword">backupset </span>incremental level <span class="number">0</span> database include current controlfile plus archivelog delete all input<span class="comment">;</span></div><div class="line">ADN</div><div class="line">RMAN&gt; <span class="keyword">backup </span>incremental level <span class="number">1</span> database plus archivelog delete input<span class="comment">;</span></div></pre></td></tr></table></figure></p>
+<p>In rman prompt,<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span><span class="bash"> rman</span></div><div class="line"><span class="meta">RMAN&gt;</span><span class="bash"> connect target /;</span></div><div class="line"><span class="meta">RMAN&gt;</span><span class="bash"> list backup;</span></div><div class="line"><span class="meta">RMAN&gt;</span><span class="bash"> list backup summary;</span></div><div class="line"><span class="meta">RMAN&gt;</span><span class="bash"> backup as compressed backupset tag <span class="string">'weeekly_prd01_tbls_bk_only'</span> tablespace prd01;</span></div><div class="line"><span class="meta">RMAN&gt;</span><span class="bash"> backup as compressed backupset database plus archivelog ;</span></div><div class="line"><span class="meta"></span></div><div class="line">RMAN&gt;<span class="bash"> run &#123;  <span class="comment"># backup directly in noarchive mode</span></span></div><div class="line">shutdown immediate;</div><div class="line">startup mount;</div><div class="line">backup database;</div><div class="line">alter database open;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<figure class="highlight delphi"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">RMAN&gt; show all;</div><div class="line">CONFIGURE RETENTION POLICY <span class="keyword">TO</span> REDUNDANCY <span class="number">1</span>;</div><div class="line">CONFIGURE BACKUP OPTIMIZATION <span class="keyword">ON</span>;</div><div class="line">CONFIGURE <span class="keyword">DEFAULT</span> DEVICE <span class="keyword">TYPE</span> <span class="keyword">TO</span> DISK;</div><div class="line">CONFIGURE CONTROLFILE AUTOBACKUP <span class="keyword">ON</span>;</div><div class="line">CONFIGURE CONTROLFILE AUTOBACKUP FORMAT <span class="keyword">FOR</span> DEVICE <span class="keyword">TYPE</span> DISK <span class="keyword">TO</span> <span class="string">'/tmp/backup/%F'</span>;</div><div class="line">CONFIGURE DEVICE <span class="keyword">TYPE</span> DISK PARALLELISM <span class="number">1</span> BACKUP <span class="keyword">TYPE</span> <span class="keyword">TO</span> BACKUPSET;</div><div class="line">CONFIGURE DATAFILE BACKUP COPIES <span class="keyword">FOR</span> DEVICE <span class="keyword">TYPE</span> DISK <span class="keyword">TO</span> <span class="number">1</span>;</div><div class="line">CONFIGURE ARCHIVELOG BACKUP COPIES <span class="keyword">FOR</span> DEVICE <span class="keyword">TYPE</span> DISK <span class="keyword">TO</span> <span class="number">1</span>;</div><div class="line">CONFIGURE CHANNEL DEVICE <span class="keyword">TYPE</span> DISK FORMAT   <span class="string">'/tmp/backup/dbkup_%Y%M%D_%U'</span>;</div><div class="line">CONFIGURE MAXSETSIZE <span class="keyword">TO</span> UNLIMITED;</div><div class="line">CONFIGURE ENCRYPTION <span class="keyword">FOR</span> DATABASE OFF;</div><div class="line">CONFIGURE ENCRYPTION ALGORITHM <span class="string">'AES128'</span>;</div><div class="line">CONFIGURE COMPRESSION ALGORITHM <span class="string">'BASIC'</span> <span class="keyword">AS</span> <span class="keyword">OF</span> RELEASE <span class="string">'DEFAULT'</span> OPTIMIZE <span class="keyword">FOR</span> LOAD TRUE;</div><div class="line">CONFIGURE ARCHIVELOG DELETION POLICY <span class="keyword">TO</span> NONE;</div><div class="line">CONFIGURE SNAPSHOT CONTROLFILE <span class="keyword">NAME</span> <span class="keyword">TO</span> <span class="string">'/u01/app/oracle/product/11.2.0/dbhome_1/dbs/snapcf_CHHDEV2.f'</span>;</div></pre></td></tr></table></figure>
+<p>Full version of backup<br><figure class="highlight stata"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div></pre></td><td class="code"><pre><div class="line">#!/usr/bin/ksh</div><div class="line"></div><div class="line">DATABASE=CHHDEV2</div><div class="line"></div><div class="line">RUNTIME=`date '+%<span class="keyword">H</span>%M_%<span class="keyword">d</span>%<span class="keyword">m</span>%Y'`</div><div class="line"></div><div class="line">BACKUPDIR=/tmp/backup</div><div class="line"></div><div class="line">LOGFILE=<span class="variable">$&#123;BACKUPDIR&#125;</span>/<span class="variable">$&#123;ORACLE_SID&#125;</span>_<span class="variable">$&#123;RUNTIME&#125;</span>.<span class="built_in">log</span></div><div class="line"></div><div class="line">LEVEL=0</div><div class="line"></div><div class="line">exec &gt;&gt; <span class="variable">$&#123;LOGFILE&#125;</span> 2&gt;&amp;1</div><div class="line"></div><div class="line"><span class="variable">$ORACLE_HOME</span>/bin/rman msgno target / nocatalog &lt;&lt;EOF!</div><div class="line"></div><div class="line">CONFIGURE RETENTION POLICY TO REDUNDANCY 3; # default 1</div><div class="line"></div><div class="line"># CONFIGURE RETENTION POLICY TO RECOVERY <span class="keyword">WINDOW</span> OF 14 DAYS; # default 1</div><div class="line"></div><div class="line">CONFIGURE BACKUP OPTIMIZATION <span class="keyword">ON</span>; # default OFF</div><div class="line"></div><div class="line">CONFIGURE DEFAULT DEVICE <span class="keyword">TYPE</span> TO DISK; # default</div><div class="line"></div><div class="line">CONFIGURE CONTROLFILE AUTOBACKUP <span class="keyword">ON</span>; # default OFF</div><div class="line"></div><div class="line">CONFIGURE CONTROLFILE AUTOBACKUP <span class="keyword">FORMAT</span> <span class="keyword">FOR</span> DEVICE <span class="keyword">TYPE</span> DISK TO '<span class="variable">$&#123;BACKUPDIR&#125;</span>/ora_cf%F'; # default '%F'</div><div class="line"></div><div class="line">CONFIGURE DEVICE <span class="keyword">TYPE</span> DISK PARALLELISM 3; # default 1</div><div class="line"></div><div class="line">CONFIGURE DATAFILE BACKUP COPIES <span class="keyword">FOR</span> DEVICE <span class="keyword">TYPE</span> DISK TO 1; # default</div><div class="line"></div><div class="line">CONFIGURE ARCHIVELOG BACKUP COPIES <span class="keyword">FOR</span> DEVICE <span class="keyword">TYPE</span> DISK TO 1; # default</div><div class="line"></div><div class="line">CONFIGURE CHANNEL DEVICE <span class="keyword">TYPE</span> DISK <span class="keyword">FORMAT</span> '<span class="variable">$&#123;BACKUPDIR&#125;</span>/ora_df%t_s%s_s%p';</div><div class="line"></div><div class="line">CONFIGURE MAXSETSIZE TO UNLIMITED; # default</div><div class="line"></div><div class="line">CONFIGURE SNAPSHOT CONTROLFILE NAME TO '<span class="variable">$&#123;BACKUPDIR&#125;</span>/snapcf_<span class="variable">$&#123;DATABASE&#125;</span>.f';</div><div class="line"></div><div class="line">SHOW ALL;</div><div class="line"></div><div class="line">sql <span class="string">"alter system switch logfile"</span>;</div><div class="line"></div><div class="line">CROSSCHECK ARCHIVELOG ALL;</div><div class="line"></div><div class="line"># BACKUP <span class="keyword">AS</span> COMPRESSED BACKUPSET INCREMENTAL LEVEL 0 DATABASE <span class="keyword">INCLUDE</span> CURRENT CONTROLFILE PLUS ARCHIVELOG DELETE ALL <span class="keyword">INPUT</span>;</div><div class="line"></div><div class="line"># BACKUP <span class="keyword">AS</span> COMPRESSED BACKUPSET DATABASE <span class="keyword">INCLUDE</span> CURRENT CONTROLFILE PLUS ARCHIVELOG DELETE ALL <span class="keyword">INPUT</span>;</div><div class="line"></div><div class="line"># BACKUP DATABASE <span class="keyword">INCLUDE</span> CURRENT CONTROLFILE PLUS ARCHIVELOG DELETE ALL <span class="keyword">INPUT</span>;</div><div class="line"></div><div class="line"># backup <span class="keyword">AS</span> COMPRESSED BACKUPSET database <span class="keyword">include</span> current controlfile <span class="keyword">format</span> '<span class="variable">$&#123;BACKUPDIR&#125;</span>/ora_df%t_s%s_s%p';</div><div class="line"></div><div class="line"># backup <span class="keyword">AS</span> COMPRESSED BACKUPSET archivelog UNTIL TIME '(SYSDATE - 1)' not backed up 1 times  <span class="keyword">format</span> '<span class="variable">$&#123;BACKUPDIR&#125;</span>/ora_arc%t_s%s_s%p';</div><div class="line"></div><div class="line"># delete noprompt archivelog until time '(SYSDATE -1)' backed up 1 times to device <span class="keyword">type</span> disk;</div><div class="line"></div><div class="line">BACKUP <span class="keyword">AS</span> COMPRESSED BACKUPSET INCREMENTAL LEVEL <span class="variable">$&#123;LEVEL&#125;</span> DATABASE <span class="keyword">INCLUDE</span> CURRENT CONTROLFILE PLUS ARCHIVELOG;</div><div class="line"></div><div class="line">DELETE NOPROMPT <span class="keyword">COPY</span> OF ARCHIVELOG ALL COMPLETED BEFORE 'SYSDATE-5';</div><div class="line"></div><div class="line">sql <span class="string">"alter database backup controlfile to trace as ''$&#123;BACKUPDIR&#125;/ctrlfile_$&#123;DATABASE&#125;_$&#123;RUNTIME&#125;''"</span>;</div><div class="line"></div><div class="line">allocate channel <span class="keyword">for</span> maintenance <span class="keyword">type</span> disk;</div><div class="line"></div><div class="line">delete noprompt obsolete device <span class="keyword">type</span> disk;</div><div class="line"></div><div class="line">CROSSCHECK BACKUP;</div><div class="line"></div><div class="line">CROSSCHECK ARCHIVELOG ALL;</div><div class="line"></div><div class="line"><span class="keyword">REPORT</span> OBSOLETE;</div><div class="line"></div><div class="line">DELETE FORCE NOPROMPT OBSOLETE;</div><div class="line"></div><div class="line">DELETE FORCE NOPROMPT expired backup of archivelog all;</div><div class="line"></div><div class="line">DELETE FORCE NOPROMPT expired backup;</div><div class="line"></div><div class="line"><span class="keyword">LIST</span> BACKUP OF DATABASE;</div><div class="line"></div><div class="line"><span class="keyword">LIST</span> BACKUP OF ARCHIVELOG ALL;</div><div class="line"></div><div class="line"><span class="keyword">LIST</span> BACKUP;</div><div class="line"></div><div class="line">release channel;</div><div class="line"></div><div class="line"><span class="keyword">EXIT</span></div><div class="line"></div><div class="line">EOF!</div><div class="line"></div><div class="line"><span class="keyword">exit</span></div></pre></td></tr></table></figure></p>
+<ul>
+<li>Store Oracle DB<figure class="highlight sqf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">RMAN&gt; <span class="built_in">SET</span> DBID <span class="number">70161972</span>;</div><div class="line">RMAN&gt; RUN &#123;</div><div class="line">    startup force nomount;</div><div class="line">    <span class="built_in">SET</span> CONTROLFILE AUTOBACKUP <span class="built_in">FORMAT</span> <span class="keyword">FOR</span> DEVICE <span class="built_in">TYPE</span> DISK <span class="keyword">TO</span> <span class="string">'/tmp/backup/%F'</span>;</div><div class="line">    RESTORE CONTROLFILE <span class="keyword">to</span> <span class="string">'/tmp/controlfile'</span> <span class="keyword">FROM</span> AUTOBACKUP;</div><div class="line">    RESTORE SPFILE <span class="keyword">to</span> pfile <span class="string">'/tmp/pfile'</span> <span class="keyword">FROM</span> AUTOBACKUP;</div><div class="line">    <span class="comment">//OR</span></div><div class="line">    restore controlfile <span class="keyword">from</span> autobackup;</div><div class="line">    restore spfile <span class="keyword">from</span> autobackup;</div><div class="line"></div><div class="line">    <span class="built_in">SET</span> ARCHIVELOG DESTINATION <span class="keyword">TO</span> <span class="string">'/tmp/temp_restore'</span>;</div><div class="line">    RESTORE ARCHIVELOG ALL;</div><div class="line"></div><div class="line">    startup mount;</div><div class="line">    restore database;</div><div class="line">    recover database;</div><div class="line">    sql <span class="string">'alter database open RESETLOGS'</span>;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>Reference:<br><a href="https://support.software.dell.com/netvault-backup/kb/140173" target="_blank" rel="external">https://support.software.dell.com/netvault-backup/kb/140173</a><br><a href="http://dbaworkshop.blogspot.hk/2012/07/how-to-backup-database-in-noarchivelog_31.html" target="_blank" rel="external">http://dbaworkshop.blogspot.hk/2012/07/how-to-backup-database-in-noarchivelog_31.html</a><br><a href="http://ss64.com/ora/rman_backup.html" target="_blank" rel="external">http://ss64.com/ora/rman_backup.html</a><br><a href="http://www.dba-oracle.com/t_rman_incremental_backups.htm" target="_blank" rel="external">http://www.dba-oracle.com/t_rman_incremental_backups.htm</a><br><a href="http://www.dba-oracle.com/concepts/rman_recovery_database_spfile.htm" target="_blank" rel="external">http://www.dba-oracle.com/concepts/rman_recovery_database_spfile.htm</a><br><a href="http://www.dba-oracle.com/concepts/rman.htm" target="_blank" rel="external">http://www.dba-oracle.com/concepts/rman.htm</a><br><a href="http://www.dba-oracle.com/concepts/rman_online_offline_backups.htm" target="_blank" rel="external">http://www.dba-oracle.com/concepts/rman_online_offline_backups.htm</a><br><a href="http://www.dba-village.com/village/dvp_forum.OpenThread?ThreadIdA=44077&amp;DestinationA=RSS" target="_blank" rel="external">http://www.dba-village.com/village/dvp_forum.OpenThread?ThreadIdA=44077&amp;DestinationA=RSS</a><br><a href="http://docs.oracle.com/cd/E11882_01/backup.112/e10642/rcmadvre.htm" target="_blank" rel="external">http://docs.oracle.com/cd/E11882_01/backup.112/e10642/rcmadvre.htm</a><br><a href="http://docs.oracle.com/cd/B19306_01/backup.102/b14192/recov004.htm#i1032364" target="_blank" rel="external">http://docs.oracle.com/cd/B19306_01/backup.102/b14192/recov004.htm#i1032364</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Oracle/">Oracle</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

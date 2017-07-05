@@ -1,0 +1,165 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Create sock proxy via remote PC as a springboard | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Create sock proxy via remote PC as a springboard"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2014-01-29T04:10:16.000Z"><a href="/2014/01/29/Create-sock-proxy-via-remote-PC-as-a-springboard/">2014-01-29</a></time>
+      
+      
+  
+    <h1 class="title">Create sock proxy via remote PC as a springboard</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="Install-cygwin-in-my-remote-PC"><a href="#Install-cygwin-in-my-remote-PC" class="headerlink" title="Install cygwin in my remote PC"></a>Install cygwin in my remote PC</h1><h1 id="Upload-a-console-jsp-to-application-server"><a href="#Upload-a-console-jsp-to-application-server" class="headerlink" title="Upload a console.jsp to application server"></a>Upload a console.jsp to application server</h1><figure class="highlight vbscript-html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"><span class="xml"></span><span class="vbscript">&lt;%@page import=<span class="string">"java.io.*"</span> %&gt;</span><span class="xml"></span></div><div class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line">  $(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    $(<span class="string">"#command"</span>).focus();</div><div class="line">    <span class="keyword">var</span> cmd = <span class="string">'</span><span class="vbscript">&lt;%=<span class="built_in">request</span>.getParameter(<span class="string">"command"</span>)%&gt;</span><span class="xml"><span class="undefined">';</span></span></div><div class="line">    $("#command").val(cmd == 'null' ? '' : cmd);</div><div class="line">  &#125;);</div><div class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">body</span> <span class="attr">bgcolor</span>=<span class="string">"#cdc0cd"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"console.jsp"</span>&gt;</span></div><div class="line">    Command: <span class="tag">&lt;<span class="name">textarea</span> <span class="attr">name</span>=<span class="string">"command"</span> <span class="attr">rows</span>=<span class="string">"10"</span> <span class="attr">cols</span>=<span class="string">"50"</span> <span class="attr">id</span>=<span class="string">"command"</span>&gt;</span><span class="tag">&lt;/<span class="name">textarea</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">name</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"submit"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">form</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="vbscript">&lt;%</span></div><div class="line">  <span class="built_in">String</span> cmd = <span class="built_in">request</span>.getParameter(<span class="string">"command"</span>);</div><div class="line">  <span class="keyword">if</span>(cmd != <span class="literal">null</span> &amp;&amp; cmd.length() &gt; <span class="number">0</span>)&#123;</div><div class="line">    //Runtime.getRuntime().exec(cmd);</div><div class="line">    out.println(<span class="string">"command = "</span> + cmd + <span class="string">"&lt;p&gt;&lt;p&gt;"</span>);</div><div class="line">    StringBuilder sb = <span class="keyword">new</span> StringBuilder();</div><div class="line">    <span class="built_in">String</span> s = <span class="literal">null</span>;</div><div class="line">    try &#123;</div><div class="line">        Process p = Runtime.getRuntime().exec(cmd);</div><div class="line"></div><div class="line">        BufferedReader stdInput = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span></div><div class="line">             InputStreamReader(p.getInputStream()));</div><div class="line"></div><div class="line">        BufferedReader stdError = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span></div><div class="line">             InputStreamReader(p.getErrorStream()));</div><div class="line"></div><div class="line">        out.print(<span class="string">"&lt;h2&gt;result as below&lt;/h2&gt;"</span>);</div><div class="line">        <span class="keyword">while</span> ((s = stdInput.readLine()) != <span class="literal">null</span>) &#123;</div><div class="line">            sb.append(s+<span class="string">"&lt;br/&gt;"</span>);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        // read any errors from the attempted command</div><div class="line">        sb.append(<span class="string">"&lt;hr&gt;&lt;h2&gt;error as below(if any)&lt;/h2&gt;"</span>);</div><div class="line">        <span class="keyword">while</span> ((s = stdError.readLine()) != <span class="literal">null</span>) &#123;</div><div class="line">            sb.append(s);</div><div class="line">        &#125;</div><div class="line">            out.print(sb.toString());</div><div class="line">    &#125;</div><div class="line">    catch (IOException e) &#123;</div><div class="line">        sb.append(<span class="string">"exception happened - here's what I know: "</span>);</div><div class="line">        e.printStackTrace();</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  %&gt;<span class="xml"></span></div></pre></td></tr></table></figure>
+<h1 id="Disable-port-443-in-httpd"><a href="#Disable-port-443-in-httpd" class="headerlink" title="Disable port 443 in httpd"></a>Disable port 443 in httpd</h1><figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ssh -i /home/prls/fw/id_rsa Administrator@server /cygdrive/c/Users/xx/fw/443-hide.bat</div><div class="line">copy "C:<span class="symbol">\P</span>rogram Files<span class="symbol">\I</span>BM<span class="symbol">\H</span>TTPServer<span class="symbol">\c</span>onf<span class="symbol">\h</span>ttpd.conf" "C:<span class="symbol">\U</span>sers<span class="symbol">\x</span>x<span class="symbol">\D</span>ownloads<span class="symbol">\f</span>w<span class="symbol">\h</span>ttpd-latest.conf"</div><div class="line">copy "C:<span class="symbol">\U</span>sers<span class="symbol">\x</span>x<span class="symbol">\D</span>ownloads<span class="symbol">\f</span>w<span class="symbol">\h</span>ttpd2.conf" "C:<span class="symbol">\P</span>rogram Files<span class="symbol">\I</span>BM<span class="symbol">\H</span>TTPServer<span class="symbol">\c</span>onf<span class="symbol">\h</span>ttpd.conf"</div></pre></td></tr></table></figure>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ssh -i <span class="regexp">/home/</span>prls<span class="regexp">/fw/</span>id_rsa Administrator<span class="meta">@server</span> <span class="regexp">/cygdrive/</span>c<span class="regexp">/Users/</span>xx<span class="regexp">/fw/</span>restart.bat </div><div class="line">net stop IBMHTTPServer7<span class="number">.0</span></div><div class="line">net start IBMHTTPServer7<span class="number">.0</span></div></pre></td></tr></table></figure>
+<h1 id="Forward-port-443-to-22"><a href="#Forward-port-443-to-22" class="headerlink" title="Forward port 443 to 22"></a>Forward port 443 to 22</h1><figure class="highlight dos"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ssh -i /home/prls/fw/id_rsa xx@server /cygdrive/c/Users/xx/fw/<span class="number">443</span>-open.bat </div><div class="line"><span class="comment">rem wscript.exe C:\Users\xx\Downloads\fw\443-open.vbs C:\Users\xx\Downloads\plink.exe -load local -N &lt;span style="font-size:12.5px;line-height:1.5;"&gt;&lt;/span&gt;  5. Stop process plink</span></div><div class="line">tasklist|grep plink</div><div class="line"><span class="built_in">taskkill</span> /f /pid <span class="number">7944</span></div></pre></td></tr></table></figure>
+<h1 id="Enable-port-443-in-httpd"><a href="#Enable-port-443-in-httpd" class="headerlink" title="Enable port 443 in httpd"></a>Enable port 443 in httpd</h1><figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ssh -i /home/prls/fw/id_rsa Administrator@server /cygdrive/c/Users/xx/fw/443-show.bat</div><div class="line">copy "C:<span class="symbol">\U</span>sers<span class="symbol">\x</span>x<span class="symbol">\D</span>ownloads<span class="symbol">\f</span>w<span class="symbol">\h</span>ttpd-latest.conf" "C:<span class="symbol">\P</span>rogram Files<span class="symbol">\I</span>BM<span class="symbol">\H</span>TTPServer<span class="symbol">\c</span>onf<span class="symbol">\h</span>ttpd.conf"</div></pre></td></tr></table></figure>
+<h1 id="See-config-in-httpd"><a href="#See-config-in-httpd" class="headerlink" title="See config in httpd"></a>See config in httpd</h1><figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ssh -i /home/prls/fw/id_rsa Administrator@server /cygdrive/c/Users/xx/fw/cat-httpd.bat</div><div class="line">copy "C:<span class="symbol">\U</span>sers<span class="symbol">\x</span>x<span class="symbol">\D</span>ownloads<span class="symbol">\f</span>w<span class="symbol">\h</span>ttpd-latest.conf" "C:<span class="symbol">\P</span>rogram Files<span class="symbol">\I</span>BM<span class="symbol">\H</span>TTPServer<span class="symbol">\c</span>onf<span class="symbol">\h</span>ttpd.conf"</div></pre></td></tr></table></figure>
+<h1 id="Make-it-effective"><a href="#Make-it-effective" class="headerlink" title="Make it effective"></a>Make it effective</h1><p><code>ssh -i /home/prls/fw/id_rsa Administrator@server /cygdrive/c/Users/xx/fw/restart.bat</code></p>
+<h1 id="Fallback-a-backup-version"><a href="#Fallback-a-backup-version" class="headerlink" title="Fallback a backup version"></a>Fallback a backup version</h1><p><code>ssh -i /home/prls/fw/id_rsa Administrator@server /cygdrive/c/Users/xx/fw/443-fallback.bat</code></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/日常记录/">日常记录</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

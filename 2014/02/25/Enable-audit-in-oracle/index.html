@@ -1,0 +1,188 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Enable audit in oracle | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Enable audit in oracle"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2014-02-25T10:39:59.000Z"><a href="/2014/02/25/Enable-audit-in-oracle/">2014-02-25</a></time>
+      
+      
+  
+    <h1 class="title">Enable audit in oracle</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="Check-audit-settting"><a href="#Check-audit-settting" class="headerlink" title="Check audit settting"></a>Check audit settting</h1><p><code>select name,value from v$parameter where name like &#39;audit%&#39;</code><br><code>show parameter audit;</code></p>
+<h1 id="Change-setting-of-audit-trail"><a href="#Change-setting-of-audit-trail" class="headerlink" title="Change setting of audit_trail"></a>Change setting of audit_trail</h1><h2 id="Method-1"><a href="#Method-1" class="headerlink" title="Method 1"></a>Method 1</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">alter<span class="built_in"> system </span><span class="builtin-name">set</span> <span class="attribute">audit_trail</span>=DB,Extended <span class="attribute">scope</span>=spfile (cannot <span class="builtin-name">set</span> both as Change Static Parameters Through the SPFILE)</div><div class="line">alter<span class="built_in"> system </span><span class="builtin-name">set</span> <span class="attribute">audit_sys_operations</span>=<span class="literal">true</span> <span class="attribute">scope</span>=spfile</div></pre></td></tr></table></figure>
+<h2 id="Method-2"><a href="#Method-2" class="headerlink" title="Method 2"></a>Method 2</h2><ul>
+<li>add config in $ORACLE_HOME/dbs/init<strong>.ora as below since db starting with pfile, error </strong>‘specified initialization parameter can not be modified’*</li>
+<li>audit_trail=DB ( oracle9i not support ‘Extended’ in init*.ora file)</li>
+<li>audit_sys_operations=true</li>
+</ul>
+<h1 id="Restart-db"><a href="#Restart-db" class="headerlink" title="Restart db"></a>Restart db</h1><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">shutdown </span>immediate<span class="comment">;</span></div><div class="line">startup<span class="comment">;</span></div></pre></td></tr></table></figure>
+<h1 id="Check-audit-option-in-db"><a href="#Check-audit-option-in-db" class="headerlink" title="Check audit option in db"></a>Check audit option in db</h1><p><code>select * from dba_stmt_audit_opts</code> OR <code>select * from dba_priv_audit_opts</code></p>
+<h1 id="Make-some-audit-option"><a href="#Make-some-audit-option" class="headerlink" title="Make some audit option"></a>Make some audit option</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">AUDIT <span class="keyword">ALTER</span> <span class="keyword">TABLE</span>;</div><div class="line">AUDIT <span class="keyword">DELETE</span> <span class="keyword">ANY</span> <span class="keyword">TABLE</span>;</div><div class="line">AUDIT <span class="keyword">DROP</span> <span class="keyword">ANY</span> <span class="keyword">TABLE</span>;</div><div class="line">AUDIT AUDIT ANY;</div><div class="line">AUDIT AUDIT SYSTEM;</div><div class="line"></div><div class="line">AUDIT ALL BY FRED BY ACCESS;</div><div class="line">audit <span class="keyword">select</span> <span class="keyword">table</span>, <span class="keyword">update</span> <span class="keyword">table</span>, <span class="keyword">delete</span> <span class="keyword">table</span>,</div><div class="line">      <span class="keyword">insert</span> <span class="keyword">table</span>, <span class="keyword">execute</span> <span class="keyword">procedure</span> <span class="keyword">by</span> FRED <span class="keyword">by</span> <span class="keyword">access</span>;</div><div class="line"></div><div class="line">AUDIT <span class="keyword">SELECT</span>, <span class="keyword">INSERT</span>, <span class="keyword">DELETE</span></div><div class="line">     <span class="keyword">ON</span> jward.dept</div><div class="line">     <span class="keyword">BY</span> <span class="keyword">ACCESS</span></div><div class="line">     <span class="keyword">WHENEVER</span> SUCCESSFUL;</div><div class="line"></div><div class="line">AUDIT <span class="keyword">SELECT</span> <span class="keyword">TABLE</span>, <span class="keyword">INSERT</span> <span class="keyword">TABLE</span>, <span class="keyword">DELETE</span> <span class="keyword">TABLE</span>, <span class="keyword">EXECUTE</span> <span class="keyword">PROCEDURE</span></div><div class="line">      <span class="keyword">BY</span> <span class="keyword">ACCESS</span></div><div class="line">      <span class="keyword">WHENEVER</span> <span class="keyword">NOT</span> SUCCESSFUL;</div><div class="line"></div><div class="line">AUDIT <span class="keyword">SELECT</span>, <span class="keyword">UPDATE</span>, <span class="keyword">DELETE</span> <span class="keyword">ON</span> SYS.AUD$ <span class="keyword">BY</span> <span class="keyword">ACCESS</span>;</div><div class="line"><span class="comment">-------- disable them</span></div><div class="line">NOAUDIT <span class="keyword">ALTER</span> <span class="keyword">TABLE</span>;</div><div class="line">...</div></pre></td></tr></table></figure>
+<h1 id="List-audit-record"><a href="#List-audit-record" class="headerlink" title="List audit record"></a>List audit record</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> dba_audit_session <span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">timestamp</span> <span class="keyword">desc</span></div><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> dba_audit_trail <span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">timestamp</span> <span class="keyword">desc</span></div><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> dba_audit_object <span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">timestamp</span> <span class="keyword">desc</span>;</div><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> dba_audit_statement <span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">timestamp</span> <span class="keyword">desc</span>;</div></pre></td></tr></table></figure>
+<h1 id="House-keep-sys-aud-to-reduce-its-size"><a href="#House-keep-sys-aud-to-reduce-its-size" class="headerlink" title="House keep sys.aud$ to reduce its size"></a>House keep sys.aud$ to reduce its size</h1><p><code>truncate sys.aud$</code> or <code>delete sys.aud$</code></p>
+<h1 id="Trace-user’s-behavior"><a href="#Trace-user’s-behavior" class="headerlink" title="Trace user’s behavior"></a>Trace user’s behavior</h1><p><code>show parameter dump</code></p>
+<ul>
+<li>Find <strong>background_dump_dest</strong>/alert_sid.log</li>
+<li>This file would give you some info about user’s behavior in <strong>user_dump_dest</strong>/sid_ora_pid.trc</li>
+</ul>
+<h1 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h1><p>A user Fred was missing someday in db, how to find out the reason. Follow these step</p>
+<ul>
+<li>check alert.log</li>
+<li>check sid_ora_pid.trc</li>
+<li>check dba_audit_session and dba_audit_trail</li>
+</ul>
+<p>Get the user’s role and privilege</p>
+<ul>
+<li>USER_SYS_PRIVS, USER_TAB_PRIVS, USER_ROLE_PRIVS</li>
+<li>DBA_SYS_PRIVS, DBA_TAB_PRIVS, DBA_ROLE_PRIVS</li>
+</ul>
+<p><code>select * from DBA_role_privs</code></p>
+<h1 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h1><p>xming + putty + X11 forwarding<br>run $ORACLE_HOME/bin/dbca</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="http://www.dba-oracle.com/t_audit_table_command.htm" target="_blank" rel="external">Oracle audit command tips</a><br><a href="http://www.symantec.com/connect/articles/introduction-simple-oracle-auditing" target="_blank" rel="external">Introduction to Simple Oracle Auditing</a><br><a href="http://docs.oracle.com/cd/B19306_01/network.102/b14266/cfgaudit.htm" target="_blank" rel="external">Configuring and Administering Auditing</a><br><a href="http://docs.oracle.com/cd/B28359_01/server.111/b28337/tdpsg_auditing.htm#TDPSG50514" target="_blank" rel="external">Auditing Database Activity</a><br><a href="http://docs.oracle.com/cd/B10500_01/server.920/a96521/audit.htm" target="_blank" rel="external">Auditing Database Use</a><br><a href="http://docs.oracle.com/cd/B28359_01/network.111/b28531/auditing.htm" target="_blank" rel="external">Verifying Security Access with Auditing</a><br><a href="http://docs.oracle.com/cd/B28359_01/server.111/b28310/start001.htm#ADMIN11147" target="_blank" rel="external">Starting Up a Database</a><br><a href="http://www.princeton.edu/~mrron/spfile_info.html" target="_blank" rel="external">Spfile and Init.ora Parameter File Startup of an Oracle9i Instance</a><br><a href="http://www.idevelopment.info/data/Oracle/DBA_tips/Database_Administration/DBA_38.shtml" target="_blank" rel="external">Change Static Parameters Through the SPFILE</a><br><a href="http://hi.baidu.com/sonmeika/item/7cc5f9311e8731b8633aff16" target="_blank" rel="external">Oracle_9i_AUDIT_SOP</a><br><a href="http://blog.roodo.com/mywork/archives/8493777.html" target="_blank" rel="external">Oracle Audit 审计</a><br><a href="http://docs.oracle.com/cd/B10501_01/server.920/a96521/privs.htm" target="_blank" rel="external">Managing User Privileges and Roles</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Problem-Solve/">Problem Solve</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

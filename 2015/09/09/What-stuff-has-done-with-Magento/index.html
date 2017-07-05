@@ -1,0 +1,246 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>What stuff has done with Magento | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="What stuff has done with Magento"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-09-09T09:14:17.000Z"><a href="/2015/09/09/What-stuff-has-done-with-Magento/">2015-09-09</a></time>
+      
+      
+  
+    <h1 class="title">What stuff has done with Magento</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p><a href="http://devdocs.magento.com/guides/m1x/index.html" target="_blank" rel="external">http://devdocs.magento.com/guides/m1x/index.html</a><br><a href="http://devdocs.magento.com/guides/m1x/install/installing_install.html" target="_blank" rel="external">http://devdocs.magento.com/guides/m1x/install/installing_install.html</a><br><a href="http://merch.docs.magento.com/ce/user_guide/Magento_Community_Edition_User_Guide.html" target="_blank" rel="external">http://merch.docs.magento.com/ce/user_guide/Magento_Community_Edition_User_Guide.html</a></p>
+<ul>
+<li><p>Upgrade system</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">useradd<span class="built_in"> user</span></div><div class="line"></div><div class="line">yum update</div><div class="line">yum clean</div><div class="line">yum install yum-utils</div><div class="line">yum-complete-transaction</div><div class="line"></div><div class="line">yum install php php-mysql</div><div class="line">yum install httpd</div><div class="line">yum install mysql-server<span class="built_in"></span></div><div class="line">service mysqld start</div><div class="line">mysql_secure_installation</div></pre></td></tr></table></figure>
+</li>
+<li><p>Fix php5.1 upgrade to php5.4w</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">rpm -Uvh http://mirror.webtatic.com/yum/el5/latest.rpm</div><div class="line">yum remove php php-mysql</div><div class="line">yum <span class="keyword">install</span> yum-<span class="keyword">plugin</span>-<span class="keyword">replace</span></div><div class="line">yum <span class="keyword">replace</span> php-common <span class="comment">--replace-with=php54w-common</span></div><div class="line">yum <span class="keyword">install</span> php54w</div><div class="line"></div><div class="line">yum <span class="keyword">install</span> php54w-mcrypt</div><div class="line">yum <span class="keyword">install</span> php54w-gd</div><div class="line">yum <span class="keyword">install</span> php54w-soap</div><div class="line">yum <span class="keyword">install</span> php54w-mbstring</div><div class="line">yum <span class="keyword">install</span> php54w-devel # <span class="keyword">for</span> phpredis extension</div></pre></td></tr></table></figure>
+</li>
+<li><p>disable iptables</p>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">iptables -F</div><div class="line">http://wiki.centos.org/HowT<span class="keyword">os</span>/Network/IPTables</div><div class="line"></div><div class="line">cat /etc/sysconfig/iptables | see the rules</div><div class="line"></div><div class="line">iptables -A INPUT -p tcp -m <span class="keyword">state</span> --state NEW -m tcp --dport <span class="number">21</span> -j ACCEPT</div><div class="line">iptables -A INPUT -p tcp -m <span class="keyword">state</span> --state NEW -m tcp --dport <span class="number">20</span> -j ACCEPT</div><div class="line"></div><div class="line">iptables -A INPUT -j RH-Firewall-<span class="number">1</span>-INPUT</div><div class="line">iptables -A FORWARD -j RH-Firewall-<span class="number">1</span>-INPUT</div><div class="line">iptables -A RH-Firewall-<span class="number">1</span>-INPUT -i lo -j ACCEPT</div><div class="line">iptables -A RH-Firewall-<span class="number">1</span>-INPUT -p icmp --icmp-type <span class="literal">any</span> -j ACCEPT</div><div class="line">iptables -A RH-Firewall-<span class="number">1</span>-INPUT -p <span class="number">50</span> -j ACCEPT</div><div class="line">iptables -A RH-Firewall-<span class="number">1</span>-INPUT -p <span class="number">51</span> -j ACCEPT</div><div class="line">iptables -A RH-Firewall-<span class="number">1</span>-INPUT -p udp --dport <span class="number">5353</span> -d <span class="number">224.0</span>.<span class="number">0.251</span> -j ACCEPT</div><div class="line">iptables -A RH-Firewall-<span class="number">1</span>-INPUT -p udp -m udp --dport <span class="number">631</span> -j ACCEPT</div><div class="line">iptables -A RH-Firewall-<span class="number">1</span>-INPUT -p tcp -m tcp --dport <span class="number">631</span> -j ACCEPT</div><div class="line">iptables -A RH-Firewall-<span class="number">1</span>-INPUT -m <span class="keyword">state</span> --state ESTABLISHED,RELATED -j ACCEPT</div><div class="line">iptables -A RH-Firewall-<span class="number">1</span>-INPUT -m <span class="keyword">state</span> --state NEW -m tcp -p tcp --dport <span class="number">22</span> -j ACCEPT</div><div class="line">iptables -A RH-Firewall-<span class="number">1</span>-INPUT -j REJECT --reject-with icmp-host-prohibited</div><div class="line"></div><div class="line">/*modprobe ip_conntrack_ftp</div><div class="line">iptables -I INPUT  -p tcp -m tcp --dport <span class="number">21</span> -m conntrack --ctstate ESTABLISHED -j ACCEPT -m comment --comment <span class="string">"Allow ftp connections on port 21"</span></div><div class="line">iptables -I OUTPUT -p tcp -m tcp --dport <span class="number">21</span> -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT -m comment --comment <span class="string">"Allow ftp connections on port 21"</span></div><div class="line"></div><div class="line">iptables -I INPUT  -p tcp -m tcp --dport <span class="number">20</span> -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT -m comment --comment <span class="string">"Allow ftp connections on port 20"</span></div><div class="line">iptables -I OUTPUT -p tcp -m tcp --dport <span class="number">20</span> -m conntrack --ctstate ESTABLISHED -j ACCEPT -m comment --comment <span class="string">"Allow ftp connections on port 20"</span></div><div class="line">*/</div><div class="line"></div><div class="line">iptables -I INPUT -m <span class="keyword">state</span> --state NEW,ESTABLISHED -m tcp -p tcp --dport <span class="number">80</span> -j ACCEPT</div><div class="line">iptables -I INPUT -m <span class="keyword">state</span> --state NEW,ESTABLISHED -m tcp -p tcp --dport <span class="number">20022</span>:<span class="number">20023</span> -j ACCEPT</div><div class="line"></div><div class="line">service iptables save</div></pre></td></tr></table></figure>
+</li>
+<li><p>Settings</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">chown -R <span class="number">777</span> magento/media</div><div class="line">php_value memory_limit <span class="number">512</span>M in .htaccess</div><div class="line">upload_max_filesize = <span class="number">100</span>M /etc/php.ini</div></pre></td></tr></table></figure>
+</li>
+<li><p>Fix problem (PHP Fatal error:  Unknown: Failed opening required ‘/var/www/html/magento/index.php’ (include_path=’.:/usr/share/pear:/usr/share/php’) in Unknown on line 0)<br><code>sudo /sbin/restorecon -R /var/www/html/magento/</code></p>
+</li>
+<li><p>Install git</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">yum -y install zlib-devel openssl-devel cpio expat-devel gettext-devel gcc</div><div class="line">wget <span class="symbol">https:</span>/<span class="regexp">/www.kernel.org/pub</span><span class="regexp">/software/scm</span><span class="regexp">/git/git</span>-<span class="number">1.8</span>.<span class="number">5.4</span>.tar.gz</div><div class="line">make configure</div><div class="line">./configure --<span class="keyword">with</span>-expat --<span class="keyword">with</span>-openssl --<span class="keyword">with</span>-curl</div><div class="line">make &amp;&amp; make install</div></pre></td></tr></table></figure>
+</li>
+<li><p>Upgrade mysql</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">yum <span class="built_in">remove</span> mysql-*</div><div class="line">yum <span class="built_in">remove</span> libmysqlclient15-<span class="number">5.0</span>.<span class="number">95</span>-<span class="number">5</span>.w5.x86_64</div><div class="line"></div><div class="line">download mysql-community-release-el5-&#123;<span class="keyword">version</span>-<span class="keyword">number</span>&#125;.noarch.rpm from http://dev.mysql.<span class="keyword">com</span>/doc/mysql-repo-excerpt/<span class="number">5.6</span>/<span class="keyword">en</span>/linux-installation-yum-repo.html</div><div class="line">rpm -Uvh mysql-community-release-el5-<span class="number">5</span>.noarch.rpm</div><div class="line">yum install mysql-community-server</div><div class="line">yum install -<span class="keyword">y</span> dovecot</div><div class="line">yum install -<span class="keyword">y</span> <span class="keyword">perl</span>-DBD-MySQL</div><div class="line">yum install -<span class="keyword">y</span> php54w-mysql</div></pre></td></tr></table></figure>
+</li>
+<li><p>Remove index.php in url<br>in /etc/conf/httpd.conf, in section <code>&lt;Directory &quot;/var/www/html&quot;&gt;</code>, change <code>AllowOverride None</code> to <code>AllowOverride All</code><br>edit magento/.htaccess and uncomment the line: RewriteBase /magento/<br>in admin console,<br>In System-&gt;Configuration-&gt;Web-&gt;Search Engines Optimizations, select Yes<br>In System-&gt;Configuration-&gt;Web-&gt;Secure-&gt;Use Secure Urls in the fontend, select Yes</p>
+</li>
+</ul>
+<ul>
+<li><p>Admin console settings<br>System-&gt;Configuration-&gt;System-&gt;Advanced-&gt;Advanced-&gt;Disable Modules Output<br>System-&gt;Configuration-&gt;System-&gt;Advanced-&gt;Developer-&gt;Log Settings<br>set Mage::setIsDeveloperMode(true); and ini_set(‘display_errors’, 1); in file index.php<br>System-&gt;Cache Management<br>System-&gt;Index Management</p>
+</li>
+<li><p>Access control to catogeroy<br>System-&gt;Category-&gt;Customer Groups Access Control <a href="http://www.zetaprints.com/magentohelp/magento-access-control-for-dynamic-imaging/" target="_blank" rel="external">http://www.zetaprints.com/magentohelp/magento-access-control-for-dynamic-imaging/</a></p>
+</li>
+<li><p>Install extenstion<br>System-&gt;Magento Connect</p>
+</li>
+<li><p>Install phpMyAdmin<br>cd /var/www/html &amp;&amp; mv phpMyAdmin pma</p>
+</li>
+<li><p>Product video link<br><a href="http://de.magentocommerce.com/magento-connect/product-videos-2.html" target="_blank" rel="external">http://de.magentocommerce.com/magento-connect/product-videos-2.html</a><br><a href="http://www.magentocommerce.com/magento-connect/product-video-1.html" target="_blank" rel="external">http://www.magentocommerce.com/magento-connect/product-video-1.html</a><br><a href="http://www.magentocommerce.com/magento-connect/product-video-4.html" target="_blank" rel="external">http://www.magentocommerce.com/magento-connect/product-video-4.html</a><br>Installed <a href="http://www.magentocommerce.com/magento-connect/youtube-video-gallery-1.html" target="_blank" rel="external">http://www.magentocommerce.com/magento-connect/youtube-video-gallery-1.html</a></p>
+</li>
+</ul>
+<ul>
+<li><p>Disable Mage_Notification module to off the noti of callout</p>
+</li>
+<li><p>Set logo<br>System-&gt;Configuration-&gt;General-&gt;design-&gt;Logo Image Src</p>
+</li>
+<li><p>Change color<br>Install ruby and rubygems and compass</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">curl -sSL <span class="string">https:</span><span class="comment">//get.rvm.io | bash</span></div><div class="line">srouce <span class="regexp">/etc/</span>profile.d/rvm.sh</div><div class="line">rvm install <span class="number">1.9</span><span class="number">.3</span></div><div class="line">rvm use <span class="number">1.9</span><span class="number">.3</span> --<span class="keyword">default</span></div><div class="line">gem install compass</div><div class="line">Change color =&gt; compass watch . &amp;&amp; edit skin<span class="regexp">/frontend/</span>rwd<span class="regexp">/default/</span>scss/_var.scss</div></pre></td></tr></table></figure>
+</li>
+<li><p>Log all sql<br>Edit lib/Varien/Db/Adapter/Pdo/Mysql.php, on these $_debug $_logAllQueries, refer to <a href="http://magento.stackexchange.com/questions/25113/how-to-log-all-magento-sql" target="_blank" rel="external">how-to-log-all-magento-sql</a></p>
+</li>
+<li><p>Install Redis</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">wget http<span class="variable">s:</span>//github.<span class="keyword">com</span>/antirez/redis/archive/<span class="number">2.8</span>.<span class="number">21</span>.tar.gz</div><div class="line">tar zxf redis-<span class="number">2.8</span>.<span class="number">21</span>.tar.gz</div><div class="line"><span class="keyword">make</span> &amp;&amp; sudo <span class="keyword">make</span> install</div><div class="line"><span class="keyword">cd</span> utils</div><div class="line">./install_server.<span class="keyword">sh</span> # the <span class="keyword">last</span> answer <span class="keyword">is</span> <span class="string">"/usr/local/bin/redis-server"</span></div><div class="line">sudo chkconfig redis_6379 <span class="keyword">on</span></div><div class="line">sudo service redis_6379 start</div></pre></td></tr></table></figure>
+</li>
+<li><p>Install phpRedisAdmin</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git <span class="keyword">clone</span> <span class="title">git</span>://github.com/ErikDubbelboer/phpRedisAdmin.git</div><div class="line">cd phpRedisAdmin</div><div class="line">git <span class="keyword">clone</span> <span class="title">https</span>://github.com/nrk/predis.git vendor</div></pre></td></tr></table></figure>
+</li>
+<li><p>Install Cm_RedisSession<br>enable Cm_RedisSession module<br><code>/app/etc/modules/Cm_RedisSession.xml</code> active -&gt; true<br><code>rm -rf var/cache</code><br>System &gt; Cache Management, Flush Magento Cache<br>update app/etc/local.xml</p>
+</li>
+<li><p>Install Cm_Cache_Backend_Redis &amp;&amp; phpredis &amp;&amp; modman</p>
+<ul>
+<li>phpredis<figure class="highlight gauss"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">git clone https:<span class="comment">//github.com/phpredis/phpredis</span></div><div class="line">phpize</div><div class="line">./configure [--<span class="keyword">enable</span>-redis-igbinary]</div><div class="line"><span class="built_in">make</span> &amp;&amp; <span class="built_in">make</span> install</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<p>add <code>extension=redis.so</code> in /etc/php.d/redis.ini<br>add config of redis cache in app/etc/local.xml</p>
+<ul>
+<li>Install modman from <a href="https://github.com/colinmollenhour/modman" target="_blank" rel="external">https://github.com/colinmollenhour/modman</a></li>
+</ul>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">modman init</div><div class="line">modman <span class="keyword">clone</span> <span class="title">https</span>://github.com/colinmollenhour/Cm_Cache_Backend_Redis</div></pre></td></tr></table></figure>
+<p>  lib Credis &amp;&amp; Cm_Cache_Backend_Redis are already installed, just copy these files to respective directory<br>  run php stats.php to show the usage of tags in redis</p>
+<ul>
+<li><p>Install tmux</p>
+<ul>
+<li><code>yum install glibc-static</code></li>
+<li>install ncurse : <code>./configure &amp;&amp; make &amp;&amp; sudo make install</code></li>
+<li><p>install tmux :</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">.<span class="regexp">/configure --enable-static CFLAGS="-I/u</span>sr<span class="regexp">/local/i</span>nclude -I<span class="regexp">/usr/</span>local<span class="regexp">/include/</span>ncurses<span class="string">" LDFLAGS="</span>-L<span class="regexp">/usr/</span>local<span class="regexp">/lib -L/u</span>sr<span class="regexp">/local/i</span>nclude -L<span class="regexp">/usr/</span>local<span class="regexp">/include/</span>ncurses<span class="string">" LIBEVENT_CFLAGS="</span>-I<span class="regexp">/usr/</span>local<span class="regexp">/include" LIBEVENT_LIBS="-L/u</span>sr<span class="regexp">/local/</span>lib -levent<span class="string">"</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>Reference: <a href="http://pyther.net/2014/03/building-tmux-1-9a-statically/" target="_blank" rel="external">http://pyther.net/2014/03/building-tmux-1-9a-statically/</a></p>
+</li>
+</ul>
+</li>
+<li><p>Install ranger</p>
+<ul>
+<li>yum install ncurses-devel</li>
+<li>cd Python-2.7.3 &amp;&amp; ./configure &amp;&amp; make &amp;&amp; sudo make</li>
+<li>wget <a href="http://nongnu.org/ranger/ranger-stable.tar.gz" target="_blank" rel="external">http://nongnu.org/ranger/ranger-stable.tar.gz</a></li>
+<li>cd ranger-1.7.1/ &amp;&amp; python setup.py install</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/日常记录/">日常记录</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

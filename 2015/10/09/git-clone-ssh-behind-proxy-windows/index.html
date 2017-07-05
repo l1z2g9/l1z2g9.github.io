@@ -1,0 +1,176 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>git clone ssh behind proxy windows | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="git clone ssh behind proxy windows"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-10-09T07:16:02.000Z"><a href="/2015/10/09/git-clone-ssh-behind-proxy-windows/">2015-10-09</a></time>
+      
+      
+  
+    <h1 class="title">git clone ssh behind proxy windows</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="Git-protocal"><a href="#Git-protocal" class="headerlink" title="Git protocal"></a>Git protocal</h1><figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">git:</span><span class="comment">//</span></div><div class="line"><span class="symbol">https:</span><span class="comment">//</span></div><div class="line"><span class="symbol">ssh:</span><span class="comment">//</span></div></pre></td></tr></table></figure>
+<h1 id="Create-repository"><a href="#Create-repository" class="headerlink" title="Create repository"></a>Create repository</h1><p><code>git init --bare</code></p>
+<h1 id="Clone-repository"><a href="#Clone-repository" class="headerlink" title="Clone repository"></a>Clone repository</h1><p><code>git clone user@remote-server:/home/git/repo.git</code></p>
+<h1 id="Clone-repository-behind-a-firewall-proxy"><a href="#Clone-repository-behind-a-firewall-proxy" class="headerlink" title="Clone repository behind a firewall proxy"></a>Clone repository behind a firewall proxy</h1><ul>
+<li><p>Edit ~/.ssh/config, add following command to it</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ProxyCommand <span class="string">C:</span><span class="regexp">/connect-1.104-win32-msvc/</span>connect.exe -H <span class="string">proxyserver:</span><span class="number">8080</span> %h %p</div><div class="line">IdentityFile <span class="string">"C:/Users/user/Desktop/id_rsa"</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>Open cygwin, run <code>git clone</code> command above to retrieve repository.</p>
+</li>
+</ul>
+<h1 id="Clone-repository-by-git-protocal"><a href="#Clone-repository-by-git-protocal" class="headerlink" title="Clone repository by git protocal"></a>Clone repository by git protocal</h1><ul>
+<li>Install socat, then create a file named gitproxy, its content as below,<br><code>$ sudo vi /usr/bin/gitproxy</code><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/bash</span></div><div class="line"></div><div class="line">PROXY=squid.vpsee.com</div><div class="line">PROXYPORT=3128</div><div class="line">PROXYAUTH=username:password</div><div class="line"><span class="built_in">exec</span> socat STDIO PROXY:<span class="variable">$PROXY</span>:<span class="variable">$1</span>:<span class="variable">$2</span>,proxyport=<span class="variable">$PROXYPORT</span>,proxyauth=<span class="variable">$PROXYAUTH</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><code>$ git config --global core.gitproxy gitproxy</code></p>
+<ul>
+<li>Clone repository<br><code>git clone git://user@remote-server:/home/git/repo.git</code></li>
+</ul>
+<p><a href="http://cms-sw.github.io/tutorial-proxy.html" target="_blank" rel="external">http://cms-sw.github.io/tutorial-proxy.html</a><br><a href="http://www.vpsee.com/2011/07/how-to-use-git-through-a-http-proxy/" target="_blank" rel="external">http://www.vpsee.com/2011/07/how-to-use-git-through-a-http-proxy/</a><br><a href="http://www.laurii.info/2013/04/git-ssh-behind-proxy-windows/" target="_blank" rel="external">http://www.laurii.info/2013/04/git-ssh-behind-proxy-windows/</a><br><a href="http://stackoverflow.com/questions/3248779/which-is-faster-ssh-or-git-protocol" target="_blank" rel="external">http://stackoverflow.com/questions/3248779/which-is-faster-ssh-or-git-protocol</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Oracle/">Oracle</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

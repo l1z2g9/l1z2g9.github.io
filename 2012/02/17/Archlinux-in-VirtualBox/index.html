@@ -1,0 +1,206 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Archlinux in VirtualBox | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Archlinux in VirtualBox"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-02-17T06:36:43.000Z"><a href="/2012/02/17/Archlinux-in-VirtualBox/">2012-02-17</a></time>
+      
+      
+  
+    <h1 class="title">Archlinux in VirtualBox</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="Archlinux安装时候选择"><a href="#Archlinux安装时候选择" class="headerlink" title="Archlinux安装时候选择"></a>Archlinux安装时候选择</h1><pre><code>base-devel
+kernel header
+</code></pre><h1 id="Sharepoint"><a href="#Sharepoint" class="headerlink" title="Sharepoint"></a>Sharepoint</h1><pre><code>mount -t vboxsf sharepoint /mnt/share
+download jre1.7u2
+</code></pre><h1 id="Settings"><a href="#Settings" class="headerlink" title="Settings"></a>Settings</h1><pre><code>download tomcat
+set .profile_bash
+export JRE_HOME=/home/jre.1.7.0_02
+export PATH=$PATH:$JRE_HOME/bin
+</code></pre><h1 id="网络设置"><a href="#网络设置" class="headerlink" title="网络设置"></a>网络设置</h1><ol>
+<li>VirtualBox设置为Bridge模式</li>
+<li><p>查看IP<br> ip addr<br> ls /sys/class/net/</p>
+</li>
+<li><p>设置IP和DNS<br> cat rc.conf<br> cat resolv.conf</p>
+</li>
+<li><p>设置host主机的浏览器访问192.168.56.*的IP不经过proxy</p>
+</li>
+<li>设置<a href="https://wiki.archlinux.org/index.php/Secure_Shell" target="_blank" rel="external">ssh</a></li>
+</ol>
+<p>设置root的密码：<code>passwd root</code></p>
+<p>6.建立pacman的本地仓库<br><a href="https://wiki.archlinux.org/index.php/Pacman_Tips#Installing_packages_from_a_CD.2FDVD.2FISO" target="_blank" rel="external">https://wiki.archlinux.org/index.php/Pacman_Tips#Installing_packages_from_a_CD.2FDVD.2FISO</a></p>
+<p>由于暂时不能上网，所以在pacman.conf文件里注释掉extra和community部分</p>
+<p>简单的测试：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">pacman</span> <span class="selector-tag">-Syu</span></div><div class="line"><span class="selector-tag">pacman</span> <span class="selector-tag">-U</span> <span class="selector-tag">sqlite3-3</span><span class="selector-class">.7</span><span class="selector-class">.7</span><span class="selector-class">.1-1-i686</span><span class="selector-class">.pkg</span><span class="selector-class">.tar</span><span class="selector-class">.xz</span></div></pre></td></tr></table></figure></p>
+<ol>
+<li>使用netty的example下的HexDumpProxy作为代理服务器，<br><code>java -cp netty.jar HexDumpProxy 1099 myproxy 8080</code></li>
+</ol>
+<p>设置环境变量 export http_proxy=<a href="http://192.168.56.15:1099" target="_blank" rel="external">http://192.168.56.15:1099</a></p>
+<p><code>export no_proxy=&quot;localhost,127.0.0.1,192.168.56.15&quot;</code><br>reference:  <a href="https://wiki.archlinux.org/index.php/Proxy_settings" target="_blank" rel="external">https://wiki.archlinux.org/index.php/Proxy_settings</a></p>
+<ol>
+<li><p>使用lynx测试, lynx <a href="http://www.google.com" target="_blank" rel="external">http://www.google.com</a></p>
+</li>
+<li><p>取消pacman.conf的extra和community的注释（因为之前不能上网），在pacman.d/mirrorlist打开任意一个Server<br><code>pacman -Syu</code></p>
+</li>
+<li><p>下载nginx, pacman -S nginx<br>查看<code>pacman -Qil nginx</code></p>
+</li>
+<li><p>运行nginx出现找不到libpcre.so.1的error<br>处理</p>
+</li>
+</ol>
+<ul>
+<li><code>export LD_LIBRARY_PATH=/usr/lib</code></li>
+<li><code>ldconfig</code></li>
+<li><code>ln -s /usr/lib/libpcre.so /usr/lib/libpcre.so.1</code></li>
+</ul>
+<ol>
+<li>安装vsftpd，方便可以在windows上使用editplus编辑文件，然后upload到arch。<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">pacman -S vsftp</div><div class="line"><span class="regexp">/etc/</span>rc.d<span class="regexp">/vsftpd start</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>vsftpd.conf<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">write_enable</span>=<span class="literal">YES</span></div><div class="line"><span class="attribute">local_enable</span>=<span class="literal">YES</span></div><div class="line"></div><div class="line">注释掉<span class="attribute">anonymous_enable</span>=<span class="literal">YES</span></div><div class="line">由于是standalone模式，所以保持<span class="attribute">listen</span>=<span class="literal">YES</span></div></pre></td></tr></table></figure></p>
+<p>参考<br><a href="https://wiki.archlinux.org/index.php/Very_Secure_FTP_Daemon" target="_blank" rel="external">https://wiki.archlinux.org/index.php/Very_Secure_FTP_Daemon</a><br><a href="http://os.51cto.com/art/201008/222036.htm" target="_blank" rel="external">http://os.51cto.com/art/201008/222036.htm</a></p>
+<p>意外情况，安装vsftpd时候，出现很多package的pgp签名有问题的错误，可以参考Archlinux的wiki上pacman-key的文章，我的解决方法是在/etc/pacman.conf中设置SigLevel=Never，不验证package的签名，然后运行</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">pacman -Syy</span></div><div class="line">pacman -S pacman</div><div class="line">pacman -Syu</div></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/工作日志/">工作日志</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

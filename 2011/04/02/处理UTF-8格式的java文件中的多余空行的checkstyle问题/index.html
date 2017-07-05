@@ -1,0 +1,157 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>处理UTF-8格式的java文件中的多余空行的checkstyle问题 | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="处理UTF-8格式的java文件中的多余空行的checkstyle问题"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2011-04-02T06:55:35.000Z"><a href="/2011/04/02/处理UTF-8格式的java文件中的多余空行的checkstyle问题/">2011-04-02</a></time>
+      
+      
+  
+    <h1 class="title">处理UTF-8格式的java文件中的多余空行的checkstyle问题</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <figure class="highlight processing"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> test;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.<span class="keyword">BufferedReader</span>;</div><div class="line"><span class="keyword">import</span> java.io.FileInputStream;</div><div class="line"><span class="keyword">import</span> java.io.FileOutputStream;</div><div class="line"><span class="keyword">import</span> java.io.FileReader;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.ArrayList;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">public</span> class RemoveBlacket</div><div class="line">&#123;</div><div class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="keyword">String</span>[] args)</div><div class="line">      <span class="keyword">throws</span> Exception</div><div class="line">  &#123;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">String</span> file : listPath())</div><div class="line">    &#123;</div><div class="line">      System.out.<span class="built_in">println</span>(file);</div><div class="line">      proces(file);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//    test();</span></div><div class="line">  &#125;</div><div class="line"></div><div class="line"></div><div class="line">  <span class="keyword">static</span> <span class="keyword">void</span> test()</div><div class="line">      <span class="keyword">throws</span> Exception</div><div class="line">  &#123;</div><div class="line">    <span class="keyword">String</span> file = <span class="string">"C:\\Temp.java"</span>;</div><div class="line">    FileInputStream in = <span class="keyword">new</span> FileInputStream(file);</div><div class="line">    <span class="built_in">byte</span>[] bytes = <span class="keyword">new</span> <span class="built_in">byte</span>[<span class="number">81920000</span>];</div><div class="line">    <span class="built_in">int</span> len = in.read(bytes);</div><div class="line">    <span class="keyword">String</span> content = <span class="keyword">new</span> <span class="keyword">String</span>(bytes, <span class="number">0</span>, len, <span class="string">"UTF-8"</span>); <span class="comment">// 以UTF-8格式处理内容</span></div><div class="line">    content = content.replaceAll(<span class="string">"\r\n(\r\n\\s+\\&#125;)"</span>, <span class="string">"$1"</span>);</div><div class="line">    in.close();</div><div class="line"></div><div class="line">    FileOutputStream out = <span class="keyword">new</span> FileOutputStream(<span class="string">"C:/text.java"</span>);</div><div class="line">    <span class="comment">//    OutputStreamWriter writer = new OutputStreamWriter(out);</span></div><div class="line">    System.out.<span class="built_in">println</span>(content);</div><div class="line">    out.write(content.getBytes(<span class="string">"UTF-8"</span>));; <span class="comment">// 还原UTF-8格式内容</span></div><div class="line"></div><div class="line">    <span class="comment">//    writer.close();</span></div><div class="line">    out.close();</div><div class="line"></div><div class="line">  &#125;</div><div class="line"></div><div class="line"></div><div class="line">  <span class="keyword">static</span> <span class="keyword">void</span> proces(<span class="keyword">String</span> file)</div><div class="line">      <span class="keyword">throws</span> Exception</div><div class="line">  &#123;</div><div class="line">    FileInputStream in = <span class="keyword">new</span> FileInputStream(file);</div><div class="line">    <span class="built_in">byte</span>[] bytes = <span class="keyword">new</span> <span class="built_in">byte</span>[<span class="number">80920000</span>];</div><div class="line">    <span class="built_in">int</span> len = in.read(bytes);</div><div class="line">    <span class="keyword">String</span> content = <span class="keyword">new</span> <span class="keyword">String</span>(bytes, <span class="number">0</span>, len, <span class="string">"UTF-8"</span>);<span class="comment">// 以UTF-8格式处理内容</span></div><div class="line">    content = content.replaceAll(<span class="string">"\r\n(\r\n\\s+\\&#125;)"</span>, <span class="string">"$1"</span>);</div><div class="line">    in.close();</div><div class="line"></div><div class="line">    FileOutputStream out = <span class="keyword">new</span> FileOutputStream(file);</div><div class="line">    <span class="comment">//    System.out.println(content);</span></div><div class="line">    out.write(content.getBytes(<span class="string">"UTF-8"</span>));<span class="comment">// 还原UTF-8格式内容</span></div><div class="line"></div><div class="line">    out.close();</div><div class="line">  &#125;</div><div class="line"></div><div class="line"></div><div class="line">  <span class="keyword">static</span> List&lt;<span class="keyword">String</span>&gt; listPath()</div><div class="line">      <span class="keyword">throws</span> Exception</div><div class="line">  &#123;</div><div class="line">    List&lt;<span class="keyword">String</span>&gt; list = <span class="keyword">new</span> ArrayList&lt;<span class="keyword">String</span>&gt;();</div><div class="line">    <span class="keyword">BufferedReader</span> reader = <span class="keyword">new</span> <span class="keyword">BufferedReader</span>(<span class="keyword">new</span> FileReader(<span class="string">"c:/checkstyle-list.txt"</span>));</div><div class="line">    <span class="keyword">String</span> <span class="built_in">line</span>;</div><div class="line">    <span class="keyword">while</span> ((<span class="built_in">line</span> = reader.readLine()) != <span class="keyword">null</span>)</div><div class="line">    &#123;</div><div class="line">      list.<span class="built_in">add</span>(<span class="built_in">line</span>);</div><div class="line">    &#125;</div><div class="line">    reader.close();</div><div class="line"></div><div class="line">    <span class="keyword">return</span> list;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/工作日志/">工作日志</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

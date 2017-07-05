@@ -1,0 +1,188 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Install ffmpeg on CentOS (RHEL/Fedora) | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Install ffmpeg on CentOS (RHEL/Fedora)"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-08-27T07:25:46.000Z"><a href="/2015/08/27/Install-ffmpeg-on-CentOS-RHEL OR Fedora)/">2015-08-27</a></time>
+      
+      
+  
+    <h1 class="title">Install ffmpeg on CentOS (RHEL/Fedora)</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <figure class="highlight dos"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">mkdir</span> ffmpeg_sources</div><div class="line"><span class="built_in">cd</span> ffmpeg_sources/</div></pre></td></tr></table></figure>
+<ul>
+<li><p>yasm</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">wget <span class="symbol">http:</span>/<span class="regexp">/www.tortall.net/projects</span><span class="regexp">/yasm/releases</span><span class="regexp">/yasm-1.2.0.tar.gz</span></div><div class="line">tar zxvf yasm-1.2.0.tar.gz</div><div class="line"># ./configure</div><div class="line">./configure --prefix=<span class="regexp">/opt/software</span><span class="regexp">/ffmpeg_sources/ffmpeg</span>_build</div><div class="line"><span class="comment">#make &amp;&amp; sudo make install</span></div><div class="line">make &amp;&amp; make install</div></pre></td></tr></table></figure>
+</li>
+<li><p>x264</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">sudo echo <span class="string">"/opt/software/ffmpeg_sources/ffmpeg_build/lib"</span> &gt; /etc/ld<span class="selector-class">.so</span><span class="selector-class">.conf</span><span class="selector-class">.d</span>/ffmpeg<span class="selector-class">.conf</span></div><div class="line">sudo ldconfig</div><div class="line">export PATH=<span class="variable">$PATH</span>:/opt/software/ffmpeg_sources/ffmpeg_build/bin</div><div class="line"></div><div class="line"><span class="selector-id">#git</span> clone git:<span class="comment">//git.videolan.org/x264.git (old)</span></div><div class="line">git clone https:<span class="comment">//git.videolan.org/git/x264.git</span></div><div class="line">cd x264</div><div class="line">./configure --prefix=/opt/software/ffmpeg_sources/ffmpeg_build --enable-static</div><div class="line">make &amp;&amp; make install</div></pre></td></tr></table></figure>
+</li>
+<li><p>lame</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">curl -L -O <span class="symbol">http:</span>/<span class="regexp">/downloads.sourceforge.net/project</span><span class="regexp">/lame/lame</span><span class="regexp">/3.99/lame</span>-<span class="number">3.99</span>.<span class="number">5</span>.tar.gz</div><div class="line">tar zxf lame-<span class="number">3.99</span>.<span class="number">5</span>.tar.gz</div><div class="line">./configure --prefix=<span class="regexp">/opt/software</span><span class="regexp">/ffmpeg_sources/ffmpeg</span>_build --enable-nasm</div><div class="line">make &amp;&amp; sudo make install</div></pre></td></tr></table></figure>
+</li>
+<li><p>ogg</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">wget <span class="symbol">http:</span>/<span class="regexp">/downloads.xiph.org/releases</span><span class="regexp">/ogg/libogg</span>-<span class="number">1.3</span>.<span class="number">0</span>.tar.gz</div><div class="line">tar zxvf libogg-<span class="number">1.3</span>.<span class="number">0</span>.tar.gz</div><div class="line">cd libogg-<span class="number">1.3</span>.<span class="number">0</span></div><div class="line">./configure --prefix=<span class="regexp">/opt/software</span><span class="regexp">/ffmpeg_sources/ffmpeg</span>_build</div><div class="line">make &amp;&amp; make install</div></pre></td></tr></table></figure>
+</li>
+<li><p>libvorbis</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">curl -O <span class="symbol">http:</span>/<span class="regexp">/downloads.xiph.org/releases</span><span class="regexp">/vorbis/libvorbis</span>-<span class="number">1.3</span>.<span class="number">4</span>.tar.gz</div><div class="line">tar zxvf libvorbis-<span class="number">1.3</span>.<span class="number">4</span>.tar.gz</div><div class="line">export PKG_CONFIG_PATH=<span class="variable">$PKG_CONFIG_PATH</span><span class="symbol">:/opt/software/ffmpeg_sources/ffmpeg_build/lib/pkgconfig</span></div><div class="line">./configure --prefix=<span class="regexp">/opt/software</span><span class="regexp">/ffmpeg_sources/ffmpeg</span>_build --with-ogg</div><div class="line">make &amp;&amp; make install</div></pre></td></tr></table></figure>
+</li>
+<li><p>libvpx</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">git clone http<span class="variable">s:</span>//github.<span class="keyword">com</span>/webmproject/libvpx.git #(need <span class="keyword">to</span> <span class="keyword">set</span> core.gitProxy)</div><div class="line"><span class="keyword">cd</span> libvpx/</div><div class="line">./configure --prefix=/<span class="keyword">opt</span>/software/ffmpeg_sources/ffmpeg_build </div><div class="line"><span class="keyword">make</span> &amp;&amp; sudo <span class="keyword">make</span> install</div><div class="line"></div><div class="line">#sudo <span class="keyword">echo</span> /usr/local/lib &gt; /etc/ld.<span class="keyword">so</span>.<span class="keyword">conf</span>.d/local-libs.<span class="keyword">conf</span></div><div class="line">sudo ldconfig</div></pre></td></tr></table></figure>
+</li>
+<li><p>xvidcore</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">wget <span class="symbol">http:</span>/<span class="regexp">/downloads.xvid.org/downloads</span><span class="regexp">/xvidcore-1.3.2.tar.gz</span></div><div class="line">tar zxf xvidcore-1.3.2.tar.gz</div><div class="line">cd xvidcore/build<span class="regexp">/generic</span></div><div class="line">./configure --prefix=<span class="regexp">/opt/software</span><span class="regexp">/ffmpeg_sources/ffmpeg</span>_build</div><div class="line">make &amp;&amp; make install</div></pre></td></tr></table></figure>
+</li>
+<li><p>ffmpeg</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#git clone git://git.videolan.org/ffmpeg.git (old)</span></div><div class="line">git clone <span class="symbol">https:</span>/<span class="regexp">/git.videolan.org/git</span><span class="regexp">/ffmpeg.git</span></div><div class="line">cd ffmpeg</div><div class="line">./configure --prefix=<span class="regexp">/opt/software</span><span class="regexp">/ffmpeg_sources/ffmpeg</span>_build --enable-libmp3lame --enable-gpl --enable-libx264 --enable-libxvid --enable-postproc --enable-nonfree --enable-libvpx --enable-libvorbis --extra-cflags=-I/opt/software/ffmpeg_sources/ffmpeg_build/<span class="keyword">include</span> --extra-ldflags=-L/opt/software/ffmpeg_sources/ffmpeg_build/<span class="class"><span class="keyword">lib</span> <span class="comment">## no faac --enable-libfaac</span></span></div><div class="line">make &amp;&amp; make install</div><div class="line"></div><div class="line">ffmpeg -headers <span class="string">"X-Forwarded-For: 160.53.186.194"</span> -i <span class="symbol">http:</span>/<span class="regexp">/stmw.rthk.hk/aod</span><span class="regexp">/_definst_/radio</span><span class="regexp">/archive/radio</span>1/City_Snapshot/mp3/<span class="symbol">mp3:</span><span class="number">20150824</span>.mp3/playlist.m3u8 -c copy City_Snapshot-<span class="number">20150824</span>-.mp3</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>the option “headers” must be put here for download this m3u8</p>
+<ul>
+<li>Reference<br><a href="https://trac.ffmpeg.org/wiki/CompilationGuide/Centos" target="_blank" rel="external">https://trac.ffmpeg.org/wiki/CompilationGuide/Centos</a><br><a href="http://injustfiveminutes.com/2013/07/17/how-to-compile-latest-version-of-ffmpeg-on-centos-5/" target="_blank" rel="external">http://injustfiveminutes.com/2013/07/17/how-to-compile-latest-version-of-ffmpeg-on-centos-5/</a></li>
+</ul>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/日常记录/">日常记录</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

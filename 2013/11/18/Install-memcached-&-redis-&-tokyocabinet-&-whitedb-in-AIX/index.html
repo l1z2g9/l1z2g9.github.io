@@ -1,0 +1,192 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Install memcached &amp; redis &amp; tokyocabinet &amp; whitedb in AIX | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Install memcached &amp; redis &amp; tokyocabinet &amp; whitedb in AIX"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2013-11-18T07:02:16.000Z"><a href="/2013/11/18/Install-memcached-&-redis-&-tokyocabinet-&-whitedb-in-AIX/">2013-11-18</a></time>
+      
+      
+  
+    <h1 class="title">Install memcached &amp; redis &amp; tokyocabinet &amp; whitedb in AIX</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="Memcached"><a href="#Memcached" class="headerlink" title="Memcached"></a>Memcached</h1><ul>
+<li>for GNU make, download gmake from <a href="http://www.bullfreeware.com/affichage.php?id=1264" target="_blank" rel="external">http://www.bullfreeware.com/affichage.php?id=1264</a></li>
+<li>Download libevent-2.0.21-stable.tar.gz and memcached-1.4.15.tar.gz from offical website</li>
+<li><p>Configure &amp; Install</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">.<span class="regexp">/configure --prefix=/</span>home<span class="regexp">/action/</span>libevent</div><div class="line">.<span class="regexp">/configure --with-libevent=/</span>home<span class="regexp">/action/</span>libevent<span class="regexp">/ --prefix=/</span>home<span class="regexp">/action/m</span>emcached</div></pre></td></tr></table></figure>
+</li>
+<li><p>Rename method</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sed <span class="string">'s/thread_init/thread_init_memcached/g'</span> memcached<span class="selector-class">.h</span> &gt; memcached<span class="selector-class">.h</span></div><div class="line">sed <span class="string">'s/thread_init/thread_init_memcached/g'</span> memcached<span class="selector-class">.c</span> &gt; memcached<span class="selector-class">.c</span></div><div class="line">sed <span class="string">'s/thread_init/thread_init_memcached/g'</span> thread<span class="selector-class">.c</span> &gt; thread.c</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li>Problem<br>  Can’t enable threads without the POSIX thread library.</li>
+<li><p>Solve<br>  Remove “-Wl,-rpath,$ledir/lib” in file configure</p>
+</li>
+<li><p>Reference<br><a href="http://rikugun.iteye.com/blog/982739" target="_blank" rel="external">AIX 下安装 memcached</a></p>
+</li>
+</ul>
+<h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><ul>
+<li>Download redis from <a href="http://www.perzl.org/aix/index.php?n=Main.Redis" target="_blank" rel="external">http://www.perzl.org/aix/index.php?n=Main.Redis</a></li>
+<li>Download dependencies from <a href="http://www.bullfreeware.com/" target="_blank" rel="external">http://www.bullfreeware.com/</a></li>
+<li>check dependency <code>rpm -qRp redis-2.6.16-1.aix5.2.ppc.rpm</code></li>
+<li><p>check file list </p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">rpm -qlp redis<span class="number">-2.6</span><span class="number">.16</span><span class="number">-1.</span>aix5<span class="number">.2</span>.ppc.rpm`</div><div class="line">rpm -ivh logrotate<span class="number">-3.8</span><span class="number">.3</span><span class="number">-1</span></div><div class="line">rpm -ivh popt<span class="number">-1.16</span><span class="number">-2</span></div><div class="line">rpm -ivh coreutils<span class="number">-8.21</span><span class="number">-1</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>Reference<br><a href="http://gqglblog.sinaapp.com/?cat=3" target="_blank" rel="external">Redis 2.4持久化测试报告</a><br><a href="http://nosql-database.org/" target="_blank" rel="external">nosql-database</a></p>
+</li>
+</ul>
+<h1 id="tokyocabinet"><a href="#tokyocabinet" class="headerlink" title="tokyocabinet"></a>tokyocabinet</h1><ul>
+<li>Download tokyocabinet-1.4.48 from <a href="http://fallabs.com/tokyocabinet/" target="_blank" rel="external">http://fallabs.com/tokyocabinet/</a> <figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">./configure --prefix=/home/action/tokyocabinet</div><div class="line">sed <span class="string">'s/-Wl,-soname,libtokyocabinet.so.$(LIBVER)//g'</span> Makefile &gt; Makefile<span class="selector-class">.bak</span></div><div class="line">mv Makefile<span class="selector-class">.bak</span> Makefile</div><div class="line">gmake</div><div class="line">gmake install</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="whitedb"><a href="#whitedb" class="headerlink" title="whitedb"></a>whitedb</h1><ul>
+<li>Download whitedb-0.6.1 from <a href="http://whitedb.org" target="_blank" rel="external">http://whitedb.org</a> <figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="string">./configure</span> <span class="params">--prefix=/home/action/whitedb</span> <span class="params">--with-python</span> <span class="string">//</span> found python binding not work</div><div class="line">sed 's/LIBS = -lm <span class="string">/LIBS</span> = -lm -lpthread <span class="string">/g</span>' Makefile &gt; Makefile.bak</div><div class="line">mv Makefile.bak Makefile</div><div class="line">gmake</div><div class="line">gmake install</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="Package-in-my-AIX"><a href="#Package-in-my-AIX" class="headerlink" title="Package in my AIX"></a>Package in my AIX</h1><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">rpm -qa</div><div class="line"></div><div class="line">rsync<span class="number">-3.0</span><span class="number">.6</span><span class="number">-1</span></div><div class="line">tcl<span class="number">-8.4</span><span class="number">.7</span><span class="number">-3</span></div><div class="line">tk<span class="number">-8.4</span><span class="number">.7</span><span class="number">-3</span></div><div class="line">expect<span class="number">-5.42</span><span class="number">.1</span><span class="number">-3</span></div><div class="line">bash<span class="number">-4.2</span><span class="number">-1</span></div><div class="line">AIX-rpm<span class="number">-7.1</span><span class="number">.1</span><span class="number">.15</span><span class="number">-2</span></div><div class="line">gettext<span class="number">-0.17</span><span class="number">-8</span></div><div class="line">gdbm<span class="number">-1.10</span><span class="number">-1</span></div><div class="line">libiconv<span class="number">-1.14</span><span class="number">-1</span></div><div class="line">ncurses<span class="number">-5.9</span><span class="number">-3</span></div><div class="line">info<span class="number">-5.0</span><span class="number">-2</span></div><div class="line">readline<span class="number">-6.2</span><span class="number">-3</span></div><div class="line">sqlite<span class="number">-3.7</span><span class="number">.15</span><span class="number">.2</span><span class="number">-2</span></div><div class="line">gmp<span class="number">-5.1</span><span class="number">.3</span><span class="number">-1</span></div><div class="line">db<span class="number">-4.8</span><span class="number">.24</span><span class="number">-4</span></div><div class="line">zlib<span class="number">-1.2</span><span class="number">.5</span><span class="number">-6</span></div><div class="line">libffi<span class="number">-3.0</span><span class="number">.9</span><span class="number">-3</span></div><div class="line">bzip2<span class="number">-1.0</span><span class="number">.6</span><span class="number">-2</span></div><div class="line">expat<span class="number">-2.1</span><span class="number">.0</span><span class="number">-1</span></div><div class="line">python<span class="number">-2.7</span><span class="number">.2</span><span class="number">-3</span></div><div class="line">mpfr<span class="number">-3.1</span><span class="number">.2</span><span class="number">-1</span></div><div class="line">libmpc<span class="number">-0.9</span><span class="number">-1</span></div><div class="line">logrotate<span class="number">-3.8</span><span class="number">.3</span><span class="number">-1</span></div><div class="line">libgcc<span class="number">-4.8</span><span class="number">.1</span><span class="number">-1</span></div><div class="line">zlib-devel<span class="number">-1.2</span><span class="number">.5</span><span class="number">-6</span></div><div class="line">bzip2-devel<span class="number">-1.0</span><span class="number">.6</span><span class="number">-2</span></div><div class="line">gcc<span class="number">-4.8</span><span class="number">.1</span><span class="number">-1</span></div><div class="line">gcc-cpp<span class="number">-4.8</span><span class="number">.1</span><span class="number">-1</span></div><div class="line">libstdc++<span class="number">-4.8</span><span class="number">.1</span><span class="number">-1</span></div><div class="line">libstdc++-devel<span class="number">-4.8</span><span class="number">.1</span><span class="number">-1</span></div><div class="line">gcc-c++<span class="number">-4.8</span><span class="number">.1</span><span class="number">-1</span></div><div class="line">make<span class="number">-3.82</span><span class="number">-2</span></div><div class="line">popt<span class="number">-1.16</span><span class="number">-2</span></div><div class="line">coreutils<span class="number">-8.21</span><span class="number">-1</span></div><div class="line">redis<span class="number">-2.6</span><span class="number">.16</span><span class="number">-1</span></div><div class="line">python-memcached<span class="number">-1.53</span><span class="number">-1</span></div><div class="line">python-devel<span class="number">-2.7</span><span class="number">.2</span><span class="number">-3</span></div></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/AIX/">AIX</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

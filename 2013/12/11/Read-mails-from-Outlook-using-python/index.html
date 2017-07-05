@@ -1,0 +1,160 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Read mails from Outlook using python | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Read mails from Outlook using python"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2013-12-11T07:11:36.000Z"><a href="/2013/12/11/Read-mails-from-Outlook-using-python/">2013-12-11</a></time>
+      
+      
+  
+    <h1 class="title">Read mails from Outlook using python</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="code-as-following"><a href="#code-as-following" class="headerlink" title="code as following"></a>code as following</h1><figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> win32com.client, sqlite3</div><div class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</div><div class="line"></div><div class="line"><span class="keyword">def</span> collectMail():</div><div class="line">    conn = sqlite3.connect(<span class="string">'outlook.db'</span>)</div><div class="line">    i = <span class="number">0</span></div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        outlook = win32com.client.Dispatch(<span class="string">"Outlook.Application"</span>).GetNamespace(<span class="string">"MAPI"</span>)</div><div class="line"></div><div class="line">        inbox = outlook.GetDefaultFolder(<span class="number">6</span>)</div><div class="line">        messages = inbox.Items</div><div class="line">        <span class="keyword">print</span> <span class="string">'total messages: '</span>, len(messages)</div><div class="line">        message = messages.GetFirst ()</div><div class="line">        <span class="keyword">while</span> message:</div><div class="line">            i += <span class="number">1</span></div><div class="line">            <span class="keyword">try</span>:</div><div class="line">                subject = message.Subject</div><div class="line">                #<span class="keyword">print</span> i, subject</div><div class="line"></div><div class="line">                received_time = str(message.ReceivedTime)</div><div class="line">                #<span class="keyword">print</span> received_time</div><div class="line">                received_time = datetime.strptime(received_time, <span class="string">'%m/%d/%y %H:%M:%S'</span>)</div><div class="line">                #<span class="keyword">print</span> message.EntryID</div><div class="line">                html_body = message.HTMLBody</div><div class="line">                <span class="keyword">size</span> = <span class="keyword">long</span>(message.<span class="keyword">Size</span>)</div><div class="line"></div><div class="line">                sender =  message.SenderName</div><div class="line">                receiver = message.To</div><div class="line">                cc = message.Cc</div><div class="line">                body = message.Body</div><div class="line">                conn.execute(<span class="string">'insert into outlook(SUBJECT, SENDER, RECEIVER, CC, SIZE, RECEIVED_TIME, BODY, HTML_BODY) values(?, ?, ?, ?, ?, ?, ?, ?)'</span>, (subject, sender, receiver, cc, <span class="keyword">size</span>, received_time, body, html_body))</div><div class="line">                conn.commit()</div><div class="line">            except:</div><div class="line">                <span class="keyword">print</span> i, <span class="string">'skip'</span></div><div class="line">                <span class="keyword">continue</span></div><div class="line"></div><div class="line">            message = messages.GetNext()</div><div class="line">    <span class="keyword">finally</span>:</div><div class="line">        <span class="keyword">print</span> <span class="string">'connection closed'</span></div><div class="line">        conn.close()</div><div class="line"></div><div class="line"></div><div class="line">collectMail()</div></pre></td></tr></table></figure>
+<h1 id="sql-to-create-table"><a href="#sql-to-create-table" class="headerlink" title="sql to create table"></a>sql to create table</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> outlook(</div><div class="line"><span class="keyword">ID</span> <span class="built_in">INTEGER</span> PRIMARY <span class="keyword">KEY</span>   AUTOINCREMENT,</div><div class="line">SUBJECT <span class="built_in">VARCHAR</span>(<span class="number">200</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</div><div class="line">SENDER <span class="built_in">VARCHAR</span>(<span class="number">200</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</div><div class="line">RECEIVER <span class="built_in">VARCHAR</span>(<span class="number">200</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</div><div class="line">CC  <span class="built_in">VARCHAR</span>(<span class="number">200</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</div><div class="line"><span class="keyword">SIZE</span> <span class="keyword">LONG</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</div><div class="line">RECEIVED_TIME DATETIME,</div><div class="line"><span class="keyword">BODY</span> <span class="built_in">TEXT</span>,</div><div class="line">HTML_BODY <span class="built_in">TEXT</span>);</div></pre></td></tr></table></figure>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="http://stackoverflow.com/questions/18761465/python-script-to-read-the-emails-from-custom-folder-from-microsoft-outlook-mailb" target="_blank" rel="external">python-script-to-read-the-emails-from-custom-folder-from-microsoft-outlook-mailb</a><br><a href="http://stackoverflow.com/questions/5077625/reading-e-mails-from-outlook-with-python-through-mapi" target="_blank" rel="external">reading-e-mails-from-outlook-with-python-through-mapi</a><br><a href="http://msdn.microsoft.com/en-us/library/microsoft.office.interop.outlook.aspx" target="_blank" rel="external">microsoft.office.interop.outlook</a><br><a href="http://www.tutorialspoint.com/sqlite/sqlite_using_autoincrement.htm" target="_blank" rel="external">sqlite_using_autoincrement</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/AIX/">AIX</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

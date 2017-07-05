@@ -1,0 +1,162 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>System Performance Statistics Report Summary | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="System Performance Statistics Report Summary"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-11-20T06:17:22.000Z"><a href="/2012/11/20/System-Performance-Statistics-Report-Summary/">2012-11-20</a></time>
+      
+      
+  
+    <h1 class="title">System Performance Statistics Report Summary</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="statpack"><a href="#statpack" class="headerlink" title="statpack"></a>statpack</h1><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ls</span> -<span class="keyword">lt</span> /sharedrive/data/statpack_result | <span class="keyword">grep</span> MM</div><div class="line">/sharedrive/scripts/perfstat/spreport.<span class="keyword">sh</span> MM</div></pre></td></tr></table></figure>
+<figure class="highlight nsis"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sqlplus perfstat/password@<span class="string">"(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=DBServer)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=xxrac)))"</span></div><div class="line">@<span class="variable">$ORACLE_HOME</span>/rdbms/<span class="literal">admin</span>/spreport.sql</div><div class="line">@?/rdbms/<span class="literal">admin</span>/spreport.sql</div><div class="line">@<span class="variable">$ORACLE_HOME</span>/rdbms/<span class="literal">admin</span>/sppurge.sql</div></pre></td></tr></table></figure>
+<h2 id="find-max-min-snap-id"><a href="#find-max-min-snap-id" class="headerlink" title="find max, min snap_id"></a>find max, min snap_id</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> startup_time, <span class="keyword">count</span>(<span class="number">1</span>) <span class="keyword">from</span> STATS$<span class="keyword">snapshot</span> <span class="keyword">where</span> snap_time <span class="keyword">between</span> <span class="keyword">to_date</span>(<span class="string">'2014-11-01'</span>, <span class="string">'yyyy-mm-dd'</span>) <span class="keyword">and</span> <span class="keyword">to_date</span>(<span class="string">'2014-11-30'</span>, <span class="string">'yyyy-mm-dd'</span>) <span class="keyword">group</span> <span class="keyword">by</span> startup_time;</div><div class="line"></div><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> STATS$<span class="keyword">snapshot</span> <span class="keyword">where</span> snap_time <span class="keyword">between</span> <span class="keyword">to_date</span>(<span class="string">'2014-11-01'</span>, <span class="string">'yyyy-mm-dd'</span>) <span class="keyword">and</span> <span class="keyword">to_date</span>(<span class="string">'2014-11-30'</span>, <span class="string">'yyyy-mm-dd'</span>) <span class="keyword">and</span> to_char(startup_time, <span class="string">'yyyy-mm-dd hh24:mi:ss'</span>) = <span class="string">'2014-10-16 18:42:52'</span> <span class="keyword">order</span> <span class="keyword">by</span> snap_id;</div></pre></td></tr></table></figure>
+<p><a href="http://burleson-dba.com/SP/" target="_blank" rel="external">http://burleson-dba.com/SP/</a></p>
+<h1 id="performance-statistic"><a href="#performance-statistic" class="headerlink" title="performance statistic"></a>performance statistic</h1><figure class="highlight q"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">/aix-combine-<span class="built_in">csv</span>-daily-to-<span class="built_in">csv</span>-month-parameter.sh Server <span class="number">2015</span> <span class="number">07</span></div><div class="line">/aix-calc-monthly-<span class="built_in">avg</span>.sh Server <span class="number">2015</span> <span class="number">07</span> </div><div class="line">/aix-calc-monthly-<span class="built_in">avg</span>.sh Server <span class="number">2015</span> <span class="number">07</span> | awk  -F ','  '&#123;print $<span class="number">2</span><span class="string">","</span>$<span class="number">4</span><span class="string">"M"</span>&#125;'</div><div class="line">/aix-calc-monthly-<span class="built_in">avg</span>.sh Server <span class="number">2015</span> <span class="number">07</span> | awk  -F ','  '&#123;print $<span class="number">2</span><span class="string">","</span>$<span class="number">5</span><span class="string">"%"</span>&#125;'</div><div class="line"></div><div class="line"><span class="keyword">select</span> df.tablespace_name <span class="string">"Tablespace"</span>,</div><div class="line">round(<span class="number">100</span> * ( (df.totalspace - tu.totalusedspace)/ df.totalspace)) || '%'</div><div class="line"><span class="string">"Pct. Free"</span></div><div class="line"><span class="keyword">from</span></div><div class="line">(<span class="keyword">select</span> tablespace_name,</div><div class="line">round(<span class="built_in">sum</span>(bytes) / <span class="number">1048576</span>) TotalSpace</div><div class="line"><span class="keyword">from</span> dba_data_files </div><div class="line"><span class="built_in">group</span> <span class="keyword">by</span> tablespace_name) df,</div><div class="line">(<span class="keyword">select</span> round(<span class="built_in">sum</span>(bytes)/(<span class="number">1024</span>*<span class="number">1024</span>)) totalusedspace, tablespace_name</div><div class="line"><span class="keyword">from</span> dba_segments </div><div class="line"><span class="built_in">group</span> <span class="keyword">by</span> tablespace_name) tu</div><div class="line"><span class="built_in">where</span> df.tablespace_name = tu.tablespace_name order <span class="keyword">by</span> df.tablespace_name ;</div></pre></td></tr></table></figure>
+<h1 id="WEB-server"><a href="#WEB-server" class="headerlink" title="WEB server"></a>WEB server</h1><figure class="highlight smali"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">D:\perfstat-bin\convert\relog-daily-blg-to-monthly-csv.bat 201501</div><div class="line"><span class="keyword">.</span>/relog-daily-blg-to-monthly-csv.bat 201501<span class="built_in"></span></div><div class="line">check D:\perfstat-csv</div><div class="line"></div><div class="line">cd /cygdrive/d/perfstat-bin/convert</div><div class="line">relog ../../PerfLogs/Web_201506*.blg -cf relog-parameters.txt -f csv -o ../../perfstat-csv/Web_201506.csv</div></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/AIX/">AIX</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

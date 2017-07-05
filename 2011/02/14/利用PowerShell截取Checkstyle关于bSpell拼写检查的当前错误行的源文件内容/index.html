@@ -1,0 +1,158 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>利用PowerShell截取Checkstyle关于bSpell拼写检查的当前错误行的源文件内容 | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="利用PowerShell截取Checkstyle关于bSpell拼写检查的当前错误行的源文件内容"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2011-02-14T07:51:18.000Z"><a href="/2011/02/14/利用PowerShell截取Checkstyle关于bSpell拼写检查的当前错误行的源文件内容/">2011-02-14</a></time>
+      
+      
+  
+    <h1 class="title">利用PowerShell截取Checkstyle关于bSpell拼写检查的当前错误行的源文件内容</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h3 id="ps1"><a href="#ps1" class="headerlink" title="ps1"></a>ps1</h3><figure class="highlight plain"><figcaption><span>go&#123;</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">    $gbk = [System.Text.Encoding]::GetEncoding(&quot;GBK&quot;)</div><div class="line">    $utf8 = [System.Text.Encoding]::UTF8</div><div class="line"></div><div class="line">    $result = &apos;spell-filter.txt&apos;</div><div class="line">    $encoding = [System.Text.Encoding]::GetEncoding(&quot;GBK&quot;)</div><div class="line">    rm $result -ea SilentlyContinue</div><div class="line">    $xml = cat checkstyle.xml</div><div class="line">    $xml = [xml]$xml  # 类型转换</div><div class="line">    $xml.checkstyle.file|%&#123;$_.error&#125;|?&#123;$_.source -match &apos;SpellCheck&apos;&#125;|</div><div class="line">    %&#123;</div><div class="line">      $fileContent = cat $_.parentNode.name -total $_.line -ea SilentlyContinue # 文件有可能不存在，所以要【静音】</div><div class="line">      $word = (($_.message -replace &apos;The Spelling of word &apos;, &apos;&apos;) -replace &apos;may be illegal. .*&apos;, &apos;&apos;) # 错误的拼写内容</div><div class="line"></div><div class="line">      if ($fileContent -ne $Null)&#123;</div><div class="line">        $code = $gbk.GetBytes($fileContent[-1]) # 错误的代码行</div><div class="line">        $code = $utf8.GetString($code)</div><div class="line">        &apos;文件: &apos; + $_.parentNode.name + &apos; ,行号：&apos; + $_.line + &apos; ,拼写错误：&apos; +  $word + &apos; ,代码：&apos; + $code&gt;&gt; $result</div><div class="line">      &#125;else&#123;</div><div class="line">        &apos;不存在的文件： &apos; + $_.parentNode.name + &apos; , &apos; + $_.line + &apos; , &apos; +  $word </div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">go</div></pre></td></tr></table></figure>
+<h3 id="checkstyle-xml"><a href="#checkstyle-xml" class="headerlink" title="checkstyle.xml"></a>checkstyle.xml</h3><figure class="highlight vhdl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span>?&gt;</div><div class="line">&lt;checkstyle version=<span class="string">"5.0"</span>&gt;</div><div class="line">&lt;<span class="keyword">file</span> name=<span class="string">"package_zh_CN.properties"</span>&gt;</div><div class="line">&lt;<span class="literal">error</span> <span class="literal">line</span>=<span class="string">"114"</span> column=<span class="string">"81"</span> <span class="keyword">severity</span>=<span class="string">"error"</span> message=<span class="string">"The Spelling of word &amp;quot;pageing&amp;quot; may be illegal. The suggestion(s) include(s): [paging, ageing, panging, pugging, pegging]"</span> source=<span class="string">"SpellCheck"</span>/&gt;</div><div class="line">&lt;<span class="literal">error</span> <span class="literal">line</span>=<span class="string">"117"</span> column=<span class="string">"84"</span> <span class="keyword">severity</span>=<span class="string">"error"</span> message=<span class="string">"The Spelling of word &amp;quot;pageing&amp;quot; may be illegal. The suggestion(s) include(s): [paging, ageing, panging, pugging, pegging]"</span> source=<span class="string">"SpellCheck"</span>/&gt;</div><div class="line">&lt;/<span class="keyword">file</span>&gt;</div><div class="line">&lt;<span class="keyword">file</span> name=<span class="string">"addOrDel.js"</span>&gt;</div><div class="line">&lt;<span class="literal">error</span> <span class="literal">line</span>=<span class="string">"1"</span> <span class="keyword">severity</span>=<span class="string">"info"</span> message=<span class="string">"File length is 2,373 lines (max allowed is 2,000)."</span> source=<span class="string">"com.puppycrawl.tools.checkstyle.checks.sizes.FileLengthCheck"</span>/&gt;</div><div class="line">&lt;/<span class="keyword">file</span>&gt;</div><div class="line">&lt;<span class="keyword">file</span> name=<span class="string">"showDataDictDetail.jsp"</span>&gt;</div><div class="line">&lt;<span class="literal">error</span> <span class="literal">line</span>=<span class="string">"10"</span> column=<span class="string">"19"</span> <span class="keyword">severity</span>=<span class="string">"error"</span> message=<span class="string">"The Spelling of word &amp;quot;stylesheet&amp;quot; may be illegal. The suggestion(s) include(s): [StyleSheet]"</span> source=<span class="string">"SpellCheck"</span>/&gt;</div><div class="line">&lt;/<span class="keyword">file</span>&gt;</div><div class="line">&lt;/checkstyle&gt;</div></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/工作日志/">工作日志</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Метки</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
