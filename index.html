@@ -62,7 +62,7 @@
     </header>
     <div class="entry">
       
-        <figure class="highlight smalltalk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line">[core]</div><div class="line">  repositoryformatversion = <span class="number">0</span></div><div class="line">  filemode = <span class="keyword">false</span></div><div class="line">  bare = <span class="keyword">false</span></div><div class="line">  logallrefupdates = <span class="keyword">true</span></div><div class="line">  symlinks = <span class="keyword">false</span></div><div class="line">  ignorecase = <span class="keyword">true</span></div><div class="line">  hideDotFiles = dotGitOnly</div><div class="line">[alias]</div><div class="line">  st=status</div><div class="line">  ci=commit</div><div class="line">  co=checkout</div><div class="line">  br=branch</div><div class="line">  di=difftool</div><div class="line">  mt=mergetool</div><div class="line">[remote <span class="comment">"origin"</span>]</div><div class="line">  url = https://<span class="number">192.168</span><span class="number">.1</span><span class="number">.107</span>/git/my-repo.git</div><div class="line">  fetch = +refs/heads/*:refs/remotes/origin/*</div><div class="line">[remote <span class="comment">"usb"</span>]</div><div class="line">  url = <span class="type">G</span>:\\share_drive\\<span class="type">Other</span>\\my-repo.git</div><div class="line">  fetch = +refs/heads/*:refs/remotes/origin/*</div><div class="line"></div><div class="line">[diff]</div><div class="line">    tool = bc3</div><div class="line">[difftool]</div><div class="line">    prompt = <span class="keyword">false</span></div><div class="line">[difftool <span class="comment">"bc3"</span>]</div><div class="line">    <span class="symbol">#use</span> cygpath to transform cygwin path <span class="string">$L</span>OCAL (something like /tmp/<span class="type">U5VvP1_abc</span>) to windows path, because bc3 is a windows software</div><div class="line">    <span class="symbol">#cmd</span> = \<span class="comment">"c:/program files/beyond compare 3/bcomp.exe\"</span> <span class="comment">"$(cygpath -w $LOCAL)"</span> <span class="comment">"$REMOTE"</span></div><div class="line">    cmd = \<span class="comment">"C:/Software/Beyond Compare 3/bcomp.exe\"</span> \<span class="comment">"$LOCAL\"</span> \<span class="comment">"$REMOTE\"</span></div><div class="line">[merge]</div><div class="line">    tool = bc3</div><div class="line">[mergetool]</div><div class="line">    prompt = <span class="keyword">false</span></div><div class="line">[mergetool <span class="comment">"bc3"</span>]</div><div class="line">    <span class="symbol">#trustExitCode</span> = <span class="keyword">true</span></div><div class="line">    cmd = \<span class="comment">"C:/Software/Beyond Compare 3/bcomp.exe\"</span> <span class="comment">"$LOCAL"</span> <span class="comment">"$REMOTE"</span> <span class="comment">"$BASE"</span> <span class="comment">"$MERGED"</span></div><div class="line"></div><div class="line">[user]</div><div class="line">  name = <span class="type">Forrest</span> <span class="type">Wan</span></div><div class="line">  email = forrest.wkwan.hpe@gmail.com</div><div class="line">[http]</div><div class="line">  <span class="symbol">#proxy</span> = http://proxy1.scig.gov.hk:<span class="number">8080</span></div><div class="line">  sslVerify=<span class="keyword">false</span></div><div class="line">[https]</div><div class="line">  <span class="symbol">#proxy</span> = http://proxy1.scig.gov.hk:<span class="number">8080</span></div><div class="line">[credential]</div><div class="line">  helper = store</div></pre></td></tr></table></figure>
+        <figure class="highlight smalltalk"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line">[core]</div><div class="line">  repositoryformatversion = <span class="number">0</span></div><div class="line">  filemode = <span class="keyword">false</span></div><div class="line">  bare = <span class="keyword">false</span></div><div class="line">  logallrefupdates = <span class="keyword">true</span></div><div class="line">  symlinks = <span class="keyword">false</span></div><div class="line">  ignorecase = <span class="keyword">true</span></div><div class="line">  hideDotFiles = dotGitOnly</div><div class="line">[alias]</div><div class="line">  st=status</div><div class="line">  ci=commit</div><div class="line">  co=checkout</div><div class="line">  br=branch</div><div class="line">  di=difftool</div><div class="line">  mt=mergetool</div><div class="line">[remote <span class="comment">"origin"</span>]</div><div class="line">  url = https://<span class="number">192.168</span><span class="number">.1</span><span class="number">.107</span>/git/my-repo.git</div><div class="line">  fetch = +refs/heads/*:refs/remotes/origin/*</div><div class="line">[remote <span class="comment">"usb"</span>]</div><div class="line">  url = <span class="type">G</span>:\\share_drive\\<span class="type">Other</span>\\my-repo.git</div><div class="line">  fetch = +refs/heads/*:refs/remotes/origin/*</div><div class="line"></div><div class="line">[diff]</div><div class="line">    tool = bc3</div><div class="line">[difftool]</div><div class="line">    prompt = <span class="keyword">false</span></div><div class="line">[difftool <span class="comment">"bc3"</span>]</div><div class="line">    <span class="symbol">#use</span> cygpath to transform cygwin path <span class="string">$L</span>OCAL (something like /tmp/<span class="type">U5VvP1_abc</span>) to windows path, because bc3 is a windows software</div><div class="line">    <span class="symbol">#cmd</span> = \<span class="comment">"c:/program files/beyond compare 3/bcomp.exe\"</span> <span class="comment">"$(cygpath -w $LOCAL)"</span> <span class="comment">"$REMOTE"</span></div><div class="line">    cmd = \<span class="comment">"C:/Software/Beyond Compare 3/bcomp.exe\"</span> \<span class="comment">"$LOCAL\"</span> \<span class="comment">"$REMOTE\"</span></div><div class="line">[merge]</div><div class="line">    tool = bc3</div><div class="line">[mergetool]</div><div class="line">    prompt = <span class="keyword">false</span></div><div class="line">[mergetool <span class="comment">"bc3"</span>]</div><div class="line">    <span class="symbol">#trustExitCode</span> = <span class="keyword">true</span></div><div class="line">    cmd = \<span class="comment">"C:/Software/Beyond Compare 3/bcomp.exe\"</span> <span class="comment">"$LOCAL"</span> <span class="comment">"$REMOTE"</span> <span class="comment">"$BASE"</span> <span class="comment">"$MERGED"</span></div><div class="line"></div><div class="line">[user]</div><div class="line">  name = <span class="type">Forrest</span> <span class="type">Wan</span></div><div class="line">  email = forestwwk@gmail.com</div><div class="line">[http]</div><div class="line">  <span class="symbol">#proxy</span> = http://proxy1.scig.gov.hk:<span class="number">8080</span></div><div class="line">  sslVerify=<span class="keyword">false</span></div><div class="line">[https]</div><div class="line">  <span class="symbol">#proxy</span> = http://proxy1.scig.gov.hk:<span class="number">8080</span></div><div class="line">[credential]</div><div class="line">  helper = store</div></pre></td></tr></table></figure>
       
     </div>
     <footer>
@@ -1109,46 +1109,6 @@ ctrl+b l - Move to the previously selected window
     <header>
       
         <div class="icon"></div>
-        <time datetime="2015-10-02T04:08:17.000Z"><a href="/2015/10/02/node_module-config/">2015-10-02</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/10/02/node_module-config/">node_module config</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h1 id="node-module"><a href="#node-module" class="headerlink" title="node_module"></a>node_module</h1><h2 id="Config"><a href="#Config" class="headerlink" title="Config"></a>Config</h2><ul>
-<li>npm<br> “C:/program file/node/node_module”<br> -</li>
-<li>cache<br> “C://Users//HPUser//AppData//Roaming//npm-cache”<br> /home/xx/.npm</li>
-<li>prefix<br> “C://Users//HPUser//AppData//Roaming//npm”<br> “/usr/local”</li>
-<li>userconfig<br> “C://Users//HPUser//.npmrc”<br> “/home/xx/.npmrc”</li>
-<li>globalconfig<br> “C://Users//HPUser//AppData//Roaming//npm//etc//npmrc”<br> “/usr/local/etc/npmrc”</li>
-<li>tmp<br> “C://Users//HPUser//AppData//Local//Temp”<br> “/home/xx/tmp”</li>
-</ul>
-<h1 id="Show-config-list"><a href="#Show-config-list" class="headerlink" title="Show config list"></a>Show config list</h1><figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">npm<span class="built_in"> config </span>list</div><div class="line">npm<span class="built_in"> config </span><span class="builtin-name">get</span><span class="built_in"> prefix </span>/ <span class="builtin-name">set</span> prefix</div></pre></td></tr></table></figure>
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
         <time datetime="2015-10-02T04:08:17.000Z"><a href="/2015/10/02/Fun-with-Spring-Cloud-and-microservice/">2015-10-02</a></time>
       
       
@@ -1246,6 +1206,46 @@ ctrl+b l - Move to the previously selected window
 <li>jq (<a href="https://stedolan.github.io/jq/" target="_blank" rel="external">https://stedolan.github.io/jq/</a>)</li>
 </ul>
 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-10-02T04:08:17.000Z"><a href="/2015/10/02/node_module-config/">2015-10-02</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/10/02/node_module-config/">node_module config</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="node-module"><a href="#node-module" class="headerlink" title="node_module"></a>node_module</h1><h2 id="Config"><a href="#Config" class="headerlink" title="Config"></a>Config</h2><ul>
+<li>npm<br> “C:/program file/node/node_module”<br> -</li>
+<li>cache<br> “C://Users//HPUser//AppData//Roaming//npm-cache”<br> /home/xx/.npm</li>
+<li>prefix<br> “C://Users//HPUser//AppData//Roaming//npm”<br> “/usr/local”</li>
+<li>userconfig<br> “C://Users//HPUser//.npmrc”<br> “/home/xx/.npmrc”</li>
+<li>globalconfig<br> “C://Users//HPUser//AppData//Roaming//npm//etc//npmrc”<br> “/usr/local/etc/npmrc”</li>
+<li>tmp<br> “C://Users//HPUser//AppData//Local//Temp”<br> “/home/xx/tmp”</li>
+</ul>
+<h1 id="Show-config-list"><a href="#Show-config-list" class="headerlink" title="Show config list"></a>Show config list</h1><figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">npm<span class="built_in"> config </span>list</div><div class="line">npm<span class="built_in"> config </span><span class="builtin-name">get</span><span class="built_in"> prefix </span>/ <span class="builtin-name">set</span> prefix</div></pre></td></tr></table></figure>
       
     </div>
     <footer>
@@ -6480,7 +6480,7 @@ imp user/password tables=case_legal_advice file=case_legal_advice.dmp IGNORE=Y
     <aside id="sidebar" class="alignright">
   <div class="search">
   <form action="//google.com/search" method="get" accept-charset="utf-8">
-    <input type="search" name="q" results="0" placeholder="Поиск">
+    <input type="search" name="q" results="0" placeholder="Search">
     <input type="hidden" name="q" value="site:l1z2g9.github.io">
   </form>
 </div>
@@ -6489,7 +6489,7 @@ imp user/password tables=case_legal_advice file=case_legal_advice.dmp IGNORE=Y
 
   
 <div class="widget tag">
-  <h3 class="title">Метки</h3>
+  <h3 class="title">Tags</h3>
   <ul class="entry">
   
     <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
