@@ -52,6 +52,64 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2017-11-14T08:48:00.000Z"><a href="/2017/11/14/gpg/">2017-11-14</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2017/11/14/gpg/">gpg</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <ul>
+<li><p>list public key pubring<br>gpg -k</p>
+<figure class="highlight subunit"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">pub   4096R/7BB9E54D 2014<span class="string">-03</span><span class="string">-10</span></div><div class="line">uid                  EGIS PPS UAT (PPS Testing cert) &lt;egis_support@ogcio.gov.hk&gt;</div><div class="line">sub   4096R/C35F602F 2014<span class="string">-03</span><span class="string">-10</span></div><div class="line"></div><div class="line">pub   4096R/0490D4D2 2017<span class="string">-11</span><span class="string">-02</span> [expires: 2019<span class="string">-11</span><span class="string">-02</span>]</div><div class="line">uid                  Mars Registry (For PPS Recon. File Encryption) &lt;mars@gmail.com&gt;</div><div class="line">sub   4096R/B3D05CBB 2017<span class="string">-11</span><span class="string">-02</span> [expires: 2019<span class="string">-11</span><span class="string">-02</span>]</div></pre></td></tr></table></figure>
+</li>
+<li><p>list private key secring<br>gpg -K</p>
+<figure class="highlight subunit"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">sec   4096R/7BB9E54D 2014<span class="string">-03</span><span class="string">-10</span></div><div class="line">uid                  EGIS PPS UAT (PPS Testing cert) &lt;egis_support@ogcio.gov.hk&gt;</div><div class="line">ssb   4096R/C35F602F 2014<span class="string">-03</span><span class="string">-10</span></div><div class="line"></div><div class="line">sec   4096R/0490D4D2 2017<span class="string">-11</span><span class="string">-02</span> [expires: 2019<span class="string">-11</span><span class="string">-02</span>]</div><div class="line">uid                  Mars Registry (For PPS Recon. File Encryption) &lt;mars@gmail.com&gt;</div><div class="line">ssb   4096R/B3D05CBB 2017<span class="string">-11</span><span class="string">-02</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>export public key<br><code>gpg --export --armor 0490D4D2 &gt; ogcio_pps.pub</code></p>
+</li>
+</ul>
+<ul>
+<li><p>export private key<br><code>gpg --export-secret-keys --armor 0490D4D2 &gt; ogcio_pps.sec</code></p>
+</li>
+<li><p>list key details to get the key id<br><code>gpg --export 0490D4D2|gpg --list-packets --verbose</code></p>
+</li>
+<li><p>get key id from gpg file<br><code>gpg --list-packets &lt;filename&gt;</code></p>
+</li>
+<li><p>sign file<br><code>gpg --output doc.sig --sign doc (default output is doc.gpg)</code><br><code>gpg --output doc.sig --clearsign doc =&gt; (clear text signature)</code></p>
+</li>
+<li><p>verify and decrypt<br><code>gpg doc.sig</code></p>
+</li>
+<li><p>sign detached<br><code>gpg --output doc.sig --detach-sig doc</code></p>
+</li>
+<li><p>verify<br><code>gpg --verify doc.sig doc</code></p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2017-07-05T10:55:09.000Z"><a href="/2017/07/05/git_config/">2017-07-05</a></time>
       
       
@@ -6503,6 +6561,8 @@ imp user/password tables=case_legal_advice file=case_legal_advice.dmp IGNORE=Y
     <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
   
     <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+    <li><a href="/tags/�u�-����/">�u�@����</a><small>1</small></li>
   
   </ul>
 </div>
