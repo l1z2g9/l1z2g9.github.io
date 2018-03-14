@@ -52,6 +52,72 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2018-02-28T04:07:07.000Z"><a href="/2018/02/28/recover-replication-on-mysql/">2018-02-28</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2018/02/28/recover-replication-on-mysql/">recover-replication-on-mysql</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <ul>
+<li><p>Stop data sync on slave node</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mysql -uroot -pcR@2017 xxx_prd</div><div class="line"><span class="meta">&gt;</span><span class="bash"> show slave status \G;</span></div><div class="line"><span class="meta">&gt;</span><span class="bash"> stop slave;</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>export data from master node</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mysqldump -uroot -pcR@<span class="number">2017</span> -c tcspls_prd --no-<span class="keyword">data</span> any_table1, any_table2 &gt; xxx_prd_schema-<span class="keyword">only</span>-Dump20180228.sql</div><div class="line"></div><div class="line">mysqldump -uroot -pcR@<span class="number">2017</span> -c tcspls_prd &gt; xxx_prd.sql (export <span class="built_in">all</span> <span class="keyword">data</span>)</div></pre></td></tr></table></figure>
+</li>
+<li><p>Using Search and Replace to remove <em>auto_increment=</em>DE<em> to </em>DE* directive since the exported schema sql included auto_increment value</p>
+</li>
+<li><p>Show status on master node</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SHOW</span> <span class="keyword">MASTER</span> <span class="keyword">STATUS</span>\G;</div><div class="line"><span class="keyword">show</span> <span class="keyword">master</span> <span class="keyword">logs</span>;\G</div><div class="line"><span class="keyword">show</span> <span class="keyword">binlog</span> <span class="keyword">events</span>\G;</div><div class="line"><span class="keyword">show</span> <span class="keyword">variables</span> <span class="keyword">like</span> <span class="string">'log_%'</span>;</div></pre></td></tr></table></figure>
+</li>
+<li><p>create replication user if neccessary</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;</span><span class="bash"> CREATE USER replication@slave_node;</span></div><div class="line"><span class="meta">&gt;</span><span class="bash"> GRANT REPLICATION SLAVE ON *.* TO replication@slave_node IDENTIFIED BY <span class="string">'password'</span>;</span></div><div class="line"><span class="meta">&gt;</span><span class="bash"> FLUSH privileges;</span></div><div class="line"><span class="meta">&gt;</span><span class="bash"> SHOW MASTER STATUS</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>import data from master node</p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql -uroot -pcR<span class="symbol">@2017</span> xxx_prd_prd &lt; xxx_prd.sql</div></pre></td></tr></table></figure>
+</li>
+<li><p>start slave to replicate data from binlog.000198</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">change master <span class="keyword">to</span></div><div class="line">  <span class="attribute">master_host</span>=<span class="string">'master_node'</span>,</div><div class="line">  <span class="attribute">master_port</span>=3306,</div><div class="line">  <span class="attribute">master_user</span>=<span class="string">'replication'</span>,</div><div class="line">  <span class="attribute">master_password</span>=<span class="string">'password'</span>,</div><div class="line">  <span class="attribute">master_log_file</span>=<span class="string">'mysql-bin.000198'</span>,</div><div class="line">  <span class="attribute">master_log_pos</span>=821;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>Or just run as below to update master info and relay log info, please check whether relay-log.info is updated and check progress of data replication.<br><code>change master to master_log_file=&#39;mysql-bin.000198&#39;,master_log_pos=821;</code></p>
+<p>Then start slave process<br><code>start slave;</code></p>
+<ul>
+<li><p>lines in ‘show slave status \G;’ should be noticed</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="attr">Slave_IO_Running:</span> <span class="literal">Yes</span></div><div class="line"><span class="attr">Slave_SQL_Running:</span> <span class="literal">Yes</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>for common issue of failure of MySQL replication, use sql_slave_skip_counter to skip error</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">stop</span> <span class="keyword">slave</span>;</div><div class="line"><span class="keyword">set</span> <span class="keyword">global</span> sql_slave_skip_counter=<span class="number">1</span>;</div><div class="line"><span class="keyword">start</span> <span class="keyword">slave</span>;</div></pre></td></tr></table></figure>
+</li>
+<li><p>Reference<br><a href="http://xstarcd.github.io/wiki/MySQL/online_mysqlrepl_error.html" target="_blank" rel="external">线上MYSQL同步报错故障处理总结</a><br><a href="https://blog.wu-boy.com/2008/12/mysql-%E5%AF%A6%E5%81%9A-mysql-master-master-replication-%E5%90%8C%E6%AD%A5/" target="_blank" rel="external">實做 MySQL Master-Master Replication 同步</a><br><a href="http://blog.csdn.net/jesseyoung/article/details/41942809" target="_blank" rel="external">mysql主从复制-CHANGE MASTER TO 语法详解</a><br><a href="http://blog.51cto.com/suifu/1845457" target="_blank" rel="external">3分钟解决MySQL 1032 主从错误</a><br><a href="https://www.cnblogs.com/martinzhang/p/3454358.html" target="_blank" rel="external">MySQL的binlog日志</a> (great article)<br><a href="https://www.puritys.me/docs-blog/article-304-Mysql-Replication-%E8%A8%AD%E5%AE%9A.html" target="_blank" rel="external">Mysql Replication 設定</a><br><a href="https://www.phpini.com/mysql/mysql-master-slave-replication" target="_blank" rel="external">MySQL 設定 Master-Slave Replication 同步</a></p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2017-11-14T08:48:00.000Z"><a href="/2017/11/14/gpg/">2017-11-14</a></time>
       
       
@@ -6538,7 +6604,7 @@ imp user/password tables=case_legal_advice file=case_legal_advice.dmp IGNORE=Y
     <aside id="sidebar" class="alignright">
   <div class="search">
   <form action="//google.com/search" method="get" accept-charset="utf-8">
-    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="search" name="q" results="0" placeholder="Buscar">
     <input type="hidden" name="q" value="site:l1z2g9.github.io">
   </form>
 </div>
@@ -6547,10 +6613,12 @@ imp user/password tables=case_legal_advice file=case_legal_advice.dmp IGNORE=Y
 
   
 <div class="widget tag">
-  <h3 class="title">Tags</h3>
+  <h3 class="title">Etiquetas</h3>
   <ul class="entry">
   
     <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>1</small></li>
   
     <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
   
@@ -6558,11 +6626,11 @@ imp user/password tables=case_legal_advice file=case_legal_advice.dmp IGNORE=Y
   
     <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
   
-    <li><a href="/tags/工作日志/">工作日志</a><small>59</small></li>
+    <li><a href="/tags/工作日志/">工作日志</a><small>60</small></li>
   
     <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
   
-    <li><a href="/tags/�u�-����/">�u�@����</a><small>1</small></li>
+    <li><a href="/tags/�u�-����/">�u�@����</a><small>0</small></li>
   
   </ul>
 </div>
@@ -6572,7 +6640,7 @@ imp user/password tables=case_legal_advice file=case_legal_advice.dmp IGNORE=Y
   </div>
   <footer id="footer" class="inner"><div class="alignleft">
   
-  &copy; 2017 Forrest Wan
+  &copy; 2018 Forrest Wan
   
 </div>
 <div class="clearfix"></div></footer>
