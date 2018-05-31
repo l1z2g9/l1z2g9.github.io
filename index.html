@@ -52,6 +52,48 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2018-05-31T04:54:38.000Z"><a href="/2018/05/31/Install-neo-project/">2018-05-31</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2018/05/31/Install-neo-project/">Install neo project</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="Install-dotnet-core"><a href="#Install-dotnet-core" class="headerlink" title="Install dotnet core"></a>Install dotnet core</h1><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">download</span> <span class="selector-tag">dotnet-sdk-2</span><span class="selector-class">.1</span><span class="selector-class">.200-linux-x64</span><span class="selector-class">.tar</span><span class="selector-class">.gz</span></div><div class="line"><span class="selector-tag">tar</span> <span class="selector-tag">zxf</span> <span class="selector-tag">dotnet-sdk-2</span><span class="selector-class">.1</span><span class="selector-class">.200-linux-x64</span><span class="selector-class">.tar</span><span class="selector-class">.gz</span></div></pre></td></tr></table></figure>
+<h1 id="Install-cmake"><a href="#Install-cmake" class="headerlink" title="Install cmake"></a>Install cmake</h1><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">wget https:<span class="comment">//cmake.org/files/v3.11/cmake-3.11.2-Linux-x86_64.tar.gz</span></div><div class="line">tar xvf cmake-<span class="number">3.11</span>.<span class="number">2</span>-Linux-x86_64<span class="selector-class">.tar</span><span class="selector-class">.gz</span></div></pre></td></tr></table></figure>
+<p>Config cmake in environment path<br><code>PATH=$PATH:$HOME/.local/bin:$HOME/bin:/home/ec2-user/neo/dotnet-core:/home/ec2-user/neo/leveldb/cmake-3.11.2-Linux-x86_64/bin</code></p>
+<h1 id="Install-snappy"><a href="#Install-snappy" class="headerlink" title="Install snappy"></a>Install snappy</h1><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git <span class="keyword">clone</span> <span class="title">https</span>://github.com/google/snappy</div><div class="line">cd snappy/</div></pre></td></tr></table></figure>
+<p>we need to build a <strong>share object</strong> of snappy lib, change file CMakeLists.txt as below</p>
+<p><code>option(BUILD_SHARED_LIBS &quot;Build shared libraries(DLLs).&quot; OFF)</code><br>=&gt;<br><code>option(BUILD_SHARED_LIBS &quot;Build shared libraries(DLLs).&quot; ON)</code></p>
+<p>Run commands below to install snappy share object<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">mkdir</span> build </div><div class="line"><span class="keyword">cd</span> build </div><div class="line">cmake ../</div><div class="line"><span class="keyword">make</span></div><div class="line">sudo <span class="keyword">make</span> install</div></pre></td></tr></table></figure></p>
+<h1 id="neo-leveldb-not-google-obsolated"><a href="#neo-leveldb-not-google-obsolated" class="headerlink" title="neo-leveldb (not google) (obsolated)"></a>neo-leveldb (not google) (obsolated)</h1><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">git clone http<span class="variable">s:</span>//github.<span class="keyword">com</span>/neo-project/leveldb</div><div class="line"><span class="keyword">make</span></div><div class="line"><span class="keyword">cd</span> out-shared/</div><div class="line">sudo <span class="keyword">cp</span> libleveldb.<span class="keyword">so</span>.<span class="number">1.19</span> /usr/local/lib64/</div><div class="line"><span class="keyword">cd</span> /usr/local/lib64/</div><div class="line">sudo <span class="keyword">ln</span> -s libleveldb.<span class="keyword">so</span>.<span class="number">1.19</span> libleveldb.<span class="keyword">so</span>.<span class="number">1</span></div><div class="line">sudo <span class="keyword">ln</span> -s libleveldb.<span class="keyword">so</span>.<span class="number">1</span> libleveldb.<span class="keyword">so</span></div><div class="line">sudo ldconfig -v</div></pre></td></tr></table></figure>
+<h1 id="leveldb-google"><a href="#leveldb-google" class="headerlink" title="leveldb (google)"></a>leveldb (google)</h1><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">wget https:<span class="comment">//github.com/google/leveldb/archive/master.zip</span></div><div class="line">unzip master<span class="selector-class">.zip</span></div><div class="line">cd leveldb-master/</div><div class="line">mkdir -<span class="selector-tag">p</span> build &amp;&amp; cd build</div><div class="line">cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=on .. &amp;&amp; cmake --build .</div><div class="line">sudo cp -<span class="selector-tag">p</span> libleveldb<span class="selector-class">.so</span> /usr/local/lib64/</div><div class="line">sudo ldconfig -v</div></pre></td></tr></table></figure>
+<h1 id="neo-cli"><a href="#neo-cli" class="headerlink" title="neo-cli"></a>neo-cli</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">git clone https://github.com/neo-project/neo-cli</div><div class="line">cd neo-cli</div><div class="line">dotnet publish -c <span class="keyword">Release</span></div><div class="line"><span class="keyword">dotnet</span> /home/ec2-<span class="keyword">user</span>/neo/neo-cli/neo-cli/<span class="keyword">bin</span>/<span class="keyword">Release</span>/netcoreapp2<span class="number">.0</span>/publish/neo-cli.dll .</div><div class="line">  &gt;&gt; <span class="keyword">show</span> state </div><div class="line">  &gt;&gt; <span class="keyword">create</span> <span class="keyword">wallet</span> wallet.db3</div></pre></td></tr></table></figure>
+<h1 id="neo-compile"><a href="#neo-compile" class="headerlink" title="neo-compile"></a>neo-compile</h1><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git <span class="keyword">clone</span> <span class="title">https</span>://github.com/neo-project/neo-compiler</div><div class="line">dotnet publish -c Release</div></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2018-02-28T04:07:07.000Z"><a href="/2018/02/28/recover-replication-on-mysql/">2018-02-28</a></time>
       
       
@@ -78,7 +120,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;</span><span class="bash"> CREATE USER replication@slave_node;</span></div><div class="line"><span class="meta">&gt;</span><span class="bash"> GRANT REPLICATION SLAVE ON *.* TO replication@slave_node IDENTIFIED BY <span class="string">'password'</span>;</span></div><div class="line"><span class="meta">&gt;</span><span class="bash"> FLUSH privileges;</span></div><div class="line"><span class="meta">&gt;</span><span class="bash"> SHOW MASTER STATUS</span></div></pre></td></tr></table></figure>
 </li>
 <li><p>import data from master node</p>
-<figure class="highlight autoit"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql -uroot -pcR<span class="symbol">@2017</span> xxx_prd_prd &lt; xxx_prd.sql</div></pre></td></tr></table></figure>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql -uroot -pcR<span class="symbol">@2017</span> xxx_prd &lt; xxx_prd.sql</div></pre></td></tr></table></figure>
 </li>
 <li><p>start slave to replicate data from binlog.000198</p>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">change master <span class="keyword">to</span></div><div class="line">  <span class="attribute">master_host</span>=<span class="string">'master_node'</span>,</div><div class="line">  <span class="attribute">master_port</span>=3306,</div><div class="line">  <span class="attribute">master_user</span>=<span class="string">'replication'</span>,</div><div class="line">  <span class="attribute">master_password</span>=<span class="string">'password'</span>,</div><div class="line">  <span class="attribute">master_log_file</span>=<span class="string">'mysql-bin.000198'</span>,</div><div class="line">  <span class="attribute">master_log_pos</span>=821;</div></pre></td></tr></table></figure>
@@ -1233,46 +1275,6 @@ ctrl+b l - Move to the previously selected window
     <header>
       
         <div class="icon"></div>
-        <time datetime="2015-10-02T04:08:17.000Z"><a href="/2015/10/02/node_module-config/">2015-10-02</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/10/02/node_module-config/">node_module config</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h1 id="node-module"><a href="#node-module" class="headerlink" title="node_module"></a>node_module</h1><h2 id="Config"><a href="#Config" class="headerlink" title="Config"></a>Config</h2><ul>
-<li>npm<br> “C:/program file/node/node_module”<br> -</li>
-<li>cache<br> “C://Users//HPUser//AppData//Roaming//npm-cache”<br> /home/xx/.npm</li>
-<li>prefix<br> “C://Users//HPUser//AppData//Roaming//npm”<br> “/usr/local”</li>
-<li>userconfig<br> “C://Users//HPUser//.npmrc”<br> “/home/xx/.npmrc”</li>
-<li>globalconfig<br> “C://Users//HPUser//AppData//Roaming//npm//etc//npmrc”<br> “/usr/local/etc/npmrc”</li>
-<li>tmp<br> “C://Users//HPUser//AppData//Local//Temp”<br> “/home/xx/tmp”</li>
-</ul>
-<h1 id="Show-config-list"><a href="#Show-config-list" class="headerlink" title="Show config list"></a>Show config list</h1><figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">npm<span class="built_in"> config </span>list</div><div class="line">npm<span class="built_in"> config </span><span class="builtin-name">get</span><span class="built_in"> prefix </span>/ <span class="builtin-name">set</span> prefix</div></pre></td></tr></table></figure>
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
         <time datetime="2015-10-02T04:08:17.000Z"><a href="/2015/10/02/Fun-with-Spring-Cloud-and-microservice/">2015-10-02</a></time>
       
       
@@ -1370,6 +1372,46 @@ ctrl+b l - Move to the previously selected window
 <li>jq (<a href="https://stedolan.github.io/jq/" target="_blank" rel="external">https://stedolan.github.io/jq/</a>)</li>
 </ul>
 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-10-02T04:08:17.000Z"><a href="/2015/10/02/node_module-config/">2015-10-02</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/10/02/node_module-config/">node_module config</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="node-module"><a href="#node-module" class="headerlink" title="node_module"></a>node_module</h1><h2 id="Config"><a href="#Config" class="headerlink" title="Config"></a>Config</h2><ul>
+<li>npm<br> “C:/program file/node/node_module”<br> -</li>
+<li>cache<br> “C://Users//HPUser//AppData//Roaming//npm-cache”<br> /home/xx/.npm</li>
+<li>prefix<br> “C://Users//HPUser//AppData//Roaming//npm”<br> “/usr/local”</li>
+<li>userconfig<br> “C://Users//HPUser//.npmrc”<br> “/home/xx/.npmrc”</li>
+<li>globalconfig<br> “C://Users//HPUser//AppData//Roaming//npm//etc//npmrc”<br> “/usr/local/etc/npmrc”</li>
+<li>tmp<br> “C://Users//HPUser//AppData//Local//Temp”<br> “/home/xx/tmp”</li>
+</ul>
+<h1 id="Show-config-list"><a href="#Show-config-list" class="headerlink" title="Show config list"></a>Show config list</h1><figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">npm<span class="built_in"> config </span>list</div><div class="line">npm<span class="built_in"> config </span><span class="builtin-name">get</span><span class="built_in"> prefix </span>/ <span class="builtin-name">set</span> prefix</div></pre></td></tr></table></figure>
       
     </div>
     <footer>
@@ -6604,7 +6646,7 @@ imp user/password tables=case_legal_advice file=case_legal_advice.dmp IGNORE=Y
     <aside id="sidebar" class="alignright">
   <div class="search">
   <form action="//google.com/search" method="get" accept-charset="utf-8">
-    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="search" name="q" results="0" placeholder="Ieškoti">
     <input type="hidden" name="q" value="site:l1z2g9.github.io">
   </form>
 </div>
@@ -6613,10 +6655,10 @@ imp user/password tables=case_legal_advice file=case_legal_advice.dmp IGNORE=Y
 
   
 <div class="widget tag">
-  <h3 class="title">Tags</h3>
+  <h3 class="title">Žymos</h3>
   <ul class="entry">
   
-    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
   
     <li><a href="/tags/MySQL/">MySQL</a><small>1</small></li>
   

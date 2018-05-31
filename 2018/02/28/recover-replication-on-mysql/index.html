@@ -77,7 +77,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;</span><span class="bash"> CREATE USER replication@slave_node;</span></div><div class="line"><span class="meta">&gt;</span><span class="bash"> GRANT REPLICATION SLAVE ON *.* TO replication@slave_node IDENTIFIED BY <span class="string">'password'</span>;</span></div><div class="line"><span class="meta">&gt;</span><span class="bash"> FLUSH privileges;</span></div><div class="line"><span class="meta">&gt;</span><span class="bash"> SHOW MASTER STATUS</span></div></pre></td></tr></table></figure>
 </li>
 <li><p>import data from master node</p>
-<figure class="highlight autoit"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql -uroot -pcR<span class="symbol">@2017</span> xxx_prd_prd &lt; xxx_prd.sql</div></pre></td></tr></table></figure>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql -uroot -pcR<span class="symbol">@2017</span> xxx_prd &lt; xxx_prd.sql</div></pre></td></tr></table></figure>
 </li>
 <li><p>start slave to replicate data from binlog.000198</p>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">change master <span class="keyword">to</span></div><div class="line">  <span class="attribute">master_host</span>=<span class="string">'master_node'</span>,</div><div class="line">  <span class="attribute">master_port</span>=3306,</div><div class="line">  <span class="attribute">master_user</span>=<span class="string">'replication'</span>,</div><div class="line">  <span class="attribute">master_password</span>=<span class="string">'password'</span>,</div><div class="line">  <span class="attribute">master_log_file</span>=<span class="string">'mysql-bin.000198'</span>,</div><div class="line">  <span class="attribute">master_log_pos</span>=821;</div></pre></td></tr></table></figure>
@@ -136,7 +136,7 @@
     <aside id="sidebar" class="alignright">
   <div class="search">
   <form action="//google.com/search" method="get" accept-charset="utf-8">
-    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="search" name="q" results="0" placeholder="Ieškoti">
     <input type="hidden" name="q" value="site:l1z2g9.github.io">
   </form>
 </div>
@@ -145,10 +145,10 @@
 
   
 <div class="widget tag">
-  <h3 class="title">Tags</h3>
+  <h3 class="title">Žymos</h3>
   <ul class="entry">
   
-    <li><a href="/tags/AIX/">AIX</a><small>28</small></li>
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
   
     <li><a href="/tags/MySQL/">MySQL</a><small>1</small></li>
   
