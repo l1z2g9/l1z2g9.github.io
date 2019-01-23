@@ -52,18 +52,53 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2018-08-23T09:24:31.959Z"><a href="/2018/08/23/ERC20_Token_Develop/">2018-08-23</a></time>
+        <time datetime="2019-01-23T05:13:53.000Z"><a href="/2019/01/23/JVM_Study/">2019-01-23</a></time>
       
       
   
-    <h1 class="title"><a href="/2018/08/23/ERC20_Token_Develop/"></a></h1>
+    <h1 class="title"><a href="/2019/01/23/JVM_Study/">JVM Study</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <p>ERC20 TOKEN DEVELOP</p>
-<h2 id="Environment-setup"><a href="#Environment-setup" class="headerlink" title="Environment setup"></a>Environment setup</h2><p>Open C:\MinGW\msys\1.0\msys.bat</p>
+        <h2 id="List-all-VM-flags"><a href="#List-all-VM-flags" class="headerlink" title="List all VM flags"></a>List all VM flags</h2><p><code>java -XX:+UnlockDiagnosticVMOptions -XX:+PrintFlagsFinal -version</code></p>
+<h2 id="JAVA-OPTS-settings-for-OpenJDK-11"><a href="#JAVA-OPTS-settings-for-OpenJDK-11" class="headerlink" title="JAVA_OPTS settings for OpenJDK 11"></a>JAVA_OPTS settings for OpenJDK 11</h2><p>File: <code>d:\App\wildfly-10.1.0.Final\bin\standalone.conf.bat</code><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="builtin-name">set</span> <span class="string">"JAVA_OPTS=%JAVA_OPTS% -Dhk.gov.ogcio.egis.rm.common.PROPERTIES_FILEPATH=D:\rm -Djboss.bind.address=0.0.0.0 -Dspring.profiles.active=uat -Djavax.net.ssl.trustStore=D:\keystore\tcspls_egis.jks -Dfreetts.voices=de.dfki.lt.freetts.en.us.MbrolaVoiceDirectory -Dmbrola.base=D:\mbrola"</span></div><div class="line"><span class="builtin-name">set</span> <span class="string">"JAVA_OPTS=%JAVA_OPTS% -XX:MaxGCPauseMillis=500 -XX:ErrorFile=D:/log/hserrpid%p.log -XX:HeapDumpPath=D:/log/ -Xloggc:D:/log/gc.log -XX:+PrintGCDetails -XX:+HeapDumpOnOutOfMemoryError"</span></div></pre></td></tr></table></figure></p>
+<h2 id="Profiling-commands"><a href="#Profiling-commands" class="headerlink" title="Profiling commands"></a>Profiling commands</h2><figure class="highlight tcl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">jinfo &lt;<span class="keyword">pid</span>&gt;</div><div class="line"></div><div class="line">jmap -dump:live,<span class="keyword">format</span>=b,<span class="keyword">file</span>=heap.bin &lt;<span class="keyword">pid</span>&gt;</div><div class="line">jstack &lt;<span class="keyword">pid</span>&gt;</div></pre></td></tr></table></figure>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="http://stas-blogspot.blogspot.com/2011/07/most-complete-list-of-xx-options-for.html" target="_blank" rel="external">http://stas-blogspot.blogspot.com/2011/07/most-complete-list-of-xx-options-for.html</a><br><a href="https://www.oracle.com/technetwork/java/javase/tech/vmoptions-jsp-140102.html#Options" target="_blank" rel="external">https://www.oracle.com/technetwork/java/javase/tech/vmoptions-jsp-140102.html#Options</a><br><a href="https://stackoverflow.com/questions/43087831/complete-list-of-jvm-options" target="_blank" rel="external">https://stackoverflow.com/questions/43087831/complete-list-of-jvm-options</a><br><a href="https://my.oschina.net/u/3627055/blog/2995973" target="_blank" rel="external">https://my.oschina.net/u/3627055/blog/2995973</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2018-08-25T06:36:43.000Z"><a href="/2018/08/25/ERC20_Token_Develop/">2018-08-25</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2018/08/25/ERC20_Token_Develop/">ERC20 TOKEN DEVELOP</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="Environment-setup"><a href="#Environment-setup" class="headerlink" title="Environment setup"></a>Environment setup</h2><p>Open C:\MinGW\msys\1.0\msys.bat</p>
 <figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">yarn global add truffle</div><div class="line">yarn global add ganache-cli</div><div class="line"></div><div class="line"><span class="comment"># download web3j and configue path</span></div><div class="line">export PATH=<span class="variable">$PATH</span><span class="symbol">:/C/Users/tcsp01/AppData/Local/Yarn/Data/global/node_modules/</span>.<span class="symbol">bin:</span>/C/Users/tcsp01/Downloads/web3j-<span class="number">3.5</span>.<span class="number">0</span>/bin`</div></pre></td></tr></table></figure>
 <h2 id="Start-enthereum-client-or-you-can-install-geth-windows-386-1-8-13-225171a4-exe"><a href="#Start-enthereum-client-or-you-can-install-geth-windows-386-1-8-13-225171a4-exe" class="headerlink" title="Start enthereum client (or you can install geth-windows-386-1.8.13-225171a4.exe)"></a>Start enthereum client (or you can install geth-windows-386-1.8.13-225171a4.exe)</h2><p><code>ganache-cli</code></p>
 <h2 id="Compile-and-deploy-contract"><a href="#Compile-and-deploy-contract" class="headerlink" title="Compile and deploy contract"></a>Compile and deploy contract</h2><p>Open another command prompt<br>Reference <a href="https://www.codeooze.com/blockchain/ethereum-truffle-hello-world/" target="_blank" rel="external">https://www.codeooze.com/blockchain/ethereum-truffle-hello-world/</a> to initialize a project<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">cd /d </div><div class="line">mkdir enthereumn-test &amp;&amp; cd enthereumn-test</div><div class="line">truffle init</div><div class="line">truffle<span class="built_in"> console</span></div><div class="line">&gt; web3.eth.accounts</div><div class="line"></div><div class="line">truffle unbox tutorialtoken # init command <span class="literal">no</span> need <span class="keyword">to</span> call</div><div class="line">truffle create contract TutorialToken # write your own contract</div><div class="line"></div><div class="line">yarn <span class="builtin-name">add</span> openzeppelin-solidity</div></pre></td></tr></table></figure></p>
@@ -76,9 +111,10 @@
 <p>Register a infura.io account to get a access-api through https:/infura.io/register</p>
 <p>endpoint: <a href="https://rinkeby.infura.io/v3/your-api" target="_blank" rel="external">https://rinkeby.infura.io/v3/your-api</a><br>note that rinkeby does not support following method<br><figure class="highlight roboconf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">web3j.transactionObservable().subscribe(tx -&gt; &#123;</div><div class="line">    <span class="attribute">log.info(String.format("New tx</span>: id=%s, block=%s, from=%s, to=%s, value=%s", tx<span class="variable">.getHash</span>(), tx<span class="variable">.getBlockHash</span>(), tx<span class="variable">.getFrom</span>(), tx<span class="variable">.getTo</span>(), tx<span class="variable">.getValue</span>()<span class="variable">.intValue</span>()));</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
 <h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://stevenocean.github.io/2018/04/06/web3j-ethereum-token.html" target="_blank" rel="external">https://stevenocean.github.io/2018/04/06/web3j-ethereum-token.html</a><br><a href="https://dzone.com/articles/intro-to-blockchain-with-ethereum-web3j-and-spring" target="_blank" rel="external">https://dzone.com/articles/intro-to-blockchain-with-ethereum-web3j-and-spring</a><br><a href="https://www.codeooze.com/categories/blockchain/" target="_blank" rel="external">https://www.codeooze.com/categories/blockchain/</a></p>
-<p><a href="https://truffleframework.com/tutorials/pet-shop" target="_blank" rel="external">https://truffleframework.com/tutorials/pet-shop</a><br><a href="https://truffleframework.com/tutorials/robust-smart-contracts-with-openzeppelin" target="_blank" rel="external">https://truffleframework.com/tutorials/robust-smart-contracts-with-openzeppelin</a><br><a href="https://metamask.io" target="_blank" rel="external">https://metamask.io</a><br><a href="https://medium.com/@dmihal/create-an-erc20-token-using-zeppelin-ethpm-fc99f794d153" target="_blank" rel="external">https://medium.com/@dmihal/create-an-erc20-token-using-zeppelin-ethpm-fc99f794d153</a></p>
+<p><a href="https://truffleframework.com/tutorials/pet-shop" target="_blank" rel="external">https://truffleframework.com/tutorials/pet-shop</a><br><a href="https://truffleframework.com/docs/truffle/testing/writing-tests-in-javascript" target="_blank" rel="external">https://truffleframework.com/docs/truffle/testing/writing-tests-in-javascript</a><br><a href="https://truffleframework.com/tutorials/robust-smart-contracts-with-openzeppelin" target="_blank" rel="external">https://truffleframework.com/tutorials/robust-smart-contracts-with-openzeppelin</a><br><a href="https://metamask.io" target="_blank" rel="external">https://metamask.io</a><br><a href="https://medium.com/@dmihal/create-an-erc20-token-using-zeppelin-ethpm-fc99f794d153" target="_blank" rel="external">https://medium.com/@dmihal/create-an-erc20-token-using-zeppelin-ethpm-fc99f794d153</a></p>
 <p><a href="https://github.com/eugenp/tutorials/tree/master/ethereum" target="_blank" rel="external">https://github.com/eugenp/tutorials/tree/master/ethereum</a><br><a href="https://docs.web3j.io/getting_started.html#transactions" target="_blank" rel="external">https://docs.web3j.io/getting_started.html#transactions</a><br><a href="https://piotrminkowski.wordpress.com/2018/06/22/introduction-to-blockchain-with-java-using-ethereum-web3j-and-spring-boot/" target="_blank" rel="external">https://piotrminkowski.wordpress.com/2018/06/22/introduction-to-blockchain-with-java-using-ethereum-web3j-and-spring-boot/</a><br><a href="https://github.com/piomin/sample-spring-blockchain-contract" target="_blank" rel="external">https://github.com/piomin/sample-spring-blockchain-contract</a></p>
 <p><a href="https://cryptozombies.io" target="_blank" rel="external">https://cryptozombies.io</a></p>
+<p><a href="https://theethereum.wiki/w/index.php/ERC20_Token_Standard" target="_blank" rel="external">https://theethereum.wiki/w/index.php/ERC20_Token_Standard</a></p>
 <h2 id="crowdsale"><a href="#crowdsale" class="headerlink" title="crowdsale"></a>crowdsale</h2><p><a href="https://github.com/TokenMarketNet/ico" target="_blank" rel="external">https://github.com/TokenMarketNet/ico</a><br><a href="https://medium.com/@VladimirTikhomirov/how-its-made-crowdsale-contract-1120b487cc4a" target="_blank" rel="external">https://medium.com/@VladimirTikhomirov/how-its-made-crowdsale-contract-1120b487cc4a</a><br><a href="https://www.ethereum.org/crowdsale" target="_blank" rel="external">https://www.ethereum.org/crowdsale</a><br><a href="https://blog.zeppelin.solutions/how-to-create-token-and-initial-coin-offering-contracts-using-truffle-openzeppelin-1b7a5dae99b6" target="_blank" rel="external">https://blog.zeppelin.solutions/how-to-create-token-and-initial-coin-offering-contracts-using-truffle-openzeppelin-1b7a5dae99b6</a><br><a href="https://github.com/OpenZeppelin/openzeppelin-solidity/blob/master/contracts/examples/SampleCrowdsale.sol" target="_blank" rel="external">https://github.com/OpenZeppelin/openzeppelin-solidity/blob/master/contracts/examples/SampleCrowdsale.sol</a></p>
 
       
@@ -1366,6 +1402,46 @@ ctrl+b l - Move to the previously selected window
     <header>
       
         <div class="icon"></div>
+        <time datetime="2015-10-02T04:08:17.000Z"><a href="/2015/10/02/node_module-config/">2015-10-02</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/10/02/node_module-config/">node_module config</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="node-module"><a href="#node-module" class="headerlink" title="node_module"></a>node_module</h1><h2 id="Config"><a href="#Config" class="headerlink" title="Config"></a>Config</h2><ul>
+<li>npm<br> “C:/program file/node/node_module”<br> -</li>
+<li>cache<br> “C://Users//HPUser//AppData//Roaming//npm-cache”<br> /home/xx/.npm</li>
+<li>prefix<br> “C://Users//HPUser//AppData//Roaming//npm”<br> “/usr/local”</li>
+<li>userconfig<br> “C://Users//HPUser//.npmrc”<br> “/home/xx/.npmrc”</li>
+<li>globalconfig<br> “C://Users//HPUser//AppData//Roaming//npm//etc//npmrc”<br> “/usr/local/etc/npmrc”</li>
+<li>tmp<br> “C://Users//HPUser//AppData//Local//Temp”<br> “/home/xx/tmp”</li>
+</ul>
+<h1 id="Show-config-list"><a href="#Show-config-list" class="headerlink" title="Show config list"></a>Show config list</h1><figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">npm<span class="built_in"> config </span>list</div><div class="line">npm<span class="built_in"> config </span><span class="builtin-name">get</span><span class="built_in"> prefix </span>/ <span class="builtin-name">set</span> prefix</div></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2015-10-02T04:08:17.000Z"><a href="/2015/10/02/Fun-with-Spring-Cloud-and-microservice/">2015-10-02</a></time>
       
       
@@ -1463,46 +1539,6 @@ ctrl+b l - Move to the previously selected window
 <li>jq (<a href="https://stedolan.github.io/jq/" target="_blank" rel="external">https://stedolan.github.io/jq/</a>)</li>
 </ul>
 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-10-02T04:08:17.000Z"><a href="/2015/10/02/node_module-config/">2015-10-02</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/10/02/node_module-config/">node_module config</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h1 id="node-module"><a href="#node-module" class="headerlink" title="node_module"></a>node_module</h1><h2 id="Config"><a href="#Config" class="headerlink" title="Config"></a>Config</h2><ul>
-<li>npm<br> “C:/program file/node/node_module”<br> -</li>
-<li>cache<br> “C://Users//HPUser//AppData//Roaming//npm-cache”<br> /home/xx/.npm</li>
-<li>prefix<br> “C://Users//HPUser//AppData//Roaming//npm”<br> “/usr/local”</li>
-<li>userconfig<br> “C://Users//HPUser//.npmrc”<br> “/home/xx/.npmrc”</li>
-<li>globalconfig<br> “C://Users//HPUser//AppData//Roaming//npm//etc//npmrc”<br> “/usr/local/etc/npmrc”</li>
-<li>tmp<br> “C://Users//HPUser//AppData//Local//Temp”<br> “/home/xx/tmp”</li>
-</ul>
-<h1 id="Show-config-list"><a href="#Show-config-list" class="headerlink" title="Show config list"></a>Show config list</h1><figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">npm<span class="built_in"> config </span>list</div><div class="line">npm<span class="built_in"> config </span><span class="builtin-name">get</span><span class="built_in"> prefix </span>/ <span class="builtin-name">set</span> prefix</div></pre></td></tr></table></figure>
       
     </div>
     <footer>
@@ -6759,7 +6795,7 @@ imp user/password tables=case_legal_advice file=case_legal_advice.dmp IGNORE=Y
   
     <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
   
-    <li><a href="/tags/工作日志/">工作日志</a><small>61</small></li>
+    <li><a href="/tags/工作日志/">工作日志</a><small>63</small></li>
   
     <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
   
@@ -6771,7 +6807,7 @@ imp user/password tables=case_legal_advice file=case_legal_advice.dmp IGNORE=Y
   </div>
   <footer id="footer" class="inner"><div class="alignleft">
   
-  &copy; 2018 Forrest Wan
+  &copy; 2019 Forrest Wan
   
 </div>
 <div class="clearfix"></div></footer>

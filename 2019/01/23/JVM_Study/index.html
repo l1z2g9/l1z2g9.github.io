@@ -1,0 +1,163 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>JVM Study | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="JVM Study"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2019-01-23T05:13:53.000Z"><a href="/2019/01/23/JVM_Study/">2019-01-23</a></time>
+      
+      
+  
+    <h1 class="title">JVM Study</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="List-all-VM-flags"><a href="#List-all-VM-flags" class="headerlink" title="List all VM flags"></a>List all VM flags</h2><p><code>java -XX:+UnlockDiagnosticVMOptions -XX:+PrintFlagsFinal -version</code></p>
+<h2 id="JAVA-OPTS-settings-for-OpenJDK-11"><a href="#JAVA-OPTS-settings-for-OpenJDK-11" class="headerlink" title="JAVA_OPTS settings for OpenJDK 11"></a>JAVA_OPTS settings for OpenJDK 11</h2><p>File: <code>d:\App\wildfly-10.1.0.Final\bin\standalone.conf.bat</code><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="builtin-name">set</span> <span class="string">"JAVA_OPTS=%JAVA_OPTS% -Dhk.gov.ogcio.egis.rm.common.PROPERTIES_FILEPATH=D:\rm -Djboss.bind.address=0.0.0.0 -Dspring.profiles.active=uat -Djavax.net.ssl.trustStore=D:\keystore\tcspls_egis.jks -Dfreetts.voices=de.dfki.lt.freetts.en.us.MbrolaVoiceDirectory -Dmbrola.base=D:\mbrola"</span></div><div class="line"><span class="builtin-name">set</span> <span class="string">"JAVA_OPTS=%JAVA_OPTS% -XX:MaxGCPauseMillis=500 -XX:ErrorFile=D:/log/hserrpid%p.log -XX:HeapDumpPath=D:/log/ -Xloggc:D:/log/gc.log -XX:+PrintGCDetails -XX:+HeapDumpOnOutOfMemoryError"</span></div></pre></td></tr></table></figure></p>
+<h2 id="Profiling-commands"><a href="#Profiling-commands" class="headerlink" title="Profiling commands"></a>Profiling commands</h2><figure class="highlight tcl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">jinfo &lt;<span class="keyword">pid</span>&gt;</div><div class="line"></div><div class="line">jmap -dump:live,<span class="keyword">format</span>=b,<span class="keyword">file</span>=heap.bin &lt;<span class="keyword">pid</span>&gt;</div><div class="line">jstack &lt;<span class="keyword">pid</span>&gt;</div></pre></td></tr></table></figure>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="http://stas-blogspot.blogspot.com/2011/07/most-complete-list-of-xx-options-for.html" target="_blank" rel="external">http://stas-blogspot.blogspot.com/2011/07/most-complete-list-of-xx-options-for.html</a><br><a href="https://www.oracle.com/technetwork/java/javase/tech/vmoptions-jsp-140102.html#Options" target="_blank" rel="external">https://www.oracle.com/technetwork/java/javase/tech/vmoptions-jsp-140102.html#Options</a><br><a href="https://stackoverflow.com/questions/43087831/complete-list-of-jvm-options" target="_blank" rel="external">https://stackoverflow.com/questions/43087831/complete-list-of-jvm-options</a><br><a href="https://my.oschina.net/u/3627055/blog/2995973" target="_blank" rel="external">https://my.oschina.net/u/3627055/blog/2995973</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/工作日志/">工作日志</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Suche">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>1</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>63</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2019 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
