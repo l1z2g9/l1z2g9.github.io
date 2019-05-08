@@ -52,6 +52,43 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2019-05-07T07:56:39.000Z"><a href="/2019/05/07/Fix-Problem-in-Windows-Update/">2019-05-07</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2019/05/07/Fix-Problem-in-Windows-Update/">Fix Problem in Windows Update</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="Encounter-error-code-0x800f0831-that-means-missing-some-security-patch-before-installing-current-windows-update"><a href="#Encounter-error-code-0x800f0831-that-means-missing-some-security-patch-before-installing-current-windows-update" class="headerlink" title="Encounter error code 0x800f0831, that means missing some security patch before installing current windows update."></a>Encounter error code 0x800f0831, that means missing some security patch before installing current windows update.</h2><p>check log file CBS.log in path C:\Windows\Logs\CBS, it is found there is missing package shown as below<br><figure class="highlight dns"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="number">2019-05-07</span> <span class="number">10</span>:<span class="number">30</span>:<span class="number">15</span>, Info                  CBS    Store corruption, manifest missing for package: Package_1095_for_KB<span class="number">4093121</span>~<span class="number">31</span>bf3856ad364e35~amd64~~<span class="number">6.3.1.6</span></div><div class="line"><span class="number">2019-05-07</span> <span class="number">10</span>:<span class="number">30</span>:<span class="number">15</span>, Error                 CBS    Failed to resolve package 'Package_1095_for_KB<span class="number">4093121</span>~<span class="number">31</span>bf3856ad364e35~amd64~~<span class="number">6.3.1.6</span>' [HRESULT = <span class="number">0</span>x<span class="number">800f0831</span> - CBS_E_STORE_CORRUPTION]</div><div class="line"><span class="number">2019-05-07</span> <span class="number">10</span>:<span class="number">30</span>:<span class="number">15</span>, Info                  CBS    Mark store corruption flag because of package: Package_1095_for_KB<span class="number">4093121</span>~<span class="number">31</span>bf3856ad364e35~amd64~~<span class="number">6.3.1.6</span>. [HRESULT = <span class="number">0</span>x<span class="number">800f0831</span> - CBS_E_STORE_CORRUPTION]</div><div class="line"><span class="number">2019-05-07</span> <span class="number">10</span>:<span class="number">30</span>:<span class="number">15</span>, Info                  CBS    Failed to resolve package [HRESULT = <span class="number">0</span>x<span class="number">800f0831</span> - CBS_E_STORE_CORRUPTION]</div><div class="line"><span class="number">2019-05-07</span> <span class="number">10</span>:<span class="number">30</span>:<span class="number">15</span>, Info                  CBS    Failed to get next package to re-evaluate [HRESULT = <span class="number">0</span>x<span class="number">800f0831</span> - CBS_E_STORE_CORRUPTION]</div><div class="line"><span class="number">2019-05-07</span> <span class="number">10</span>:<span class="number">30</span>:<span class="number">15</span>, Info                  CBS    Failed to process component watch list. [HRESULT = <span class="number">0</span>x<span class="number">800f0831</span> - CBS_E_STORE_CORRUPTION]</div></pre></td></tr></table></figure></p>
+<p>Then download the file KB4093121 from Windows Updates category website, and run following commands to re-install the security update<br><figure class="highlight llvm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">copy <span class="keyword">c</span>:\Users\Administrator.TCSP\Downloads\windows<span class="number">8.1</span>-kb<span class="number">4093121</span>-<span class="keyword">x</span><span class="number">64</span>_<span class="number">4e8483</span>bcb<span class="number">4</span>ad<span class="number">56</span>a<span class="number">5</span>b<span class="number">63959</span>af<span class="number">8</span><span class="keyword">c</span><span class="number">3</span>fc<span class="number">0</span>dba<span class="number">9</span>f<span class="number">93</span>d<span class="number">48</span>.msu <span class="keyword">c</span>:\Windows\Temp</div><div class="line">cd <span class="keyword">c</span>:\Windows\Temp</div><div class="line">expand windows<span class="number">8.1</span>-kb<span class="number">4093121</span>-<span class="keyword">x</span><span class="number">64</span>_<span class="number">4e8483</span>bcb<span class="number">4</span>ad<span class="number">56</span>a<span class="number">5</span>b<span class="number">63959</span>af<span class="number">8</span><span class="keyword">c</span><span class="number">3</span>fc<span class="number">0</span>dba<span class="number">9</span>f<span class="number">93</span>d<span class="number">48</span>.msu -f:* .</div><div class="line">DISM.exe /Online /Add-Package /PackagePath:Windows<span class="number">8.1</span>-kb<span class="number">4093121</span>-<span class="keyword">x</span><span class="number">64</span>.cab</div></pre></td></tr></table></figure></p>
+<p>Also we can check log file at c:\Windows\Logs\DISM\dism.log</p>
+<h2 id="To-repairing-system-and-servicing-health-by-running"><a href="#To-repairing-system-and-servicing-health-by-running" class="headerlink" title="To repairing system and servicing health by running"></a>To repairing system and servicing health by running</h2><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">--&gt; sfc <span class="string">/scannow</span></div><div class="line">--&gt; dism.exe <span class="string">/online</span> <span class="string">/cleanup-image</span> <span class="string">/scanhealth</span></div><div class="line">--&gt; dism.exe <span class="string">/online</span> <span class="string">/cleanup-image</span> <span class="string">/restorehealth</span></div></pre></td></tr></table></figure>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="http://mryoung.soundbomb.net/2017/12/12/windows-update-0x800f0831-cbs_e_store_corruption/" target="_blank" rel="external">Fix 0x800F0831,CBS_E_STORE_CORRUPTION, this is the solution</a><br><a href="https://blogs.technet.microsoft.com/mu/2016/11/23/how-to-list-updates-that-have-been-installed-on-your-windows-server-2016-machine/" target="_blank" rel="external">List installed windows updates, by powershell or command</a><br><a href="https://www.sysnative.com/forums/threads/server2012r2-datacenter-code-800f0831-kb2973351.23888/" target="_blank" rel="external">https://www.sysnative.com/forums/threads/server2012r2-datacenter-code-800f0831-kb2973351.23888/</a><br><a href="https://social.technet.microsoft.com/wiki/contents/articles/37901.windows-updates-failed-to-install-with-error-code-800f0831-in-windows-server-2012-r2.aspx" target="_blank" rel="external">Windows updates failed to install with error code : 800F0831 in Windows Server 2012 R2</a><br><a href="https://www.catalog.update.microsoft.com/Search.aspx?q=KB4093121" target="_blank" rel="external">Windows Update Catalog, download KB from here</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2019-01-23T08:20:53.000Z"><a href="/2019/01/23/PDF_Signing_By_p12_With_JS/">2019-01-23</a></time>
       
       
@@ -1441,6 +1478,46 @@ ctrl+b l - Move to the previously selected window
     <header>
       
         <div class="icon"></div>
+        <time datetime="2015-10-02T04:08:17.000Z"><a href="/2015/10/02/node_module-config/">2015-10-02</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/10/02/node_module-config/">node_module config</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="node-module"><a href="#node-module" class="headerlink" title="node_module"></a>node_module</h1><h2 id="Config"><a href="#Config" class="headerlink" title="Config"></a>Config</h2><ul>
+<li>npm<br> “C:/program file/node/node_module”<br> -</li>
+<li>cache<br> “C://Users//HPUser//AppData//Roaming//npm-cache”<br> /home/xx/.npm</li>
+<li>prefix<br> “C://Users//HPUser//AppData//Roaming//npm”<br> “/usr/local”</li>
+<li>userconfig<br> “C://Users//HPUser//.npmrc”<br> “/home/xx/.npmrc”</li>
+<li>globalconfig<br> “C://Users//HPUser//AppData//Roaming//npm//etc//npmrc”<br> “/usr/local/etc/npmrc”</li>
+<li>tmp<br> “C://Users//HPUser//AppData//Local//Temp”<br> “/home/xx/tmp”</li>
+</ul>
+<h1 id="Show-config-list"><a href="#Show-config-list" class="headerlink" title="Show config list"></a>Show config list</h1><figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">npm<span class="built_in"> config </span>list</div><div class="line">npm<span class="built_in"> config </span><span class="builtin-name">get</span><span class="built_in"> prefix </span>/ <span class="builtin-name">set</span> prefix</div></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2015-10-02T04:08:17.000Z"><a href="/2015/10/02/Fun-with-Spring-Cloud-and-microservice/">2015-10-02</a></time>
       
       
@@ -1538,46 +1615,6 @@ ctrl+b l - Move to the previously selected window
 <li>jq (<a href="https://stedolan.github.io/jq/" target="_blank" rel="external">https://stedolan.github.io/jq/</a>)</li>
 </ul>
 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-10-02T04:08:17.000Z"><a href="/2015/10/02/node_module-config/">2015-10-02</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/10/02/node_module-config/">node_module config</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h1 id="node-module"><a href="#node-module" class="headerlink" title="node_module"></a>node_module</h1><h2 id="Config"><a href="#Config" class="headerlink" title="Config"></a>Config</h2><ul>
-<li>npm<br> “C:/program file/node/node_module”<br> -</li>
-<li>cache<br> “C://Users//HPUser//AppData//Roaming//npm-cache”<br> /home/xx/.npm</li>
-<li>prefix<br> “C://Users//HPUser//AppData//Roaming//npm”<br> “/usr/local”</li>
-<li>userconfig<br> “C://Users//HPUser//.npmrc”<br> “/home/xx/.npmrc”</li>
-<li>globalconfig<br> “C://Users//HPUser//AppData//Roaming//npm//etc//npmrc”<br> “/usr/local/etc/npmrc”</li>
-<li>tmp<br> “C://Users//HPUser//AppData//Local//Temp”<br> “/home/xx/tmp”</li>
-</ul>
-<h1 id="Show-config-list"><a href="#Show-config-list" class="headerlink" title="Show config list"></a>Show config list</h1><figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">npm<span class="built_in"> config </span>list</div><div class="line">npm<span class="built_in"> config </span><span class="builtin-name">get</span><span class="built_in"> prefix </span>/ <span class="builtin-name">set</span> prefix</div></pre></td></tr></table></figure>
       
     </div>
     <footer>
@@ -6834,7 +6871,7 @@ imp user/password tables=case_legal_advice file=case_legal_advice.dmp IGNORE=Y
   
     <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
   
-    <li><a href="/tags/工作日志/">工作日志</a><small>64</small></li>
+    <li><a href="/tags/工作日志/">工作日志</a><small>65</small></li>
   
     <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
   
