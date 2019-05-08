@@ -52,6 +52,201 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2019-05-08T03:40:39.000Z"><a href="/2019/05/08/Sign-Jar/">2019-05-08</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2019/05/08/Sign-Jar/">Sign Jar</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="generate-certitficate-signing-request"><a href="#generate-certitficate-signing-request" class="headerlink" title="generate certitficate signing request"></a>generate certitficate signing request</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">keytool -certreq -alias xxx -keystore xxx_signing<span class="selector-class">.jks</span> -file certreq<span class="selector-class">.pem</span>.<span class="number">2</span></div><div class="line">keytool -importcert -alias inter   -file intermediate<span class="selector-class">.pem</span>  -keystore xxx_signing<span class="selector-class">.jks</span> -storepass yyy.xxx@<span class="number">2017</span></div><div class="line">keytool -importcert -alias root    -file root<span class="selector-class">.pem</span>          -keystore xxx_signing<span class="selector-class">.jks</span> -storepass yyy.xxx@<span class="number">2017</span></div><div class="line">keytool -importcert -alias xxx  -file signedcert<span class="selector-class">.pem</span>    -keystore xxx_signing<span class="selector-class">.jks</span> -storepass yyy.xxx@<span class="number">2017</span></div></pre></td></tr></table></figure>
+<h2 id="print-certificate-request"><a href="#print-certificate-request" class="headerlink" title="print certificate request"></a>print certificate request</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">keytool -printcertreq -file certreq<span class="selector-class">.pem</span></div><div class="line">openssl req -<span class="keyword">in</span> certreq<span class="selector-class">.pem</span> -noout -text</div></pre></td></tr></table></figure>
+<h2 id="sign-jnlp-jar"><a href="#sign-jnlp-jar" class="headerlink" title="sign jnlp jar"></a>sign jnlp jar</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">D:\signjar&gt; mkdir hk\gov\ogcio</div><div class="line">D:\signjar&gt; mkdir hk\gov\xxx\user\fxbrowser</div><div class="line"></div><div class="line">xxx\public\bin&gt; </div><div class="line">xcopy /y hk\gov\ogcio /s D:\signjar\bin\hk\gov\ogcio</div><div class="line">xcopy /y hk\gov\xxx\user\fxbrowser /s D:\signjar\bin\hk\gov\xxx\user\fxbrowser</div><div class="line">copy smartid<span class="selector-class">.properties</span> D:\signjar\bin</div><div class="line">copy pkcs12<span class="selector-class">.properties</span> D:\signjar\bin</div><div class="line">copy etoken<span class="selector-class">.properties</span> D:\signjar\bin </div><div class="line"></div><div class="line">jar -cf fxbrowser<span class="selector-class">.jar</span> -C bin/ .</div><div class="line">jar ufm fxbrowser<span class="selector-class">.jar</span> Manifest<span class="selector-class">.txt</span></div><div class="line">pack200 --repack fxbrowser<span class="selector-class">.jar</span></div><div class="line"><span class="comment">// pack200 --repack itextpdf-5.5.6.jar</span></div><div class="line"><span class="comment">// pack200 --repack bcprov-jdk15on-1.56.jar</span></div><div class="line"><span class="comment">// pack200 --repack bcpkix-jdk15on-1.56.jar</span></div><div class="line"></div><div class="line">jarsigner -tsa http:<span class="comment">//sha256timestamp.ws.symantec.com/sha256/timestamp -keystore xxx_signing.jks fxbrowser.jar xxx -storepass yyy.xxx@2017</span></div><div class="line">jarsigner -tsa http:<span class="comment">//sha256timestamp.ws.symantec.com/sha256/timestamp -keystore xxx_signing.jks itextpdf-5.5.6.jar xxx -storepass yyy.xxx@2017</span></div><div class="line">jarsigner -tsa http:<span class="comment">//sha256timestamp.ws.symantec.com/sha256/timestamp -keystore xxx_signing.jks bcprov-jdk15on-1.56.jar xxx -storepass yyy.xxx@2017</span></div><div class="line">jarsigner -tsa http:<span class="comment">//sha256timestamp.ws.symantec.com/sha256/timestamp -keystore xxx_signing.jks bcpkix-jdk15on-1.56.jar xxx -storepass yyy.xxx@2017</span></div><div class="line"></div><div class="line">pack200 fxbrowser<span class="selector-class">.jar</span><span class="selector-class">.pack</span><span class="selector-class">.gz</span> fxbrowser<span class="selector-class">.jar</span></div><div class="line">pack200 itextpdf-<span class="number">5.5</span>.<span class="number">6</span><span class="selector-class">.jar</span><span class="selector-class">.pack</span><span class="selector-class">.gz</span> itextpdf-<span class="number">5.5</span>.<span class="number">6</span><span class="selector-class">.jar</span></div><div class="line">pack200 bcprov-jdk15on-<span class="number">1.56</span><span class="selector-class">.jar</span><span class="selector-class">.pack</span><span class="selector-class">.gz</span> bcprov-jdk15on-<span class="number">1.56</span><span class="selector-class">.jar</span></div><div class="line">pack200 bcpkix-jdk15on-<span class="number">1.56</span><span class="selector-class">.jar</span><span class="selector-class">.pack</span><span class="selector-class">.gz</span> bcpkix-jdk15on-<span class="number">1.56</span><span class="selector-class">.jar</span></div><div class="line"></div><div class="line"><span class="selector-tag">del</span> fxbrowser__V1.<span class="number">4</span><span class="selector-class">.jar</span><span class="selector-class">.pack</span><span class="selector-class">.gz</span></div><div class="line">rename fxbrowser<span class="selector-class">.jar</span><span class="selector-class">.pack</span><span class="selector-class">.gz</span> fxbrowser__V1.<span class="number">4</span><span class="selector-class">.jar</span><span class="selector-class">.pack</span><span class="selector-class">.gz</span></div><div class="line">rename itextpdf-<span class="number">5.5</span>.<span class="number">6</span><span class="selector-class">.jar</span><span class="selector-class">.pack</span><span class="selector-class">.gz</span> itextpdf-<span class="number">5.5</span>.<span class="number">6</span>__V1.<span class="number">0</span><span class="selector-class">.jar</span><span class="selector-class">.pack</span><span class="selector-class">.gz</span></div><div class="line">rename bcprov-jdk15on-<span class="number">1.56</span><span class="selector-class">.jar</span><span class="selector-class">.pack</span><span class="selector-class">.gz</span> bcprov-jdk15on-<span class="number">1.56</span>__V1.<span class="number">0</span><span class="selector-class">.jar</span><span class="selector-class">.pack</span><span class="selector-class">.gz</span></div><div class="line">rename bcpkix-jdk15on-<span class="number">1.56</span><span class="selector-class">.jar</span><span class="selector-class">.pack</span><span class="selector-class">.gz</span> bcpkix-jdk15on-<span class="number">1.56</span>__V1.<span class="number">0</span><span class="selector-class">.jar</span><span class="selector-class">.pack</span><span class="selector-class">.gz</span></div><div class="line"></div><div class="line">copy /y fxbrowser__V1.<span class="number">4</span><span class="selector-class">.jar</span><span class="selector-class">.pack</span><span class="selector-class">.gz</span> C:\Users\my\Desktop\Forrest\workspace\xxx\public\src\main\resources\public\user</div><div class="line">copy /y fxbrowser__V1.<span class="number">4</span><span class="selector-class">.jar</span><span class="selector-class">.pack</span><span class="selector-class">.gz</span> Y:\public\bin\public\user</div></pre></td></tr></table></figure>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p>  <a href="https://docs.oracle.com/cd/E19509-01/820-3503/ggezu/" target="_blank" rel="external">https://docs.oracle.com/cd/E19509-01/820-3503/ggezu/</a><br>  <a href="https://blogs.oracle.com/blogbypuneeth/steps-to-create-a-csr-certificate-signing-request-using-keytool-and-get-it-signed-from-an-external-ca-certificate-authority-thawte" target="_blank" rel="external">https://blogs.oracle.com/blogbypuneeth/steps-to-create-a-csr-certificate-signing-request-using-keytool-and-get-it-signed-from-an-external-ca-certificate-authority-thawte</a><br>  <a href="http://docs.oracle.com/javase/7/docs/technotes/guides/jweb/security/rsa_signing.html" target="_blank" rel="external">http://docs.oracle.com/javase/7/docs/technotes/guides/jweb/security/rsa_signing.html</a></p>
+<h2 id="Import-certificate"><a href="#Import-certificate" class="headerlink" title="Import certificate"></a>Import certificate</h2><figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">keytool -import -trustcacerts -keystore xxx_signing.jks -<span class="built_in">alias</span> xxx -<span class="built_in">file</span> ssl_certificate.p7b</div></pre></td></tr></table></figure>
+<h2 id="Add-key-entry-to-xxx-signing-jks-for-pdf-signing"><a href="#Add-key-entry-to-xxx-signing-jks-for-pdf-signing" class="headerlink" title="Add key entry to xxx_signing.jks for pdf signing"></a>Add key entry to xxx_signing.jks for pdf signing</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">useless:</div><div class="line"> openssl pkcs12 -export -inkey www<span class="selector-class">.dummy</span><span class="selector-class">.gov</span><span class="selector-class">.hk-privateKey</span><span class="selector-class">.key</span> -<span class="keyword">in</span> www<span class="selector-class">.dummy</span><span class="selector-class">.gov</span><span class="selector-class">.hk</span><span class="selector-class">.crt</span> -name xxx-cert -out xxx-cert<span class="selector-class">.p12</span></div><div class="line"> keytool -importkeystore -srckeystore ..\apache\ssl\public\xxx-cert<span class="selector-class">.p12</span> -srcstoretype pkcs12 -alias xxx-cert -destkeystore xxx_signing<span class="selector-class">.jks</span></div><div class="line"></div><div class="line">self-sign:</div><div class="line">  openssl req -x509 -newkey rsa:<span class="number">2048</span> -keyout sign-pdf-cert-key<span class="selector-class">.pem</span> -out sign-pdf-cert<span class="selector-class">.pem</span> -days <span class="number">3650</span></div><div class="line">  openssl x509 -text -noout -<span class="keyword">in</span> sign-pdf-cert<span class="selector-class">.pem</span> (review cert)</div><div class="line">  openssl pkcs12 -inkey sign-pdf-cert-key<span class="selector-class">.pem</span> -<span class="keyword">in</span> sign-pdf-cert<span class="selector-class">.pem</span> -export -name xxx-cert -out sign-pdf-cert<span class="selector-class">.p12</span></div><div class="line">  openssl pkcs12 -<span class="keyword">in</span> certificate<span class="selector-class">.p12</span> -noout -info (validate p12 file)</div><div class="line">  keytool -importkeystore -srckeystore sign-pdf-cert<span class="selector-class">.p12</span> -srcstoretype pkcs12 -alias xxx-cert -destkeystore xxx_signing.jks</div></pre></td></tr></table></figure>
+<h2 id="jks-location"><a href="#jks-location" class="headerlink" title="jks location"></a>jks location</h2><figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">D:<span class="symbol">\k</span>eystore<span class="symbol">\x</span>xx_signing.jks comes from public<span class="symbol">\c</span>onfig<span class="symbol">\j</span>ws<span class="symbol">\x</span>xx_signing.jks</div></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2019-05-08T03:31:39.000Z"><a href="/2019/05/08/Generate-SSL-Cert/">2019-05-08</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2019/05/08/Generate-SSL-Cert/">Generate SSL Cert</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="generate-private-key"><a href="#generate-private-key" class="headerlink" title="generate private key"></a>generate private key</h2><figure class="highlight vbnet"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">openssl genrsa -out xxx-privateKey.<span class="keyword">key</span> <span class="number">2048</span>``` no passphase <span class="keyword">to</span> protect <span class="keyword">private</span> <span class="keyword">key</span></div></pre></td></tr></table></figure>
+<h2 id="generate-public-certificate-for-domain-of-dummy-gov-hk"><a href="#generate-public-certificate-for-domain-of-dummy-gov-hk" class="headerlink" title="generate public certificate for domain of dummy.gov.hk"></a>generate public certificate for domain of dummy.gov.hk</h2><figure class="highlight haxe"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="number">1.</span> openssl req -out xxx.csr -<span class="keyword">new</span> <span class="type"></span>-<span class="keyword">new</span><span class="type">key</span> rsa:<span class="type">2048 -sha256 -nodes -key xxx-privateKey</span>.key</div><div class="line"><span class="number">2.</span> openssl req -text -noout -verify -<span class="keyword">in</span> xxx.csr</div></pre></td></tr></table></figure>
+<h2 id="re-generate-csr-with-same-private-key"><a href="#re-generate-csr-with-same-private-key" class="headerlink" title="re-generate csr with same private key"></a>re-generate csr with same private key</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="number">3</span>. openssl req -new -sha256 -nodes -out www<span class="selector-class">.dummy</span><span class="selector-class">.gov</span><span class="selector-class">.hk</span><span class="selector-class">.csr</span> -key www<span class="selector-class">.dummy</span><span class="selector-class">.gov</span><span class="selector-class">.hk-privateKey</span><span class="selector-class">.key</span> -config config<span class="selector-class">.txt</span></div><div class="line"><span class="number">4</span>. openssl req -text -noout -verify -<span class="keyword">in</span> www<span class="selector-class">.dummy</span><span class="selector-class">.gov</span><span class="selector-class">.hk</span><span class="selector-class">.csr</span> &gt; www<span class="selector-class">.dummy</span><span class="selector-class">.gov</span><span class="selector-class">.hk</span><span class="selector-class">.csr</span><span class="selector-class">.verify</span><span class="selector-class">.txt</span></div></pre></td></tr></table></figure>
+<h2 id="generate-private-key-for-internal-certificate-for-domain-of-dummy-hksarg"><a href="#generate-private-key-for-internal-certificate-for-domain-of-dummy-hksarg" class="headerlink" title="generate private key for internal certificate for domain of *.dummy.hksarg"></a>generate private key for internal certificate for domain of *.dummy.hksarg</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="number">1</span>. openssl req -new -sha256 -nodes -out dummy<span class="selector-class">.hksarg</span><span class="selector-class">.csr</span> -newkey rsa:<span class="number">2048</span> -keyout xxx<span class="selector-class">.hksarg-privateKey</span><span class="selector-class">.key</span> -config config<span class="selector-class">.txt</span></div><div class="line"><span class="number">2</span>. openssl req -text -noout -verify -<span class="keyword">in</span> dummy<span class="selector-class">.hksarg</span><span class="selector-class">.csr</span></div></pre></td></tr></table></figure>
+<h2 id="generate-3-internal-certificates-for-domain-of-dummy-hksarg-by-one-private-key"><a href="#generate-3-internal-certificates-for-domain-of-dummy-hksarg-by-one-private-key" class="headerlink" title="generate 3 internal certificates for domain of *.dummy.hksarg by one private key"></a>generate 3 internal certificates for domain of *.dummy.hksarg by one private key</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="number">1</span>. openssl req -new -sha256 -nodes -out sit<span class="selector-class">.dummy</span><span class="selector-class">.hksarg</span><span class="selector-class">.csr</span> -key xxx<span class="selector-class">.hksarg-privateKey</span><span class="selector-class">.key</span> -config config<span class="selector-class">.txt</span></div><div class="line"><span class="number">2</span>. openssl req -text -noout -verify -<span class="keyword">in</span> sit<span class="selector-class">.dummy</span><span class="selector-class">.hksarg</span><span class="selector-class">.csr</span> &gt; sit<span class="selector-class">.xxx</span><span class="selector-class">.hksarg</span><span class="selector-class">.csr</span><span class="selector-class">.verify</span><span class="selector-class">.txt</span></div><div class="line"></div><div class="line"><span class="number">1</span>. openssl req -new -sha256 -nodes -out uat<span class="selector-class">.dummy</span><span class="selector-class">.hksarg</span><span class="selector-class">.csr</span> -key xxx<span class="selector-class">.hksarg-privateKey</span><span class="selector-class">.key</span> -config config<span class="selector-class">.txt</span></div><div class="line"><span class="number">2</span>. openssl req -text -noout -verify -<span class="keyword">in</span> uat<span class="selector-class">.dummy</span><span class="selector-class">.hksarg</span><span class="selector-class">.csr</span> &gt; uat<span class="selector-class">.xxx</span><span class="selector-class">.hksarg</span><span class="selector-class">.csr</span><span class="selector-class">.verify</span><span class="selector-class">.txt</span></div><div class="line"></div><div class="line"><span class="number">1</span>. openssl req -new -sha256 -nodes -out dummy<span class="selector-class">.hksarg</span><span class="selector-class">.csr</span> -key xxx<span class="selector-class">.hksarg-privateKey</span><span class="selector-class">.key</span> -config config<span class="selector-class">.txt</span></div><div class="line"><span class="number">2</span>. openssl req -text -noout -verify -<span class="keyword">in</span> dummy<span class="selector-class">.hksarg</span><span class="selector-class">.csr</span> &gt; dummy<span class="selector-class">.hksarg</span><span class="selector-class">.csr</span><span class="selector-class">.verify</span><span class="selector-class">.txt</span></div></pre></td></tr></table></figure>
+<h2 id="convert-p7b-cert-format-to-PEM"><a href="#convert-p7b-cert-format-to-PEM" class="headerlink" title="convert p7b cert format to PEM"></a>convert p7b cert format to PEM</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">openssl pkcs7 -print_certs -inform der -<span class="keyword">in</span> certnew-der<span class="selector-class">.p7b</span> &gt; sit<span class="selector-class">.dummy</span><span class="selector-class">.hksarg</span><span class="selector-class">.crt</span></div><div class="line">openssl pkcs7 -print_certs -inform der -<span class="keyword">in</span> certnew-der<span class="selector-class">.p7b</span> &gt; uat<span class="selector-class">.dummy</span><span class="selector-class">.hksarg</span><span class="selector-class">.crt</span></div><div class="line">openssl pkcs7 -print_certs -inform der -<span class="keyword">in</span> certnew-der<span class="selector-class">.p7b</span> &gt; dummy<span class="selector-class">.hksarg</span><span class="selector-class">.crt</span></div></pre></td></tr></table></figure>
+<h2 id="conbime-cert-and-cacert"><a href="#conbime-cert-and-cacert" class="headerlink" title="conbime cert and cacert"></a>conbime cert and cacert</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">openssl x509 -<span class="keyword">in</span> cert0002107503<span class="selector-class">.cer</span> -subject -issuer -out cert0002107503<span class="selector-class">.crt</span></div><div class="line">openssl x509 -<span class="keyword">in</span> ecert_ca_1-<span class="number">15</span>_pem<span class="selector-class">.crt</span> -subject -issuer -out ecert_ca_1-<span class="number">15</span>_pem<span class="selector-class">.crt</span></div><div class="line">openssl x509 -<span class="keyword">in</span> root_ca_1_pem<span class="selector-class">.crt</span> -subject -issuer -out root_ca_1_pem<span class="selector-class">.crt</span></div><div class="line"></div><div class="line">cat cert0002107503<span class="selector-class">.crt</span> ecert_ca_1-<span class="number">15</span>_pem<span class="selector-class">.crt</span> root_ca_1_pem<span class="selector-class">.crt</span> &gt; www<span class="selector-class">.dummy</span><span class="selector-class">.gov</span><span class="selector-class">.hk</span><span class="selector-class">.crt</span></div></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2019-05-08T03:03:39.000Z"><a href="/2019/05/08/Instal-RM/">2019-05-08</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2019/05/08/Instal-RM/">Instal RM</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="Export-some-dependencies-like-org-dom4j-and-javax-jms-api-in-jboss-deployment-structure-xml"><a href="#Export-some-dependencies-like-org-dom4j-and-javax-jms-api-in-jboss-deployment-structure-xml" class="headerlink" title="Export some dependencies like org.dom4j and javax.jms.api in jboss-deployment-structure.xml"></a>Export some dependencies like org.dom4j and javax.jms.api in jboss-deployment-structure.xml</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">egis_rm_paymentrecon-dept_web</div><div class="line"><span class="tag">&lt;<span class="name">jboss-deployment-structure</span> <span class="attr">xmlns</span>=<span class="string">"urn:jboss:deployment-structure:1.1"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">deployment</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">resources</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">resource-root</span> <span class="attr">path</span>=<span class="string">"lib/bcprov-jdk15on-1.51.jar"</span> <span class="attr">use-physical-code-source</span>=<span class="string">"true"</span>/&gt;</span></div><div class="line">		<span class="tag">&lt;/<span class="name">resources</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></div><div class="line">			<span class="comment">&lt;!-- for quartz --&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">module</span> <span class="attr">name</span>=<span class="string">"com.mysql"</span> <span class="attr">export</span>=<span class="string">"true"</span>/&gt;</span></div><div class="line">		<span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">deployment</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jboss-deployment-structure</span>&gt;</span></div><div class="line"></div><div class="line">egis_rm_paymentrecon-portal_web</div><div class="line"><span class="tag">&lt;<span class="name">jboss-deployment-structure</span> <span class="attr">xmlns</span>=<span class="string">"urn:jboss:deployment-structure:1.2"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">deployment</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></div><div class="line">			<span class="comment">&lt;!-- for castor, don't know which XML serializer is configured --&gt;</span></div><div class="line">			<span class="comment">&lt;!-- therefore, include both from JDK and Xerces --&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">system</span> <span class="attr">export</span>=<span class="string">"true"</span>&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">paths</span>&gt;</span></div><div class="line">					<span class="tag">&lt;<span class="name">path</span> <span class="attr">name</span>=<span class="string">"com/sun/org/apache/xml/internal/serialize"</span> /&gt;</span></div><div class="line">				<span class="tag">&lt;/<span class="name">paths</span>&gt;</span></div><div class="line">			<span class="tag">&lt;/<span class="name">system</span>&gt;</span></div><div class="line"></div><div class="line">			<span class="tag">&lt;<span class="name">module</span> <span class="attr">name</span>=<span class="string">"org.apache.xalan"</span> <span class="attr">export</span>=<span class="string">"true"</span> /&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">module</span> <span class="attr">name</span>=<span class="string">"org.apache.xerces"</span> <span class="attr">export</span>=<span class="string">"true"</span> /&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">module</span> <span class="attr">name</span>=<span class="string">"org.dom4j"</span> <span class="attr">export</span>=<span class="string">"true"</span> /&gt;</span></div><div class="line"></div><div class="line">			<span class="comment">&lt;!-- for quartz --&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">module</span> <span class="attr">name</span>=<span class="string">"com.mysql"</span> <span class="attr">export</span>=<span class="string">"true"</span> /&gt;</span></div><div class="line">		<span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">deployment</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jboss-deployment-structure</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="Add-application-user-for-role-keyservice-admin-by-calling-bin-add-user-bat"><a href="#Add-application-user-for-role-keyservice-admin-by-calling-bin-add-user-bat" class="headerlink" title="Add application user for role keyservice_admin by calling bin/add-user.bat"></a>Add application user for role keyservice_admin by calling bin/add-user.bat</h2><h2 id="Update-standalone-conf-to-add-RM-config-path"><a href="#Update-standalone-conf-to-add-RM-config-path" class="headerlink" title="Update standalone.conf to add RM config path"></a>Update standalone.conf to add RM config path</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="builtin-name">set</span> <span class="string">"JAVA_OPTS=%JAVA_OPTS% -Dhk.gov.ogcio.egis.rm.common.PROPERTIES_FILEPATH=D:\rm -Djboss.bind.address=0.0.0.0 -Dspring.profiles.active=uat"</span></div></pre></td></tr></table></figure>
+<h2 id="Generate-key-store"><a href="#Generate-key-store" class="headerlink" title="Generate key store"></a>Generate key store</h2><figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">keytool -genkey -keystore xxx_master.jks -keyalg RSA -keysize 2048 -alias my-alais -validity 3650 -storepass yyy.xxx@2017</div><div class="line">*** CN=Companies Registry, OU=Companies Registry, O=Companies Registry, L=Hong Kong, ST=Hong Kong, C=HK ***</div><div class="line">keytool -list -v -keystore xxx_master.jks</div><div class="line"></div><div class="line">Copy xxx<span class="symbol">\r</span>m2<span class="symbol">\k</span>eys<span class="symbol">\s</span>it<span class="symbol">\x</span>xx_master.jks to d:/keystore</div><div class="line"></div><div class="line">Generate master password in DB</div><div class="line">java -cp C:<span class="symbol">\U</span>sers<span class="symbol">\x</span>xx01<span class="symbol">\D</span>esktop<span class="symbol">\F</span>orrest<span class="symbol">\w</span>orkspace<span class="symbol">\R</span>M2-Keyservice<span class="symbol">\b</span>in;C:<span class="symbol">\U</span>sers<span class="symbol">\x</span>xx01<span class="symbol">\D</span>esktop<span class="symbol">\F</span>orrest<span class="symbol">\w</span>orkspace<span class="symbol">\R</span>M2-Common<span class="symbol">\b</span>in hk.gov.ogcio.egis.rm.keyservice.utils.KeystoreInstallSuite /d:/keystore/xxx_master.jks JKS yyy.xxx@2017 my-alais yyy.xxx@2017 SHA256 RSA/ECB/OAEPWithSHA1AndMGF1Padding</div><div class="line"></div><div class="line">INSERT INTO PASSWORD_STORE(PASSWORD_STORE_ID, USER_ID, USAGE_TYPE, PASSWORD, SIGNATURE, LAST_UPDATE_DT) VALUES ('0', 'MASTER_PASSWORD', 'INTERNAL', 'xzn+q7+DcT/Z2eTHVDDO9WRia4R/CHP23cU2bA9Eatgh6xA6Ah5qaK6CTf93ILT+C8ezhDMAe0/IdU916ExB8+iXozYKNnBp5/g4YpvzGYDcsYM6GnH5KA3YZY6EchRjXw1P576m5jQdMY6bQmcdEg7bB1JwufkISneQV1SnpuKev9G4O2oTHamyvaGuAxtj1lWm5we4AmBgGD6hF75ZAdu/IKL2n5h1BflT61jcSCrTYW0yCkWR0JFoN+x7eM3WGBZcw/BDWpIAfxVR6O0hJTkw6S6SDM6kheusfpzc36wcBrxP2yG/Jp+TZVWpSKDxCkLaM+i68K8wonEkQO0nBQ==', 'DeKWX8F/81JGQWeKowS5KsWNu2Poid7w+nDyC3IFRkdjNxAO+yqgKt9GX6QjAa3C61PtbMvPKxzfRjqZZeCx5aUbN+S4FCjKW8b4y8EZxI1TOSc31W6Je2McBxSRqqNPbB382W4lP+K7BXFIC0MS5PGtx+ES28k+rfLJcoRHzlhHKgkXUSIknPfWzLOzGJsg3DFynDXMoH3Jc7lZ2QRWZ2lmfqHm1rPGBfpg6W3YFzFDxJaA/U36A4xrGsYBja3v7+QLQFH7CtvF7XBWAN3HZpBylY8z/5MhMvwo+sj0dVc7z7Q2RLTd1ID0E2C6jI1CKLfLc2SKnho8phzT8xX8rg==', now());</div></pre></td></tr></table></figure>
+<h2 id="Add-support-for-HKPOST-TRIAL-cert-for-testing-in-webserver-properties"><a href="#Add-support-for-HKPOST-TRIAL-cert-for-testing-in-webserver-properties" class="headerlink" title="Add support for HKPOST_TRIAL cert for testing in webserver.properties"></a>Add support for HKPOST_TRIAL cert for testing in webserver.properties</h2><h2 id="Payment-and-Payment-Reconciliation"><a href="#Payment-and-Payment-Reconciliation" class="headerlink" title="Payment and Payment Reconciliation"></a>Payment and Payment Reconciliation</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">generate privateKeyEntry (friendly3)</div><div class="line">  openssl pkcs12 -export -inkey my.hksarg-privateKey.key -in sit.xxx.cr.hksarg.crt -name friendly3 -out friendly3.p12</div><div class="line">  keytool -importkeystore -srckeystore friendly3.p12 -srcstoretype pkcs12 -alias friendly3 -destkeystore xxx_egis.jks</div><div class="line"></div><div class="line"> UAT renew:</div><div class="line">   keytool -v -list -keystore xxx_egis.jks -alias friendly3 -storepass yyy.xxx@2017</div><div class="line">   keytool -<span class="keyword">delete</span> -keystore xxx_egis.jks -<span class="keyword">alias</span> friendly3 -storepass yyy.xxx@<span class="number">2017</span></div><div class="line">   openssl pkcs12 -<span class="keyword">export</span> -inkey my.hksarg-privateKey.key -<span class="keyword">in</span> uat.my.cr.hksarg.crt -<span class="keyword">name</span> friendly3 -<span class="keyword">out</span> friendly3.p12</div><div class="line">   keytool -importkeystore -srckeystore friendly3.p12 -srcstoretype pkcs12 -<span class="keyword">alias</span> friendly3 -destkeystore xxx_egis.jks</div><div class="line"></div><div class="line">Generate trustedCertEntry (epayment_signing)</div><div class="line">  keytool -genkey -keystore payment_signing.jks -keyalg RSA -keysize <span class="number">2048</span> -validity <span class="number">3650</span> -storepass yyy.xxx@<span class="number">2017</span></div><div class="line">  keytool -<span class="keyword">import</span> -v -<span class="keyword">alias</span> payment_signing -<span class="keyword">file</span> UAT_2016_epayment_signing-b64.cer -keystore xxx_egis.jks -storepass yyy.xxx@<span class="number">2017</span></div><div class="line"></div><div class="line">Generate trustedCertEntry (trust1)</div><div class="line">  #keytool -genkey -keystore xxx_egis.jks -keyalg RSA -keysize <span class="number">2048</span> -validity <span class="number">3650</span> -storepass yyy.xxx@<span class="number">2017</span></div><div class="line">  keytool -<span class="keyword">import</span> -trustcacerts -v -<span class="keyword">alias</span> trust1 -<span class="keyword">file</span> iscca256.cer -keystore xxx_egis.jks -storepass yyy.xxx@<span class="number">2017</span></div><div class="line">  keytool -<span class="keyword">import</span> -trustcacerts -v -<span class="keyword">alias</span> rootca -<span class="keyword">file</span> rootca256.cer -keystore xxx_egis.jks -storepass yyy.xxx@<span class="number">2017</span></div><div class="line">  #keytool -<span class="keyword">delete</span> -<span class="keyword">alias</span> mykey -keystore trust_store3.jks -storepass yyy.xxx@<span class="number">2017</span> // <span class="keyword">as</span> xxx_egis <span class="keyword">is</span> created <span class="keyword">and</span> mykey does <span class="keyword">not</span> exist</div><div class="line"></div><div class="line"><span class="keyword">Add</span> below item <span class="keyword">as</span> below <span class="keyword">in</span> KMU</div><div class="line"> * <span class="keyword">key</span> entry : friendly3</div><div class="line"> * cert entry : payment_signing</div><div class="line"> * cert entry : trust1</div><div class="line"><span class="keyword">Add</span> passphase boci-<span class="keyword">key</span> <span class="keyword">and</span> ppsb-<span class="keyword">key</span> <span class="keyword">with</span> <span class="keyword">usage</span>=paymentRecon</div></pre></td></tr></table></figure>
+<h2 id="Keystore"><a href="#Keystore" class="headerlink" title="Keystore"></a>Keystore</h2><figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">D:<span class="symbol">\k</span>eystore<span class="symbol">\x</span>xx_master.jks comes from rm2<span class="symbol">\k</span>eys<span class="symbol">\s</span>it<span class="symbol">\x</span>xx_master.jks</div><div class="line">D:<span class="symbol">\k</span>eystore<span class="symbol">\x</span>xx_egis.jks comes from rm2<span class="symbol">\k</span>eys<span class="symbol">\s</span>it<span class="symbol">\x</span>xx_egis.jks</div></pre></td></tr></table></figure>
+<h2 id="Install-unlimited-strength-JCE-policy-files-named-local-policy-jar-and-US-export-policy-jar-at-lib-security"><a href="#Install-unlimited-strength-JCE-policy-files-named-local-policy-jar-and-US-export-policy-jar-at-lib-security" class="headerlink" title="Install unlimited strength JCE policy files named local_policy.jar and US_export_policy.jar at \lib\security"></a>Install unlimited strength JCE policy files named local_policy.jar and US_export_policy.jar at <java-home>\lib\security</java-home></h2><h2 id="paymentclient-web-gt-IApp1-2-paymentrecon-portal-web-paymentrecon-dept-web-gt-GApp1-2"><a href="#paymentclient-web-gt-IApp1-2-paymentrecon-portal-web-paymentrecon-dept-web-gt-GApp1-2" class="headerlink" title="paymentclient_web -&gt; IApp1/2, paymentrecon-portal_web, paymentrecon-dept_web -&gt; GApp1/2"></a>paymentclient_web -&gt; IApp1/2, paymentrecon-portal_web, paymentrecon-dept_web -&gt; GApp1/2</h2><ol>
+<li>JOB_RM_PAY_BACKGROUND_RECOVERY</li>
+<li>JOB_RM_PAYRECON_PAYMENT_RECON_01_PPSB</li>
+<li>JOB_RM_PAYRECON_PAYMENT_RECON_02_BOCI</li>
+<li>JOB_RM_PAYRECON_PSDR_EXPORTER</li>
+<li>JOB_RM_PAYRECON_PSDR_IMPORTER<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;<span class="keyword">jms-queue</span> name=<span class="string">"BackgroundRecoveryQueue"</span> entries=<span class="string">"queue/BackgroundRecoveryQueue"</span>/&gt;</div><div class="line">&lt;<span class="keyword">jms-queue</span> name=<span class="string">"PSDRExporterScheduleJobQueue"</span> entries=<span class="string">"queue/PSDRExporterScheduleJobQueue"</span>/&gt;</div><div class="line">&lt;<span class="keyword">jms-queue</span> name=<span class="string">"PSDRImporterScheduleJobQueue"</span> entries=<span class="string">"queue/PSDRImporterScheduleJobQueue"</span>/&gt;</div><div class="line">&lt;<span class="keyword">jms-queue</span> name=<span class="string">"PaymentReconScheduleJobQueue"</span> entries=<span class="string">"queue/PaymentReconScheduleJobQueue"</span>/&gt;</div></pre></td></tr></table></figure></li>
+</ol>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2019-05-08T03:03:39.000Z"><a href="/2019/05/08/generate-ssl-steps/">2019-05-08</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2019/05/08/generate-ssl-steps/">Generate SSL Cert</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <ul>
+<li>generate public certificate for domain of tcsp.cr.gov.hk </li>
+</ul>
+<ol>
+<li>openssl req -out tcsp.csr -new -newkey rsa:2048 -sha256 -nodes -key tcsp-privateKey.key</li>
+<li>openssl req -text -noout -verify -in tcsp.csr</li>
+</ol>
+<ul>
+<li>re-generate csr with same private key</li>
+</ul>
+<ol>
+<li>openssl req -new -sha256 -nodes -out www.tcsp.cr.gov.hk.csr -key www.tcsp.cr.gov.hk-privateKey.key -config config.txt</li>
+<li>openssl req -text -noout -verify -in www.tcsp.cr.gov.hk.csr &gt; www.tcsp.cr.gov.hk.csr.verify.txt</li>
+</ol>
+<ul>
+<li>generate private key for internal certificate for domain of *.tcsp.cr.hksarg</li>
+</ul>
+<ol>
+<li>openssl req -new -sha256 -nodes -out tcsp.cr.hksarg.csr -newkey rsa:2048 -keyout tcsp.hksarg-privateKey.key -config config.txt</li>
+<li>openssl req -text -noout -verify -in tcsp.cr.hksarg.csr</li>
+</ol>
+<ul>
+<li>generate 3 internal certificates for domain of *.tcsp.cr.hksarg by one private key</li>
+</ul>
+<ol>
+<li>openssl req -new -sha256 -nodes -out sit.tcsp.cr.hksarg.csr -key tcsp.hksarg-privateKey.key -config config.txt</li>
+<li><p>openssl req -text -noout -verify -in sit.tcsp.cr.hksarg.csr &gt; sit.tcsp.hksarg.csr.verify.txt</p>
+</li>
+<li><p>openssl req -new -sha256 -nodes -out uat.tcsp.cr.hksarg.csr -key tcsp.hksarg-privateKey.key -config config.txt</p>
+</li>
+<li><p>openssl req -text -noout -verify -in uat.tcsp.cr.hksarg.csr &gt; uat.tcsp.hksarg.csr.verify.txt</p>
+</li>
+<li><p>openssl req -new -sha256 -nodes -out tcsp.cr.hksarg.csr -key tcsp.hksarg-privateKey.key -config config.txt</p>
+</li>
+<li>openssl req -text -noout -verify -in tcsp.cr.hksarg.csr &gt; tcsp.cr.hksarg.csr.verify.txt</li>
+</ol>
+<ul>
+<li><p>convert p7b cert format to PEM<br>openssl pkcs7 -print_certs -inform der -in certnew-der.p7b &gt; sit.tcsp.cr.hksarg.crt<br>openssl pkcs7 -print_certs -inform der -in certnew-der.p7b &gt; uat.tcsp.cr.hksarg.crt<br>openssl pkcs7 -print_certs -inform der -in certnew-der.p7b &gt; tcsp.cr.hksarg.crt</p>
+</li>
+<li><p>conbime cert and cacert<br>openssl x509 -in cert0002107503.cer -subject -issuer -out cert0002107503.crt<br>openssl x509 -in ecert_ca_1-15_pem.crt -subject -issuer -out ecert_ca_1-15_pem.crt<br>openssl x509 -in root_ca_1_pem.crt -subject -issuer -out root_ca_1_pem.crt</p>
+</li>
+</ul>
+<p>cat cert0002107503.crt ecert_ca_1-15_pem.crt root_ca_1_pem.crt &gt; www.tcsp.cr.gov.hk.crt</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2019-05-07T07:56:39.000Z"><a href="/2019/05/07/Fix-Problem-in-Windows-Update/">2019-05-07</a></time>
       
       
@@ -1478,46 +1673,6 @@ ctrl+b l - Move to the previously selected window
     <header>
       
         <div class="icon"></div>
-        <time datetime="2015-10-02T04:08:17.000Z"><a href="/2015/10/02/node_module-config/">2015-10-02</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/10/02/node_module-config/">node_module config</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h1 id="node-module"><a href="#node-module" class="headerlink" title="node_module"></a>node_module</h1><h2 id="Config"><a href="#Config" class="headerlink" title="Config"></a>Config</h2><ul>
-<li>npm<br> “C:/program file/node/node_module”<br> -</li>
-<li>cache<br> “C://Users//HPUser//AppData//Roaming//npm-cache”<br> /home/xx/.npm</li>
-<li>prefix<br> “C://Users//HPUser//AppData//Roaming//npm”<br> “/usr/local”</li>
-<li>userconfig<br> “C://Users//HPUser//.npmrc”<br> “/home/xx/.npmrc”</li>
-<li>globalconfig<br> “C://Users//HPUser//AppData//Roaming//npm//etc//npmrc”<br> “/usr/local/etc/npmrc”</li>
-<li>tmp<br> “C://Users//HPUser//AppData//Local//Temp”<br> “/home/xx/tmp”</li>
-</ul>
-<h1 id="Show-config-list"><a href="#Show-config-list" class="headerlink" title="Show config list"></a>Show config list</h1><figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">npm<span class="built_in"> config </span>list</div><div class="line">npm<span class="built_in"> config </span><span class="builtin-name">get</span><span class="built_in"> prefix </span>/ <span class="builtin-name">set</span> prefix</div></pre></td></tr></table></figure>
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
         <time datetime="2015-10-02T04:08:17.000Z"><a href="/2015/10/02/Fun-with-Spring-Cloud-and-microservice/">2015-10-02</a></time>
       
       
@@ -1615,6 +1770,46 @@ ctrl+b l - Move to the previously selected window
 <li>jq (<a href="https://stedolan.github.io/jq/" target="_blank" rel="external">https://stedolan.github.io/jq/</a>)</li>
 </ul>
 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2015-10-02T04:08:17.000Z"><a href="/2015/10/02/node_module-config/">2015-10-02</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/10/02/node_module-config/">node_module config</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="node-module"><a href="#node-module" class="headerlink" title="node_module"></a>node_module</h1><h2 id="Config"><a href="#Config" class="headerlink" title="Config"></a>Config</h2><ul>
+<li>npm<br> “C:/program file/node/node_module”<br> -</li>
+<li>cache<br> “C://Users//HPUser//AppData//Roaming//npm-cache”<br> /home/xx/.npm</li>
+<li>prefix<br> “C://Users//HPUser//AppData//Roaming//npm”<br> “/usr/local”</li>
+<li>userconfig<br> “C://Users//HPUser//.npmrc”<br> “/home/xx/.npmrc”</li>
+<li>globalconfig<br> “C://Users//HPUser//AppData//Roaming//npm//etc//npmrc”<br> “/usr/local/etc/npmrc”</li>
+<li>tmp<br> “C://Users//HPUser//AppData//Local//Temp”<br> “/home/xx/tmp”</li>
+</ul>
+<h1 id="Show-config-list"><a href="#Show-config-list" class="headerlink" title="Show config list"></a>Show config list</h1><figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">npm<span class="built_in"> config </span>list</div><div class="line">npm<span class="built_in"> config </span><span class="builtin-name">get</span><span class="built_in"> prefix </span>/ <span class="builtin-name">set</span> prefix</div></pre></td></tr></table></figure>
       
     </div>
     <footer>
@@ -6871,7 +7066,7 @@ imp user/password tables=case_legal_advice file=case_legal_advice.dmp IGNORE=Y
   
     <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
   
-    <li><a href="/tags/工作日志/">工作日志</a><small>65</small></li>
+    <li><a href="/tags/工作日志/">工作日志</a><small>69</small></li>
   
     <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
   

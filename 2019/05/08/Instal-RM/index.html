@@ -1,0 +1,171 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Instal RM | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Instal RM"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2019-05-08T03:03:39.000Z"><a href="/2019/05/08/Instal-RM/">2019-05-08</a></time>
+      
+      
+  
+    <h1 class="title">Instal RM</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="Export-some-dependencies-like-org-dom4j-and-javax-jms-api-in-jboss-deployment-structure-xml"><a href="#Export-some-dependencies-like-org-dom4j-and-javax-jms-api-in-jboss-deployment-structure-xml" class="headerlink" title="Export some dependencies like org.dom4j and javax.jms.api in jboss-deployment-structure.xml"></a>Export some dependencies like org.dom4j and javax.jms.api in jboss-deployment-structure.xml</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">egis_rm_paymentrecon-dept_web</div><div class="line"><span class="tag">&lt;<span class="name">jboss-deployment-structure</span> <span class="attr">xmlns</span>=<span class="string">"urn:jboss:deployment-structure:1.1"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">deployment</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">resources</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">resource-root</span> <span class="attr">path</span>=<span class="string">"lib/bcprov-jdk15on-1.51.jar"</span> <span class="attr">use-physical-code-source</span>=<span class="string">"true"</span>/&gt;</span></div><div class="line">		<span class="tag">&lt;/<span class="name">resources</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></div><div class="line">			<span class="comment">&lt;!-- for quartz --&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">module</span> <span class="attr">name</span>=<span class="string">"com.mysql"</span> <span class="attr">export</span>=<span class="string">"true"</span>/&gt;</span></div><div class="line">		<span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">deployment</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jboss-deployment-structure</span>&gt;</span></div><div class="line"></div><div class="line">egis_rm_paymentrecon-portal_web</div><div class="line"><span class="tag">&lt;<span class="name">jboss-deployment-structure</span> <span class="attr">xmlns</span>=<span class="string">"urn:jboss:deployment-structure:1.2"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">deployment</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></div><div class="line">			<span class="comment">&lt;!-- for castor, don't know which XML serializer is configured --&gt;</span></div><div class="line">			<span class="comment">&lt;!-- therefore, include both from JDK and Xerces --&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">system</span> <span class="attr">export</span>=<span class="string">"true"</span>&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">paths</span>&gt;</span></div><div class="line">					<span class="tag">&lt;<span class="name">path</span> <span class="attr">name</span>=<span class="string">"com/sun/org/apache/xml/internal/serialize"</span> /&gt;</span></div><div class="line">				<span class="tag">&lt;/<span class="name">paths</span>&gt;</span></div><div class="line">			<span class="tag">&lt;/<span class="name">system</span>&gt;</span></div><div class="line"></div><div class="line">			<span class="tag">&lt;<span class="name">module</span> <span class="attr">name</span>=<span class="string">"org.apache.xalan"</span> <span class="attr">export</span>=<span class="string">"true"</span> /&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">module</span> <span class="attr">name</span>=<span class="string">"org.apache.xerces"</span> <span class="attr">export</span>=<span class="string">"true"</span> /&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">module</span> <span class="attr">name</span>=<span class="string">"org.dom4j"</span> <span class="attr">export</span>=<span class="string">"true"</span> /&gt;</span></div><div class="line"></div><div class="line">			<span class="comment">&lt;!-- for quartz --&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">module</span> <span class="attr">name</span>=<span class="string">"com.mysql"</span> <span class="attr">export</span>=<span class="string">"true"</span> /&gt;</span></div><div class="line">		<span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">deployment</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">jboss-deployment-structure</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="Add-application-user-for-role-keyservice-admin-by-calling-bin-add-user-bat"><a href="#Add-application-user-for-role-keyservice-admin-by-calling-bin-add-user-bat" class="headerlink" title="Add application user for role keyservice_admin by calling bin/add-user.bat"></a>Add application user for role keyservice_admin by calling bin/add-user.bat</h2><h2 id="Update-standalone-conf-to-add-RM-config-path"><a href="#Update-standalone-conf-to-add-RM-config-path" class="headerlink" title="Update standalone.conf to add RM config path"></a>Update standalone.conf to add RM config path</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="builtin-name">set</span> <span class="string">"JAVA_OPTS=%JAVA_OPTS% -Dhk.gov.ogcio.egis.rm.common.PROPERTIES_FILEPATH=D:\rm -Djboss.bind.address=0.0.0.0 -Dspring.profiles.active=uat"</span></div></pre></td></tr></table></figure>
+<h2 id="Generate-key-store"><a href="#Generate-key-store" class="headerlink" title="Generate key store"></a>Generate key store</h2><figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">keytool -genkey -keystore xxx_master.jks -keyalg RSA -keysize 2048 -alias my-alais -validity 3650 -storepass yyy.xxx@2017</div><div class="line">*** CN=Companies Registry, OU=Companies Registry, O=Companies Registry, L=Hong Kong, ST=Hong Kong, C=HK ***</div><div class="line">keytool -list -v -keystore xxx_master.jks</div><div class="line"></div><div class="line">Copy xxx<span class="symbol">\r</span>m2<span class="symbol">\k</span>eys<span class="symbol">\s</span>it<span class="symbol">\x</span>xx_master.jks to d:/keystore</div><div class="line"></div><div class="line">Generate master password in DB</div><div class="line">java -cp C:<span class="symbol">\U</span>sers<span class="symbol">\x</span>xx01<span class="symbol">\D</span>esktop<span class="symbol">\F</span>orrest<span class="symbol">\w</span>orkspace<span class="symbol">\R</span>M2-Keyservice<span class="symbol">\b</span>in;C:<span class="symbol">\U</span>sers<span class="symbol">\x</span>xx01<span class="symbol">\D</span>esktop<span class="symbol">\F</span>orrest<span class="symbol">\w</span>orkspace<span class="symbol">\R</span>M2-Common<span class="symbol">\b</span>in hk.gov.ogcio.egis.rm.keyservice.utils.KeystoreInstallSuite /d:/keystore/xxx_master.jks JKS yyy.xxx@2017 my-alais yyy.xxx@2017 SHA256 RSA/ECB/OAEPWithSHA1AndMGF1Padding</div><div class="line"></div><div class="line">INSERT INTO PASSWORD_STORE(PASSWORD_STORE_ID, USER_ID, USAGE_TYPE, PASSWORD, SIGNATURE, LAST_UPDATE_DT) VALUES ('0', 'MASTER_PASSWORD', 'INTERNAL', 'xzn+q7+DcT/Z2eTHVDDO9WRia4R/CHP23cU2bA9Eatgh6xA6Ah5qaK6CTf93ILT+C8ezhDMAe0/IdU916ExB8+iXozYKNnBp5/g4YpvzGYDcsYM6GnH5KA3YZY6EchRjXw1P576m5jQdMY6bQmcdEg7bB1JwufkISneQV1SnpuKev9G4O2oTHamyvaGuAxtj1lWm5we4AmBgGD6hF75ZAdu/IKL2n5h1BflT61jcSCrTYW0yCkWR0JFoN+x7eM3WGBZcw/BDWpIAfxVR6O0hJTkw6S6SDM6kheusfpzc36wcBrxP2yG/Jp+TZVWpSKDxCkLaM+i68K8wonEkQO0nBQ==', 'DeKWX8F/81JGQWeKowS5KsWNu2Poid7w+nDyC3IFRkdjNxAO+yqgKt9GX6QjAa3C61PtbMvPKxzfRjqZZeCx5aUbN+S4FCjKW8b4y8EZxI1TOSc31W6Je2McBxSRqqNPbB382W4lP+K7BXFIC0MS5PGtx+ES28k+rfLJcoRHzlhHKgkXUSIknPfWzLOzGJsg3DFynDXMoH3Jc7lZ2QRWZ2lmfqHm1rPGBfpg6W3YFzFDxJaA/U36A4xrGsYBja3v7+QLQFH7CtvF7XBWAN3HZpBylY8z/5MhMvwo+sj0dVc7z7Q2RLTd1ID0E2C6jI1CKLfLc2SKnho8phzT8xX8rg==', now());</div></pre></td></tr></table></figure>
+<h2 id="Add-support-for-HKPOST-TRIAL-cert-for-testing-in-webserver-properties"><a href="#Add-support-for-HKPOST-TRIAL-cert-for-testing-in-webserver-properties" class="headerlink" title="Add support for HKPOST_TRIAL cert for testing in webserver.properties"></a>Add support for HKPOST_TRIAL cert for testing in webserver.properties</h2><h2 id="Payment-and-Payment-Reconciliation"><a href="#Payment-and-Payment-Reconciliation" class="headerlink" title="Payment and Payment Reconciliation"></a>Payment and Payment Reconciliation</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">generate privateKeyEntry (friendly3)</div><div class="line">  openssl pkcs12 -export -inkey my.hksarg-privateKey.key -in sit.xxx.cr.hksarg.crt -name friendly3 -out friendly3.p12</div><div class="line">  keytool -importkeystore -srckeystore friendly3.p12 -srcstoretype pkcs12 -alias friendly3 -destkeystore xxx_egis.jks</div><div class="line"></div><div class="line"> UAT renew:</div><div class="line">   keytool -v -list -keystore xxx_egis.jks -alias friendly3 -storepass yyy.xxx@2017</div><div class="line">   keytool -<span class="keyword">delete</span> -keystore xxx_egis.jks -<span class="keyword">alias</span> friendly3 -storepass yyy.xxx@<span class="number">2017</span></div><div class="line">   openssl pkcs12 -<span class="keyword">export</span> -inkey my.hksarg-privateKey.key -<span class="keyword">in</span> uat.my.cr.hksarg.crt -<span class="keyword">name</span> friendly3 -<span class="keyword">out</span> friendly3.p12</div><div class="line">   keytool -importkeystore -srckeystore friendly3.p12 -srcstoretype pkcs12 -<span class="keyword">alias</span> friendly3 -destkeystore xxx_egis.jks</div><div class="line"></div><div class="line">Generate trustedCertEntry (epayment_signing)</div><div class="line">  keytool -genkey -keystore payment_signing.jks -keyalg RSA -keysize <span class="number">2048</span> -validity <span class="number">3650</span> -storepass yyy.xxx@<span class="number">2017</span></div><div class="line">  keytool -<span class="keyword">import</span> -v -<span class="keyword">alias</span> payment_signing -<span class="keyword">file</span> UAT_2016_epayment_signing-b64.cer -keystore xxx_egis.jks -storepass yyy.xxx@<span class="number">2017</span></div><div class="line"></div><div class="line">Generate trustedCertEntry (trust1)</div><div class="line">  #keytool -genkey -keystore xxx_egis.jks -keyalg RSA -keysize <span class="number">2048</span> -validity <span class="number">3650</span> -storepass yyy.xxx@<span class="number">2017</span></div><div class="line">  keytool -<span class="keyword">import</span> -trustcacerts -v -<span class="keyword">alias</span> trust1 -<span class="keyword">file</span> iscca256.cer -keystore xxx_egis.jks -storepass yyy.xxx@<span class="number">2017</span></div><div class="line">  keytool -<span class="keyword">import</span> -trustcacerts -v -<span class="keyword">alias</span> rootca -<span class="keyword">file</span> rootca256.cer -keystore xxx_egis.jks -storepass yyy.xxx@<span class="number">2017</span></div><div class="line">  #keytool -<span class="keyword">delete</span> -<span class="keyword">alias</span> mykey -keystore trust_store3.jks -storepass yyy.xxx@<span class="number">2017</span> // <span class="keyword">as</span> xxx_egis <span class="keyword">is</span> created <span class="keyword">and</span> mykey does <span class="keyword">not</span> exist</div><div class="line"></div><div class="line"><span class="keyword">Add</span> below item <span class="keyword">as</span> below <span class="keyword">in</span> KMU</div><div class="line"> * <span class="keyword">key</span> entry : friendly3</div><div class="line"> * cert entry : payment_signing</div><div class="line"> * cert entry : trust1</div><div class="line"><span class="keyword">Add</span> passphase boci-<span class="keyword">key</span> <span class="keyword">and</span> ppsb-<span class="keyword">key</span> <span class="keyword">with</span> <span class="keyword">usage</span>=paymentRecon</div></pre></td></tr></table></figure>
+<h2 id="Keystore"><a href="#Keystore" class="headerlink" title="Keystore"></a>Keystore</h2><figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">D:<span class="symbol">\k</span>eystore<span class="symbol">\x</span>xx_master.jks comes from rm2<span class="symbol">\k</span>eys<span class="symbol">\s</span>it<span class="symbol">\x</span>xx_master.jks</div><div class="line">D:<span class="symbol">\k</span>eystore<span class="symbol">\x</span>xx_egis.jks comes from rm2<span class="symbol">\k</span>eys<span class="symbol">\s</span>it<span class="symbol">\x</span>xx_egis.jks</div></pre></td></tr></table></figure>
+<h2 id="Install-unlimited-strength-JCE-policy-files-named-local-policy-jar-and-US-export-policy-jar-at-lib-security"><a href="#Install-unlimited-strength-JCE-policy-files-named-local-policy-jar-and-US-export-policy-jar-at-lib-security" class="headerlink" title="Install unlimited strength JCE policy files named local_policy.jar and US_export_policy.jar at \lib\security"></a>Install unlimited strength JCE policy files named local_policy.jar and US_export_policy.jar at <java-home>\lib\security</java-home></h2><h2 id="paymentclient-web-gt-IApp1-2-paymentrecon-portal-web-paymentrecon-dept-web-gt-GApp1-2"><a href="#paymentclient-web-gt-IApp1-2-paymentrecon-portal-web-paymentrecon-dept-web-gt-GApp1-2" class="headerlink" title="paymentclient_web -&gt; IApp1/2, paymentrecon-portal_web, paymentrecon-dept_web -&gt; GApp1/2"></a>paymentclient_web -&gt; IApp1/2, paymentrecon-portal_web, paymentrecon-dept_web -&gt; GApp1/2</h2><ol>
+<li>JOB_RM_PAY_BACKGROUND_RECOVERY</li>
+<li>JOB_RM_PAYRECON_PAYMENT_RECON_01_PPSB</li>
+<li>JOB_RM_PAYRECON_PAYMENT_RECON_02_BOCI</li>
+<li>JOB_RM_PAYRECON_PSDR_EXPORTER</li>
+<li>JOB_RM_PAYRECON_PSDR_IMPORTER<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;<span class="keyword">jms-queue</span> name=<span class="string">"BackgroundRecoveryQueue"</span> entries=<span class="string">"queue/BackgroundRecoveryQueue"</span>/&gt;</div><div class="line">&lt;<span class="keyword">jms-queue</span> name=<span class="string">"PSDRExporterScheduleJobQueue"</span> entries=<span class="string">"queue/PSDRExporterScheduleJobQueue"</span>/&gt;</div><div class="line">&lt;<span class="keyword">jms-queue</span> name=<span class="string">"PSDRImporterScheduleJobQueue"</span> entries=<span class="string">"queue/PSDRImporterScheduleJobQueue"</span>/&gt;</div><div class="line">&lt;<span class="keyword">jms-queue</span> name=<span class="string">"PaymentReconScheduleJobQueue"</span> entries=<span class="string">"queue/PaymentReconScheduleJobQueue"</span>/&gt;</div></pre></td></tr></table></figure></li>
+</ol>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/工作日志/">工作日志</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Suche">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>1</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>69</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2019 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

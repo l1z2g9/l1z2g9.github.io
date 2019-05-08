@@ -1,0 +1,165 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Generate SSL Cert | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Generate SSL Cert"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2019-05-08T03:31:39.000Z"><a href="/2019/05/08/Generate-SSL-Cert/">2019-05-08</a></time>
+      
+      
+  
+    <h1 class="title">Generate SSL Cert</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="generate-private-key"><a href="#generate-private-key" class="headerlink" title="generate private key"></a>generate private key</h2><figure class="highlight vbnet"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">openssl genrsa -out xxx-privateKey.<span class="keyword">key</span> <span class="number">2048</span>``` no passphase <span class="keyword">to</span> protect <span class="keyword">private</span> <span class="keyword">key</span></div></pre></td></tr></table></figure>
+<h2 id="generate-public-certificate-for-domain-of-dummy-gov-hk"><a href="#generate-public-certificate-for-domain-of-dummy-gov-hk" class="headerlink" title="generate public certificate for domain of dummy.gov.hk"></a>generate public certificate for domain of dummy.gov.hk</h2><figure class="highlight haxe"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="number">1.</span> openssl req -out xxx.csr -<span class="keyword">new</span> <span class="type"></span>-<span class="keyword">new</span><span class="type">key</span> rsa:<span class="type">2048 -sha256 -nodes -key xxx-privateKey</span>.key</div><div class="line"><span class="number">2.</span> openssl req -text -noout -verify -<span class="keyword">in</span> xxx.csr</div></pre></td></tr></table></figure>
+<h2 id="re-generate-csr-with-same-private-key"><a href="#re-generate-csr-with-same-private-key" class="headerlink" title="re-generate csr with same private key"></a>re-generate csr with same private key</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="number">3</span>. openssl req -new -sha256 -nodes -out www<span class="selector-class">.dummy</span><span class="selector-class">.gov</span><span class="selector-class">.hk</span><span class="selector-class">.csr</span> -key www<span class="selector-class">.dummy</span><span class="selector-class">.gov</span><span class="selector-class">.hk-privateKey</span><span class="selector-class">.key</span> -config config<span class="selector-class">.txt</span></div><div class="line"><span class="number">4</span>. openssl req -text -noout -verify -<span class="keyword">in</span> www<span class="selector-class">.dummy</span><span class="selector-class">.gov</span><span class="selector-class">.hk</span><span class="selector-class">.csr</span> &gt; www<span class="selector-class">.dummy</span><span class="selector-class">.gov</span><span class="selector-class">.hk</span><span class="selector-class">.csr</span><span class="selector-class">.verify</span><span class="selector-class">.txt</span></div></pre></td></tr></table></figure>
+<h2 id="generate-private-key-for-internal-certificate-for-domain-of-dummy-hksarg"><a href="#generate-private-key-for-internal-certificate-for-domain-of-dummy-hksarg" class="headerlink" title="generate private key for internal certificate for domain of *.dummy.hksarg"></a>generate private key for internal certificate for domain of *.dummy.hksarg</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="number">1</span>. openssl req -new -sha256 -nodes -out dummy<span class="selector-class">.hksarg</span><span class="selector-class">.csr</span> -newkey rsa:<span class="number">2048</span> -keyout xxx<span class="selector-class">.hksarg-privateKey</span><span class="selector-class">.key</span> -config config<span class="selector-class">.txt</span></div><div class="line"><span class="number">2</span>. openssl req -text -noout -verify -<span class="keyword">in</span> dummy<span class="selector-class">.hksarg</span><span class="selector-class">.csr</span></div></pre></td></tr></table></figure>
+<h2 id="generate-3-internal-certificates-for-domain-of-dummy-hksarg-by-one-private-key"><a href="#generate-3-internal-certificates-for-domain-of-dummy-hksarg-by-one-private-key" class="headerlink" title="generate 3 internal certificates for domain of *.dummy.hksarg by one private key"></a>generate 3 internal certificates for domain of *.dummy.hksarg by one private key</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="number">1</span>. openssl req -new -sha256 -nodes -out sit<span class="selector-class">.dummy</span><span class="selector-class">.hksarg</span><span class="selector-class">.csr</span> -key xxx<span class="selector-class">.hksarg-privateKey</span><span class="selector-class">.key</span> -config config<span class="selector-class">.txt</span></div><div class="line"><span class="number">2</span>. openssl req -text -noout -verify -<span class="keyword">in</span> sit<span class="selector-class">.dummy</span><span class="selector-class">.hksarg</span><span class="selector-class">.csr</span> &gt; sit<span class="selector-class">.xxx</span><span class="selector-class">.hksarg</span><span class="selector-class">.csr</span><span class="selector-class">.verify</span><span class="selector-class">.txt</span></div><div class="line"></div><div class="line"><span class="number">1</span>. openssl req -new -sha256 -nodes -out uat<span class="selector-class">.dummy</span><span class="selector-class">.hksarg</span><span class="selector-class">.csr</span> -key xxx<span class="selector-class">.hksarg-privateKey</span><span class="selector-class">.key</span> -config config<span class="selector-class">.txt</span></div><div class="line"><span class="number">2</span>. openssl req -text -noout -verify -<span class="keyword">in</span> uat<span class="selector-class">.dummy</span><span class="selector-class">.hksarg</span><span class="selector-class">.csr</span> &gt; uat<span class="selector-class">.xxx</span><span class="selector-class">.hksarg</span><span class="selector-class">.csr</span><span class="selector-class">.verify</span><span class="selector-class">.txt</span></div><div class="line"></div><div class="line"><span class="number">1</span>. openssl req -new -sha256 -nodes -out dummy<span class="selector-class">.hksarg</span><span class="selector-class">.csr</span> -key xxx<span class="selector-class">.hksarg-privateKey</span><span class="selector-class">.key</span> -config config<span class="selector-class">.txt</span></div><div class="line"><span class="number">2</span>. openssl req -text -noout -verify -<span class="keyword">in</span> dummy<span class="selector-class">.hksarg</span><span class="selector-class">.csr</span> &gt; dummy<span class="selector-class">.hksarg</span><span class="selector-class">.csr</span><span class="selector-class">.verify</span><span class="selector-class">.txt</span></div></pre></td></tr></table></figure>
+<h2 id="convert-p7b-cert-format-to-PEM"><a href="#convert-p7b-cert-format-to-PEM" class="headerlink" title="convert p7b cert format to PEM"></a>convert p7b cert format to PEM</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">openssl pkcs7 -print_certs -inform der -<span class="keyword">in</span> certnew-der<span class="selector-class">.p7b</span> &gt; sit<span class="selector-class">.dummy</span><span class="selector-class">.hksarg</span><span class="selector-class">.crt</span></div><div class="line">openssl pkcs7 -print_certs -inform der -<span class="keyword">in</span> certnew-der<span class="selector-class">.p7b</span> &gt; uat<span class="selector-class">.dummy</span><span class="selector-class">.hksarg</span><span class="selector-class">.crt</span></div><div class="line">openssl pkcs7 -print_certs -inform der -<span class="keyword">in</span> certnew-der<span class="selector-class">.p7b</span> &gt; dummy<span class="selector-class">.hksarg</span><span class="selector-class">.crt</span></div></pre></td></tr></table></figure>
+<h2 id="conbime-cert-and-cacert"><a href="#conbime-cert-and-cacert" class="headerlink" title="conbime cert and cacert"></a>conbime cert and cacert</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">openssl x509 -<span class="keyword">in</span> cert0002107503<span class="selector-class">.cer</span> -subject -issuer -out cert0002107503<span class="selector-class">.crt</span></div><div class="line">openssl x509 -<span class="keyword">in</span> ecert_ca_1-<span class="number">15</span>_pem<span class="selector-class">.crt</span> -subject -issuer -out ecert_ca_1-<span class="number">15</span>_pem<span class="selector-class">.crt</span></div><div class="line">openssl x509 -<span class="keyword">in</span> root_ca_1_pem<span class="selector-class">.crt</span> -subject -issuer -out root_ca_1_pem<span class="selector-class">.crt</span></div><div class="line"></div><div class="line">cat cert0002107503<span class="selector-class">.crt</span> ecert_ca_1-<span class="number">15</span>_pem<span class="selector-class">.crt</span> root_ca_1_pem<span class="selector-class">.crt</span> &gt; www<span class="selector-class">.dummy</span><span class="selector-class">.gov</span><span class="selector-class">.hk</span><span class="selector-class">.crt</span></div></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/工作日志/">工作日志</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Suche">
+    <input type="hidden" name="q" value="site:l1z2g9.github.io">
+  </form>
+</div>
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>1</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/工作日志/">工作日志</a><small>69</small></li>
+  
+    <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2019 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
