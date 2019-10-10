@@ -66,9 +66,9 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mysql -uroot -pcR@2017 xxx_prd</div><div class="line"><span class="meta">&gt;</span><span class="bash"> show slave status \G;</span></div><div class="line"><span class="meta">&gt;</span><span class="bash"> stop slave;</span></div></pre></td></tr></table></figure>
 </li>
 <li><p>export data from master node</p>
-<figure class="highlight fortran"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mysqldump -uroot -pcR@<span class="number">2017</span> -c tcspls_prd --no-<span class="keyword">data</span> any_table1, any_table2 &gt; xxx_prd_schema-<span class="keyword">only</span>-Dump20180228.sql</div><div class="line"></div><div class="line">mysqldump -uroot -pcR@<span class="number">2017</span> -c tcspls_prd &gt; xxx_prd.sql (export <span class="built_in">all</span> <span class="keyword">data</span>)</div></pre></td></tr></table></figure>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mysqldump -uroot -<span class="symbol">pcR@</span><span class="number">2017</span> -c tcspls_prd --no-<span class="keyword">data</span> any_table1, any_table2 &gt; xxx_prd_schema-only-Dump20180228.sql</div><div class="line"></div><div class="line">mysqldump -uroot -<span class="symbol">pcR@</span><span class="number">2017</span> -c tcspls_prd | sed <span class="string">'s/ AUTO_INCREMENT=[0-9]*//g'</span> &gt; xxx_prd_dmp_20190524.sql(export all <span class="keyword">data</span>)</div></pre></td></tr></table></figure>
 </li>
-<li><p>Using Search and Replace to remove <em>auto_increment=</em>DE<em> to </em>DE* directive since the exported schema sql included auto_increment value</p>
+<li><p>Using Search and Replace to remove <em>auto_increment=</em>DE<em> to </em>DE<em> directive since the exported schema sql included auto_increment value (no need as use </em>sed* to filter auto increment)</p>
 </li>
 <li><p>Show status on master node</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SHOW</span> <span class="keyword">MASTER</span> <span class="keyword">STATUS</span>\G;</div><div class="line"><span class="keyword">show</span> <span class="keyword">master</span> <span class="keyword">logs</span>;\G</div><div class="line"><span class="keyword">show</span> <span class="keyword">binlog</span> <span class="keyword">events</span>\G;</div><div class="line"><span class="keyword">show</span> <span class="keyword">variables</span> <span class="keyword">like</span> <span class="string">'log_%'</span>;</div></pre></td></tr></table></figure>
@@ -136,7 +136,7 @@
     <aside id="sidebar" class="alignright">
   <div class="search">
   <form action="//google.com/search" method="get" accept-charset="utf-8">
-    <input type="search" name="q" results="0" placeholder="Suche">
+    <input type="search" name="q" results="0" placeholder="Buscar">
     <input type="hidden" name="q" value="site:l1z2g9.github.io">
   </form>
 </div>
@@ -145,12 +145,12 @@
 
   
 <div class="widget tag">
-  <h3 class="title">Tags</h3>
+  <h3 class="title">Etiquetas</h3>
   <ul class="entry">
   
     <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
   
-    <li><a href="/tags/MySQL/">MySQL</a><small>1</small></li>
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
   
     <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
   
@@ -158,7 +158,7 @@
   
     <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
   
-    <li><a href="/tags/工作日志/">工作日志</a><small>69</small></li>
+    <li><a href="/tags/工作日志/">工作日志</a><small>68</small></li>
   
     <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
   

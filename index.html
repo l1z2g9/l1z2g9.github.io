@@ -52,6 +52,43 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2019-10-10T04:07:07.000Z"><a href="/2019/10/10/Install-Certificate-From-Let's-Encrypt-To-Tomcat/">2019-10-10</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2019/10/10/Install-Certificate-From-Let's-Encrypt-To-Tomcat/">Install Certificate From Let&#39;s Encrypt To Tomcat</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="Got-3-files-from-https-www-sslforfree-com"><a href="#Got-3-files-from-https-www-sslforfree-com" class="headerlink" title="Got 3 files from https://www.sslforfree.com/"></a>Got 3 files from <a href="https://www.sslforfree.com/" target="_blank" rel="external">https://www.sslforfree.com/</a></h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">certificate<span class="selector-class">.crt</span></div><div class="line">ca_bundle<span class="selector-class">.crt</span></div><div class="line">private.key</div></pre></td></tr></table></figure>
+<h2 id="Web-server-is-tomcat-merge-those-files-into-a-keystore"><a href="#Web-server-is-tomcat-merge-those-files-into-a-keystore" class="headerlink" title="Web server is tomcat, merge those files into a keystore"></a>Web server is tomcat, merge those files into a keystore</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">openssl pkcs12 -export -<span class="keyword">in</span> certificate<span class="selector-class">.crt</span> -inkey private<span class="selector-class">.key</span> -certfile certificate<span class="selector-class">.crt</span> -out testkeystore<span class="selector-class">.p12</span></div><div class="line"></div><div class="line">keytool -importkeystore -srckeystore testkeystore<span class="selector-class">.p12</span> -srcstoretype pkcs12 -destkeystore ks<span class="selector-class">.jks</span> -deststoretype JKS</div><div class="line"></div><div class="line">keytool -changealias -keystore ks<span class="selector-class">.jks</span> -alias <span class="number">1</span></div><div class="line">=&gt; alias: tomcat</div><div class="line"></div><div class="line">password: lles1234</div><div class="line"></div><div class="line">keytool -import -trustcacerts -alias root -file ca_bundle<span class="selector-class">.crt</span> -keystore ks<span class="selector-class">.jks</span></div><div class="line"></div><div class="line">keytool -import -trustcacerts -alias lles -file certificate<span class="selector-class">.crt</span> -keystore ks.jks</div></pre></td></tr></table></figure>
+<h2 id="Test-the-cert"><a href="#Test-the-cert" class="headerlink" title="Test the cert"></a>Test the cert</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">openssl</span> <span class="selector-tag">s_connect</span> <span class="selector-tag">-showcerts</span> <span class="selector-tag">-connect</span> 127<span class="selector-class">.0</span><span class="selector-class">.0</span><span class="selector-class">.1</span><span class="selector-pseudo">:443</span></div></pre></td></tr></table></figure>
+<p>server.xml<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;Connector <span class="attribute">port</span>=<span class="string">"443"</span> <span class="attribute">protocol</span>=<span class="string">"HTTP/1.1"</span></div><div class="line"><span class="attribute">SSLEnabled</span>=<span class="string">"true"</span></div><div class="line"><span class="attribute">scheme</span>=<span class="string">"https"</span> <span class="attribute">secure</span>=<span class="string">"true"</span> <span class="attribute">clientAuth</span>=<span class="string">"false"</span></div><div class="line"><span class="attribute">sslProtocol</span>=<span class="string">"TLS"</span> <span class="attribute">keystoreFile</span>=<span class="string">"/your_path/ks.jks"</span></div><div class="line"><span class="attribute">keystorePass</span>=<span class="string">"lles1234"</span> /&gt;</div></pre></td></tr></table></figure></p>
+<p>Reference:<br><a href="https://www.sslforfree.com/#tutorials" target="_blank" rel="external">https://www.sslforfree.com/#tutorials</a><br><a href="https://www.namecheap.com/support/knowledgebase/article.aspx/9423/33/installing-an-ssl-certificate-on-apache" target="_blank" rel="external">https://www.namecheap.com/support/knowledgebase/article.aspx/9423/33/installing-an-ssl-certificate-on-apache</a><br><a href="https://www.namecheap.com/support/knowledgebase/article.aspx/9441/33/installing-an-ssl-certificate-on-tomcat" target="_blank" rel="external">https://www.namecheap.com/support/knowledgebase/article.aspx/9441/33/installing-an-ssl-certificate-on-tomcat</a><br><a href="https://www.cyberciti.biz/faq/test-ssl-certificates-diagnosis-ssl-certificate/" target="_blank" rel="external">https://www.cyberciti.biz/faq/test-ssl-certificates-diagnosis-ssl-certificate/</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2019-05-08T03:40:39.000Z"><a href="/2019/05/08/Sign-Jar/">2019-05-08</a></time>
       
       
@@ -150,81 +187,6 @@
 <li>JOB_RM_PAYRECON_PSDR_EXPORTER</li>
 <li>JOB_RM_PAYRECON_PSDR_IMPORTER<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;<span class="keyword">jms-queue</span> name=<span class="string">"BackgroundRecoveryQueue"</span> entries=<span class="string">"queue/BackgroundRecoveryQueue"</span>/&gt;</div><div class="line">&lt;<span class="keyword">jms-queue</span> name=<span class="string">"PSDRExporterScheduleJobQueue"</span> entries=<span class="string">"queue/PSDRExporterScheduleJobQueue"</span>/&gt;</div><div class="line">&lt;<span class="keyword">jms-queue</span> name=<span class="string">"PSDRImporterScheduleJobQueue"</span> entries=<span class="string">"queue/PSDRImporterScheduleJobQueue"</span>/&gt;</div><div class="line">&lt;<span class="keyword">jms-queue</span> name=<span class="string">"PaymentReconScheduleJobQueue"</span> entries=<span class="string">"queue/PaymentReconScheduleJobQueue"</span>/&gt;</div></pre></td></tr></table></figure></li>
 </ol>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2019-05-08T03:03:39.000Z"><a href="/2019/05/08/generate-ssl-steps/">2019-05-08</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2019/05/08/generate-ssl-steps/">Generate SSL Cert</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <ul>
-<li>generate public certificate for domain of tcsp.cr.gov.hk </li>
-</ul>
-<ol>
-<li>openssl req -out tcsp.csr -new -newkey rsa:2048 -sha256 -nodes -key tcsp-privateKey.key</li>
-<li>openssl req -text -noout -verify -in tcsp.csr</li>
-</ol>
-<ul>
-<li>re-generate csr with same private key</li>
-</ul>
-<ol>
-<li>openssl req -new -sha256 -nodes -out www.tcsp.cr.gov.hk.csr -key www.tcsp.cr.gov.hk-privateKey.key -config config.txt</li>
-<li>openssl req -text -noout -verify -in www.tcsp.cr.gov.hk.csr &gt; www.tcsp.cr.gov.hk.csr.verify.txt</li>
-</ol>
-<ul>
-<li>generate private key for internal certificate for domain of *.tcsp.cr.hksarg</li>
-</ul>
-<ol>
-<li>openssl req -new -sha256 -nodes -out tcsp.cr.hksarg.csr -newkey rsa:2048 -keyout tcsp.hksarg-privateKey.key -config config.txt</li>
-<li>openssl req -text -noout -verify -in tcsp.cr.hksarg.csr</li>
-</ol>
-<ul>
-<li>generate 3 internal certificates for domain of *.tcsp.cr.hksarg by one private key</li>
-</ul>
-<ol>
-<li>openssl req -new -sha256 -nodes -out sit.tcsp.cr.hksarg.csr -key tcsp.hksarg-privateKey.key -config config.txt</li>
-<li><p>openssl req -text -noout -verify -in sit.tcsp.cr.hksarg.csr &gt; sit.tcsp.hksarg.csr.verify.txt</p>
-</li>
-<li><p>openssl req -new -sha256 -nodes -out uat.tcsp.cr.hksarg.csr -key tcsp.hksarg-privateKey.key -config config.txt</p>
-</li>
-<li><p>openssl req -text -noout -verify -in uat.tcsp.cr.hksarg.csr &gt; uat.tcsp.hksarg.csr.verify.txt</p>
-</li>
-<li><p>openssl req -new -sha256 -nodes -out tcsp.cr.hksarg.csr -key tcsp.hksarg-privateKey.key -config config.txt</p>
-</li>
-<li>openssl req -text -noout -verify -in tcsp.cr.hksarg.csr &gt; tcsp.cr.hksarg.csr.verify.txt</li>
-</ol>
-<ul>
-<li><p>convert p7b cert format to PEM<br>openssl pkcs7 -print_certs -inform der -in certnew-der.p7b &gt; sit.tcsp.cr.hksarg.crt<br>openssl pkcs7 -print_certs -inform der -in certnew-der.p7b &gt; uat.tcsp.cr.hksarg.crt<br>openssl pkcs7 -print_certs -inform der -in certnew-der.p7b &gt; tcsp.cr.hksarg.crt</p>
-</li>
-<li><p>conbime cert and cacert<br>openssl x509 -in cert0002107503.cer -subject -issuer -out cert0002107503.crt<br>openssl x509 -in ecert_ca_1-15_pem.crt -subject -issuer -out ecert_ca_1-15_pem.crt<br>openssl x509 -in root_ca_1_pem.crt -subject -issuer -out root_ca_1_pem.crt</p>
-</li>
-</ul>
-<p>cat cert0002107503.crt ecert_ca_1-15_pem.crt root_ca_1_pem.crt &gt; www.tcsp.cr.gov.hk.crt</p>
 
       
     </div>
@@ -507,9 +469,9 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mysql -uroot -pcR@2017 xxx_prd</div><div class="line"><span class="meta">&gt;</span><span class="bash"> show slave status \G;</span></div><div class="line"><span class="meta">&gt;</span><span class="bash"> stop slave;</span></div></pre></td></tr></table></figure>
 </li>
 <li><p>export data from master node</p>
-<figure class="highlight fortran"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mysqldump -uroot -pcR@<span class="number">2017</span> -c tcspls_prd --no-<span class="keyword">data</span> any_table1, any_table2 &gt; xxx_prd_schema-<span class="keyword">only</span>-Dump20180228.sql</div><div class="line"></div><div class="line">mysqldump -uroot -pcR@<span class="number">2017</span> -c tcspls_prd &gt; xxx_prd.sql (export <span class="built_in">all</span> <span class="keyword">data</span>)</div></pre></td></tr></table></figure>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mysqldump -uroot -<span class="symbol">pcR@</span><span class="number">2017</span> -c tcspls_prd --no-<span class="keyword">data</span> any_table1, any_table2 &gt; xxx_prd_schema-only-Dump20180228.sql</div><div class="line"></div><div class="line">mysqldump -uroot -<span class="symbol">pcR@</span><span class="number">2017</span> -c tcspls_prd | sed <span class="string">'s/ AUTO_INCREMENT=[0-9]*//g'</span> &gt; xxx_prd_dmp_20190524.sql(export all <span class="keyword">data</span>)</div></pre></td></tr></table></figure>
 </li>
-<li><p>Using Search and Replace to remove <em>auto_increment=</em>DE<em> to </em>DE* directive since the exported schema sql included auto_increment value</p>
+<li><p>Using Search and Replace to remove <em>auto_increment=</em>DE<em> to </em>DE<em> directive since the exported schema sql included auto_increment value (no need as use </em>sed* to filter auto increment)</p>
 </li>
 <li><p>Show status on master node</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SHOW</span> <span class="keyword">MASTER</span> <span class="keyword">STATUS</span>\G;</div><div class="line"><span class="keyword">show</span> <span class="keyword">master</span> <span class="keyword">logs</span>;\G</div><div class="line"><span class="keyword">show</span> <span class="keyword">binlog</span> <span class="keyword">events</span>\G;</div><div class="line"><span class="keyword">show</span> <span class="keyword">variables</span> <span class="keyword">like</span> <span class="string">'log_%'</span>;</div></pre></td></tr></table></figure>
@@ -1673,6 +1635,46 @@ ctrl+b l - Move to the previously selected window
     <header>
       
         <div class="icon"></div>
+        <time datetime="2015-10-02T04:08:17.000Z"><a href="/2015/10/02/node_module-config/">2015-10-02</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/10/02/node_module-config/">node_module config</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h1 id="node-module"><a href="#node-module" class="headerlink" title="node_module"></a>node_module</h1><h2 id="Config"><a href="#Config" class="headerlink" title="Config"></a>Config</h2><ul>
+<li>npm<br> “C:/program file/node/node_module”<br> -</li>
+<li>cache<br> “C://Users//HPUser//AppData//Roaming//npm-cache”<br> /home/xx/.npm</li>
+<li>prefix<br> “C://Users//HPUser//AppData//Roaming//npm”<br> “/usr/local”</li>
+<li>userconfig<br> “C://Users//HPUser//.npmrc”<br> “/home/xx/.npmrc”</li>
+<li>globalconfig<br> “C://Users//HPUser//AppData//Roaming//npm//etc//npmrc”<br> “/usr/local/etc/npmrc”</li>
+<li>tmp<br> “C://Users//HPUser//AppData//Local//Temp”<br> “/home/xx/tmp”</li>
+</ul>
+<h1 id="Show-config-list"><a href="#Show-config-list" class="headerlink" title="Show config list"></a>Show config list</h1><figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">npm<span class="built_in"> config </span>list</div><div class="line">npm<span class="built_in"> config </span><span class="builtin-name">get</span><span class="built_in"> prefix </span>/ <span class="builtin-name">set</span> prefix</div></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2015-10-02T04:08:17.000Z"><a href="/2015/10/02/Fun-with-Spring-Cloud-and-microservice/">2015-10-02</a></time>
       
       
@@ -1770,46 +1772,6 @@ ctrl+b l - Move to the previously selected window
 <li>jq (<a href="https://stedolan.github.io/jq/" target="_blank" rel="external">https://stedolan.github.io/jq/</a>)</li>
 </ul>
 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-10-02T04:08:17.000Z"><a href="/2015/10/02/node_module-config/">2015-10-02</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/10/02/node_module-config/">node_module config</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h1 id="node-module"><a href="#node-module" class="headerlink" title="node_module"></a>node_module</h1><h2 id="Config"><a href="#Config" class="headerlink" title="Config"></a>Config</h2><ul>
-<li>npm<br> “C:/program file/node/node_module”<br> -</li>
-<li>cache<br> “C://Users//HPUser//AppData//Roaming//npm-cache”<br> /home/xx/.npm</li>
-<li>prefix<br> “C://Users//HPUser//AppData//Roaming//npm”<br> “/usr/local”</li>
-<li>userconfig<br> “C://Users//HPUser//.npmrc”<br> “/home/xx/.npmrc”</li>
-<li>globalconfig<br> “C://Users//HPUser//AppData//Roaming//npm//etc//npmrc”<br> “/usr/local/etc/npmrc”</li>
-<li>tmp<br> “C://Users//HPUser//AppData//Local//Temp”<br> “/home/xx/tmp”</li>
-</ul>
-<h1 id="Show-config-list"><a href="#Show-config-list" class="headerlink" title="Show config list"></a>Show config list</h1><figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">npm<span class="built_in"> config </span>list</div><div class="line">npm<span class="built_in"> config </span><span class="builtin-name">get</span><span class="built_in"> prefix </span>/ <span class="builtin-name">set</span> prefix</div></pre></td></tr></table></figure>
       
     </div>
     <footer>
@@ -7044,7 +7006,7 @@ imp user/password tables=case_legal_advice file=case_legal_advice.dmp IGNORE=Y
     <aside id="sidebar" class="alignright">
   <div class="search">
   <form action="//google.com/search" method="get" accept-charset="utf-8">
-    <input type="search" name="q" results="0" placeholder="Suche">
+    <input type="search" name="q" results="0" placeholder="Buscar">
     <input type="hidden" name="q" value="site:l1z2g9.github.io">
   </form>
 </div>
@@ -7053,12 +7015,12 @@ imp user/password tables=case_legal_advice file=case_legal_advice.dmp IGNORE=Y
 
   
 <div class="widget tag">
-  <h3 class="title">Tags</h3>
+  <h3 class="title">Etiquetas</h3>
   <ul class="entry">
   
     <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
   
-    <li><a href="/tags/MySQL/">MySQL</a><small>1</small></li>
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
   
     <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
   
@@ -7066,7 +7028,7 @@ imp user/password tables=case_legal_advice file=case_legal_advice.dmp IGNORE=Y
   
     <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
   
-    <li><a href="/tags/工作日志/">工作日志</a><small>69</small></li>
+    <li><a href="/tags/工作日志/">工作日志</a><small>68</small></li>
   
     <li><a href="/tags/日常记录/">日常记录</a><small>23</small></li>
   
