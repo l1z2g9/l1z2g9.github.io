@@ -1,0 +1,147 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Gradle build publish / Curl to Nexus | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Gradle build publish / Curl to Nexus"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Gradle-build-publish-curl-nexus" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2022-04-15T08:25:19.000Z"><a href="/2022/04/15/Gradle-build-publish-curl-nexus/">2022-04-15</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Gradle build publish / Curl to Nexus</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h2 id="Publish-x2F-upload-artifacts-with-Gradle-or-curl"><a href="#Publish-x2F-upload-artifacts-with-Gradle-or-curl" class="headerlink" title="Publish&#x2F;upload artifacts with Gradle or curl"></a>Publish&#x2F;upload artifacts with Gradle or curl</h2><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">gradle build publish -Djavax.net.ssl.trustStore=C:\Users\user\Desktop\me\workspace\me\kw-cacerts -Djavax.net.ssl.trustStorePassword=changeit -PNEXUS_REPO_URL=https:<span class="regexp">//</span>repo.<span class="number">2</span>pswt.local:<span class="number">8443</span><span class="regexp">/repository/m</span>aven-releases/ -PNEXUS_REPO_USER=me -PNEXUS_REPO_PASSWORD=abc123.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Direct upload</span><br><span class="line">curl -x socks5h:<span class="regexp">//</span>localhost:<span class="number">8580</span> -k -v -u me:x1xrhqbwdg --upload-file httpcore-<span class="number">4.4</span>.<span class="number">12</span>.pom https:<span class="regexp">//</span>repo.<span class="number">2</span>pswt.local:<span class="number">8443</span><span class="regexp">/repository/m</span>aven-releases<span class="regexp">/org/</span>apache<span class="regexp">/httpcomponents/</span>httpcore<span class="regexp">/4.4.12/</span>httpcore-<span class="number">4.4</span>.<span class="number">12</span>.pom</span><br><span class="line"></span><br><span class="line">curl -x socks5h:<span class="regexp">//</span>localhost:<span class="number">8580</span> -k -v -u me:x1xrhqbwdg --upload-file spring-data-redis-<span class="number">2.5</span>.<span class="number">6</span>.jar https:<span class="regexp">//</span>repo.<span class="number">2</span>pswt.local:<span class="number">8443</span><span class="regexp">/repository/m</span>aven-releases<span class="regexp">/org/</span>springframework<span class="regexp">/data/</span>spring-data-redis<span class="regexp">/2.5.6/</span>spring-data-redis-<span class="number">2.5</span>.<span class="number">6</span>.jar</span><br><span class="line"></span><br><span class="line">Upload jar with auto generating pom.xml</span><br><span class="line">curl -x socks5h:<span class="regexp">//</span>localhost:<span class="number">8580</span> -k -v -u me:x1xrhqbwdg -F <span class="string">&quot;maven2.generate-pom=true&quot;</span> -F <span class="string">&quot;maven2.groupId=spring-data-redis&quot;</span> -F <span class="string">&quot;maven2.artifactId=spring-data-redis&quot;</span> -F <span class="string">&quot;maven2.packaging=jar&quot;</span> -F <span class="string">&quot;version=2.5.6&quot;</span> -F <span class="string">&quot;maven2.asset1=@spring-data-redis-2.5.6.jar;type=application/java-archive&quot;</span> -F <span class="string">&quot;maven2.asset1.extension=jar&quot;</span> <span class="string">&quot;https://repo.2pswt.local:8443/service/rest/v1/components?repository=maven-releases&quot;</span></span><br><span class="line"></span><br><span class="line">Upload jar and pom.xml (failed)</span><br><span class="line">curl -x socks5h:<span class="regexp">//</span>localhost:<span class="number">8580</span> -k -v -u me:x1xrhqbwdg -F <span class="string">&quot;maven2.generate-pom=false&quot;</span> -F <span class="string">&quot;maven2.asset1=@spring-data-redis-2.5.6.pom&quot;</span> -F <span class="string">&quot;maven2.asset1.extension=pom&quot;</span> -F <span class="string">&quot;maven2.asset2=@spring-data-redis-2.5.6.jar;type=application/java-archive&quot;</span> -F <span class="string">&quot;maven2.asset2.extension=jar&quot;</span> <span class="string">&quot;http://repo.2pswt.local:8443/service/rest/v1/components?repository=maven-releases&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Using-sock5-proxy-to-clone-git-repo"><a href="#Using-sock5-proxy-to-clone-git-repo" class="headerlink" title="Using sock5 proxy to clone git repo"></a>Using sock5 proxy to clone git repo</h2><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git clone https:<span class="string">//git.2pwst.local/wst-dev/xxx-service</span> <span class="params">--config</span> <span class="string">&quot;http.proxy=socks5://127.0.0.1:8580&quot;</span></span><br><span class="line"></span><br><span class="line">git config <span class="params">--global</span> https.proxy <span class="string">&quot;socks5://127.0.0.1:8080&quot;</span></span><br><span class="line">git config <span class="params">--global</span> <span class="params">--unset</span> http.proxy</span><br><span class="line">git config <span class="params">--global</span> <span class="params">--unset</span> https.proxy</span><br></pre></td></tr></table></figure>
+
+<p>Reference<br><a target="_blank" rel="noopener" href="https://help.sonatype.com/repomanager3/integrations/rest-and-integration-api/components-api">https://help.sonatype.com/repomanager3/integrations/rest-and-integration-api/components-api</a><br><a target="_blank" rel="noopener" href="https://help.sonatype.com/repomanager3/integrations/rest-and-integration-api/search-api">https://help.sonatype.com/repomanager3/integrations/rest-and-integration-api/search-api</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Problem-Solve/">Problem Solve</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>9</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>69</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

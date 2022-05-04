@@ -1,0 +1,150 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Spring-test + JSF 1.2 + Portlet | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Spring-test + JSF 1.2 + Portlet"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Spring-test-JSF-1.2-Portlet" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2011-10-20T02:04:54.000Z"><a href="/2011/10/20/Spring-test-JSF-1.2-Portlet/">2011-10-20</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Spring-test + JSF 1.2 + Portlet</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <p>jsf Bean </p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="meta">@Scope</span>(<span class="string">&quot;request&quot;</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FooBean</span> <span class="keyword">extends</span> <span class="title class_ inherited__">AbstractRequestBean</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> final <span class="title class_">Logger</span> log = <span class="title class_">Logger</span></span><br><span class="line">      .<span class="title function_">getLogger</span>(<span class="title class_">FooBean</span>.<span class="property">class</span>);</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Autowired</span></span><br><span class="line">  <span class="keyword">private</span> <span class="title class_">FooService</span> service;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="title class_">String</span> user;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="built_in">void</span> <span class="title function_">setFooService</span>(<span class="params">FooService service</span>)&#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">service</span> = service;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title class_">String</span> <span class="title function_">hi</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="title class_">String</span> str = <span class="title function_">getLoginUser</span>() + <span class="string">&quot; say hi to &quot;</span> + <span class="title function_">getUser</span>();</span><br><span class="line">    <span class="title function_">getPortletRequest</span>().<span class="title function_">setAttribute</span>(<span class="string">&quot;message&quot;</span>, str);</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;bar&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="built_in">void</span> <span class="title function_">setUser</span>(<span class="params"><span class="built_in">String</span> user</span>)&#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">user</span> = user;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title class_">String</span> <span class="title function_">getUser</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> user;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>  AbstractRequestBean </p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> javax.<span class="property">faces</span>.<span class="property">context</span>.<span class="property">FacesContext</span>;</span><br><span class="line"><span class="keyword">import</span> javax.<span class="property">portlet</span>.<span class="property">PortletRequest</span>;</span><br><span class="line"><span class="keyword">import</span> javax.<span class="property">servlet</span>.<span class="property">http</span>.<span class="property">HttpServletRequest</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">AbstractRequestBean</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="title class_">String</span> loginUser;</span><br><span class="line">  <span class="keyword">private</span> <span class="title class_">PortletRequest</span> portletRequest;</span><br><span class="line">  <span class="keyword">private</span> <span class="title class_">HttpServletRequest</span> servletRequest;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title class_">String</span> <span class="title function_">getLoginUser</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (loginUser == <span class="literal">null</span>)</span><br><span class="line">      <span class="keyword">return</span> <span class="title class_">User</span>.<span class="title function_">getCurrentUser</span>(<span class="title function_">getPortletRequest</span>()).<span class="title function_">getUsername</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> loginUser;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="built_in">void</span> <span class="title function_">setLoginUser</span>(<span class="params"><span class="built_in">String</span> loginUser</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">loginUser</span> = loginUser;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title class_">PortletRequest</span> <span class="title function_">getPortletRequest</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (portletRequest == <span class="literal">null</span>)</span><br><span class="line">      <span class="keyword">return</span> (<span class="title class_">PortletRequest</span>) <span class="title class_">FacesContext</span>.<span class="title function_">getCurrentInstance</span>()</span><br><span class="line">          .<span class="title function_">getExternalContext</span>().<span class="title function_">getRequest</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> portletRequest;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// for jsp/servlet call directly, not jsf bean</span></span><br><span class="line">  <span class="keyword">public</span> <span class="title class_">HttpServletRequest</span> <span class="title function_">getServletRequest</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (servletRequest == <span class="literal">null</span>)</span><br><span class="line">      <span class="keyword">return</span> (<span class="title class_">HttpServletRequest</span>) <span class="title class_">FacesContext</span>.<span class="title function_">getCurrentInstance</span>()</span><br><span class="line">          .<span class="title function_">getExternalContext</span>().<span class="title function_">getRequest</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> servletRequest;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="built_in">void</span> <span class="title function_">setServletRequest</span>(<span class="params">HttpServletRequest servletRequest</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">servletRequest</span> = servletRequest;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="built_in">void</span> <span class="title function_">setPortletRequest</span>(<span class="params">PortletRequest portletRequest</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">portletRequest</span> = portletRequest;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>  FooTest </p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">@<span class="constructor">ContextConfiguration(<span class="params">locations</span> = <span class="string">&quot;/applicationContext.xml&quot;</span>)</span></span><br><span class="line">public <span class="keyword">class</span> FooTest extends AbstractJUnit38SpringContextTests &#123;</span><br><span class="line"></span><br><span class="line">  @Autowired</span><br><span class="line">  <span class="keyword">private</span> FooService service;;</span><br><span class="line"></span><br><span class="line">  public void test<span class="constructor">Hi()</span>&#123;</span><br><span class="line">    FooBean bean = <span class="keyword">new</span> <span class="constructor">FooBean()</span>;</span><br><span class="line">    MockPortletRequest request = <span class="keyword">new</span> <span class="constructor">MockPortletRequest()</span>;</span><br><span class="line">    MockPortletSession session = <span class="keyword">new</span> <span class="constructor">MockPortletSession()</span>;</span><br><span class="line">    session.set<span class="constructor">Attribute(FooBean.<span class="params">class</span>.<span class="params">getName</span>()</span></span><br><span class="line">        + <span class="string">&quot;/programme&quot;</span>, <span class="string">&quot;06721&quot;</span>, PortletSession.APPLICATION_SCOPE);</span><br><span class="line">    request.set<span class="constructor">Session(<span class="params">session</span>)</span>;</span><br><span class="line">    bean.set<span class="constructor">PortletRequest(<span class="params">request</span>)</span>;</span><br><span class="line">    bean.set<span class="constructor">LoginUser(<span class="string">&quot;Jay&quot;</span>)</span>;</span><br><span class="line"></span><br><span class="line">    bean.set<span class="constructor">Service(<span class="params">service</span>)</span>;</span><br><span class="line">    bean.hi(<span class="string">&quot;Forest&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>9</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>69</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

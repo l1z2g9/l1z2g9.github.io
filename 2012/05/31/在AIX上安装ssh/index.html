@@ -67,17 +67,17 @@
 <li><p>使用nfs搭桥到装有ssh的机器。</p>
 </li>
 <li><p>Copy files</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">copy -rp /usr/local/sbin/sshd /tmp/xx/ssh/sbin</span><br><span class="line">copy -rp /usr/local/bin  /tmp/xx/ssh/</span><br><span class="line">copy -rp /usr/local/etc  /tmp/xx/ssh/</span><br></pre></td></tr></table></figure>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">copy</span> -rp <span class="regexp">/usr/</span>local<span class="regexp">/sbin/</span>sshd <span class="regexp">/tmp/</span>xx<span class="regexp">/ssh/</span>sbin</span><br><span class="line"><span class="keyword">copy</span> -rp <span class="regexp">/usr/</span>local<span class="regexp">/bin  /</span>tmp<span class="regexp">/xx/</span>ssh/</span><br><span class="line"><span class="keyword">copy</span> -rp <span class="regexp">/usr/</span>local<span class="regexp">/etc  /</span>tmp<span class="regexp">/xx/</span>ssh/</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>创建子系统</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkssys -s sshd -p /tmp/xx/ssh/sbin/sshd -a &quot;-D -f /tmp/xx/ssh/etc/sshd_config&quot; -u 0 -e /dev/console -i /dev/console -o /dev/console -R -Q -S -f 9 -n 15 -E 20 -G ssh -d -w 20</span><br><span class="line">lssrc -S -s sshd (check it exists)</span><br></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">mkssys</span> -s sshd -p /tmp/xx/ssh/sbin/sshd -a <span class="string">&quot;-D -f /tmp/xx/ssh/etc/sshd_config&quot;</span> -u <span class="number">0</span> -e /dev/console -i /dev/console -o /dev/console -R -Q -S -f <span class="number">9</span> -n <span class="number">15</span> -E <span class="number">20</span> -G ssh -d -w <span class="number">20</span></span><br><span class="line"><span class="attribute">lssrc</span> -S -s sshd (check it exists)</span><br></pre></td></tr></table></figure>
 
 <p>如果有什么改动，可以<br><code>chssys -s sshd -a &quot;-D -f /tmp/xx/ssh/etc/sshd_config&quot;</code></p>
 </li>
 <li><p>由于系统没有sshd用户，所以启动时候有些错误，可以增加sshd用户，或者在sshd_config中将<br><code>UsePrivilegeSeparation no</code></p>
 </li>
 <li><p>和修改key的路径</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">HostKey /tmp/xx/ssh/etc/ssh_host_rsa_key</span><br><span class="line">HostKey /tmp/xx/ssh/etc/ssh_host_dsa_key</span><br><span class="line">HostKey /tmp/xx/ssh/etc/ssh_host_ecdsa_key</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">HostKey <span class="regexp">/tmp/</span>xx<span class="regexp">/ssh/</span>etc/ssh_host_rsa_key</span><br><span class="line">HostKey <span class="regexp">/tmp/</span>xx<span class="regexp">/ssh/</span>etc/ssh_host_dsa_key</span><br><span class="line">HostKey <span class="regexp">/tmp/</span>xx<span class="regexp">/ssh/</span>etc/ssh_host_ecdsa_key</span><br></pre></td></tr></table></figure></li>
 <li><p>启动sshd，startsrc -g ssh</p>
 </li>
 </ol>
@@ -125,11 +125,11 @@
   
     <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
   
-    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>9</small></li>
   
     <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
   
-    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>69</small></li>
   
     <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
   

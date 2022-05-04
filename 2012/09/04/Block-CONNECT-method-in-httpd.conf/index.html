@@ -62,7 +62,7 @@
     </header>
     <div class="e-content entry" itemprop="articleBody">
       
-        <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">RewriteEngine on</span><br><span class="line">RewriteCond %&#123;REQUEST_METHOD&#125; ^(CONNECT|TRACE)$</span><br><span class="line">RewriteRule ^.*$ - [L,F]</span><br><span class="line">ProxyRequests Off</span><br></pre></td></tr></table></figure>
+        <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">RewriteEngine</span> <span class="literal">on</span></span><br><span class="line"><span class="attribute">RewriteCond</span> <span class="variable">%&#123;REQUEST_METHOD&#125;</span> ^(CONNECT|TRACE)$</span><br><span class="line"><span class="attribute">RewriteRule</span> ^.*$ -<span class="meta"> [L,F]</span></span><br><span class="line"><span class="attribute">ProxyRequests</span> <span class="literal">Off</span></span><br></pre></td></tr></table></figure>
 
 <p>ProxyRequest should be set to off, unless you have security protect in your web server.</p>
 
@@ -108,11 +108,11 @@
   
     <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
   
-    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>9</small></li>
   
     <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
   
-    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>69</small></li>
   
     <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
   

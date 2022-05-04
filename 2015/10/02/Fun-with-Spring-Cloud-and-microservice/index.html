@@ -77,24 +77,24 @@
 <hr>
 <ul>
 <li><p>Install docker</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export http_proxy=http://192.168.56.1:21</span><br><span class="line">curl -x 192.168.56.1:21 -sSL https://get.docker.com/gpg | sudo apt-key add -</span><br><span class="line">curl -x 192.168.56.1:21 -sSL https://get.docker.com/ | sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export http_proxy=http:<span class="regexp">//</span><span class="number">192.168</span>.<span class="number">56.1</span>:<span class="number">21</span></span><br><span class="line">curl -x <span class="number">192.168</span>.<span class="number">56.1</span>:<span class="number">21</span> -sSL https:<span class="regexp">//g</span>et.docker.com/gpg | sudo apt-key add -</span><br><span class="line">curl -x <span class="number">192.168</span>.<span class="number">56.1</span>:<span class="number">21</span> -sSL https:<span class="regexp">//g</span>et.docker.com/ | sh</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>Clone spring project</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/kbastani/spring-cloud-microservice-example --config &quot;http.proxy=http://192.168.56.1:21&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https:<span class="regexp">//gi</span>thub.com<span class="regexp">/kbastani/</span>spring-cloud-microservice-example --config <span class="string">&quot;http.proxy=http://192.168.56.1:21&quot;</span></span><br></pre></td></tr></table></figure>
 <p>cd spring-cloud-microservice-example&#x2F;</p>
 </li>
 <li><p>Install docker-compose</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -x http://192.168.56.1:21 -L https://github.com/docker/compose/releases/download/1.4.0/docker-compose-`uname -s`-`uname -m` &gt; /usr/local/bin/docker-compose</span><br></pre></td></tr></table></figure>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -x http:<span class="regexp">//</span><span class="number">192.168</span>.<span class="number">56.1</span>:<span class="number">21</span> -L https:<span class="regexp">//gi</span>thub.com<span class="regexp">/docker/</span>compose<span class="regexp">/releases/</span>download<span class="regexp">/1.4.0/</span>docker-compose-`uname -s`-`uname -m` &gt; <span class="regexp">/usr/</span>local<span class="regexp">/bin/</span>docker-compose</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>Install Maven<br><code>wget http://apache.communilink.net//maven/maven-3/3.3.3/binaries/apache-maven-3.3.3-bin.tar.gz</code><br>set proxy and repository path (shared by user and root) in conf&#x2F;settings.xml</p>
 </li>
 <li><p>Install Gradle<br><code>gradle -Dhttp.proxyHost=192.168.56.1 -Dhttp.proxyPort=21 -Dhttps.proxyHost=192.168.56.1 -Dhttps.proxyPort=21 build</code></p>
 </li>
 <li><p>Install Java (Refer to <a target="_blank" rel="noopener" href="http://www.tecmint.com/install-java-jdk-jre-in-linux/">http://www.tecmint.com/install-java-jdk-jre-in-linux/</a> or <a target="_blank" rel="noopener" href="http://tecadmin.net/install-java-8-on-centos-rhel-and-fedora/">http://tecadmin.net/install-java-8-on-centos-rhel-and-fedora/</a>)<br>Download jdk-8u60-linux-x64.gz</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo update-alternatives --install /usr/bin/java java /home/user/Software/jdk1.8.0_60/bin/java 3</span><br><span class="line">sudo update-alternatives --install /usr/bin/javac javac /home/user/Software/jdk1.8.0_60/bin/javac 3</span><br><span class="line">sudo update-alternatives --set jar /home/user/Software/jdk1.8.0_60/bin/jar</span><br><span class="line">sudo update-alternatives --set javac /home/user/Software/jdk1.8.0_60/bin/javac</span><br></pre></td></tr></table></figure>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo update-alternatives --install <span class="regexp">/usr/</span>bin<span class="regexp">/java java /</span>home<span class="regexp">/user/</span>Software<span class="regexp">/jdk1.8.0_60/</span>bin/java <span class="number">3</span></span><br><span class="line">sudo update-alternatives --install <span class="regexp">/usr/</span>bin<span class="regexp">/javac javac /</span>home<span class="regexp">/user/</span>Software<span class="regexp">/jdk1.8.0_60/</span>bin/javac <span class="number">3</span></span><br><span class="line">sudo update-alternatives --set jar <span class="regexp">/home/u</span>ser<span class="regexp">/Software/</span>jdk1.<span class="number">8.0</span>_60<span class="regexp">/bin/</span>jar</span><br><span class="line">sudo update-alternatives --set javac <span class="regexp">/home/u</span>ser<span class="regexp">/Software/</span>jdk1.<span class="number">8.0</span>_60<span class="regexp">/bin/</span>javac</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>Setup docker proxy<br>edit <code>/etc/default/docker</code> to set proxy (<code>/etc/sysconfig/docker</code> in CentOS)<br><code>service docker restart</code><br>or</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo HTTP_PROXY=http://192.168.56.1:21/ docker -d &amp;</span><br><span class="line">sudo usermod -aG docker username</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo HTTP_PROXY=http:<span class="regexp">//</span><span class="number">192.168</span>.<span class="number">56.1</span>:<span class="number">21</span>/ docker -d &amp;</span><br><span class="line">sudo usermod -aG docker username</span><br></pre></td></tr></table></figure></li>
 </ul>
 <hr>
 <p>Installed software and component</p>
@@ -188,11 +188,11 @@
   
     <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
   
-    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>9</small></li>
   
     <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
   
-    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>69</small></li>
   
     <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
   

@@ -63,7 +63,7 @@
     <div class="e-content entry" itemprop="articleBody">
       
         <p>#Call external bat (do not use cmd &#x2F;c) and substring in bat file </p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">call C:\Production_ATV_Windows_LD\ATV.bat -L &gt; filename.txt</span><br><span class="line"></span><br><span class="line">FOR /F &quot;tokens=2 delims=][&quot; %%i in (filename.txt) do set today=%%i</span><br><span class="line"></span><br><span class="line">call C:\Production_ATV_Windows_LD\ATV.bat -DD -FilePre %today% -Overwrite</span><br><span class="line"></span><br><span class="line">rem set today=PPSC140429</span><br><span class="line">set today=%today:~0,10% </span><br><span class="line">#Export/Import data from oracle 9i to oracle11g </span><br></pre></td></tr></table></figure>
+<figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">call</span> C:\Production_ATV_Windows_LD\ATV.bat -L &gt; filename.txt</span><br><span class="line"></span><br><span class="line"><span class="keyword">FOR</span> /F &quot;tokens=<span class="number">2</span> delims=][&quot; <span class="variable">%%i</span> <span class="keyword">in</span> (filename.txt) <span class="keyword">do</span> <span class="built_in">set</span> today=<span class="variable">%%i</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">call</span> C:\Production_ATV_Windows_LD\ATV.bat -DD -FilePre <span class="variable">%today%</span> -Overwrite</span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">rem set today=PPSC140429</span></span><br><span class="line"><span class="built_in">set</span> today=<span class="variable">%today:~0,10%</span> </span><br><span class="line">#Export/Import data from oracle <span class="number">9</span>i to oracle11g </span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>export NLS_LANG&#x3D;TRADITIONAL CHINESE_HONG KONG.AL32UTF8 </li>
@@ -117,11 +117,11 @@
   
     <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
   
-    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>9</small></li>
   
     <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
   
-    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>69</small></li>
   
     <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
   

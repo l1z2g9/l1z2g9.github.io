@@ -62,7 +62,7 @@
     </header>
     <div class="e-content entry" itemprop="articleBody">
       
-        <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">create user xx identified by password;</span><br><span class="line"></span><br><span class="line">grant create session to xx;</span><br><span class="line">grant select on USER to xx;</span><br><span class="line">grant select on PAYMENT to xx;</span><br><span class="line">grant select on COMPANY to xx;</span><br><span class="line"></span><br><span class="line">select * from user_tab_privs where grantee = &#x27;xx&#x27;</span><br><span class="line"></span><br><span class="line">select * from sys.all_tables;</span><br><span class="line">select * from sys.all_synonyms;</span><br><span class="line">select * from sys.all_views;</span><br></pre></td></tr></table></figure>
+        <figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">user</span> xx identified <span class="keyword">by</span> <span class="keyword">password</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">create</span> <span class="keyword">session</span> <span class="keyword">to</span> xx;</span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">select</span> <span class="keyword">on</span> <span class="keyword">USER</span> <span class="keyword">to</span> xx;</span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">select</span> <span class="keyword">on</span> PAYMENT <span class="keyword">to</span> xx;</span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">select</span> <span class="keyword">on</span> COMPANY <span class="keyword">to</span> xx;</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> user_tab_privs <span class="keyword">where</span> grantee = <span class="string">&#x27;xx&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> sys.all_tables;</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> sys.all_synonyms;</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> sys.all_views;</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer>
@@ -105,11 +105,11 @@
   
     <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
   
-    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>9</small></li>
   
     <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
   
-    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>69</small></li>
   
     <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
   

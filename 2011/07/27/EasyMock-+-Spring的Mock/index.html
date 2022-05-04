@@ -64,7 +64,7 @@
       
         <p> 本来想模拟JSF的 <code>FacesContext.getCurrentInstance().getExternalContext().getRequest()</code>来获得Principal 但发现比较麻烦，所以只实现模拟HttpServletRequest </p>
 <p> 使用EasyMock + Spring的MockObject做较为简单 </p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Principal principal = EasyMock.createMock(Principal.class);</span><br><span class="line">expect(principal.getName()).andReturn(&quot;JUDYEUNG&quot;);</span><br><span class="line">MockHttpServletRequest request = new MockHttpServletRequest();</span><br><span class="line">replay(principal);</span><br><span class="line"></span><br><span class="line">request.setUserPrincipal(principal);</span><br><span class="line"></span><br><span class="line">uploadBean.setRequest(request);</span><br></pre></td></tr></table></figure>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Principal principal = <span class="module-access"><span class="module"><span class="identifier">EasyMock</span>.</span></span>create<span class="constructor">Mock(Principal.<span class="params">class</span>)</span>;</span><br><span class="line">expect(principal.get<span class="constructor">Name()</span>).<span class="keyword">and</span><span class="constructor">Return(<span class="string">&quot;JUDYEUNG&quot;</span>)</span>;</span><br><span class="line">MockHttpServletRequest request = <span class="keyword">new</span> <span class="constructor">MockHttpServletRequest()</span>;</span><br><span class="line">replay(principal);</span><br><span class="line"></span><br><span class="line">request.set<span class="constructor">UserPrincipal(<span class="params">principal</span>)</span>;</span><br><span class="line"></span><br><span class="line">uploadBean.set<span class="constructor">Request(<span class="params">request</span>)</span>;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -108,11 +108,11 @@
   
     <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
   
-    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>9</small></li>
   
     <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
   
-    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>69</small></li>
   
     <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
   

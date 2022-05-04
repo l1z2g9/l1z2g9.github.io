@@ -63,9 +63,9 @@
     <div class="e-content entry" itemprop="articleBody">
       
         <h3 id="Show-all-tables"><a href="#Show-all-tables" class="headerlink" title="Show all tables"></a>Show all tables</h3><p>  <code>select * from information_schema.tables</code></p>
-<h3 id="Show-user-privilege"><a href="#Show-user-privilege" class="headerlink" title="Show user privilege"></a>Show user privilege</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM INFORMATION_SCHEMA.TABLE_PRIVILEGES</span><br><span class="line">exec sp_helprotect</span><br></pre></td></tr></table></figure>
+<h3 id="Show-user-privilege"><a href="#Show-user-privilege" class="headerlink" title="Show user privilege"></a>Show user privilege</h3><figure class="highlight sqf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">SELECT</span> * <span class="keyword">FROM</span> INFORMATION_SCHEMA.TABLE_PRIVILEGES</span><br><span class="line"><span class="built_in">exec</span> sp_helprotect</span><br></pre></td></tr></table></figure>
 
-<h3 id="Change-password-of-sa"><a href="#Change-password-of-sa" class="headerlink" title="Change password of sa"></a>Change password of sa</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">osql -S yourservername -E</span><br><span class="line">1&gt; EXEC sp_password NULL, &#x27;yourpassword&#x27;, &#x27;sa&#x27;</span><br><span class="line">2&gt; GO</span><br></pre></td></tr></table></figure>
+<h3 id="Change-password-of-sa"><a href="#Change-password-of-sa" class="headerlink" title="Change password of sa"></a>Change password of sa</h3><figure class="highlight erlang-repl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">osql -S yourservername -E</span><br><span class="line"><span class="meta prompt_">1&gt; </span>EXEC sp_password NULL, <span class="string">&#x27;yourpassword&#x27;</span>, <span class="string">&#x27;sa&#x27;</span></span><br><span class="line"><span class="meta prompt_">2&gt; </span>GO</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer>
@@ -108,11 +108,11 @@
   
     <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
   
-    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>9</small></li>
   
     <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
   
-    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>69</small></li>
   
     <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
   

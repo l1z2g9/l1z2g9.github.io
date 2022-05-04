@@ -70,7 +70,7 @@
 <li>Install Tomcat</li>
 <li>Install TightVNC <a target="_blank" rel="noopener" href="http://www.neil-black.co.uk/raspberry-pi-beginners-guide">raspberry-pi-beginners-guide</a> <a target="_blank" rel="noopener" href="http://www.penguintutor.com/linux/tightvnc">tightvnc</a></li>
 <li>Install transmission-daemon, transmission-remote-gui&#x2F;java remember to disable rpc-white-list and set the login user&#x2F;password <a target="_blank" rel="noopener" href="http://www.lijingquan.net/pt-linux-vps.html">pt-linux-vps</a> <a target="_blank" rel="noopener" href="http://www.webupd8.org/2009/12/setting-up-transmission-remote-gui-in.html">setting-up-transmission-remote-gui-in</a></li>
-<li>Install samba <code>sudo apt-get install samba</code><br>  &#x2F;etc&#x2F;samba&#x2F;smb.conf<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[bt-download]</span><br><span class="line">comment = transmission download folder</span><br><span class="line">browsable = yes</span><br><span class="line">path = /var/lib/transmission-daemon/downloads</span><br><span class="line">public = yes</span><br><span class="line">writable = yes</span><br><span class="line">guest ok = yes</span><br></pre></td></tr></table></figure></li>
+<li>Install samba <code>sudo apt-get install samba</code><br>  &#x2F;etc&#x2F;samba&#x2F;smb.conf<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[bt-download]</span><br><span class="line"><span class="attribute">comment</span> <span class="operator">=</span> transmission download folder</span><br><span class="line"><span class="attribute">browsable</span> <span class="operator">=</span> yes</span><br><span class="line"><span class="attribute">path</span> <span class="operator">=</span> /var/lib/transmission-daemon/downloads</span><br><span class="line"><span class="attribute">public</span> <span class="operator">=</span> yes</span><br><span class="line"><span class="attribute">writable</span> <span class="operator">=</span> yes</span><br><span class="line">guest ok <span class="operator">=</span> yes</span><br></pre></td></tr></table></figure></li>
 <li>Install chromium <code>sudo apt-get install chromium</code></li>
 <li>Install wiringPi <a target="_blank" rel="noopener" href="https://projects.drogon.net/raspberry-pi/wiringpi/download-and-install">https://projects.drogon.net/raspberry-pi/wiringpi/download-and-install</a></li>
 <li>Install xrdp (ru tightvncserver in backend imho) <code>sudo apt-get install xrdp</code></li>
@@ -124,11 +124,11 @@
   
     <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
   
-    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>9</small></li>
   
     <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
   
-    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>69</small></li>
   
     <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
   

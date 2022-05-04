@@ -64,9 +64,9 @@
       
         <h2 id="List-all-VM-flags"><a href="#List-all-VM-flags" class="headerlink" title="List all VM flags"></a>List all VM flags</h2><p><code>java -XX:+UnlockDiagnosticVMOptions -XX:+PrintFlagsFinal -version</code></p>
 <h2 id="JAVA-OPTS-settings-for-OpenJDK-11"><a href="#JAVA-OPTS-settings-for-OpenJDK-11" class="headerlink" title="JAVA_OPTS settings for OpenJDK 11"></a>JAVA_OPTS settings for OpenJDK 11</h2><p>File: <code>d:\App\wildfly-10.1.0.Final\bin\standalone.conf.bat</code></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set &quot;JAVA_OPTS=%JAVA_OPTS% -Dhk.gov.ogcio.egis.rm.common.PROPERTIES_FILEPATH=D:\rm -Djboss.bind.address=0.0.0.0 -Dspring.profiles.active=uat -Djavax.net.ssl.trustStore=D:\keystore\tcspls_egis.jks -Dfreetts.voices=de.dfki.lt.freetts.en.us.MbrolaVoiceDirectory -Dmbrola.base=D:\mbrola&quot;</span><br><span class="line">set &quot;JAVA_OPTS=%JAVA_OPTS% -XX:MaxGCPauseMillis=500 -XX:ErrorFile=D:/log/hserrpid%p.log -XX:HeapDumpPath=D:/log/ -Xloggc:D:/log/gc.log -XX:+PrintGCDetails -XX:+HeapDumpOnOutOfMemoryError&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> <span class="string">&quot;JAVA_OPTS=%JAVA_OPTS% -Dhk.gov.ogcio.egis.rm.common.PROPERTIES_FILEPATH=D:\rm -Djboss.bind.address=0.0.0.0 -Dspring.profiles.active=uat -Djavax.net.ssl.trustStore=D:\keystore\psct_egis.jks -Dfreetts.voices=de.dfki.lt.freetts.en.us.MbrolaVoiceDirectory -Dmbrola.base=D:\mbrola&quot;</span></span><br><span class="line"><span class="built_in">set</span> <span class="string">&quot;JAVA_OPTS=%JAVA_OPTS% -XX:MaxGCPauseMillis=500 -XX:ErrorFile=D:/log/hserrpid%p.log -XX:HeapDumpPath=D:/log/ -Xloggc:D:/log/gc.log -XX:+PrintGCDetails -XX:+HeapDumpOnOutOfMemoryError&quot;</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="Profiling-commands"><a href="#Profiling-commands" class="headerlink" title="Profiling commands"></a>Profiling commands</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">jinfo &lt;pid&gt;</span><br><span class="line"></span><br><span class="line">jmap -dump:live,format=b,file=heap.bin &lt;pid&gt;</span><br><span class="line">jstack &lt;pid&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="Profiling-commands"><a href="#Profiling-commands" class="headerlink" title="Profiling commands"></a>Profiling commands</h2><figure class="highlight tcl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">jinfo &lt;<span class="keyword">pid</span>&gt;</span><br><span class="line"></span><br><span class="line">jmap -dump:live,<span class="keyword">format</span>=b,<span class="keyword">file</span>=heap.bin &lt;<span class="keyword">pid</span>&gt;</span><br><span class="line">jstack &lt;<span class="keyword">pid</span>&gt;</span><br></pre></td></tr></table></figure>
 
 <h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a target="_blank" rel="noopener" href="http://stas-blogspot.blogspot.com/2011/07/most-complete-list-of-xx-options-for.html">http://stas-blogspot.blogspot.com/2011/07/most-complete-list-of-xx-options-for.html</a><br><a target="_blank" rel="noopener" href="https://www.oracle.com/technetwork/java/javase/tech/vmoptions-jsp-140102.html#Options">https://www.oracle.com/technetwork/java/javase/tech/vmoptions-jsp-140102.html#Options</a><br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/43087831/complete-list-of-jvm-options">https://stackoverflow.com/questions/43087831/complete-list-of-jvm-options</a><br><a target="_blank" rel="noopener" href="https://my.oschina.net/u/3627055/blog/2995973">https://my.oschina.net/u/3627055/blog/2995973</a></p>
 
@@ -112,11 +112,11 @@
   
     <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
   
-    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>9</small></li>
   
     <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
   
-    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>69</small></li>
   
     <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
   

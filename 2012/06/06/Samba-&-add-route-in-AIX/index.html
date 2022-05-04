@@ -63,10 +63,10 @@
     <div class="e-content entry" itemprop="articleBody">
       
         <p> Samba</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">smbclient -L 10.13.135.99 -U ITDEV%ITDEV -D /itshare</span><br><span class="line">smbclient //10.13.135.99/itshare -U ITDEV%ITDEV</span><br><span class="line">smbclient //10.13.135.99/itshare -U ITDEV%ITDEV -c &quot;ls&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">smbclient -L <span class="number">10.13</span>.<span class="number">135.99</span> -U ITDEV%ITDEV -D /itshare</span><br><span class="line">smbclient <span class="regexp">//</span><span class="number">10.13</span>.<span class="number">135.99</span>/itshare -U ITDEV%ITDEV</span><br><span class="line">smbclient <span class="regexp">//</span><span class="number">10.13</span>.<span class="number">135.99</span>/itshare -U ITDEV%ITDEV -c <span class="string">&quot;ls&quot;</span></span><br></pre></td></tr></table></figure>
 
 <p> Two network cards in server, so add route to let my local machine can be accessible in server</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ifconfig -a</span><br><span class="line">en0:10.13.135.31</span><br><span class="line">en1:10.13.135.81</span><br><span class="line"></span><br><span class="line">route add 10.13.136.237 10.13.135.65 -if en1</span><br><span class="line">route delete 10.13.136.237 10.13.135.65</span><br><span class="line">ping 10.13.136.237</span><br><span class="line">traceroute -r -s 10.13.135.81 10.13.136.237</span><br><span class="line">netstat -r traceroute 10.13.136.237</span><br></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">ifconfig</span> -a</span><br><span class="line">en0:<span class="number">10.13.135.31</span></span><br><span class="line">en1:<span class="number">10.13.135.81</span></span><br><span class="line"></span><br><span class="line">route add <span class="number">10.13.136.237</span> <span class="number">10.13.135.65</span> -if en1</span><br><span class="line">route delete <span class="number">10.13.136.237</span> <span class="number">10.13.135.65</span></span><br><span class="line">ping <span class="number">10.13.136.237</span></span><br><span class="line">traceroute -r -s <span class="number">10.13.135.81</span> <span class="number">10.13.136.237</span></span><br><span class="line">netstat -r traceroute <span class="number">10.13.136.237</span></span><br></pre></td></tr></table></figure>
 
 <p> 删除不用的默认gateway<br><code>route delete default 10.13.135.1</code></p>
 
@@ -112,11 +112,11 @@
   
     <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
   
-    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>9</small></li>
   
     <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
   
-    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>69</small></li>
   
     <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
   

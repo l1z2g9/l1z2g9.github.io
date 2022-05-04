@@ -62,11 +62,11 @@
     </header>
     <div class="e-content entry" itemprop="articleBody">
       
-        <p>  如果没有设置证书，会出现以下Exception:<br>  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Caused by: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target </span><br></pre></td></tr></table></figure></p>
+        <p>  如果没有设置证书，会出现以下Exception:<br>  <figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Caused <span class="keyword">by</span>: sun.<span class="keyword">security</span>.provider.certpath.SunCertPathBuilderException: unable <span class="keyword">to</span> find <span class="keyword">valid</span> certification <span class="type">path</span> <span class="keyword">to</span> requested target </span><br></pre></td></tr></table></figure></p>
 <p>  要解决这个问题，方法有两个： </p>
 <ol>
 <li>java的启动参数添加 -Djavax.net.ssl.trustStore&#x3D;&#x2F;path&#x2F;to&#x2F;jssecacerts </li>
-<li>Add properties in java code<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Properties systemProps = System.getProperties(); </span><br><span class="line">systemProps.put( &quot;javax.net.ssl.trustStore&quot;, &quot;/path/to/jssecerts&quot;); </span><br><span class="line">System.setProperties(systemProps); </span><br></pre></td></tr></table></figure></li>
+<li>Add properties in java code<figure class="highlight nsis"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Properties <span class="params">system</span>Props = <span class="params">System</span>.getProperties()<span class="comment">; </span></span><br><span class="line"><span class="params">system</span>Props.put( <span class="string">&quot;javax.net.ssl.trustStore&quot;</span>, <span class="string">&quot;/path/to/jssecerts&quot;</span>)<span class="comment">; </span></span><br><span class="line"><span class="params">System</span>.setProperties(<span class="params">system</span>Props)<span class="comment">; </span></span><br></pre></td></tr></table></figure></li>
 </ol>
 <p>参考：<br><a target="_blank" rel="noopener" href="http://www.rap.ucar.edu/staff/paddy/cacerts/index.html">http://www.rap.ucar.edu/staff/paddy/cacerts/index.html</a><br><a target="_blank" rel="noopener" href="http://code.google.com/p/java-use-examples/source/browse/trunk/src/com/aw/ad/util/InstallCert.java">http://code.google.com/p/java-use-examples/source/browse/trunk/src/com/aw/ad/util/InstallCert.java</a> </p>
 
@@ -112,11 +112,11 @@
   
     <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
   
-    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>9</small></li>
   
     <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
   
-    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>69</small></li>
   
     <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
   

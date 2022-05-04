@@ -62,17 +62,17 @@
     </header>
     <div class="e-content entry" itemprop="articleBody">
       
-        <h1 id="Git-protocal"><a href="#Git-protocal" class="headerlink" title="Git protocal"></a>Git protocal</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git://</span><br><span class="line">https://</span><br><span class="line">ssh://</span><br></pre></td></tr></table></figure>
+        <h1 id="Git-protocal"><a href="#Git-protocal" class="headerlink" title="Git protocal"></a>Git protocal</h1><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git:<span class="regexp">//</span></span><br><span class="line">https:<span class="regexp">//</span></span><br><span class="line">ssh:<span class="regexp">//</span></span><br></pre></td></tr></table></figure>
 
 <h1 id="Create-repository"><a href="#Create-repository" class="headerlink" title="Create repository"></a>Create repository</h1><p><code>git init --bare</code></p>
 <h1 id="Clone-repository"><a href="#Clone-repository" class="headerlink" title="Clone repository"></a>Clone repository</h1><p><code>git clone user@remote-server:/home/git/repo.git</code></p>
 <h1 id="Clone-repository-behind-a-firewall-proxy"><a href="#Clone-repository-behind-a-firewall-proxy" class="headerlink" title="Clone repository behind a firewall proxy"></a>Clone repository behind a firewall proxy</h1><ul>
-<li>Edit ~&#x2F;.ssh&#x2F;config, add following command to it<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ProxyCommand C:/connect-1.104-win32-msvc/connect.exe -H proxyserver:8080 %h %p</span><br><span class="line">IdentityFile &quot;C:/Users/user/Desktop/id_rsa&quot;</span><br></pre></td></tr></table></figure></li>
+<li>Edit ~&#x2F;.ssh&#x2F;config, add following command to it<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">ProxyCommand</span> C:/connect-<span class="number">1</span>.<span class="number">104</span>-win32-msvc/connect.exe -H proxyserver:<span class="number">8080</span> %h %p</span><br><span class="line"><span class="attribute">IdentityFile</span> <span class="string">&quot;C:/Users/user/Desktop/id_rsa&quot;</span></span><br></pre></td></tr></table></figure></li>
 <li>Open cygwin, run <code>git clone</code> command above to retrieve repository.</li>
 </ul>
 <h1 id="Clone-repository-by-git-protocal"><a href="#Clone-repository-by-git-protocal" class="headerlink" title="Clone repository by git protocal"></a>Clone repository by git protocal</h1><ul>
 <li><p>Install socat, then create a file named gitproxy, its content as below,<br><code>$ sudo vi /usr/bin/gitproxy</code></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line">PROXY=squid.vpsee.com</span><br><span class="line">PROXYPORT=3128</span><br><span class="line">PROXYAUTH=username:password</span><br><span class="line">exec socat STDIO PROXY:$PROXY:$1:$2,proxyport=$PROXYPORT,proxyauth=$PROXYAUTH</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line">PROXY=squid.vpsee.com</span><br><span class="line">PROXYPORT=3128</span><br><span class="line">PROXYAUTH=username:password</span><br><span class="line"><span class="built_in">exec</span> socat STDIO PROXY:<span class="variable">$PROXY</span>:<span class="variable">$1</span>:<span class="variable">$2</span>,proxyport=<span class="variable">$PROXYPORT</span>,proxyauth=<span class="variable">$PROXYAUTH</span></span><br></pre></td></tr></table></figure>
 <p><code>$ git config --global core.gitproxy gitproxy</code></p>
 </li>
 <li><p>Clone repository<br><code>git clone git://user@remote-server:/home/git/repo.git</code></p>
@@ -122,11 +122,11 @@
   
     <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
   
-    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>9</small></li>
   
     <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
   
-    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>69</small></li>
   
     <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
   

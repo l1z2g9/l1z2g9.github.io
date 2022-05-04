@@ -64,10 +64,10 @@
       
         <h1 id="在AIX上安装ssh"><a href="#在AIX上安装ssh" class="headerlink" title="在AIX上安装ssh"></a>在AIX上安装ssh</h1><p>Download openssh(OpenSSH_5.8.0.6102.tar.Z) and openssl(openssl-0.9.8.1800.tar.Z) from<br><a target="_blank" rel="noopener" href="https://www14.software.ibm.com/webapp/iwm/web/preLogin.do?source=aixbp">https://www14.software.ibm.com/webapp/iwm/web/preLogin.do?source=aixbp</a></p>
 <h4 id="Procedure"><a href="#Procedure" class="headerlink" title="Procedure:"></a>Procedure:</h4><p>   Uncompress openssl-0.9.8.1800.tar.Z</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar xvf openssl</span><br><span class="line">smitty install_all</span><br></pre></td></tr></table></figure>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">tar xvf openssl</span></span><br><span class="line"><span class="attribute">smitty install_all</span></span><br></pre></td></tr></table></figure>
 
 <p>   Uncompress OpenSSH_5.8.0.6102.tar.Z</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">tar xvf openssh</span><br><span class="line">smitty install_all</span><br><span class="line">* INPUT device / directory for software [.] (note a period)</span><br><span class="line">SOFTWARE to install []  using F4</span><br><span class="line">select filesets using F7</span><br><span class="line">openssh.base, openssh.license, openssh.man.en_US,</span><br><span class="line">openssl.base ,openssl.license, and openssl.man.en_US filesets.</span><br><span class="line"></span><br><span class="line">Enter yes to accept license agreement</span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">tar xvf openssh</span><br><span class="line">smitty install_all</span><br><span class="line">* <span class="selector-tag">INPUT</span> device / directory for software <span class="selector-attr">[.]</span> (note <span class="selector-tag">a</span> period)</span><br><span class="line">SOFTWARE <span class="selector-tag">to</span> install <span class="selector-attr">[]</span>  using F4</span><br><span class="line">select filesets using F7</span><br><span class="line">openssh<span class="selector-class">.base</span>, openssh<span class="selector-class">.license</span>, openssh<span class="selector-class">.man</span><span class="selector-class">.en_US</span>,</span><br><span class="line">openssl<span class="selector-class">.base</span> ,openssl<span class="selector-class">.license</span>, and openssl<span class="selector-class">.man</span><span class="selector-class">.en_US</span> filesets.</span><br><span class="line"></span><br><span class="line">Enter yes <span class="selector-tag">to</span> accept license agreement</span><br></pre></td></tr></table></figure>
 
 <h1 id="列出有关ssh的已安装文件"><a href="#列出有关ssh的已安装文件" class="headerlink" title="列出有关ssh的已安装文件"></a>列出有关ssh的已安装文件</h1><p>   <code>lslpp -L|grep ssh</code></p>
 <h4 id="卸装ssh的文件"><a href="#卸装ssh的文件" class="headerlink" title="卸装ssh的文件"></a>卸装ssh的文件</h4><p>   <code>installp -u  openssh.base openssh.license openssh.man.en_US</code></p>
@@ -119,11 +119,11 @@
   
     <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
   
-    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>9</small></li>
   
     <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
   
-    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>69</small></li>
   
     <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
   

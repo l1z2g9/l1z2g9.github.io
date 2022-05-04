@@ -1,0 +1,145 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Recover inconsistent/corrupt data file in Oracle DB | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Recover inconsistent/corrupt data file in Oracle DB"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Recover-inconsistent_corrupt-data-file-in-Oracle-DB" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2021-09-30T04:01:09.000Z"><a href="/2021/09/30/Recover-inconsistent_corrupt-data-file-in-Oracle-DB/">2021-09-30</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Recover inconsistent/corrupt data file in Oracle DB</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h2 id="Fix-ORA-01194-file-1-needs-more-recovery-to-be-consistent"><a href="#Fix-ORA-01194-file-1-needs-more-recovery-to-be-consistent" class="headerlink" title="Fix: ORA-01194: file 1 needs more recovery to be consistent"></a>Fix: ORA-01194: file 1 needs more recovery to be consistent</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; sqlplus sys/sys as sysdba</span><br><span class="line"></span><br><span class="line">SQL&gt; alter database open resetlogs;</span><br><span class="line"></span><br><span class="line">SQL&gt; recover database using backup controlfile until cancel;</span><br><span class="line"><span class="built_in">..</span>.</span><br><span class="line">Specify log: &#123;&lt;RET&gt;=suggested | filename | AUTO | CANCEL&#125;</span><br><span class="line">AUTO</span><br><span class="line"></span><br><span class="line">SQL&gt; alter database open resetlogs;</span><br><span class="line"></span><br><span class="line">SQL&gt; shutdown immediate</span><br><span class="line"></span><br><span class="line">SQL&gt; startup mount</span><br><span class="line"></span><br><span class="line">SQL&gt; ALTER<span class="built_in"> SYSTEM </span><span class="built_in">SET</span> <span class="string">&quot;_allow_resetlogs_corruption&quot;</span>= <span class="literal">TRUE</span> SCOPE = SPFILE;</span><br><span class="line">SQL&gt; ALTER<span class="built_in"> SYSTEM </span><span class="built_in">SET</span> <span class="attribute">undo_management</span>=MANUAL SCOPE = SPFILE;</span><br><span class="line"></span><br><span class="line">SQL&gt; shutdown immediate</span><br><span class="line"></span><br><span class="line">SQL&gt; startup mount</span><br><span class="line"></span><br><span class="line">SQL&gt; alter database open resetlogs;</span><br><span class="line">Database altered.</span><br><span class="line"></span><br><span class="line">SQL&gt; CREATE UNDO TABLESPACE undo2 datafile <span class="string">&#x27;D:\oraclexe\app\oracle\oradata\XE\undo2_df1.dbf&#x27;</span> size 200m autoextend on maxsize 20G;</span><br><span class="line">Tablespace created.</span><br><span class="line"></span><br><span class="line">SQL&gt; alter<span class="built_in"> system </span><span class="built_in">set</span> undo_tablespace = undo2 <span class="attribute">scope</span>=spfile;<span class="built_in"></span></span><br><span class="line"><span class="built_in">System </span>altered.</span><br><span class="line"></span><br><span class="line">SQL&gt; alter<span class="built_in"> system </span><span class="built_in">set</span> <span class="attribute">undo_management</span>=auto <span class="attribute">scope</span>=spfile;<span class="built_in"></span></span><br><span class="line"><span class="built_in">System </span>altered.</span><br><span class="line"></span><br><span class="line">SQL&gt; shutdown immediate</span><br><span class="line">SQL&gt; startup</span><br></pre></td></tr></table></figure>
+
+<p>Reference:<br><a target="_blank" rel="noopener" href="https://dbatricksworld.com/ora-01194-file-1-needs-more-recovery-to-be-consistent/">https://dbatricksworld.com/ora-01194-file-1-needs-more-recovery-to-be-consistent/</a><br><a target="_blank" rel="noopener" href="http://blog.itpub.net/77164/viewspace-668388/">http://blog.itpub.net/77164/viewspace-668388/</a><br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/53676/how-to-resolve-ora-011033-oracle-initialization-or-shutdown-in-progress">https://stackoverflow.com/questions/53676/how-to-resolve-ora-011033-oracle-initialization-or-shutdown-in-progress</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>9</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>69</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

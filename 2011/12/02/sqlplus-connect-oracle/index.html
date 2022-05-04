@@ -63,7 +63,7 @@
     <div class="e-content entry" itemprop="articleBody">
       
         <h1 id="find-status-and-sid"><a href="#find-status-and-sid" class="headerlink" title="find status and sid:"></a>find status and sid:</h1><p><code>lsnrctl status</code><br><code>lsnrctl service</code></p>
-<h1 id="connect-db"><a href="#connect-db" class="headerlink" title="connect db"></a>connect db</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlplus apps/apps@&quot;(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.100.5)(PORT=1521))(CONNECT_DATA=(SID=OAPROD)))&quot;</span><br></pre></td></tr></table></figure>
+<h1 id="connect-db"><a href="#connect-db" class="headerlink" title="connect db"></a>connect db</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlplus apps/apps@<span class="string">&quot;(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.100.5)(PORT=1521))(CONNECT_DATA=(SID=OAPROD)))&quot;</span></span><br></pre></td></tr></table></figure>
 
 <h1 id="运行本地命令"><a href="#运行本地命令" class="headerlink" title="运行本地命令"></a>运行本地命令</h1><p><code>SQL&gt; host dir</code></p>
 <h1 id="export-prd"><a href="#export-prd" class="headerlink" title="export prd"></a>export prd</h1><p><code>exp user/password tables=task, payment file=payment_task.dmp INDEXES=N CONSTRAINTS=N GRANTS=N ROWS=Y</code></p>
@@ -118,11 +118,11 @@
   
     <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
   
-    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>9</small></li>
   
     <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
   
-    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>69</small></li>
   
     <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
   

@@ -62,9 +62,9 @@
     </header>
     <div class="e-content entry" itemprop="articleBody">
       
-        <h1 id="set-enviroment-in-python-or-bash"><a href="#set-enviroment-in-python-or-bash" class="headerlink" title="set enviroment in python or bash"></a>set enviroment in python or bash</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">os.environ[“NLS_LANG”] = “TRADITIONAL CHINESE_HONG KONG.AL32UTF8” or</span><br><span class="line">export NLS_LANG=“TRADITIONAL CHINESE_HONG KONG.AL32UTF8”</span><br></pre></td></tr></table></figure>
-<h1 id="get-lang-in-Oracle"><a href="#get-lang-in-Oracle" class="headerlink" title="get lang in Oracle"></a>get lang in Oracle</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT USERENV (&#x27;language&#x27;) FROM DUAL;</span><br><span class="line">select * from v$nls_parameters WHERE parameter IN ( &#x27;NLS_LANGUAGE&#x27;, &#x27;NLS_TERRITORY&#x27;, &#x27;NLS_CHARACTERSET&#x27;);</span><br><span class="line">SELECT * from NLS_DATABASE_PARAMETERS WHERE parameter IN ( &#x27;NLS_LANGUAGE&#x27;, &#x27;NLS_TERRITORY&#x27;, &#x27;NLS_CHARACTERSET&#x27;);</span><br></pre></td></tr></table></figure>
-<h1 id="others"><a href="#others" class="headerlink" title="others"></a>others</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select * FROM V$NLS_VALID_VALUES;</span><br><span class="line">select * from NLS_SESSION_PARAMETERS;</span><br><span class="line">select * from database_properties;</span><br></pre></td></tr></table></figure>
+        <h1 id="set-enviroment-in-python-or-bash"><a href="#set-enviroment-in-python-or-bash" class="headerlink" title="set enviroment in python or bash"></a>set enviroment in python or bash</h1><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">os.environ[“NLS_LANG”] = “TRADITIONAL CHINESE_HONG KONG.AL32UTF8” <span class="keyword">or</span></span><br><span class="line"><span class="built_in">export</span> <span class="attribute">NLS_LANG</span>=“TRADITIONAL CHINESE_HONG KONG.AL32UTF8”</span><br></pre></td></tr></table></figure>
+<h1 id="get-lang-in-Oracle"><a href="#get-lang-in-Oracle" class="headerlink" title="get lang in Oracle"></a>get lang in Oracle</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> USERENV (<span class="string">&#x27;language&#x27;</span>) <span class="keyword">FROM</span> DUAL;</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> v$nls_parameters <span class="keyword">WHERE</span> <span class="keyword">parameter</span> <span class="keyword">IN</span> ( <span class="string">&#x27;NLS_LANGUAGE&#x27;</span>, <span class="string">&#x27;NLS_TERRITORY&#x27;</span>, <span class="string">&#x27;NLS_CHARACTERSET&#x27;</span>);</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">from</span> NLS_DATABASE_PARAMETERS <span class="keyword">WHERE</span> <span class="keyword">parameter</span> <span class="keyword">IN</span> ( <span class="string">&#x27;NLS_LANGUAGE&#x27;</span>, <span class="string">&#x27;NLS_TERRITORY&#x27;</span>, <span class="string">&#x27;NLS_CHARACTERSET&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<h1 id="others"><a href="#others" class="headerlink" title="others"></a>others</h1><figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">FROM</span> V$NLS_VALID_VALUES;</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> NLS_SESSION_PARAMETERS;</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> database_properties;</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer>
@@ -107,11 +107,11 @@
   
     <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
   
-    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>9</small></li>
   
     <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
   
-    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>69</small></li>
   
     <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
   

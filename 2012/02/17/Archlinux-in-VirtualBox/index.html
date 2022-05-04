@@ -89,7 +89,7 @@ export PATH=$PATH:$JRE_HOME/bin
 <p>6.建立pacman的本地仓库<br><a target="_blank" rel="noopener" href="https://wiki.archlinux.org/index.php/Pacman_Tips#Installing_packages_from_a_CD.2FDVD.2FISO">https://wiki.archlinux.org/index.php/Pacman_Tips#Installing_packages_from_a_CD.2FDVD.2FISO</a></p>
 <p>由于暂时不能上网，所以在pacman.conf文件里注释掉extra和community部分</p>
 <p>简单的测试：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pacman -Syu</span><br><span class="line">pacman -U sqlite3-3.7.7.1-1-i686.pkg.tar.xz</span><br></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">pacman</span> -Syu</span><br><span class="line"><span class="attribute">pacman</span> -U sqlite3-<span class="number">3.7.7.1</span>-<span class="number">1</span>-i686.pkg.tar.xz</span><br></pre></td></tr></table></figure>
 
 <ol start="7">
 <li>使用netty的example下的HexDumpProxy作为代理服务器，<br><code>java -cp netty.jar HexDumpProxy 1099 myproxy 8080 </code></li>
@@ -112,14 +112,14 @@ export PATH=$PATH:$JRE_HOME/bin
 <li><code>ln -s /usr/lib/libpcre.so /usr/lib/libpcre.so.1</code></li>
 </ul>
 <ol start="12">
-<li>安装vsftpd，方便可以在windows上使用editplus编辑文件，然后upload到arch。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pacman -S vsftp</span><br><span class="line">/etc/rc.d/vsftpd start</span><br></pre></td></tr></table></figure></li>
+<li>安装vsftpd，方便可以在windows上使用editplus编辑文件，然后upload到arch。<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pacman -S vsftp</span><br><span class="line"><span class="regexp">/etc/</span>rc.d/vsftpd start</span><br></pre></td></tr></table></figure></li>
 </ol>
 <p>vsftpd.conf</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">write_enable=YES</span><br><span class="line">local_enable=YES</span><br><span class="line"></span><br><span class="line">注释掉anonymous_enable=YES</span><br><span class="line">由于是standalone模式，所以保持listen=YES</span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">write_enable</span>=<span class="literal">YES</span></span><br><span class="line"><span class="attribute">local_enable</span>=<span class="literal">YES</span></span><br><span class="line"></span><br><span class="line">注释掉<span class="attribute">anonymous_enable</span>=<span class="literal">YES</span></span><br><span class="line">由于是standalone模式，所以保持<span class="attribute">listen</span>=<span class="literal">YES</span></span><br></pre></td></tr></table></figure>
 
 <p>参考<br><a target="_blank" rel="noopener" href="https://wiki.archlinux.org/index.php/Very_Secure_FTP_Daemon">https://wiki.archlinux.org/index.php/Very_Secure_FTP_Daemon</a><br><a target="_blank" rel="noopener" href="http://os.51cto.com/art/201008/222036.htm">http://os.51cto.com/art/201008/222036.htm</a></p>
 <p>意外情况，安装vsftpd时候，出现很多package的pgp签名有问题的错误，可以参考Archlinux的wiki上pacman-key的文章，我的解决方法是在&#x2F;etc&#x2F;pacman.conf中设置SigLevel&#x3D;Never，不验证package的签名，然后运行</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pacman -Syy</span><br><span class="line">pacman -S pacman</span><br><span class="line">pacman -Syu</span><br></pre></td></tr></table></figure>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">pacman -Syy</span></span><br><span class="line"><span class="attribute">pacman -S pacman</span></span><br><span class="line"><span class="attribute">pacman -Syu</span></span><br></pre></td></tr></table></figure>
       
     </div>
     <footer>
@@ -162,11 +162,11 @@ export PATH=$PATH:$JRE_HOME/bin
   
     <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
   
-    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>9</small></li>
   
     <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
   
-    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>69</small></li>
   
     <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
   

@@ -1,0 +1,166 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>spring 2.5 + jpa 1.0 + jsf 1.2 | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="spring 2.5 + jpa 1.0 + jsf 1.2"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-spring 2.5-jpa-1.0-jsf 1.2" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2011-05-19T09:49:57.000Z"><a href="/2011/05/19/spring%202.5-jpa-1.0-jsf%201.2/">2011-05-19</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">spring 2.5 + jpa 1.0 + jsf 1.2</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h1 id="applicationContext-xml"><a href="#applicationContext-xml" class="headerlink" title="applicationContext.xml"></a>applicationContext.xml</h1><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:aop</span>=<span class="string">&quot;http://www.springframework.org/schema/aop&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:context</span>=<span class="string">&quot;http://www.springframework.org/schema/context&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:tx</span>=<span class="string">&quot;http://www.springframework.org/schema/tx&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;</span></span></span><br><span class="line"><span class="string"><span class="tag">    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd</span></span></span><br><span class="line"><span class="string"><span class="tag">    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd</span></span></span><br><span class="line"><span class="string"><span class="tag">    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd</span></span></span><br><span class="line"><span class="string"><span class="tag">    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- bean class=&quot;org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor&quot; / --&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">&quot;xx.yy.locker&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">context:annotation-config</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;entityManagerFactory&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">class</span>=<span class="string">&quot;org.springframework.orm.jpa.LocalEntityManagerFactoryBean&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;persistenceUnitName&quot;</span> <span class="attr">value</span>=<span class="string">&quot;locker&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;transactionManager&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">class</span>=<span class="string">&quot;org.springframework.transaction.jta.WebSphereUowTransactionManager&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">tx:annotation-driven</span> <span class="attr">transaction-manager</span>=<span class="string">&quot;transactionManager&quot;</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">tx:advice</span> <span class="attr">id</span>=<span class="string">&quot;txAdvice&quot;</span> <span class="attr">transaction-manager</span>=<span class="string">&quot;transactionManager&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tx:attributes</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">&quot;get*&quot;</span> <span class="attr">read-only</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">&quot;*&quot;</span> <span class="attr">read-only</span>=<span class="string">&quot;false&quot;</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tx:attributes</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tx:advice</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:config</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">aop:pointcut</span> <span class="attr">id</span>=<span class="string">&quot;lockerManagerOperation&quot;</span> <span class="attr">expression</span>=<span class="string">&quot;execution(public * xx.yy..*.*(..))&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">aop:advisor</span> <span class="attr">advice-ref</span>=<span class="string">&quot;txAdvice&quot;</span> <span class="attr">pointcut-ref</span>=<span class="string">&quot;lockerManagerOperation&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">aop:config</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="persistence-xml"><a href="#persistence-xml" class="headerlink" title="persistence.xml"></a>persistence.xml</h1><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">persistence</span> <span class="attr">version</span>=<span class="string">&quot;1.0&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns</span>=<span class="string">&quot;http://java.sun.com/xml/ns/persistence&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">persistence-unit</span> <span class="attr">name</span>=<span class="string">&quot;testDB&quot;</span> <span class="attr">transaction-type</span>=<span class="string">&quot;JTA&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">provider</span>&gt;</span>org.hibernate.ejb.HibernatePersistence<span class="tag">&lt;/<span class="name">provider</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">jta-data-source</span>&gt;</span>jdbc/xx<span class="tag">&lt;/<span class="name">jta-data-source</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.dialect&quot;</span></span></span><br><span class="line"><span class="tag">                <span class="attr">value</span>=<span class="string">&quot;org.hibernate.dialect.Oracle10gDialect&quot;</span> /&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.connection.driver_class&quot;</span></span></span><br><span class="line"><span class="tag">                <span class="attr">value</span>=<span class="string">&quot;oracle.jdbc.pool.OracleConnectionPoolDataSource&quot;</span> /&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- property name=&quot;hibernate.transaction.factory_class&quot; value=&quot;org.hibernate.transaction.CMTTransactionFactory&quot; / --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.transaction.manager_lookup_class&quot;</span> <span class="attr">value</span>=<span class="string">&quot;org.hibernate.transaction.WebSphereExtendedJTATransactionLookup&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">persistence-unit</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">persistence</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="libs"><a href="#libs" class="headerlink" title="libs:"></a>libs:</h1><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">antlr</span>-<span class="number">2</span>.<span class="number">7</span>.<span class="number">6</span>.jar</span><br><span class="line"><span class="attribute">aspectjrt</span>.jar</span><br><span class="line"><span class="attribute">aspectjweaver</span>.jar</span><br><span class="line"><span class="attribute">commons</span>-beanutils.jar</span><br><span class="line"><span class="attribute">commons</span>-collections.jar</span><br><span class="line"><span class="attribute">commons</span>-logging.jar</span><br><span class="line"><span class="attribute">dom4j</span>-<span class="number">1</span>.<span class="number">6</span>.<span class="number">1</span>.jar</span><br><span class="line"><span class="attribute">hibernate</span>-annotations.jar</span><br><span class="line"><span class="attribute">hibernate</span>-commons-annotations.jar</span><br><span class="line"><span class="attribute">hibernate</span>-entitymanager.jar</span><br><span class="line"><span class="attribute">hibernate3</span>.jar</span><br><span class="line"><span class="attribute">javassist</span>-<span class="number">3</span>.<span class="number">4</span>.GA.jar</span><br><span class="line"><span class="attribute">common</span>-annotations.jar</span><br><span class="line"><span class="attribute">log4j</span>-<span class="number">1</span>.<span class="number">2</span>.<span class="number">16</span>.jar</span><br><span class="line"><span class="attribute">persistence</span>.jar</span><br><span class="line"><span class="attribute">slf4j</span>-api-<span class="number">1</span>.<span class="number">5</span>.<span class="number">0</span>.jar</span><br><span class="line"><span class="attribute">slf4j</span>-log4j12-<span class="number">1</span>.<span class="number">5</span>.<span class="number">0</span>.jar</span><br><span class="line"><span class="attribute">spring</span>-<span class="number">2</span>.<span class="number">5</span>.jar</span><br></pre></td></tr></table></figure>
+
+<h1 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h1><ol>
+<li>使用<code>&lt;context:component-scan&gt;</code>或<code>&lt;context:annotation-config /&gt;</code>的话，可以不用<br><code>&lt;bean class=&quot;org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor&quot; /&gt;</code></li>
+<li>使用<code>&lt;tx:annotation-driven&gt;</code> + <code>&lt;tx:advice&gt;</code> + <code>&lt;aop:config&gt;</code> 可以不用 @transactional</li>
+<li>WAS的TransactionManager要用WebSphereUowTransactionManager</li>
+<li>hibernate.transaction.manager_lookup_class 用 org.hibernate.transaction.WebSphereExtendedJTATransactionLookup</li>
+<li>hibernate.transaction.factory_class 不能使用 org.hibernate.transaction.CMTTransactionFactory，因为WAS的transaction不是一个joinableTransaction，所以只能使用org.hibernate.transaction.JDBCTransactionFactory</li>
+<li>删除WEB-INF&#x2F;lib中的jta.jar，否则会出现错误。估计这个jta.jar跟WAS的有版本不兼容问题。</li>
+<li>JSF集成spring<br>  web.xml<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> <span class="tag">&lt;<span class="name">listener</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">listener-class</span>&gt;</span>org.springframework.web.context.request.RequestContextListener<span class="tag">&lt;/<span class="name">listener-class</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">listener</span>&gt;</span></span><br><span class="line">faces-config.xml</span><br><span class="line"> <span class="tag">&lt;<span class="name">faces-config</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">application</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">variable-resolver</span>&gt;</span>org.springframework.web.jsf.DelegatingVariableResolver<span class="tag">&lt;/<span class="name">variable-resolver</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">application</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">faces-config</span>&gt;</span> </span><br></pre></td></tr></table></figure>
+  这样就不用写Managed-Bean，但EL不能获得managedBean的数据，只能用JSF的EL读取managedBean，<br>  即不能${xBean}，只能#{xBean} </li>
+<li><code>&lt;context:annotation-config /&gt;</code>支持JSR-250 annotations，即 @Resource， @PostConstruct， @PreDestroy。<br> 等价于<code>&lt;bean class=&quot;org.springframework.context.annotation.CommonAnnotationBeanPostProcessor&quot;&gt;</code><br> 而CommonAnnotationBeanPostProcessor支持 @EJB</li>
+</ol>
+<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><p> <a target="_blank" rel="noopener" href="http://www.ibm.com/developerworks/websphere/techjournal/0609_alcott/0609_alcott.html">http://www.ibm.com/developerworks/websphere/techjournal/0609_alcott/0609_alcott.html</a></p>
+<p> 中文：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://www.ibm.com/developerworks/cn/websphere/techjournal/0609_alcott/0609_alcott.html">http://www.ibm.com/developerworks/cn/websphere/techjournal/0609_alcott/0609_alcott.html</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.swview.org/blog/configuring-jboss-spring-jpa-hibernate-jta-web-application">http://www.swview.org/blog/configuring-jboss-spring-jpa-hibernate-jta-web-application</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.infoq.com/articles/spring-2.5-part-1">http://www.infoq.com/articles/spring-2.5-part-1</a></li>
+</ul>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>9</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>69</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

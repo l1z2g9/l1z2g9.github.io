@@ -73,7 +73,7 @@
 <li><code>sudo docker run -i -t busybox /bin/bash</code></li>
 </ul>
 <h1 id="Ubuntu-14-04"><a href="#Ubuntu-14-04" class="headerlink" title="Ubuntu 14.04"></a>Ubuntu 14.04</h1><p>Host-only ethernet adapter in VirtualBox</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install openssh-server -y</span><br><span class="line">sudo apt-get install docker -y</span><br><span class="line">sudo ln /usr/bin/docker.io /usr/local/bin/docker</span><br><span class="line">sudo service docker.io stop</span><br><span class="line">sudo HTTP_PROXY=http://192.168.56.1:21/</span><br><span class="line">docker -d &amp;</span><br><span class="line">alias d=&#x27;sudo docker&#x27;</span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-<span class="built_in">get</span> update</span><br><span class="line">sudo apt-<span class="built_in">get</span> install openssh-server -y</span><br><span class="line">sudo apt-<span class="built_in">get</span> install docker -y</span><br><span class="line">sudo ln /usr/bin/docker.io /usr/local/bin/docker</span><br><span class="line">sudo<span class="built_in"> service </span>docker.io stop</span><br><span class="line">sudo <span class="attribute">HTTP_PROXY</span>=http://192.168.56.1:21/</span><br><span class="line">docker -d &amp;</span><br><span class="line">alias <span class="attribute">d</span>=<span class="string">&#x27;sudo docker&#x27;</span></span><br></pre></td></tr></table></figure>
 
 <h1 id="Proxy"><a href="#Proxy" class="headerlink" title="Proxy"></a>Proxy</h1><ul>
 <li>apt-get<br> create a file named proxy in <code>/etc/apt/apt.conf.d/</code> as below,<br> <code>Acquire::http::Proxy “http://192.168.56.1:21”;</code></li>
@@ -126,11 +126,11 @@
   
     <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
   
-    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>9</small></li>
   
     <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
   
-    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>69</small></li>
   
     <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
   
