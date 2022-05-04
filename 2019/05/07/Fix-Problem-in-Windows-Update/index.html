@@ -1,0 +1,152 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Fix Problem in Windows Update | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Fix Problem in Windows Update"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Fix-Problem-in-Windows-Update" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2019-05-07T07:56:39.000Z"><a href="/2019/05/07/Fix-Problem-in-Windows-Update/">2019-05-07</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Fix Problem in Windows Update</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h2 id="Encounter-error-code-0x800f0831-that-means-missing-some-security-patch-before-installing-current-windows-update"><a href="#Encounter-error-code-0x800f0831-that-means-missing-some-security-patch-before-installing-current-windows-update" class="headerlink" title="Encounter error code 0x800f0831, that means missing some security patch before installing current windows update."></a>Encounter error code 0x800f0831, that means missing some security patch before installing current windows update.</h2><p>check log file CBS.log in path C:\Windows\Logs\CBS, it is found there is missing package shown as below</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">2019-05-07 10:30:15, Info                  CBS    Store corruption, manifest missing for package: Package_1095_for_KB4093121~31bf3856ad364e35~amd64~~6.3.1.6</span><br><span class="line">2019-05-07 10:30:15, Error                 CBS    Failed to resolve package &#x27;Package_1095_for_KB4093121~31bf3856ad364e35~amd64~~6.3.1.6&#x27; [HRESULT = 0x800f0831 - CBS_E_STORE_CORRUPTION]</span><br><span class="line">2019-05-07 10:30:15, Info                  CBS    Mark store corruption flag because of package: Package_1095_for_KB4093121~31bf3856ad364e35~amd64~~6.3.1.6. [HRESULT = 0x800f0831 - CBS_E_STORE_CORRUPTION]</span><br><span class="line">2019-05-07 10:30:15, Info                  CBS    Failed to resolve package [HRESULT = 0x800f0831 - CBS_E_STORE_CORRUPTION]</span><br><span class="line">2019-05-07 10:30:15, Info                  CBS    Failed to get next package to re-evaluate [HRESULT = 0x800f0831 - CBS_E_STORE_CORRUPTION]</span><br><span class="line">2019-05-07 10:30:15, Info                  CBS    Failed to process component watch list. [HRESULT = 0x800f0831 - CBS_E_STORE_CORRUPTION]</span><br></pre></td></tr></table></figure>
+
+<p>Then download the file KB4093121 from Windows Updates category website, and run following commands to re-install the security update</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">copy c:\Users\Administrator.TCSP\Downloads\windows8.1-kb4093121-x64_4e8483bcb4ad56a5b63959af8c3fc0dba9f93d48.msu c:\Windows\Temp</span><br><span class="line">cd c:\Windows\Temp</span><br><span class="line">expand windows8.1-kb4093121-x64_4e8483bcb4ad56a5b63959af8c3fc0dba9f93d48.msu -f:* .</span><br><span class="line">DISM.exe /Online /Add-Package /PackagePath:Windows8.1-kb4093121-x64.cab</span><br></pre></td></tr></table></figure>
+
+<p>Also we can check log file at c:\Windows\Logs\DISM\dism.log</p>
+<h2 id="To-repairing-system-and-servicing-health-by-running"><a href="#To-repairing-system-and-servicing-health-by-running" class="headerlink" title="To repairing system and servicing health by running"></a>To repairing system and servicing health by running</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">--&gt; sfc /scannow</span><br><span class="line">--&gt; dism.exe /online /cleanup-image /scanhealth</span><br><span class="line">--&gt; dism.exe /online /cleanup-image /restorehealth</span><br></pre></td></tr></table></figure>
+
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a target="_blank" rel="noopener" href="http://mryoung.soundbomb.net/2017/12/12/windows-update-0x800f0831-cbs_e_store_corruption/">Fix 0x800F0831,CBS_E_STORE_CORRUPTION, this is the solution</a><br><a target="_blank" rel="noopener" href="https://blogs.technet.microsoft.com/mu/2016/11/23/how-to-list-updates-that-have-been-installed-on-your-windows-server-2016-machine/">List installed windows updates, by powershell or command</a><br><a target="_blank" rel="noopener" href="https://www.sysnative.com/forums/threads/server2012r2-datacenter-code-800f0831-kb2973351.23888/">https://www.sysnative.com/forums/threads/server2012r2-datacenter-code-800f0831-kb2973351.23888/</a><br><a target="_blank" rel="noopener" href="https://social.technet.microsoft.com/wiki/contents/articles/37901.windows-updates-failed-to-install-with-error-code-800f0831-in-windows-server-2012-r2.aspx">Windows updates failed to install with error code : 800F0831 in Windows Server 2012 R2</a><br><a target="_blank" rel="noopener" href="https://www.catalog.update.microsoft.com/Search.aspx?q=KB4093121">Windows Update Catalog, download KB from here</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

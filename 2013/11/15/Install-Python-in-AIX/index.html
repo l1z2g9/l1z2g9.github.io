@@ -1,0 +1,155 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Install Python in AIX | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Install Python in AIX"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Install-Python-in-AIX" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2013-11-15T03:54:38.000Z"><a href="/2013/11/15/Install-Python-in-AIX/">2013-11-15</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Install Python in AIX</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h1 id="Download-Python"><a href="#Download-Python" class="headerlink" title="Download Python"></a>Download Python</h1><p>download the archive zip from <a target="_blank" rel="noopener" href="http://www.bullfreeware.com/affichage.php?id=1495">http://www.bullfreeware.com/affichage.php?id=1495</a></p>
+<h1 id="Install-Python"><a href="#Install-Python" class="headerlink" title="Install Python"></a>Install Python</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh libiconv-1.14-1.aix6.1.ppc.rpm –nodeps // important, otherwise throw error of libintl.so </span><br><span class="line">rpm -ivh gettext-0.17-8.aix6.1.ppc.rpm –nodeps </span><br><span class="line">rpm -ivh gdbm-1.10-1.aix6.1.ppc.rpm </span><br><span class="line">rpm -ivh ncurses-5.9-3.aix6.1.ppc.rpm </span><br><span class="line">rpm -ivh info-5.0-2.aix6.1.ppc.rpm </span><br><span class="line">rpm -ivh readline-6.2-3.aix6.1.ppc.rpm </span><br><span class="line">rpm -ivh sqlite-3.7.15.2-2.aix6.1.ppc.rpm </span><br><span class="line">rpm -ivh gmp-5.1.3-1.aix6.1.ppc.rpm </span><br><span class="line">rpm -ivh db-4.8.24-4.aix6.1.ppc.rpm </span><br><span class="line">rpm -ivh zlib-1.2.5-6.aix6.1.ppc.rpm </span><br><span class="line">rpm -ivh libffi-3.0.9-3.aix6.1.ppc.rpm </span><br><span class="line">rpm -ivh bzip2-1.0.6-2.aix6.1.ppc.rpm </span><br><span class="line">rpm -ivh expat-2.1.0-1.aix6.1.ppc.rpm </span><br><span class="line">rpm -ivh openssl-1.0.0k-2.aix6.1.ppc.rpm </span><br><span class="line">rpm -ivh python-2.7.2-3.aix6.1.ppc.rpm </span><br><span class="line">rpm -ivh python-devel-2.7.2-3.aix6.1.ppc.rpm</span><br></pre></td></tr></table></figure>
+
+<h1 id="Create-Makefile-amp-pyconfig-h-Sovled-after-install-python-devel-2-7-2-3-aix6-1-ppc-rpm"><a href="#Create-Makefile-amp-pyconfig-h-Sovled-after-install-python-devel-2-7-2-3-aix6-1-ppc-rpm" class="headerlink" title="Create Makefile &amp; pyconfig.h (Sovled after install python-devel-2.7.2-3.aix6.1.ppc.rpm)"></a>Create Makefile &amp; pyconfig.h (Sovled after install <code>python-devel-2.7.2-3.aix6.1.ppc.rpm</code>)</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir /opt/freeware/lib/python2.7/config touch /opt/freeware/lib/python2.7/config/Makefile</span><br><span class="line">mkdir /opt/freeware/include/python2.7 touch /opt/freeware/include/python2.7/pyconfig.h</span><br></pre></td></tr></table></figure>
+
+<h1 id="Problem-solve"><a href="#Problem-solve" class="headerlink" title="Problem solve"></a>Problem solve</h1><ul>
+<li>No module <em>unittest</em> found</li>
+<li>copy unittest from windows to aix</li>
+<li>aix not support “O_NOFOLLOW”<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/pypa/pip/pull/935">https://github.com/pypa/pip/pull/935</a><br> <code>sudo vi /opt/freeware/lib/python2.7/site-packages/pip-1.4.1-py2.7.egg/pip/locations.py</code><br> remove os.O_NOFOLLOW</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/AIX/">AIX</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

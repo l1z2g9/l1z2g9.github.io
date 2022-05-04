@@ -1,0 +1,144 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>利用PowerShell截取Checkstyle关于bSpell拼写检查的当前错误行的源文件内容 | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="利用PowerShell截取Checkstyle关于bSpell拼写检查的当前错误行的源文件内容"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-利用PowerShell截取Checkstyle关于bSpell拼写检查的当前错误行的源文件内容" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2011-02-14T07:51:18.000Z"><a href="/2011/02/14/%E5%88%A9%E7%94%A8PowerShell%E6%88%AA%E5%8F%96Checkstyle%E5%85%B3%E4%BA%8EbSpell%E6%8B%BC%E5%86%99%E6%A3%80%E6%9F%A5%E7%9A%84%E5%BD%93%E5%89%8D%E9%94%99%E8%AF%AF%E8%A1%8C%E7%9A%84%E6%BA%90%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9/">2011-02-14</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">利用PowerShell截取Checkstyle关于bSpell拼写检查的当前错误行的源文件内容</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h3 id="ps1"><a href="#ps1" class="headerlink" title="ps1"></a>ps1</h3><figure class="highlight plaintext"><figcaption><span>go&#123;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">    $gbk = [System.Text.Encoding]::GetEncoding(&quot;GBK&quot;)</span><br><span class="line">    $utf8 = [System.Text.Encoding]::UTF8</span><br><span class="line"></span><br><span class="line">    $result = &#x27;spell-filter.txt&#x27;</span><br><span class="line">    $encoding = [System.Text.Encoding]::GetEncoding(&quot;GBK&quot;)</span><br><span class="line">    rm $result -ea SilentlyContinue</span><br><span class="line">    $xml = cat checkstyle.xml</span><br><span class="line">    $xml = [xml]$xml  # 类型转换</span><br><span class="line">    $xml.checkstyle.file|%&#123;$_.error&#125;|?&#123;$_.source -match &#x27;SpellCheck&#x27;&#125;|</span><br><span class="line">    %&#123;</span><br><span class="line">      $fileContent = cat $_.parentNode.name -total $_.line -ea SilentlyContinue # 文件有可能不存在，所以要【静音】</span><br><span class="line">      $word = (($_.message -replace &#x27;The Spelling of word &#x27;, &#x27;&#x27;) -replace &#x27;may be illegal. .*&#x27;, &#x27;&#x27;) # 错误的拼写内容</span><br><span class="line"></span><br><span class="line">      if ($fileContent -ne $Null)&#123;</span><br><span class="line">        $code = $gbk.GetBytes($fileContent[-1]) # 错误的代码行</span><br><span class="line">        $code = $utf8.GetString($code)</span><br><span class="line">        &#x27;文件: &#x27; + $_.parentNode.name + &#x27; ,行号：&#x27; + $_.line + &#x27; ,拼写错误：&#x27; +  $word + &#x27; ,代码：&#x27; + $code&gt;&gt; $result</span><br><span class="line">      &#125;else&#123;</span><br><span class="line">        &#x27;不存在的文件： &#x27; + $_.parentNode.name + &#x27; , &#x27; + $_.line + &#x27; , &#x27; +  $word </span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">go</span><br></pre></td></tr></table></figure>
+
+<h3 id="checkstyle-xml"><a href="#checkstyle-xml" class="headerlink" title="checkstyle.xml"></a>checkstyle.xml</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;checkstyle version=&quot;5.0&quot;&gt;</span><br><span class="line">&lt;file name=&quot;package_zh_CN.properties&quot;&gt;</span><br><span class="line">&lt;error line=&quot;114&quot; column=&quot;81&quot; severity=&quot;error&quot; message=&quot;The Spelling of word &amp;quot;pageing&amp;quot; may be illegal. The suggestion(s) include(s): [paging, ageing, panging, pugging, pegging]&quot; source=&quot;SpellCheck&quot;/&gt;</span><br><span class="line">&lt;error line=&quot;117&quot; column=&quot;84&quot; severity=&quot;error&quot; message=&quot;The Spelling of word &amp;quot;pageing&amp;quot; may be illegal. The suggestion(s) include(s): [paging, ageing, panging, pugging, pegging]&quot; source=&quot;SpellCheck&quot;/&gt;</span><br><span class="line">&lt;/file&gt;</span><br><span class="line">&lt;file name=&quot;addOrDel.js&quot;&gt;</span><br><span class="line">&lt;error line=&quot;1&quot; severity=&quot;info&quot; message=&quot;File length is 2,373 lines (max allowed is 2,000).&quot; source=&quot;com.puppycrawl.tools.checkstyle.checks.sizes.FileLengthCheck&quot;/&gt;</span><br><span class="line">&lt;/file&gt;</span><br><span class="line">&lt;file name=&quot;showDataDictDetail.jsp&quot;&gt;</span><br><span class="line">&lt;error line=&quot;10&quot; column=&quot;19&quot; severity=&quot;error&quot; message=&quot;The Spelling of word &amp;quot;stylesheet&amp;quot; may be illegal. The suggestion(s) include(s): [StyleSheet]&quot; source=&quot;SpellCheck&quot;/&gt;</span><br><span class="line">&lt;/file&gt;</span><br><span class="line">&lt;/checkstyle&gt;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

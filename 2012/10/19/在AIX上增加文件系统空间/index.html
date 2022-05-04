@@ -1,0 +1,174 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>在AIX上增加文件系统空间 | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="在AIX上增加文件系统空间"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-在AIX上增加文件系统空间" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2012-10-19T07:22:43.000Z"><a href="/2012/10/19/%E5%9C%A8AIX%E4%B8%8A%E5%A2%9E%E5%8A%A0%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%A9%BA%E9%97%B4/">2012-10-19</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">在AIX上增加文件系统空间</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h1 id="显示活动的卷组"><a href="#显示活动的卷组" class="headerlink" title="显示活动的卷组"></a>显示活动的卷组</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">dhdev01 / # lsvg -o</span><br><span class="line">bkvg</span><br><span class="line">vg01</span><br><span class="line">vg02</span><br><span class="line">rootvg</span><br><span class="line">列出对应的物理卷</span><br><span class="line">dhdev01 / # lsvg -p rootvg</span><br><span class="line">rootvg:</span><br><span class="line">PV_NAME           PV STATE          TOTAL PPs   FREE PPs    FREE DISTRIBUTION</span><br><span class="line">hdisk0            active            546         111         00..00..00..02..109</span><br><span class="line">dhdev01 / # lsvg -p vg01</span><br><span class="line">vg01:</span><br><span class="line">PV_NAME           PV STATE          TOTAL PPs   FREE PPs    FREE DISTRIBUTION</span><br><span class="line">hdisk1            active            546         135         00..00..00..26..109</span><br><span class="line">dhdev01 / # lsvg -p vg02</span><br><span class="line">vg02:</span><br><span class="line">PV_NAME           PV STATE          TOTAL PPs   FREE PPs    FREE DISTRIBUTION</span><br><span class="line">hdisk2            active            546         109         00..00..00..00..109</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">dhdev01 / # ls -al /dev/rootvg</span><br><span class="line">crw-rw----   1 root     system       10,  0 Dec 19 2003  /dev/rootvg</span><br></pre></td></tr></table></figure>
+
+<h1 id="显示卷组的基本信息"><a href="#显示卷组的基本信息" class="headerlink" title="显示卷组的基本信息"></a>显示卷组的基本信息</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">dhdev01 / # lsvg rootvg</span><br><span class="line">VOLUME GROUP:   rootvg                   VG IDENTIFIER:  00585c0f00004c00000000f98e1e377f</span><br><span class="line">VG STATE:       active                   PP SIZE:        128 megabyte(s)</span><br><span class="line">VG PERMISSION:  read/write               TOTAL PPs:      546 (69888 megabytes)</span><br><span class="line">MAX LVs:        256                      FREE PPs:       111 (14208 megabytes)</span><br><span class="line">LVs:            16                       USED PPs:       435 (55680 megabytes)</span><br><span class="line">OPEN LVs:       13                       QUORUM:         2</span><br><span class="line">TOTAL PVs:      1                        VG DESCRIPTORS: 2</span><br><span class="line">STALE PVs:      0                        STALE PPs:      0</span><br><span class="line">ACTIVE PVs:     1                        AUTO ON:        yes</span><br><span class="line">MAX PPs per PV: 1016                     MAX PVs:        32</span><br><span class="line">LTG size:       128 kilobyte(s)          AUTO SYNC:      no</span><br><span class="line">HOT SPARE:      no                       BB POLICY:      relocatable</span><br></pre></td></tr></table></figure>
+
+<h1 id="显示该卷组存在的所有逻辑卷"><a href="#显示该卷组存在的所有逻辑卷" class="headerlink" title="显示该卷组存在的所有逻辑卷"></a>显示该卷组存在的所有逻辑卷</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">dhdev01 / # lsvg -l rootvg</span><br><span class="line">rootvg:</span><br><span class="line">LV NAME             TYPE       LPs   PPs   PVs  LV STATE      MOUNT POINT</span><br><span class="line">hd5                 boot       1     1     1    closed/syncd  N/A</span><br><span class="line">hd6                 paging     32    32    1    open/syncd    N/A</span><br><span class="line">hd8                 jfslog     1     1     1    open/syncd    N/A</span><br><span class="line">hd4                 jfs        3     3     1    open/syncd    /</span><br><span class="line">hd2                 jfs        88    88    1    open/syncd    /usr</span><br><span class="line">hd9var              jfs        8     8     1    open/syncd    /var</span><br><span class="line">hd3                 jfs        22    22    1    open/syncd    /tmp</span><br><span class="line">hd1                 jfs        8     8     1    open/syncd    /home</span><br><span class="line">hd10opt             jfs        3     3     1    open/syncd    /opt</span><br><span class="line">lg_dumplv           sysdump    8     8     1    open/syncd    N/A</span><br><span class="line">lv00                jfs        148   148   1    open/syncd    /u01</span><br><span class="line">lv01                jfs        24    24    1    open/syncd    /u02</span><br><span class="line">lv02                jfs        24    24    1    open/syncd    /oradisk</span><br><span class="line">dh                  jfs        32    32    1    open/syncd    /dh</span><br><span class="line">loglv03             jfs2log    1     1     1    closed/syncd  N/A</span><br><span class="line">fslv00              jfs2       32    32    1    closed/syncd  /cd0</span><br></pre></td></tr></table></figure>
+
+<h1 id="显示所有物理卷的基本信息"><a href="#显示所有物理卷的基本信息" class="headerlink" title="显示所有物理卷的基本信息"></a>显示所有物理卷的基本信息</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dhdev01 / # lspv</span><br><span class="line">hdisk0          00585c0f8e1e2d11                    rootvg          active</span><br><span class="line">hdisk1          00585c0f746525a4                    vg01            active</span><br><span class="line">hdisk2          00585c0f545aca55                    vg02            active</span><br><span class="line">hdisk3          00585c0f418e185b                    bkvg            active</span><br></pre></td></tr></table></figure>
+
+<h1 id="显示某个物理卷的基本信息"><a href="#显示某个物理卷的基本信息" class="headerlink" title="显示某个物理卷的基本信息"></a>显示某个物理卷的基本信息</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">dhdev01 / # lspv hdisk0</span><br><span class="line">PHYSICAL VOLUME:    hdisk0                   VOLUME GROUP:     rootvg</span><br><span class="line">PV IDENTIFIER:      00585c0f8e1e2d11 VG IDENTIFIER     00585c0f00004c00000000f98e1e377f</span><br><span class="line">PV STATE:           active</span><br><span class="line">STALE PARTITIONS:   0                        ALLOCATABLE:      yes</span><br><span class="line">PP SIZE:            128 megabyte(s)          LOGICAL VOLUMES:  16</span><br><span class="line">TOTAL PPs:          546 (69888 megabytes)    VG DESCRIPTORS:   2</span><br><span class="line">FREE PPs:           111 (14208 megabytes)    HOT SPARE:        no</span><br><span class="line">USED PPs:           435 (55680 megabytes)</span><br><span class="line">FREE DISTRIBUTION:  00..00..00..02..109</span><br><span class="line">USED DISTRIBUTION:  110..109..109..107..00</span><br></pre></td></tr></table></figure>
+
+<h1 id="显示该物理卷上存在的所有逻辑卷"><a href="#显示该物理卷上存在的所有逻辑卷" class="headerlink" title="显示该物理卷上存在的所有逻辑卷"></a>显示该物理卷上存在的所有逻辑卷</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">dhdev01 / # lspv -l hdisk0</span><br><span class="line">hdisk0:</span><br><span class="line">LV NAME               LPs   PPs   DISTRIBUTION          MOUNT POINT</span><br><span class="line">hd5                   1     1     01..00..00..00..00    N/A</span><br><span class="line">lv00                  148   148   53..43..17..35..00    /u01</span><br><span class="line">dh                    32    32    32..00..00..00..00    /dh</span><br><span class="line">lv02                  24    24    24..00..00..00..00    /oradisk</span><br><span class="line">hd6                   32    32    00..32..00..00..00    N/A</span><br><span class="line">lg_dumplv             8     8     00..08..00..00..00    N/A</span><br><span class="line">lv01                  24    24    00..16..08..00..00    /u02</span><br><span class="line">hd2                   88    88    00..10..65..13..00    /usr</span><br><span class="line">hd8                   1     1     00..00..01..00..00    N/A</span><br><span class="line">hd4                   3     3     00..00..01..02..00    /</span><br><span class="line">hd9var                8     8     00..00..04..04..00    /var</span><br><span class="line">hd3                   22    22    00..00..06..16..00    /tmp</span><br><span class="line">hd1                   8     8     00..00..06..02..00    /home</span><br><span class="line">hd10opt               3     3     00..00..01..02..00    /opt</span><br><span class="line">loglv03               1     1     00..00..00..01..00    N/A</span><br><span class="line">fslv00                32    32    00..00..00..32..00    /cd0</span><br></pre></td></tr></table></figure>
+
+<p> 如果卷组内只有一个物理卷，那么卷组内的逻辑卷信息和物理卷内的逻辑卷信息是一致的。</p>
+<h1 id="显示物理卷中的每个物理分区-outer-edge-outer-middle-center-inner-middle-inner-edge"><a href="#显示物理卷中的每个物理分区-outer-edge-outer-middle-center-inner-middle-inner-edge" class="headerlink" title="显示物理卷中的每个物理分区(outer edge, outer middle, center, inner middle, inner edge)"></a>显示物理卷中的每个物理分区(outer edge, outer middle, center, inner middle, inner edge)</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">dhdev01 / # lspv -p hdisk1</span><br><span class="line">hdisk1:</span><br><span class="line">PP RANGE  STATE   REGION        LV NAME             TYPE       MOUNT POINT</span><br><span class="line">  1-32    used    outer edge    db                  jfs        /dh/db</span><br><span class="line"> 33-36    used    outer edge    rdhdev_test2        raw        N/A</span><br><span class="line"> 37-74    used    outer edge    testdb              jfs        /test</span><br><span class="line"> 75-110   used    outer edge    rdhdev_test         raw        N/A</span><br><span class="line">111-190   used    outer middle  db                  jfs        /dh/db</span><br><span class="line">191-191   used    outer middle  loglv00             jfslog     N/A</span><br><span class="line">192-219   used    outer middle  patch               jfs        /opt/patch</span><br><span class="line">220-223   used    center        patch               jfs        /opt/patch</span><br><span class="line">224-261   used    center        testdb2             jfs        /test2</span><br><span class="line">262-281   used    center        db                  jfs        /dh/db</span><br><span class="line">282-287   used    center        patch               jfs        /opt/patch</span><br><span class="line">288-328   used    center        db                  jfs        /dh/db</span><br><span class="line">329-409   used    inner middle  db                  jfs        /dh/db</span><br><span class="line">410-410   used    inner middle  lv03                raw        N/A</span><br><span class="line">411-411   used    inner middle  rawtest             raw        N/A</span><br><span class="line">412-437   free    inner middle</span><br><span class="line">438-546   free    inner edge</span><br></pre></td></tr></table></figure>
+
+<h1 id="显示某个逻辑卷的信息"><a href="#显示某个逻辑卷的信息" class="headerlink" title="显示某个逻辑卷的信息"></a>显示某个逻辑卷的信息</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">dhdev01 / # lslv hd1</span><br><span class="line">LOGICAL VOLUME:     hd1                    VOLUME GROUP:   rootvg</span><br><span class="line">LV IDENTIFIER:      00585c0f00004c00000000f98e1e377f.8 PERMISSION:     read/write</span><br><span class="line">VG STATE:           active/complete        LV STATE:       opened/syncd</span><br><span class="line">TYPE:               jfs                    WRITE VERIFY:   off</span><br><span class="line">MAX LPs:            512                    PP SIZE:        128 megabyte(s)</span><br><span class="line">COPIES:             1                      SCHED POLICY:   parallel</span><br><span class="line">LPs:                8                      PPs:            8</span><br><span class="line">STALE PPs:          0                      BB POLICY:      relocatable</span><br><span class="line">INTER-POLICY:       minimum                RELOCATABLE:    yes</span><br><span class="line">INTRA-POLICY:       center                 UPPER BOUND:    32</span><br><span class="line">MOUNT POINT:        /home                  LABEL:          /home</span><br><span class="line">MIRROR WRITE CONSISTENCY: on/ACTIVE</span><br><span class="line">EACH LP COPY ON A SEPARATE PV ?: yes</span><br><span class="line">Serialize IO ?:     NO</span><br><span class="line">dhdev01 / # df -g</span><br><span class="line">Filesystem    GB blocks      Free %Used    Iused %Iused Mounted on</span><br><span class="line">/dev/hd4           0.38      0.23   40%     3349     2% /</span><br><span class="line">/dev/hd2          11.00      2.45   78%   108362     4% /usr</span><br><span class="line">/dev/hd9var        1.00      0.48   52%      816     1% /var</span><br><span class="line">/dev/hd3           2.75      1.87   33%    10855     2% /tmp</span><br><span class="line">/dev/hd1           1.00      0.46   55%     4222     2% /home</span><br><span class="line">/proc                 -         -    -         -     -  /proc</span><br><span class="line">/dev/hd10opt       0.38      0.17   56%     3987     5% /opt</span><br><span class="line">/dev/lv00         18.50      2.15   89%    97608     3% /u01</span><br><span class="line">/dev/lv01          3.00      0.70   77%       36     1% /u02</span><br><span class="line">/dev/lv02          3.00      2.91    4%       17     1% /oradisk</span><br><span class="line">/dev/dh            4.00      2.56   36%    69153     7% /dh</span><br><span class="line">/dev/db           31.75     18.40   43%       57     1% /dh/db</span><br><span class="line">/dev/patch         4.75      0.26   95%     7607     1% /opt/patch</span><br><span class="line">/dev/piers         4.38      0.92   80%    27870     3% /piers</span><br><span class="line">/dev/piersdb      12.50      1.44   89%       55     1% /piers/db</span><br><span class="line">/dev/uatbkup      19.75     19.03    4%       30     1% /piers/db/uatbkup</span><br><span class="line">/dev/dailybkup      9.88      7.33   26%     2450     1% /piers/dailybkup</span><br><span class="line">/dev/dbbkuplv     40.00     13.42   67%    91429     3% /dbbkup</span><br></pre></td></tr></table></figure>
+
+<p> PP SIZE * PPs(128 megabyte(s) * 8) &#x3D;&#x3D; 1024M<br> 表示逻辑卷hd1(Filesystem: &#x2F;dev&#x2F;hd1, Mounted on: &#x2F;home)有1.00 GB blocks</p>
+<h1 id="查看逻辑卷在物理卷上的分布"><a href="#查看逻辑卷在物理卷上的分布" class="headerlink" title="查看逻辑卷在物理卷上的分布"></a>查看逻辑卷在物理卷上的分布</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">dhdev01 / # lslv -l hd1</span><br><span class="line">hd1:/home</span><br><span class="line">PV                COPIES        IN BAND       DISTRIBUTION</span><br><span class="line">hdisk0            008:000:000   75%           000:000:006:002:000</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">dhdev01 / # lslv -m hd1</span><br><span class="line">hd1:/home</span><br><span class="line">LP    PP1  PV1               PP2  PV2               PP3  PV3</span><br><span class="line">0001  0225 hdisk0</span><br><span class="line">0002  0241 hdisk0</span><br><span class="line">0003  0242 hdisk0</span><br><span class="line">0004  0309 hdisk0</span><br><span class="line">0005  0310 hdisk0</span><br><span class="line">0006  0311 hdisk0</span><br><span class="line">0007  0336 hdisk0</span><br><span class="line">0008  0413 hdisk0</span><br><span class="line">dhdev01 / # lspv -p hdisk0|grep /home</span><br><span class="line">225-225   used    center        hd1                 jfs        /home</span><br><span class="line">241-242   used    center        hd1                 jfs        /home</span><br><span class="line">309-311   used    center        hd1                 jfs        /home</span><br><span class="line">336-336   used    inner middle  hd1                 jfs        /home</span><br><span class="line">413-413   used    inner middle  hd1                 jfs        /home</span><br></pre></td></tr></table></figure>
+
+<p> 说明：<br> DISTRIBUTION(000:000:006:002:000) 表示center有6个物理分区(对应第1-6的逻辑分区)，inner middle有2个物理分区(对应7-8的逻辑分区)<br> COPIES(008:000:000) 表示第一个物理卷上有8个物理分区，没有第二和第三的拷贝分区<br> IN BAND(75%) 表示center[6] &#x2F; center[6] + inner middle[2] &#x3D; 0.75</p>
+<h1 id="增加某个文件系统的空间"><a href="#增加某个文件系统的空间" class="headerlink" title="增加某个文件系统的空间"></a>增加某个文件系统的空间</h1><ol>
+<li>df -g | grep &#x2F;home 查看&#x2F;home所属的逻辑卷，假设是hd1</li>
+<li>lslv -l hd1 查看hd1所属的物理卷，假设是hdisk0</li>
+<li>lspv -p hdisk0 查看物理卷的可用空间</li>
+<li>smitty chfs 或者 chfs -a size&#x3D;+10G &#x2F;home</li>
+<li>如果执行上述命令时出现问题:Maximum allocation for logical volume hd1，运行命令<br>chlv -x 800 hd1 或 smitty chlv 或 smitty lv<br>Please refer to <a target="_blank" rel="noopener" href="http://geekswing.com/geek/how-to-expand-a-filesystem-in-aix-df-lsvg-chfs/">how-to-expand-a-filesystem-in-aix-df-lsvg-chfs</a> or <a target="_blank" rel="noopener" href="http://www.unixmantra.com/2014/01/practical-guide-to-aix-logical-volume-management.html">practical-guide-to-aix-logical-volume-management</a></li>
+<li>extendlv与chfs是很接近的，但增加文件空间需要用chfs，不要用extendlv，因为extendlv会扩大逻辑分区，但不能反映的文件空间上的。</li>
+</ol>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考:"></a>参考:</h1><p><a target="_blank" rel="noopener" href="http://www.web-manual.net/aix/0516-787-extendlv-maximum-allocation-for-logical-volume-hd11admin-is-512/">http://www.web-manual.net/aix/0516-787-extendlv-maximum-allocation-for-logical-volume-hd11admin-is-512/</a><br><a target="_blank" rel="noopener" href="http://wenku.baidu.com/view/f02cac4533687e21af45a960.html">http://wenku.baidu.com/view/f02cac4533687e21af45a960.html</a><br><a target="_blank" rel="noopener" href="http://unix.ittoolbox.com/groups/technical-functional/ibm-aix-l/in-band-in-lslv-l-1110087">http://unix.ittoolbox.com/groups/technical-functional/ibm-aix-l/in-band-in-lslv-l-1110087</a><br><a target="_blank" rel="noopener" href="http://unix.ittoolbox.com/groups/technical-functional/ibm-aix-l/increasing-the-filesystem-size-2639934">http://unix.ittoolbox.com/groups/technical-functional/ibm-aix-l/increasing-the-filesystem-size-2639934</a><br><a target="_blank" rel="noopener" href="http://www.tek-tips.com/viewthread.cfm?qid=1150552">http://www.tek-tips.com/viewthread.cfm?qid=1150552</a><br><a target="_blank" rel="noopener" href="http://www.unix.com/aix/25249-increase-logical-partition.html">http://www.unix.com/aix/25249-increase-logical-partition.html</a></p>
+<h2 id="In-band解释"><a href="#In-band解释" class="headerlink" title="In-band解释"></a>In-band解释</h2><p><a target="_blank" rel="noopener" href="http://unix.ittoolbox.com/groups/technical-functional/ibm-aix-l/in-band-in-lslv-l-1110087">http://unix.ittoolbox.com/groups/technical-functional/ibm-aix-l/in-band-in-lslv-l-1110087</a><br><a target="_blank" rel="noopener" href="http://pic.dhe.ibm.com/infocenter/powersys/v3r1m5/index.jsp?topic=/iphcg/lslv.htm">http://pic.dhe.ibm.com/infocenter/powersys/v3r1m5/index.jsp?topic=/iphcg/lslv.htm</a><br><a target="_blank" rel="noopener" href="http://www.ibm.com/developerworks/forums/thread.jspa?messageID=14532561">http://www.ibm.com/developerworks/forums/thread.jspa?messageID=14532561</a></p>
+<h2 id="extendlv与chfs的区别"><a href="#extendlv与chfs的区别" class="headerlink" title="extendlv与chfs的区别"></a>extendlv与chfs的区别</h2><p><a target="_blank" rel="noopener" href="http://networktechnologist.com/tips-aix-lvm.html">http://networktechnologist.com/tips-aix-lvm.html</a><br><a target="_blank" rel="noopener" href="http://publib.boulder.ibm.com/infocenter/pseries/v5r3/index.jsp?topic=/com.ibm.aix.cmds/doc/aixcmds2/extendlv.htm">http://publib.boulder.ibm.com/infocenter/pseries/v5r3/index.jsp?topic=/com.ibm.aix.cmds/doc/aixcmds2/extendlv.htm</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/AIX/">AIX</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

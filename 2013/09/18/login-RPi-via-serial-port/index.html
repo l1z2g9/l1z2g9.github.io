@@ -1,0 +1,157 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>login RPi via serial port | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="login RPi via serial port"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-login-RPi-via-serial-port" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2013-09-18T05:49:00.000Z"><a href="/2013/09/18/login-RPi-via-serial-port/">2013-09-18</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">login RPi via serial port</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <p>Since I have bought a <a target="_blank" rel="noopener" href="https://www.adafruit.com/products/954">product</a> from adafruit, I need to know how to connect my RPi from PC via serial port.</p>
+<h1 id="Login-via-Serial-port"><a href="#Login-via-Serial-port" class="headerlink" title="Login via Serial port"></a>Login via Serial port</h1><p>By default, RPi can be login via serial port due to program getty is running configured in &#x2F;etc&#x2F;inittab</p>
+<h1 id="Bootup-info"><a href="#Bootup-info" class="headerlink" title="Bootup info"></a>Bootup info</h1><p>When RPi boots up, it would send boot info to serial port since the file &#x2F;boot&#x2F;cmdline.txt.</p>
+<h1 id="Disable-serial-port-when-boots-up"><a href="#Disable-serial-port-when-boots-up" class="headerlink" title="Disable serial port when boots up"></a>Disable serial port when boots up</h1><ul>
+<li>add # character to the begining in file &#x2F;etc&#x2F;inittab<br><code>T0:23:respawn:/sbin/getty -L ttyAMA0 115200 vt100 </code></li>
+<li>Remove all reference to ttyAMA0 in file &#x2F;boot&#x2F;cmdline.txt<br>From <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dwc_otg.lpm_enable=0 console=ttyAMA0,115200 kgdboc=ttyAMA0,115200 console=tty1 root=/dev/mmcblk0p2 </span><br><span class="line">rootfstype=ext4 elevator=deadline rootwait` </span><br></pre></td></tr></table></figure>
+To<br><code>dwc_otg.lpm_enable=0 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 elevator=deadline rootwait</code></li>
+</ul>
+<h1 id="Reboot"><a href="#Reboot" class="headerlink" title="Reboot"></a>Reboot</h1><p><code>sudo reboot</code></p>
+<h1 id="Test-the-serial-port"><a href="#Test-the-serial-port" class="headerlink" title="Test the serial port"></a>Test the serial port</h1><ul>
+<li><code>stty -F /dev/ttyAMA0 9600</code></li>
+<li><code>minicom -b 9600 -o -D /dev/ttyAMA0</code></li>
+<li>python serial<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ser = serial.Serial(&quot;/dev/ttyAMA0&quot;,9600)</span><br><span class="line">ser.open()</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference:"></a>Reference:</h1><p><a target="_blank" rel="noopener" href="http://www.hobbytronics.co.uk/raspberry-pi-serial-port">Raspberry Pi and the Serial Port</a><br><a target="_blank" rel="noopener" href="http://raspberrypi.stackexchange.com/questions/5036/what-application-and-options-should-i-use-to-get-terminal-access-to-my-pi-over">get terminal access to Pi over USB&#x2F;serial cable</a></a><br><a target="_blank" rel="noopener" href="http://elinux.org/RPi_Serial_Connection">RPi_Serial_Connection</a><br><a target="_blank" rel="noopener" href="http://blog.oscarliang.net/raspberry-pi-and-arduino-connected-serial-gpio">raspberry-pi-and-arduino-connected-serial-gpio</a><br><a target="_blank" rel="noopener" href="http://codeandlife.com/2012/07/01/raspberry-pi-serial-console-with-max3232cpe/">Raspberry Pi Serial Console With MAX3232CPE</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Raspberry-Pi/">Raspberry Pi</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

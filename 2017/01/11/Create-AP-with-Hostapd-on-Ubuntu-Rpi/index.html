@@ -1,0 +1,197 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Create SoftAP with Hostapd on Ubuntu and Rpi.md | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Create SoftAP with Hostapd on Ubuntu and Rpi.md"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Create-AP-with-Hostapd-on-Ubuntu-Rpi" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2017-01-11T09:22:55.000Z"><a href="/2017/01/11/Create-AP-with-Hostapd-on-Ubuntu-Rpi/">2017-01-11</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Create SoftAP with Hostapd on Ubuntu and Rpi.md</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h1 id="In-Ubuntu-14-04"><a href="#In-Ubuntu-14-04" class="headerlink" title="In Ubuntu 14.04"></a>In Ubuntu 14.04</h1><h2 id="Check-whether-the-module-8188eu-is-load-lsmod-grep-8188-or-lsusb"><a href="#Check-whether-the-module-8188eu-is-load-lsmod-grep-8188-or-lsusb" class="headerlink" title="Check whether the module 8188eu is load lsmod|grep 8188 or lsusb"></a>Check whether the module 8188eu is load <code>lsmod|grep 8188</code> or <code>lsusb</code></h2><h2 id="Download-and-compile-latest-hostapd-with-RTL8188-drivers"><a href="#Download-and-compile-latest-hostapd-with-RTL8188-drivers" class="headerlink" title="Download and compile latest hostapd with RTL8188 drivers"></a>Download and compile latest hostapd with RTL8188 drivers</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/lostincynicism/hostapd-rtl8188</span><br><span class="line">sudo apt-get install libnl-3-dev # Fix fatal-error-netlink-genl-genl-h-no-such-file-or-directory</span><br><span class="line">sudo apt-get install libnl-genl-3-dev</span><br><span class="line">cd hostapd-rtl8188/hostapd &amp;&amp; sudo make all</span><br></pre></td></tr></table></figure>
+
+<h2 id="The-complete-options-in-x2F-usr-x2F-share-x2F-doc-x2F-hostapd-x2F-examples-x2F-hostadp-8188eu-conf"><a href="#The-complete-options-in-x2F-usr-x2F-share-x2F-doc-x2F-hostapd-x2F-examples-x2F-hostadp-8188eu-conf" class="headerlink" title="The complete options in &#x2F;usr&#x2F;share&#x2F;doc&#x2F;hostapd&#x2F;examples&#x2F;hostadp.8188eu.conf"></a>The complete options in &#x2F;usr&#x2F;share&#x2F;doc&#x2F;hostapd&#x2F;examples&#x2F;hostadp.8188eu.conf</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">interface=wlan0</span><br><span class="line">driver=rtl871xdrv</span><br><span class="line">ssid=Soft-AP</span><br><span class="line">hw_mode=g</span><br><span class="line">channel=6</span><br><span class="line">macaddr_acl=0</span><br><span class="line">auth_algs=1</span><br><span class="line">ignore_broadcast_ssid=0</span><br><span class="line">#wpa=1</span><br><span class="line">#wpa_pairwise=CCMP</span><br><span class="line">wpa=2</span><br><span class="line">rsn_pairwise=TKIP CCMP</span><br><span class="line">wpa_passphrase=123456789</span><br><span class="line">wpa_key_mgmt=WPA-PSK</span><br></pre></td></tr></table></figure>
+
+<h2 id="Fix-“Cannot-find-the-ssid-problem”"><a href="#Fix-“Cannot-find-the-ssid-problem”" class="headerlink" title="Fix “Cannot find the ssid problem”"></a>Fix “Cannot find the ssid problem”</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo nmcli nm wifi off</span><br><span class="line">sudo rfkill unblock wlan # disable power saving mode, use **sudo nmcli radio wifi off** if Error: Object &#x27;nm&#x27; is unknown then use this instead:</span><br></pre></td></tr></table></figure>
+<p>Following maybe not work but for reference </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl disable NetworkManager.service </span><br><span class="line">sudo systemctl enable networking.service</span><br><span class="line"></span><br><span class="line">sudo systemctl status wpa_supplicant.service</span><br><span class="line"></span><br><span class="line">sudo systemctl --force stop wpa_supplicant.service</span><br><span class="line">wpa_cli -i wlan0 terminate # stop wpa_supplicant program as it is conflicted with hostapd</span><br></pre></td></tr></table></figure>
+
+<h2 id="Start-hostapd"><a href="#Start-hostapd" class="headerlink" title="Start hostapd"></a>Start hostapd</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd hostapd-rtl8188/hostapd</span><br><span class="line">sudo ./hostapd -dd /usr/share/doc/hostapd/examples/hostadp.8188eu.conf</span><br><span class="line">sudo ifconfig wlan0 192.168.42.1</span><br></pre></td></tr></table></figure>
+
+<h1 id="In-Raspberry-Pi"><a href="#In-Raspberry-Pi" class="headerlink" title="In Raspberry Pi"></a>In Raspberry Pi</h1><h2 id="Configure-IP-sudo-ifconfig-wlan0-192-168-42-100"><a href="#Configure-IP-sudo-ifconfig-wlan0-192-168-42-100" class="headerlink" title="Configure IP sudo ifconfig wlan0 192.168.42.100"></a>Configure IP <code>sudo ifconfig wlan0 192.168.42.100</code></h2><h2 id="Scan-ssid-iwlist-wlan0-scan"><a href="#Scan-ssid-iwlist-wlan0-scan" class="headerlink" title="Scan ssid iwlist wlan0 scan"></a>Scan ssid <code>iwlist wlan0 scan</code></h2><h2 id="Connect-to-ssid-“Soft-AP”"><a href="#Connect-to-ssid-“Soft-AP”" class="headerlink" title="Connect to ssid “Soft-AP”"></a>Connect to ssid “Soft-AP”</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"># wpa_cli</span><br><span class="line">&gt;scan</span><br><span class="line">&gt;scan_results</span><br><span class="line">&gt;add_network</span><br><span class="line">&gt;set_network 0 ssid &quot;Soft-AP&quot;</span><br><span class="line">&gt;set_network 0 psk &quot;123456789&quot;</span><br><span class="line">&gt;enable_network 0</span><br><span class="line">&gt;quit</span><br><span class="line"># ping 192.168.42.1 or iwconfig</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">wpa_cli -i wlan0 terminate (關閉wpa_supplicant)</span><br><span class="line">wpa_cli -i wlan0 save_config (儲存寫入到wpa_supplicant.conf中，否責變更無效) need &quot;update_config=1&quot; in /etc/wpa_supplicant/wpa_supplicant.conf</span><br><span class="line">wpa_cli -i wlan0 select_network (選擇不同的AP，id為AP代號0,1,2,3...)</span><br><span class="line">wpa_cli -i wlan0 disable_network</span><br><span class="line">wpa_cli -i wlan0 remove_network (刪除AP資訊)</span><br><span class="line">wpa_cli -i wlan0 disconnect (斷線)</span><br><span class="line">wpa_cli -i wlan0 reconnect (重新連線)</span><br><span class="line">wpa_cli -i wlan0 list_networks (查看wpa_supplicant.conf檔裡的設定)</span><br><span class="line">wpa_cli -i wlan0 interface (查看有那些無線網卡介面)</span><br></pre></td></tr></table></figure>
+
+<h1 id="Others"><a href="#Others" class="headerlink" title="Others"></a>Others</h1><h2 id="In-Ubuntu"><a href="#In-Ubuntu" class="headerlink" title="In Ubuntu"></a>In Ubuntu</h2><ul>
+<li>Set proxy <code>java -cp lib/log4j-1.2.16.jar:lib/jboss-common-logging-spi.jar:lib/netty.jar org.jboss.netty.example.proxy.HexDumpProxy 8081 10.13.135.115 8080</code></li>
+</ul>
+<h2 id="In-RaspPi"><a href="#In-RaspPi" class="headerlink" title="In RaspPi"></a>In RaspPi</h2><ul>
+<li>Setting Up apt-get with proxy. Add file proxy.conf in “&#x2F;etc&#x2F;apt&#x2F;“ with content <code>Acquire::http::Proxy &quot;http://192.168.42.1:8081/&quot;;</code></li>
+<li>Setting Up http proxy by <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export http_proxy=http://192.168.42.1:8081/</span><br><span class="line">export https_proxy=http://192.168.42.1:8081/</span><br></pre></td></tr></table></figure></li>
+<li>Run <code>sudo apt-get install apt-transport-https</code> if problem “E: The method driver &#x2F;usr&#x2F;lib&#x2F;apt&#x2F;methods&#x2F;https could not be found.” occurs when <code>sudo apt-get update</code></li>
+<li>Install mpv from <a target="_blank" rel="noopener" href="https://nwgat.ninja/quick-easy-compiling-mpv-for-raspberry-pi/">https://nwgat.ninja/quick-easy-compiling-mpv-for-raspberry-pi/</a> </li>
+<li>Install livestreamer</li>
+</ul>
+<ol>
+<li>Download setuptools from <a target="_blank" rel="noopener" href="https://pypi.python.org/pypi/setuptools#downloads">https://pypi.python.org/pypi/setuptools#downloads</a></li>
+<li>Install setuptools <code>python setup.py install</code> and <code>sudo -E easy_install livestreamer</code></li>
+<li>Test the audio <code>livestreamer --https-proxy=http://192.168.42.1:8081 --http-proxy=http://192.168.42.1:8081 hlsvariant://http://rthkaudio1-lh.akamaihd.net/i/radio1_1@355864/master.m3u8 best -p mpv</code></li>
+<li>Change the volumn by<br>  4.1 <code>amixer controls</code> to show the Master Playback Volume<br>  4.2 Get details of the master playback volume control by <code>amixer cget numid=3</code>, it shows a pair of volume values&#x3D;65536,65536(for left and right channels)<br>  <code>alsamixer</code>, save volumn level via <code>sudo alsactl store</code><br>  <code>amixer cset numid=1 -- 80%</code> or <code>amixer cset numid=3 80%</code> Or <code>amixer set Master 100%</code><br>  4.3 To mute the sound by <code>amixer cset numid=4 off</code> (Control 4), this also affects the volume values on control 3<br>  Reference <a target="_blank" rel="noopener" href="http://blog.scphillips.com/posts/2013/01/sound-configuration-on-raspberry-pi-with-alsa/">http://blog.scphillips.com/posts/2013/01/sound-configuration-on-raspberry-pi-with-alsa/</a></li>
+<li>Set audio output device <code>amixer cset numid=3 N</code> (N&#x3D;0&#x3D;auto, 1&#x3D;analog, 2&#x3D;hdmi)</li>
+</ol>
+<ul>
+<li>Start openssh-server <code>sudo service ssh start</code></li>
+<li>Install openvpn <code>sudo apt-get install openvpn</code></li>
+<li>Install adb and fastboot by <code>sudo apt-get install android-tools-adb android-tools-fastboot</code></li>
+<li>Configure udev service for detecting the pluged phone <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo wget -O /etc/udev/rules.d/51-android.rules https://raw.githubusercontent.com/NicolasBernaerts/ubuntu-scripts/master/android/51-android.rules</span><br><span class="line">sudo chmod a+r /etc/udev/rules.d/51-android.rules</span><br><span class="line">sudo service udev restart</span><br></pre></td></tr></table></figure></li>
+<li>Plug the mobile and mount the sdcard by <code>sudo mount /dev/sda1 /mnt</code><br>Check the disk by<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo fdisk -l /dev/sda</span><br><span class="line">sudo lsblk</span><br><span class="line">df -h</span><br></pre></td></tr></table></figure></li>
+<li>USB tethering<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">adb forward tcp:41927 tcp:41927</span><br><span class="line">sudo openvpn azilink.ovpn</span><br></pre></td></tr></table></figure></li>
+</ul>
+<ol start="6">
+<li>Write PiCast application with golang<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">	&quot;github.com/gorilla/mux&quot;</span><br><span class="line">	&quot;io/ioutil&quot;</span><br><span class="line">	&quot;net/http&quot;</span><br><span class="line">	&quot;os&quot;</span><br><span class="line">	&quot;os/exec&quot;</span><br><span class="line">	&quot;strings&quot;</span><br><span class="line">	&quot;syscall&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	r := mux.NewRouter()</span><br><span class="line">	r.HandleFunc(&quot;/&quot;, Home)</span><br><span class="line">	//r.HandleFunc(&quot;/yt-stream/&#123;args&#125;&quot;, Youtube)</span><br><span class="line">	r.HandleFunc(&quot;/yt-stream&quot;, Youtube)</span><br><span class="line"></span><br><span class="line">	bind := fmt.Sprintf(&quot;%s:%s&quot;, os.Getenv(&quot;HOST&quot;), os.Getenv(&quot;PORT&quot;))</span><br><span class="line">	fmt.Printf(&quot;listening on %s...\n&quot;, bind)</span><br><span class="line">	err := http.ListenAndServe(bind, r)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		panic(err)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func Home(res http.ResponseWriter, req *http.Request) &#123;</span><br><span class="line">	fmt.Fprint(res, &quot;Welcome to PiCAST! In the URL, type what you want to do...\n&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func Youtube(res http.ResponseWriter, req *http.Request) &#123;</span><br><span class="line">	body := readReqBody(req)</span><br><span class="line">	url := body[&quot;url&quot;]</span><br><span class="line"></span><br><span class="line">	if url == &quot;&quot; &#123;</span><br><span class="line">		args := body[&quot;args&quot;]</span><br><span class="line">		url = &quot;https://www.youtube.com/watch?v=&quot; + args</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	p := body[&quot;proxy&quot;]</span><br><span class="line"></span><br><span class="line">	http_proxy := &quot;&quot;</span><br><span class="line">	https_proxy := &quot;&quot;</span><br><span class="line"></span><br><span class="line">	if p != &quot;&quot; &#123;</span><br><span class="line">		http_proxy = &quot;--https-proxy=&quot; + p</span><br><span class="line">		https_proxy = &quot;--http-proxy=&quot; + p</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	args := []string&#123;http_proxy, https_proxy, url, &quot;best&quot;, &quot;--player=mpv&quot;&#125;</span><br><span class="line">	fmt.Println(args)</span><br><span class="line"></span><br><span class="line">	run(args)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func run(args []string) &#123;</span><br><span class="line">    exec.Command(&quot;killall livestreamer&quot;).Run()</span><br><span class="line"></span><br><span class="line">	binary, lookErr := exec.LookPath(&quot;livestreamer&quot;)</span><br><span class="line">	if lookErr != nil &#123;</span><br><span class="line">		panic(lookErr)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	env := os.Environ()</span><br><span class="line"></span><br><span class="line">	execErr := syscall.Exec(binary, args, env)</span><br><span class="line">	if execErr != nil &#123;</span><br><span class="line">		fmt.Println(&quot;execErr&quot;, execErr)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func runOld(args []string) &#123;</span><br><span class="line">	cmd := exec.Command(&quot;livestreamer&quot;, args...)</span><br><span class="line">	fmt.Println(cmd.Path)</span><br><span class="line">	fmt.Println(cmd.Args)</span><br><span class="line">	fmt.Println(cmd.Env)</span><br><span class="line"></span><br><span class="line">	if err := cmd.Start(); err != nil &#123;</span><br><span class="line">		fmt.Printf(&quot;cmd.Start: %v\n&quot;, err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	if err := cmd.Wait(); err != nil &#123;</span><br><span class="line">		if exiterr, ok := err.(*exec.ExitError); ok &#123;</span><br><span class="line">			if status, ok := exiterr.Sys().(syscall.WaitStatus); ok &#123;</span><br><span class="line">				fmt.Printf(&quot;Exit Status: %d\n&quot;, status.ExitStatus())</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; else &#123;</span><br><span class="line">			fmt.Printf(&quot;cmd.Wait: %v\n&quot;, err)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func readReqBody(req *http.Request) map[string]string &#123;</span><br><span class="line">	body, _ := ioutil.ReadAll(req.Body)</span><br><span class="line">	// Info.Println(&quot;body = &quot;, string(body))</span><br><span class="line">	m := make(map[string]string)</span><br><span class="line"></span><br><span class="line">	content := strings.Split(string(body), &quot;&amp;&quot;)</span><br><span class="line">	for _, c := range content &#123;</span><br><span class="line">		p := strings.Split(c, &quot;=&quot;)</span><br><span class="line">		if len(p) == 2 &#123;</span><br><span class="line">			m[p[0]] = p[1]</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return m</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<ul>
+<li><p>Cross compile this web application in linux</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">env GOOS=linux GOARCH=arm go build -ldflags=&quot;-s -w&quot; main.go</span><br><span class="line">scp -i id_rsa main pi@192.168.42.100:/home/pi/</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Install tmux on ubuntu<br><code>sudo apt-get install tmux</code></p>
+<pre>
+ctrl+b % - split window vertically
+ctrl+b " - split window horizontally
+ctrl+b o - Goto next pane
+ctrl+b c - Create new window
+ctrl+b w - List all windows 
+ctrl+b l - Move to the previously selected window
+</pre></li>
+</ul>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Archive/Firefox_OS/Debugging/Installing_ADB">ADB FIFO example</a><br><a target="_blank" rel="noopener" href="https://wiki.archlinux.org/index.php/android_tethering">USB tethering</a><br><a target="_blank" rel="noopener" href="https://github.com/lanceseidman/PiCAST">https://github.com/lanceseidman/PiCAST</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Raspberry-Pi/">Raspberry Pi</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

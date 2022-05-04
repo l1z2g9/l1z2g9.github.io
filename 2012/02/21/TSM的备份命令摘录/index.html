@@ -1,0 +1,145 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>TSM的备份命令摘录 | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="TSM的备份命令摘录"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-TSM的备份命令摘录" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2012-02-21T03:15:26.000Z"><a href="/2012/02/21/TSM%E7%9A%84%E5%A4%87%E4%BB%BD%E5%91%BD%E4%BB%A4%E6%91%98%E5%BD%95/">2012-02-21</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">TSM的备份命令摘录</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">   LOCATE TYPE ID:</span><br><span class="line">   tapeutil -f /dev/smc0 inventory | more</span><br><span class="line"></span><br><span class="line">  1. Login to TSM: dsmadmc(user:support, pass:lovedh02)</span><br><span class="line"></span><br><span class="line">  2. TSM commands:</span><br><span class="line">     CHECK OUT LTO TAPE:</span><br><span class="line">          -----------------------------------------------------</span><br><span class="line">          q libv</span><br><span class="line">          checkout libv LTOLIB DH22S0 remove=no checklabel=no (use label of yesterday tape)</span><br><span class="line">          q pro</span><br><span class="line">          update volume DH22S0 access=unavailable</span><br><span class="line">          q vol DH22S0 format=detailed</span><br><span class="line">          ------------------------------------------------------</span><br><span class="line">  3. Exit TSM: quit</span><br><span class="line"></span><br><span class="line">  4. commands:</span><br><span class="line">          tapeutil -f /dev/smc0 inventory | more</span><br><span class="line">          tapeutil -f /dev/smc0 move 4096 16</span><br><span class="line">          tapeutil -f /dev/smc0 inventory | more</span><br><span class="line"></span><br><span class="line">  5. CHANGE TAPE</span><br><span class="line">  exit</span><br><span class="line"></span><br><span class="line">  6. LOG BACK INTO dsmadmc</span><br><span class="line"></span><br><span class="line">  7. CHECK IN LTO TAPE:</span><br><span class="line">          -----------------------------------------------------</span><br><span class="line">          (MAKE SURE THE TAPE NUMBER IS CORRECT, WATCHOUT THE DH31S0 HAS BEEN CHANGED TO DH31S1) (today number)</span><br><span class="line"></span><br><span class="line">          delete v DH21S0 discarddata=yes  [notes : delete TODAY&#x27;s label]</span><br><span class="line"></span><br><span class="line">          (MAKE SURE IT IS DONE BEFORE GO INTO THE NEXT LINE)</span><br><span class="line">          q pro</span><br><span class="line"></span><br><span class="line">          label libv ltolib search=bulk labelsource=barcode checkin=scratch overwrite=yes</span><br><span class="line"></span><br><span class="line">          q req</span><br><span class="line"></span><br><span class="line">          rep ???&lt;output 3 digit from command q req&gt;</span><br><span class="line">      (WAIT FOR 2 MINUTES)</span><br><span class="line">          (MAKE SURE THERE&#x27;S NO ACTIVE PROCESS FOUND)</span><br><span class="line">          q pro</span><br><span class="line"></span><br><span class="line">          q libv</span><br><span class="line"></span><br><span class="line">  *******************************************************</span><br><span class="line">  THE FOLLOWINGS ARE COMMAND OUTPUT:</span><br><span class="line"></span><br><span class="line">  tsm: TSM&gt;q pro</span><br><span class="line"></span><br><span class="line">   Process Process Description  Status</span><br><span class="line">    Number</span><br><span class="line">  -------- -------------------- -------------------------------------------------</span><br><span class="line">        39 LABEL LIBVOLUME      ANR8805I Labelling volumes in library LTOLIB; 0</span><br><span class="line">                                 volumes(s) labelled.\</span><br><span class="line"></span><br><span class="line">  tsm: TSM&gt;q pro</span><br><span class="line">  ANR0944E QUERY PROCESS: No active processes found.</span><br><span class="line">  ANS8001I Return code 11.</span><br><span class="line"></span><br><span class="line">  tsm: TSM&gt;q libv</span><br><span class="line"></span><br><span class="line">  Library Name  Volume Name  Status      Owner       Last Use   Home     Device</span><br><span class="line">                                                                Element  Type</span><br><span class="line">  ------------  -----------  ----------  ----------  ---------  -------  ------</span><br><span class="line">  LTOLIB        DH15S0       Scratch                            4,096    LTO</span><br><span class="line"></span><br><span class="line">  *******************************************************</span><br><span class="line">          -----------------------------</span><br><span class="line">  8. Exit TSM: quit</span><br><span class="line">  exit</span><br><span class="line"></span><br><span class="line">  --------</span><br><span class="line">  define volume LTOSTGPOOL DH24S0</span><br><span class="line">  query actlog begindate=today begintime=00:00:00 endtime=09:30:00</span><br><span class="line">  q drive</span><br><span class="line">  q path</span><br><span class="line">  update path tsm ltodrive01 srctype=server desttype=drive library=ltolib device=/dev/rmt1 online=yes</span><br><span class="line">  update path tsm ltodrive02 srctype=server desttype=drive library=ltolib device=/dev/rmt2 online=yes</span><br><span class="line">  checkin libv LTOLIB DH21S0 status=scratch</span><br><span class="line"></span><br><span class="line">q actlog</span><br><span class="line">help query process</span><br><span class="line">select VOLUME_NAME,ACCESS from volumes where access !=&#x27;READWRITE&#x27;</span><br></pre></td></tr></table></figure>
+
+<p> <a target="_blank" rel="noopener" href="http://publib.boulder.ibm.com/infocenter/tivihelp/v1r1/index.jsp?topic=/com.ibm.itsmhpn.doc/b_adminref_hpux217.htm">http://publib.boulder.ibm.com/infocenter/tivihelp/v1r1/index.jsp?topic=%2Fcom.ibm.itsmhpn.doc%2Fb_adminref_hpux217.htm</a><br> tsm script : <a target="_blank" rel="noopener" href="http://www.4bcad.com/doc/misc/tsm_cmds">http://www.4bcad.com/doc/misc/tsm_cmds</a><br> <a target="_blank" rel="noopener" href="http://adsm.org/forum/showthread.php?21614-LABEL-LIBVOLUME-0-volume(s)-labeled-0-volume(s)-checked-in">http://adsm.org/forum/showthread.php?21614-LABEL-LIBVOLUME-0-volume(s)-labeled-0-volume(s)-checked-in</a></a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/AIX/">AIX</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

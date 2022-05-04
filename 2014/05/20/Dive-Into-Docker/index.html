@@ -1,0 +1,163 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Dive Into Docker | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Dive Into Docker"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Dive-Into-Docker" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2014-05-20T02:37:44.000Z"><a href="/2014/05/20/Dive-Into-Docker/">2014-05-20</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Dive Into Docker</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h1 id="Step"><a href="#Step" class="headerlink" title="Step"></a>Step</h1><ul>
+<li>install VirtualBox-4.2.24-92790-Win.exe</li>
+<li>check whether CPU is support virtualization technology with software cpu-z<br><a target="_blank" rel="noopener" href="http://www.mobile01.com/topicdetail.php?f=296&t=367606">1-3.CPU進階技術講解</a><br><a target="_blank" rel="noopener" href="http://ark.intel.com/products/75047/Intel-Core-i5-4670-Processor-6M-Cache-up-to-3_80-GHz">i5-4670</a><br><a target="_blank" rel="noopener" href="http://www.cpu-world.com/CPUs/Core_i5/Intel-Core%20i5-4670.html">i5-4670</a></li>
+<li>enable vt-x in BIOS<br> <a target="_blank" rel="noopener" href="https://access.redhat.com/site/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Virtualization_Administration_Guide/sect-Virtualization-Troubleshooting-Enabling_Intel_VT_and_AMD_V_virtualization_hardware_extensions_in_BIOS.html">Enabling Intel VT-x and AMD-V virtualization hardware extensions in BIOS</a></li>
+<li>run book2docker.iso in VirtualBox <a target="_blank" rel="noopener" href="http://docs.docker.io/installation/windows/">http://docs.docker.io/installation/windows/</a></li>
+<li>set proxy and run docker <code>sudo HTTP_PROXY=http://192.168.56.1:21/ docker -d &amp;</code><br><a target="_blank" rel="noopener" href="http://2mohitarora.blogspot.hk/2014/02/docker-tip-if-you-are-running-docker.html">Docker Tip - If you are running docker behind proxy</a><br><a target="_blank" rel="noopener" href="https://github.com/dotcloud/docker/issues/402">Using Docker behind a firewall</a></li>
+<li>pull busybox and base <code>docker pull busybox</code> <code>docker pull base</code></li>
+<li><code>sudo docker run busybox echo hello wolrd</code></li>
+<li><code>sudo docker run -i -t busybox /bin/bash</code></li>
+</ul>
+<h1 id="Ubuntu-14-04"><a href="#Ubuntu-14-04" class="headerlink" title="Ubuntu 14.04"></a>Ubuntu 14.04</h1><p>Host-only ethernet adapter in VirtualBox</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install openssh-server -y</span><br><span class="line">sudo apt-get install docker -y</span><br><span class="line">sudo ln /usr/bin/docker.io /usr/local/bin/docker</span><br><span class="line">sudo service docker.io stop</span><br><span class="line">sudo HTTP_PROXY=http://192.168.56.1:21/</span><br><span class="line">docker -d &amp;</span><br><span class="line">alias d=&#x27;sudo docker&#x27;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Proxy"><a href="#Proxy" class="headerlink" title="Proxy"></a>Proxy</h1><ul>
+<li>apt-get<br> create a file named proxy in <code>/etc/apt/apt.conf.d/</code> as below,<br> <code>Acquire::http::Proxy “http://192.168.56.1:21”;</code></li>
+<li>git<br> <code>git config –global http.proxy http://192.168.56.1:21</code></li>
+<li>wget<br> <code>/etc/wgetrc -&gt; http_proxy = http://192.168.56.1:21</code></li>
+<li>docker<br> <code>sudo HTTP_PROXY=http://192.168.56.1:21/ docker.io -d &amp;</code></li>
+<li>curl<br> <code>export http_proxy=http://192.168.56.1:21/ </code><br> <code>export https_proxy=http://192.168.56.1:21/</code></li>
+</ul>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a target="_blank" rel="noopener" href="http://serverascode.com/2014/03/26/boot2docker.html">boot2docker</a><br><a target="_blank" rel="noopener" href="http://zaiste.net/2014/02/lightweight_docker_experience_on_osx/">lightweight_docker_experience_on_osx</a><br><a target="_blank" rel="noopener" href="http://docs.docker.io/use/basics/">docs.docker.io</a><br><a target="_blank" rel="noopener" href="http://www.dockerbook.com/TheDockerBook_sample.pdf">TheDockerBook_sample</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

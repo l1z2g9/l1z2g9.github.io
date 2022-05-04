@@ -1,0 +1,154 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Generate SSL Cert | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Generate SSL Cert"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Generate-SSL-Cert" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2019-05-08T03:31:39.000Z"><a href="/2019/05/08/Generate-SSL-Cert/">2019-05-08</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Generate SSL Cert</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h2 id="generate-private-key"><a href="#generate-private-key" class="headerlink" title="generate private key"></a>generate private key</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl genrsa -out xxx-privateKey.key 2048``` no passphase to protect private key</span><br></pre></td></tr></table></figure>
+
+<h2 id="generate-public-certificate-for-domain-of-dummy-gov-hk"><a href="#generate-public-certificate-for-domain-of-dummy-gov-hk" class="headerlink" title="generate public certificate for domain of dummy.gov.hk"></a>generate public certificate for domain of dummy.gov.hk</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. openssl req -out xxx.csr -new -newkey rsa:2048 -sha256 -nodes -key xxx-privateKey.key</span><br><span class="line">2. openssl req -text -noout -verify -in xxx.csr</span><br></pre></td></tr></table></figure>
+
+<h2 id="re-generate-csr-with-same-private-key"><a href="#re-generate-csr-with-same-private-key" class="headerlink" title="re-generate csr with same private key"></a>re-generate csr with same private key</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">3. openssl req -new -sha256 -nodes -out www.dummy.gov.hk.csr -key www.dummy.gov.hk-privateKey.key -config config.txt</span><br><span class="line">4. openssl req -text -noout -verify -in www.dummy.gov.hk.csr &gt; www.dummy.gov.hk.csr.verify.txt</span><br></pre></td></tr></table></figure>
+
+<h2 id="generate-private-key-for-internal-certificate-for-domain-of-dummy-hksarg"><a href="#generate-private-key-for-internal-certificate-for-domain-of-dummy-hksarg" class="headerlink" title="generate private key for internal certificate for domain of *.dummy.hksarg"></a>generate private key for internal certificate for domain of *.dummy.hksarg</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. openssl req -new -sha256 -nodes -out dummy.hksarg.csr -newkey rsa:2048 -keyout xxx.hksarg-privateKey.key -config config.txt</span><br><span class="line">2. openssl req -text -noout -verify -in dummy.hksarg.csr</span><br></pre></td></tr></table></figure>
+
+<h2 id="generate-3-internal-certificates-for-domain-of-dummy-hksarg-by-one-private-key"><a href="#generate-3-internal-certificates-for-domain-of-dummy-hksarg-by-one-private-key" class="headerlink" title="generate 3 internal certificates for domain of *.dummy.hksarg by one private key"></a>generate 3 internal certificates for domain of *.dummy.hksarg by one private key</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1. openssl req -new -sha256 -nodes -out sit.dummy.hksarg.csr -key xxx.hksarg-privateKey.key -config config.txt</span><br><span class="line">2. openssl req -text -noout -verify -in sit.dummy.hksarg.csr &gt; sit.xxx.hksarg.csr.verify.txt</span><br><span class="line"></span><br><span class="line">1. openssl req -new -sha256 -nodes -out uat.dummy.hksarg.csr -key xxx.hksarg-privateKey.key -config config.txt</span><br><span class="line">2. openssl req -text -noout -verify -in uat.dummy.hksarg.csr &gt; uat.xxx.hksarg.csr.verify.txt</span><br><span class="line"></span><br><span class="line">1. openssl req -new -sha256 -nodes -out dummy.hksarg.csr -key xxx.hksarg-privateKey.key -config config.txt</span><br><span class="line">2. openssl req -text -noout -verify -in dummy.hksarg.csr &gt; dummy.hksarg.csr.verify.txt</span><br></pre></td></tr></table></figure>
+
+<h2 id="convert-p7b-cert-format-to-PEM"><a href="#convert-p7b-cert-format-to-PEM" class="headerlink" title="convert p7b cert format to PEM"></a>convert p7b cert format to PEM</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">openssl pkcs7 -print_certs -inform der -in certnew-der.p7b &gt; sit.dummy.hksarg.crt</span><br><span class="line">openssl pkcs7 -print_certs -inform der -in certnew-der.p7b &gt; uat.dummy.hksarg.crt</span><br><span class="line">openssl pkcs7 -print_certs -inform der -in certnew-der.p7b &gt; dummy.hksarg.crt</span><br></pre></td></tr></table></figure>
+
+<h2 id="conbime-cert-and-cacert"><a href="#conbime-cert-and-cacert" class="headerlink" title="conbime cert and cacert"></a>conbime cert and cacert</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">openssl x509 -in cert0002107503.cer -subject -issuer -out cert0002107503.crt</span><br><span class="line">openssl x509 -in ecert_ca_1-15_pem.crt -subject -issuer -out ecert_ca_1-15_pem.crt</span><br><span class="line">openssl x509 -in root_ca_1_pem.crt -subject -issuer -out root_ca_1_pem.crt</span><br><span class="line"></span><br><span class="line">cat cert0002107503.crt ecert_ca_1-15_pem.crt root_ca_1_pem.crt &gt; www.dummy.gov.hk.crt</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

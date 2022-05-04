@@ -1,0 +1,151 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Running apache as a non-root user | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Running apache as a non-root user"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Running-apache-as-a-non-root-user" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2015-12-21T06:37:44.000Z"><a href="/2015/12/21/Running-apache-as-a-non-root-user/">2015-12-21</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Running apache as a non-root user</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h1 id="sudo"><a href="#sudo" class="headerlink" title="sudo"></a>sudo</h1><p>in file sudoers add following<br>  <code>username    ALL=NOPASSWD:/usr/bin/service apache2 reload</code></p>
+<h1 id="Run-on-port-8080-and-use-iptables-to-redirect-packets"><a href="#Run-on-port-8080-and-use-iptables-to-redirect-packets" class="headerlink" title="Run on port 8080 and use iptables to redirect packets"></a>Run on port 8080 and use iptables to redirect packets</h1><p><code>iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to 8080</code></p>
+<h1 id="setuid-wrapper-program"><a href="#setuid-wrapper-program" class="headerlink" title="setuid wrapper program"></a>setuid wrapper program</h1><p>httpdctrl.c</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;signal.h&gt;</span><br><span class="line">#include &lt;strings.h&gt;</span><br><span class="line"></span><br><span class="line">// allow start/stop/restart of apache by non-root users</span><br><span class="line"></span><br><span class="line">int main(int argc, char **argv)</span><br><span class="line">&#123;</span><br><span class="line">  char *cmd, *cmd2, *usage;</span><br><span class="line"></span><br><span class="line">  // UPDATE THIS LINE:</span><br><span class="line">  cmd = &quot;/your/path/to/httpd/sbin/apachectl&quot;;</span><br><span class="line">  cmd2 = &quot;apachectl&quot;;</span><br><span class="line">  usage = &quot;Usage: COMMAND [start|stop|restart]\n&quot;;</span><br><span class="line"></span><br><span class="line">  if ( argc != 2 ) &#123;</span><br><span class="line">    printf(usage);</span><br><span class="line">    exit(1);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  setegid(0);</span><br><span class="line">  seteuid(0);</span><br><span class="line">  setgid(0);</span><br><span class="line">  setuid(0);</span><br><span class="line"></span><br><span class="line">  if ( strncmp(argv[1], &quot;start&quot;, 5) == 0 ) &#123;</span><br><span class="line">    if (execl(cmd, cmd2, &quot;start&quot;, (char*)0) &lt; 0) &#123;</span><br><span class="line">     perror(&quot;Error&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; else if ( strncmp(argv[1], &quot;stop&quot;, 4) == 0 ) &#123;</span><br><span class="line">    if (execl(cmd, cmd2, &quot;stop&quot;, (char*)0) &lt; 0) &#123;</span><br><span class="line">     perror(&quot;Error&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; else if ( strncmp(argv[1], &quot;restart&quot;, 7) == 0 ) &#123;</span><br><span class="line">    if (execl(cmd, cmd2, &quot;restart&quot;, (char*)0) &lt; 0) &#123;</span><br><span class="line">     perror(&quot;Error&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    printf(usage);</span><br><span class="line">    exit(1);</span><br><span class="line">  &#125;</span><br><span class="line">  exit(0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gcc -o httpdctrl httpdctrl.c</span><br><span class="line">sudo chown root:root httpdctrl</span><br><span class="line">sudo chmod u+s httpdctrl</span><br></pre></td></tr></table></figure>
+
+<h1 id="Run-on-docker-lxc-runC"><a href="#Run-on-docker-lxc-runC" class="headerlink" title="Run on docker, lxc, runC"></a>Run on docker, lxc, runC</h1><p><code>docker pull apache</code></p>
+<h1 id="If-you-only-need-super-basic-stuff-on-a-non-priv-port-you-could-run"><a href="#If-you-only-need-super-basic-stuff-on-a-non-priv-port-you-could-run" class="headerlink" title="If you only need super-basic stuff on a non-priv port, you could run:"></a>If you only need super-basic stuff on a non-priv port, you could run:</h1><p><code>python -m SimpleHTTPServer 8000</code></p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/525672/is-there-a-way-to-start-restart-stop-apache-server-on-linux-as-non-root-user">http://stackoverflow.com/questions/525672/is-there-a-way-to-start-restart-stop-apache-server-on-linux-as-non-root-user</a><br><a target="_blank" rel="noopener" href="http://askubuntu.com/questions/694036/apache-as-non-root">http://askubuntu.com/questions/694036/apache-as-non-root</a><br><a target="_blank" rel="noopener" href="http://serverfault.com/questions/69847/linux-how-to-give-a-user-permission-to-restart-apache">http://serverfault.com/questions/69847/linux-how-to-give-a-user-permission-to-restart-apache</a><br><a target="_blank" rel="noopener" href="http://www.debian-administration.org/article/386/Running_network_services_as_a_non-root_user">http://www.debian-administration.org/article/386/Running_network_services_as_a_non-root_user</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

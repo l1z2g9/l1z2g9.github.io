@@ -1,0 +1,145 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Linking Arduino Uno to the Raspberry Pi | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Linking Arduino Uno to the Raspberry Pi"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Linking-Arduino-Uno-to-the-Raspberry-Pi" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2013-05-31T01:00:56.000Z"><a href="/2013/05/31/Linking-Arduino-Uno-to-the-Raspberry-Pi/">2013-05-31</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Linking Arduino Uno to the Raspberry Pi</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install arduino ( It will install openjdk-6-jre, librxtx-java, avr-libc, avrdude etc )&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;  </span><br><span class="line">sudo apt-get install python-pip  </span><br><span class="line">pip install ino  </span><br><span class="line">mkdir blink; cd blink  </span><br><span class="line">ino init -t blink  </span><br><span class="line">ino build   </span><br><span class="line">ino upload (port: &lt;span&gt;default /dev/ttyACM0 for Uno)&lt;/span&gt;  </span><br><span class="line">ino serial  </span><br></pre></td></tr></table></figure>
+
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference:"></a>Reference:</h1><p><a target="_blank" rel="noopener" href="http://www.recantha.co.uk/blog/?p=1103">http://www.recantha.co.uk/blog/?p=1103</a><br><a target="_blank" rel="noopener" href="http://inotool.org/quickstart">http://inotool.org/quickstart</a><br><a target="_blank" rel="noopener" href="http://netduinoplusfun.wordpress.com/2012/06/13/arduino-ide/">http://netduinoplusfun.wordpress.com/2012/06/13/arduino-ide/</a><br><a target="_blank" rel="noopener" href="http://elinux.org/RPi_Serial_Connection">http://elinux.org/RPi_Serial_Connection</a><br><a target="_blank" rel="noopener" href="http://www.suppertime.co.uk/blogmywiki/2012/09/pi-shall-tweet-unto-arduino/">http://www.suppertime.co.uk/blogmywiki/2012/09/pi-shall-tweet-unto-arduino/</a><br><a target="_blank" rel="noopener" href="http://www.satsignal.eu/ntp/Raspberry-Pi-NTP.html">http://www.satsignal.eu/ntp/Raspberry-Pi-NTP.html</a><br><a target="_blank" rel="noopener" href="http://blog.oscarliang.net/raspberry-pi-and-arduino-connected-serial-gpio/">http://blog.oscarliang.net/raspberry-pi-and-arduino-connected-serial-gpio/</a><br><a target="_blank" rel="noopener" href="http://baldwisdom.com/category/raspberry-pi/">http://baldwisdom.com/category/raspberry-pi/</a><br>The linux document Project <a target="_blank" rel="noopener" href="http://www.tldp.org/HOWTO/Text-Terminal-HOWTO-10.html">http://www.tldp.org/HOWTO/Text-Terminal-HOWTO-10.html</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Raspberry-Pi/">Raspberry Pi</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

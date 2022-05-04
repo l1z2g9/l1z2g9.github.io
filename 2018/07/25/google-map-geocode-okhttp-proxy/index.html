@@ -1,0 +1,159 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>google map geocode okhttp proxy | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="google map geocode okhttp proxy"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-google-map-geocode-okhttp-proxy" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2018-07-25T06:36:43.000Z"><a href="/2018/07/25/google-map-geocode-okhttp-proxy/">2018-07-25</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">google map geocode okhttp proxy</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h2 id="In-order-to-call-google-maps-geocode-web-service-we-used-library-google-maps-services-java"><a href="#In-order-to-call-google-maps-geocode-web-service-we-used-library-google-maps-services-java" class="headerlink" title="In order to call google-maps geocode web service, we used library google-maps-services-java,"></a>In order to call google-maps geocode web service, we used library google-maps-services-java,</h2><p><a target="_blank" rel="noopener" href="https://github.com/googlemaps/google-maps-services-java">https://github.com/googlemaps/google-maps-services-java</a></p>
+<h2 id="Sample-of-call-geocdoe-web-service"><a href="#Sample-of-call-geocdoe-web-service" class="headerlink" title="Sample of call geocdoe web service"></a>Sample of call geocdoe web service</h2><p><a target="_blank" rel="noopener" href="https://maps.googleapis.com/maps/api/geocode/json?address=1%20kowloon">https://maps.googleapis.com/maps/api/geocode/json?address=1%20kowloon</a></p>
+<h2 id="Since-the-keystore-xx-egis-jks-is-configured-for-ssl-trust-store-in-wildfly-with-Djavax-net-ssl-trustStore-x3D-xx-egis-jks-we-have-two-ways-to-call-the-ssl-web-service"><a href="#Since-the-keystore-xx-egis-jks-is-configured-for-ssl-trust-store-in-wildfly-with-Djavax-net-ssl-trustStore-x3D-xx-egis-jks-we-have-two-ways-to-call-the-ssl-web-service" class="headerlink" title="Since the keystore xx_egis.jks is configured for ssl trust store in wildfly with -Djavax.net.ssl.trustStore&#x3D;xx_egis.jks, we have two ways to call the ssl web service,"></a>Since the keystore xx_egis.jks is configured for ssl trust store in wildfly with -Djavax.net.ssl.trustStore&#x3D;xx_egis.jks, we have two ways to call the ssl web service,</h2><h3 id="1-bypass-the-ssl-certificate-validation"><a href="#1-bypass-the-ssl-certificate-validation" class="headerlink" title="1. bypass the ssl certificate validation"></a>1. bypass the ssl certificate validation</h3><p>After investigation on the api of library google-maps-services-java, found that it did not expose the underly okhttp3.OkHttpClient, so it cannot apply following sample code to bypass ssl certificate validation,</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">private static OkHttpClient.Builder configureToIgnoreCertificate(OkHttpClient.Builder builder) &#123;</span><br><span class="line">        LOGGER.warn(&quot;Ignore Ssl Certificate&quot;);</span><br><span class="line">        try &#123;</span><br><span class="line"></span><br><span class="line">            // Create a trust manager that does not validate certificate chains</span><br><span class="line">            final TrustManager[] trustAllCerts = new TrustManager[] &#123;</span><br><span class="line">                    new X509TrustManager() &#123;</span><br><span class="line">                        @Override</span><br><span class="line">                        public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType)</span><br><span class="line">                                throws CertificateException &#123;</span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                        @Override</span><br><span class="line">                        public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType)</span><br><span class="line">                                throws CertificateException &#123;</span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                        @Override</span><br><span class="line">                        public java.security.cert.X509Certificate[] getAcceptedIssuers() &#123;</span><br><span class="line">                            return new java.security.cert.X509Certificate[]&#123;&#125;;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            // Install the all-trusting trust manager</span><br><span class="line">            final SSLContext sslContext = SSLContext.getInstance(&quot;SSL&quot;);</span><br><span class="line">            sslContext.init(null, trustAllCerts, new java.security.SecureRandom());</span><br><span class="line">            // Create an ssl socket factory with our all-trusting manager</span><br><span class="line">            final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();</span><br><span class="line"></span><br><span class="line">            builder.sslSocketFactory(sslSocketFactory, (X509TrustManager)trustAllCerts[0]);</span><br><span class="line">            builder.hostnameVerifier(new HostnameVerifier() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public boolean verify(String hostname, SSLSession session) &#123;</span><br><span class="line">                    return true;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            LOGGER.warn(&quot;Exception while configuring IgnoreSslCertificate&quot; + e, e);</span><br><span class="line">        &#125;</span><br><span class="line">        return builder;</span><br><span class="line">    &#125;  </span><br></pre></td></tr></table></figure>
+
+<h3 id="2-Add-the-ssl-certificate-to-trust-store-xx-egis-jks"><a href="#2-Add-the-ssl-certificate-to-trust-store-xx-egis-jks" class="headerlink" title="2. Add the ssl certificate to trust store (xx_egis.jks)"></a>2. Add the ssl certificate to trust store (xx_egis.jks)</h3><h4 id="Run-following-command"><a href="#Run-following-command" class="headerlink" title="Run following command:"></a>Run following command:</h4><p><code>openssl s_client -connect maps.googleapis.com:443 -showcerts</code></p>
+<h4 id="Save-the-certificate-within-—–BEGIN-CERTIFICATE—–-…-—–END-CERTIFICATE—–-as-file-google-maps-api-crt-reminder-save-the-root-ca-certificate-not-the-website-certificate"><a href="#Save-the-certificate-within-—–BEGIN-CERTIFICATE—–-…-—–END-CERTIFICATE—–-as-file-google-maps-api-crt-reminder-save-the-root-ca-certificate-not-the-website-certificate" class="headerlink" title="Save the certificate (within —–BEGIN CERTIFICATE—– … —–END CERTIFICATE—–) as file google.maps.api.crt (reminder: save the root ca certificate, not the website certificate)"></a>Save the certificate (within —–BEGIN CERTIFICATE—– … —–END CERTIFICATE—–) as file <em>google.maps.api.crt</em> (reminder: save the root ca certificate, not the website certificate)</h4><h4 id="Import-the-certificate-to-trust-store"><a href="#Import-the-certificate-to-trust-store" class="headerlink" title="Import the certificate to trust store"></a>Import the certificate to trust store</h4><p><code>keytool -import -trustcacerts -v -alias maps.googleapis.com -file google.maps.api.crt -keystore xx_egis.jks -storepass dxc.xx@2017</code></p>
+<h4 id="List-the-latest-certificates-in-trust-store-it-should-contain-following-entries"><a href="#List-the-latest-certificates-in-trust-store-it-should-contain-following-entries" class="headerlink" title="List the latest certificates in trust store, it should contain following entries,"></a>List the latest certificates in trust store, it should contain following entries,</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">keytool -list -keystore xx_egis.jks -storepass dxc.xx@2017</span><br><span class="line">payment_signing, 2018年2月7日, trustedCertEntry,</span><br><span class="line">憑證指紋 (SHA1): 6B:EA:31:51:8D:F8:81:3B:D8:D1:D8:0C:E7:22:12:21:96:E9:59:26</span><br><span class="line">rootca, 2017年8月22日, trustedCertEntry,</span><br><span class="line">憑證指紋 (SHA1): C7:2C:81:6D:EB:2D:C7:36:63:90:D3:68:2D:57:F1:8F:C5:37:AF:DA</span><br><span class="line">friendly3, 2018年1月9日, PrivateKeyEntry,</span><br><span class="line">憑證指紋 (SHA1): CF:42:5A:D1:FB:A1:8F:AA:81:B5:76:F2:39:31:D6:4F:65:88:1A:A1</span><br><span class="line">trust1, 2017年8月22日, trustedCertEntry,</span><br><span class="line">憑證指紋 (SHA1): C4:F1:83:51:20:55:BC:66:2F:D7:BA:F4:D4:7B:C9:43:95:9D:E2:D6</span><br><span class="line">maps.googleapis.com, 2018年7月25日, trustedCertEntry,</span><br><span class="line">憑證指紋 (SHA1): EE:AC:BD:0C:B4:52:81:95:77:91:1E:1E:62:03:DB:26:2F:84:A3:18</span><br></pre></td></tr></table></figure>
+
+
+<p>My test program to call geocode web service</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line">package test;</span><br><span class="line"></span><br><span class="line">import java.io.BufferedReader;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.InputStreamReader;</span><br><span class="line">import java.net.InetSocketAddress;</span><br><span class="line">import java.net.Proxy;</span><br><span class="line">import java.net.URL;</span><br><span class="line">import java.net.URLConnection;</span><br><span class="line"></span><br><span class="line">import com.google.maps.GeoApiContext;</span><br><span class="line">import com.google.maps.GeocodingApi;</span><br><span class="line">import com.google.maps.errors.ApiException;</span><br><span class="line">import com.google.maps.model.GeocodingResult;</span><br><span class="line">import com.google.maps.model.Geometry;</span><br><span class="line"></span><br><span class="line">import okhttp3.Headers;</span><br><span class="line">import okhttp3.OkHttpClient;</span><br><span class="line">import okhttp3.Request;</span><br><span class="line">import okhttp3.Response;</span><br><span class="line"></span><br><span class="line">public class ConnectionThrProxy &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) throws IOException &#123;</span><br><span class="line">        //normalCall();</span><br><span class="line">        //okhttpCall();</span><br><span class="line">        mapCall();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static void normalCall() throws IOException &#123;</span><br><span class="line">        //System.setProperty(&quot;http.proxyHost&quot;, &quot;proxy1.govcloud.gov.hk&quot;);</span><br><span class="line">        //System.setProperty(&quot;http.proxyPort&quot;, &quot;4005&quot;);</span><br><span class="line"></span><br><span class="line">        URL url = new URL(&quot;http://www.google.com/&quot;);</span><br><span class="line"></span><br><span class="line">        String proxyAddress = &quot;proxy1.govcloud.gov.hk&quot;;</span><br><span class="line">        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyAddress, 4005));</span><br><span class="line"></span><br><span class="line">        URLConnection con = url.openConnection(proxy);</span><br><span class="line"></span><br><span class="line">        BufferedReader in = new BufferedReader(new InputStreamReader(</span><br><span class="line">                con.getInputStream()));</span><br><span class="line"></span><br><span class="line">        // Read it ...</span><br><span class="line">        String inputLine;</span><br><span class="line">        while ((inputLine = in.readLine()) != null)</span><br><span class="line">            System.out.println(inputLine);</span><br><span class="line"></span><br><span class="line">        in.close();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static void okhttpCall() throws IOException &#123;</span><br><span class="line">        String proxyAddress = &quot;proxy1.govcloud.gov.hk&quot;;</span><br><span class="line">        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyAddress, 4005));</span><br><span class="line"></span><br><span class="line">        OkHttpClient.Builder builder = new OkHttpClient.Builder().proxy(proxy);</span><br><span class="line">        OkHttpClient client = builder.build();</span><br><span class="line"></span><br><span class="line">        Request request = new Request.Builder()</span><br><span class="line">                .url(&quot;https://publicobject.com/helloworld.txt&quot;)</span><br><span class="line">                .build();</span><br><span class="line"></span><br><span class="line">        try (Response response = client.newCall(request).execute()) &#123;</span><br><span class="line">            if (!response.isSuccessful())</span><br><span class="line">                throw new IOException(&quot;Unexpected code &quot; + response);</span><br><span class="line"></span><br><span class="line">            Headers responseHeaders = response.headers();</span><br><span class="line">            for (int i = 0; i &lt; responseHeaders.size(); i++) &#123;</span><br><span class="line">                System.out.println(responseHeaders.name(i) + &quot;: &quot; + responseHeaders.value(i));</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            System.out.println(response.body().string());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static void mapCall() &#123;</span><br><span class="line">        String googleMapKey = &quot;key-id&quot;;</span><br><span class="line">        String proxyAddress = &quot;proxy1.govcloud.gov.hk&quot;;</span><br><span class="line">        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyAddress, 4005));</span><br><span class="line">        GeoApiContext context = new GeoApiContext.Builder().apiKey(googleMapKey).proxy(proxy).build();</span><br><span class="line"></span><br><span class="line">        GeocodingResult[] results;</span><br><span class="line"></span><br><span class="line">        String address = &quot;16 FLOOR EMPEROR COMMERCIAL CENTRE 39 DES VOEUX ROAD CENTRAL CENTRAL HONG KONG&quot;;</span><br><span class="line">        try &#123;</span><br><span class="line">            results = GeocodingApi.geocode(context, address).await();</span><br><span class="line">            if (results.length &gt; 0) &#123;</span><br><span class="line">                Geometry geometry = results[0].geometry;</span><br><span class="line"></span><br><span class="line">                double lat = geometry.location.lat;</span><br><span class="line">                double lng = geometry.location.lng;</span><br><span class="line">                String locType = geometry.locationType.toString();</span><br><span class="line">                String formattedAddr = results[0].formattedAddress;</span><br><span class="line">                System.out.println(&quot;formattedAddr &quot; + formattedAddr);</span><br><span class="line">                </span><br><span class="line">                System.out.println(&quot;lat &quot; + lat);</span><br><span class="line">                System.out.println(&quot;lng &quot; + lng);</span><br><span class="line">                //printGeoResult(appl.getEngApplName(), results);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                System.out.println(&quot;no geo result returned for address &#123;&#125;&quot; + address);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (ApiException | InterruptedException | IOException e) &#123;</span><br><span class="line">            System.out.println(&quot;findGeoLocation&quot; + e);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Run-the-program-with-showing-detail-debug-message"><a href="#Run-the-program-with-showing-detail-debug-message" class="headerlink" title="Run the program with showing detail debug message"></a>Run the program with showing detail debug message</h4><p>Folder structure</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">ConnectionThrProxy.class</span><br><span class="line"></span><br><span class="line">lib/</span><br><span class="line"> google-maps-services-0.2.8.jar</span><br><span class="line"> gson-2.8.0.jar</span><br><span class="line"> joda-time-2.10.jar</span><br><span class="line"> okhttp-3.8.1.jar</span><br><span class="line"> okio-1.13.0.jar</span><br><span class="line"> slf4j-api-1.7.24.jar</span><br><span class="line"> </span><br><span class="line">java -cp &quot;.;lib/*&quot; -Djavax.net.ssl.trustStore=xx_egis.jks -Djavax.net.debug=ssl test.ConnectionThrProxy</span><br></pre></td></tr></table></figure>
+
+<p>SSL debug parameter for reference<br><code>-Djavax.net.debug=ssl | -Djavax.net.debug=all</code></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

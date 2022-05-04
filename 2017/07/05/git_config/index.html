@@ -1,0 +1,142 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>git config | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="git config"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-git_config" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2017-07-05T10:55:09.000Z"><a href="/2017/07/05/git_config/">2017-07-05</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">git config</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">[core]</span><br><span class="line">  repositoryformatversion = 0</span><br><span class="line">  filemode = false</span><br><span class="line">  bare = false</span><br><span class="line">  logallrefupdates = true</span><br><span class="line">  symlinks = false</span><br><span class="line">  ignorecase = true</span><br><span class="line">  hideDotFiles = dotGitOnly</span><br><span class="line">[alias]</span><br><span class="line">  st=status</span><br><span class="line">  ci=commit</span><br><span class="line">  co=checkout</span><br><span class="line">  br=branch</span><br><span class="line">  di=difftool</span><br><span class="line">  mt=mergetool</span><br><span class="line">[remote &quot;origin&quot;]</span><br><span class="line">  url = https://192.168.1.107/git/my-repo.git</span><br><span class="line">  fetch = +refs/heads/*:refs/remotes/origin/*</span><br><span class="line">[remote &quot;usb&quot;]</span><br><span class="line">  url = G:\\share_drive\\Other\\my-repo.git</span><br><span class="line">  fetch = +refs/heads/*:refs/remotes/origin/*</span><br><span class="line"></span><br><span class="line">[diff]</span><br><span class="line">    tool = bc3</span><br><span class="line">[difftool]</span><br><span class="line">    prompt = false</span><br><span class="line">[difftool &quot;bc3&quot;]</span><br><span class="line">    #use cygpath to transform cygwin path $LOCAL (something like /tmp/U5VvP1_abc) to windows path, because bc3 is a windows software</span><br><span class="line">    #cmd = \&quot;c:/program files/beyond compare 3/bcomp.exe\&quot; &quot;$(cygpath -w $LOCAL)&quot; &quot;$REMOTE&quot;</span><br><span class="line">    cmd = \&quot;C:/Software/Beyond Compare 3/bcomp.exe\&quot; \&quot;$LOCAL\&quot; \&quot;$REMOTE\&quot;</span><br><span class="line">[merge]</span><br><span class="line">    tool = bc3</span><br><span class="line">[mergetool]</span><br><span class="line">    prompt = false</span><br><span class="line">[mergetool &quot;bc3&quot;]</span><br><span class="line">    #trustExitCode = true</span><br><span class="line">    cmd = \&quot;C:/Software/Beyond Compare 3/bcomp.exe\&quot; &quot;$LOCAL&quot; &quot;$REMOTE&quot; &quot;$BASE&quot; &quot;$MERGED&quot;</span><br><span class="line"></span><br><span class="line">[user]</span><br><span class="line">  name = Forrest Wan</span><br><span class="line">  email = forestwwk@gmail.com</span><br><span class="line">[http]</span><br><span class="line">  #proxy = http://proxy1.scig.gov.hk:8080</span><br><span class="line">  sslVerify=false</span><br><span class="line">[https]</span><br><span class="line">  #proxy = http://proxy1.scig.gov.hk:8080</span><br><span class="line">[credential]</span><br><span class="line">  helper = store</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

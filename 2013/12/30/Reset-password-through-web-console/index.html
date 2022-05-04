@@ -1,0 +1,160 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Reset password through web console | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Reset password through web console"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Reset-password-through-web-console" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2013-12-30T07:25:19.000Z"><a href="/2013/12/30/Reset-password-through-web-console/">2013-12-30</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Reset password through web console</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <p>I have a web console in AIX, but | (pipe stream), &amp;raquo; and &gt; do not work. How can I reset my password for account xx.</p>
+<h1 id="method-1"><a href="#method-1" class="headerlink" title="method 1"></a>method 1</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mkdir /home/xx/.ssh</span><br><span class="line">ssh-keygen -t rsa -P password -f /home/xx/.ssh/id_rsa (ssh-keygen -t rsa -P &#x27;&#x27; -f /home/xx/.ssh/id_rsa not work since no passphase)</span><br><span class="line">cp id_rsa.pub authorized_keys</span><br><span class="line">chmod 600 /home/xx/.ssh/authorized_keys</span><br><span class="line">chown -R xx:sms /home/xx/.ssh</span><br><span class="line">chmod 700 /home/xx/.ssh</span><br><span class="line">cat /home/xx/.ssh/id_rsa(then copy and paste in web console, save as id_rsa, then save as private key in putty)</span><br></pre></td></tr></table></figure>
+
+<h1 id="method-2"><a href="#method-2" class="headerlink" title="method 2"></a>method 2</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">rpm or download **wget** prepare id_rsa, id_rsa.pub, authorized_keys</span><br><span class="line">/home/xx/soft/usr/local/bin/wget -O /home/xx/.ssh/id_rsa http://10.13.135.40:8080/dh/keygen/id_rsa</span><br><span class="line">/home/xx/soft/usr/local/bin/wget -O /home/xx/.ssh/id_rsa.pub http://10.13.135.40:8080/dh/keygen/id_rsa.pub</span><br><span class="line">/home/xx/soft/usr/local/bin/wget -O /home/xx/.ssh/authorized_keys http://10.13.135.40:8080/dh/keygen/authorized_keys</span><br><span class="line">chown -R xx:sms /home/xx/.ssh</span><br><span class="line">chmod 700 /home/xx/.ssh</span><br></pre></td></tr></table></figure>
+
+<h1 id="method-3-fail-in-AIX"><a href="#method-3-fail-in-AIX" class="headerlink" title="method 3 (fail in AIX)"></a>method 3 (fail in AIX)</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;xx1234\nxx1234&quot; | (passwd -stdin xx)</span><br><span class="line">echo -e &quot;xx1234\nxx1234&quot; | (passwd -stdin xx) – in Linux</span><br></pre></td></tr></table></figure>
+
+<h1 id="method-4-fail-in-AIX"><a href="#method-4-fail-in-AIX" class="headerlink" title="method 4 (fail in AIX)"></a>method 4 (fail in AIX)</h1><p><code>echo &quot;xx:xx1234&quot; | chpasswd -c</code></p>
+<h1 id="method-5"><a href="#method-5" class="headerlink" title="method 5"></a>method 5</h1><p>download expect package from <a target="_blank" rel="noopener" href="http://www.oss4aix.org/download/RPMS/">http://www.oss4aix.org/download/RPMS/</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh libpng-1.6.7-1.aix5.1.ppc.rpm</span><br><span class="line">rpm -ivh zlib-1.2.8-1.aix5.1.ppc.rpm</span><br><span class="line">rpm -ivh bzip2-1.0.6-1.aix5.1.ppc.rpm</span><br><span class="line">rpm -ivh freetype2-2.5.2-1.aix5.1.ppc.rpm</span><br><span class="line">rpm -ivh expat-2.1.0-1.aix5.1.ppc.rpm</span><br><span class="line">rpm -ivh fontconfig-2.10.2-1.aix5.1.ppc.rpm</span><br><span class="line">rpm -ivh tk-8.5.15-1.aix5.1.ppc.rpm</span><br><span class="line">rpm -ivh tcl-8.5.15-1.aix5.1.ppc.rpm</span><br><span class="line">rpm -ivh expect-5.45-1.aix5.1.ppc.rpm</span><br></pre></td></tr></table></figure>
+<p>write expect script &#x2F;home&#x2F;xx&#x2F;chpass.sh</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/expect</span><br><span class="line">spawn passwd support</span><br><span class="line">expect &quot;*password*&quot;</span><br><span class="line">send &quot;xx1234\n&quot;</span><br><span class="line">expect &quot;*password*&quot;</span><br><span class="line">send &quot;xx1234\n&quot; exit</span><br></pre></td></tr></table></figure>
+
+<h1 id="Others"><a href="#Others" class="headerlink" title="Others"></a>Others</h1><p>I try different account to login system, grant sudo right to this account, change the password using pwdadm and passwd, but when I login with <strong>putty</strong>, found that Access denied. When I run su - user, found “3004-303 There have been too many unsuccessful login attempts; please see the system administrator”, found the root cause, after google, easy two steps can sovle it.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- /usr/sbin/lsuser -a unsuccessful_login_count user</span><br><span class="line">- /usr/bin/chsec -f /etc/security/lastlog -a unsuccessful_login_count=0 -s user</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="http://aix4admins.blogspot.hk/2012/06/user-login-process-login-process.html">http://aix4admins.blogspot.hk/2012/06/user-login-process-login-process.html</a><br><a target="_blank" rel="noopener" href="http://hi.baidu.com/unixsec/item/fa155d8e16cb0cdf5e0ec157&quot;">http://hi.baidu.com/unixsec/item/fa155d8e16cb0cdf5e0ec157&quot;</a><br><a target="_blank" rel="noopener" href="http://publib.boulder.ibm.com/infocenter/aix/v7r1/index.jsp?topic=/com.ibm.aix.cmds/doc/aixcmds4/pwdadm.htm">pwdadm 命令</a></p>
+<h1 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h1><p><a target="_blank" rel="noopener" href="http://expectsourceforge.net/">expect</a><br><a target="_blank" rel="noopener" href="http://expect-lite.sourceforge.net/">expect-lite</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Problem-Solve/">Problem Solve</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

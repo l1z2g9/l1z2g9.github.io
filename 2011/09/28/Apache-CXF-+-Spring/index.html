@@ -1,0 +1,152 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Apache CXF + Spring | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Apache CXF + Spring"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Apache-CXF-+-Spring" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2011-09-28T03:15:52.000Z"><a href="/2011/09/28/Apache-CXF-+-Spring/">2011-09-28</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Apache CXF + Spring</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <p>  比较了Spring WS和Apache CXF，觉得Spring WS属于contract-first类型的WebService，自己不熟悉xsd，<br>  所以使用Apache CXF这个组件，而且它的功能更为强大并且可以与Spring整合。<br>  部署在tomcat上，然后访问 <a target="_blank" rel="noopener" href="http://127.0.0.1:8080/foo/HelloWorld?wsdl">http://127.0.0.1:8080/foo/HelloWorld?wsdl</a> </p>
+<p>  applicationContext.xml </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</span><br><span class="line">	xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">	xmlns:aop=&quot;http://www.springframework.org/schema/aop&quot;</span><br><span class="line">	xmlns:context=&quot;http://www.springframework.org/schema/context&quot;</span><br><span class="line">	xmlns:tx=&quot;http://www.springframework.org/schema/tx&quot;</span><br><span class="line">	xmlns:jee=&quot;http://www.springframework.org/schema/jee&quot;</span><br><span class="line">	xmlns:jaxws=&quot;http://cxf.apache.org/jaxws&quot;</span><br><span class="line">	xsi:schemaLocation=&quot;</span><br><span class="line">    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd</span><br><span class="line">    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd</span><br><span class="line">    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd</span><br><span class="line">    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd</span><br><span class="line">    http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd</span><br><span class="line">	http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd&quot;&gt;</span><br><span class="line"></span><br><span class="line">	&lt;context:component-scan base-package=&quot;xx&quot; /&gt;</span><br><span class="line">	&lt;context:annotation-config /&gt;</span><br><span class="line"></span><br><span class="line">	&lt;bean id=&quot;entityManagerFactory&quot;</span><br><span class="line">		class=&quot;org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean&quot;&gt;</span><br><span class="line">		&lt;property name=&quot;persistenceXmlLocation&quot;</span><br><span class="line">			value=&quot;classpath:META-INF/persistence.xml&quot; /&gt;</span><br><span class="line">		&lt;property name=&quot;persistenceUnitName&quot; value=&quot;someDB&quot; /&gt;</span><br><span class="line">	&lt;/bean&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	&lt;bean id=&quot;transactionManager&quot;</span><br><span class="line">		class=&quot;org.springframework.orm.jpa.JpaTransactionManager&quot;&gt;</span><br><span class="line">		&lt;property name=&quot;entityManagerFactory&quot;</span><br><span class="line">			ref=&quot;entityManagerFactory&quot; /&gt;</span><br><span class="line">	&lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">	&lt;tx:annotation-driven transaction-manager=&quot;transactionManager&quot; /&gt;</span><br><span class="line"></span><br><span class="line">	&lt;tx:advice id=&quot;syncAdvice&quot;</span><br><span class="line">		transaction-manager=&quot;transactionManager&quot;&gt;</span><br><span class="line">		&lt;tx:attributes&gt;</span><br><span class="line">			&lt;tx:method name=&quot;get*&quot; read-only=&quot;true&quot; /&gt;</span><br><span class="line">			&lt;tx:method name=&quot;*&quot; read-only=&quot;false&quot; /&gt;</span><br><span class="line">		&lt;/tx:attributes&gt;</span><br><span class="line">	&lt;/tx:advice&gt;</span><br><span class="line"></span><br><span class="line">	&lt;aop:config&gt;</span><br><span class="line">		&lt;aop:pointcut id=&quot;syncOperation&quot;</span><br><span class="line">			expression=&quot;execution(public * xx..*Service.*(..))&quot; /&gt;</span><br><span class="line">		&lt;aop:advisor advice-ref=&quot;syncAdvice&quot;</span><br><span class="line">			pointcut-ref=&quot;syncOperation&quot; /&gt;</span><br><span class="line">	&lt;/aop:config&gt;</span><br><span class="line"></span><br><span class="line">	&lt;import resource=&quot;classpath:META-INF/cxf/cxf.xml&quot; /&gt;</span><br><span class="line">	&lt;import resource=&quot;classpath:META-INF/cxf/cxf-extension-soap.xml&quot; /&gt;</span><br><span class="line">	&lt;import resource=&quot;classpath:META-INF/cxf/cxf-servlet.xml&quot; /&gt;</span><br><span class="line"></span><br><span class="line">	&lt;jaxws:endpoint id=&quot;helloWorld&quot; implementor=&quot;#helloWorldService&quot;</span><br><span class="line">		address=&quot;/HelloWorld&quot; /&gt;</span><br><span class="line"></span><br><span class="line">	&lt;jaxws:client id=&quot;helloWorldClient&quot;</span><br><span class="line">		serviceClass=&quot;xx.HelloWorld&quot;</span><br><span class="line">		address=&quot;http://localhost:8080/shape/shape2sp&quot; /&gt;</span><br><span class="line"></span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure>
+<p>web.xml </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;web-app xmlns=&quot;http://java.sun.com/xml/ns/j2ee&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd&quot; version=&quot;2.4&quot;&gt;</span><br><span class="line">	&lt;listener&gt;</span><br><span class="line">		&lt;listener-class&gt;org.springframework.web.context.ContextLoaderListener&lt;/listener-class&gt;</span><br><span class="line">	&lt;/listener&gt;</span><br><span class="line">	&lt;servlet&gt;</span><br><span class="line">		&lt;servlet-name&gt;CXFServlet&lt;/servlet-name&gt;</span><br><span class="line">		&lt;display-name&gt;CXF Servlet&lt;/display-name&gt;</span><br><span class="line">		&lt;servlet-class&gt;</span><br><span class="line">			org.apache.cxf.transport.servlet.CXFServlet</span><br><span class="line">		&lt;/servlet-class&gt;</span><br><span class="line">		&lt;load-on-startup&gt;1&lt;/load-on-startup&gt;</span><br><span class="line">	&lt;/servlet&gt;</span><br><span class="line"></span><br><span class="line">	&lt;servlet-mapping&gt;</span><br><span class="line">		&lt;servlet-name&gt;CXFServlet&lt;/servlet-name&gt;</span><br><span class="line">		&lt;url-pattern&gt;/*&lt;/url-pattern&gt;</span><br><span class="line">	&lt;/servlet-mapping&gt;</span><br><span class="line">&lt;/web-app&gt;</span><br></pre></td></tr></table></figure>
+<p>  HelloWorld.java </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">package xx;</span><br><span class="line"></span><br><span class="line">@WebService</span><br><span class="line">public interface HelloWorld &#123;</span><br><span class="line">  void sayHi(String user);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>   HelloWorldService.java </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">package xx;</span><br><span class="line"></span><br><span class="line">@Service</span><br><span class="line">@WebService(endpointInterface = &quot;xx.HelloWorld&quot;, serviceName = &quot;HelloWorld&quot;)</span><br><span class="line">public class HelloWorldService implements HelloWorld&#123;</span><br><span class="line">  public void sayHi(String user)&#123;</span><br><span class="line">    System.out.println(&quot;hello: &quot; + user);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

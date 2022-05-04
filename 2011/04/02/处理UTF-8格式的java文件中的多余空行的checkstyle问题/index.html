@@ -1,0 +1,142 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>处理UTF-8格式的java文件中的多余空行的checkstyle问题 | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="处理UTF-8格式的java文件中的多余空行的checkstyle问题"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-处理UTF-8格式的java文件中的多余空行的checkstyle问题" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2011-04-02T05:55:35.000Z"><a href="/2011/04/02/%E5%A4%84%E7%90%86UTF-8%E6%A0%BC%E5%BC%8F%E7%9A%84java%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E5%A4%9A%E4%BD%99%E7%A9%BA%E8%A1%8C%E7%9A%84checkstyle%E9%97%AE%E9%A2%98/">2011-04-02</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">处理UTF-8格式的java文件中的多余空行的checkstyle问题</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line">package test;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">import java.io.BufferedReader;</span><br><span class="line">import java.io.FileInputStream;</span><br><span class="line">import java.io.FileOutputStream;</span><br><span class="line">import java.io.FileReader;</span><br><span class="line"></span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public class RemoveBlacket</span><br><span class="line">&#123;</span><br><span class="line">  public static void main(String[] args)</span><br><span class="line">      throws Exception</span><br><span class="line">  &#123;</span><br><span class="line">    for (String file : listPath())</span><br><span class="line">    &#123;</span><br><span class="line">      System.out.println(file);</span><br><span class="line">      proces(file);</span><br><span class="line">    &#125;</span><br><span class="line">    //    test();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  static void test()</span><br><span class="line">      throws Exception</span><br><span class="line">  &#123;</span><br><span class="line">    String file = &quot;C:\\Temp.java&quot;;</span><br><span class="line">    FileInputStream in = new FileInputStream(file);</span><br><span class="line">    byte[] bytes = new byte[81920000];</span><br><span class="line">    int len = in.read(bytes);</span><br><span class="line">    String content = new String(bytes, 0, len, &quot;UTF-8&quot;); // 以UTF-8格式处理内容</span><br><span class="line">    content = content.replaceAll(&quot;\r\n(\r\n\\s+\\&#125;)&quot;, &quot;$1&quot;);</span><br><span class="line">    in.close();</span><br><span class="line"></span><br><span class="line">    FileOutputStream out = new FileOutputStream(&quot;C:/text.java&quot;);</span><br><span class="line">    //    OutputStreamWriter writer = new OutputStreamWriter(out);</span><br><span class="line">    System.out.println(content);</span><br><span class="line">    out.write(content.getBytes(&quot;UTF-8&quot;));; // 还原UTF-8格式内容</span><br><span class="line"></span><br><span class="line">    //    writer.close();</span><br><span class="line">    out.close();</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  static void proces(String file)</span><br><span class="line">      throws Exception</span><br><span class="line">  &#123;</span><br><span class="line">    FileInputStream in = new FileInputStream(file);</span><br><span class="line">    byte[] bytes = new byte[80920000];</span><br><span class="line">    int len = in.read(bytes);</span><br><span class="line">    String content = new String(bytes, 0, len, &quot;UTF-8&quot;);// 以UTF-8格式处理内容</span><br><span class="line">    content = content.replaceAll(&quot;\r\n(\r\n\\s+\\&#125;)&quot;, &quot;$1&quot;);</span><br><span class="line">    in.close();</span><br><span class="line"></span><br><span class="line">    FileOutputStream out = new FileOutputStream(file);</span><br><span class="line">    //    System.out.println(content);</span><br><span class="line">    out.write(content.getBytes(&quot;UTF-8&quot;));// 还原UTF-8格式内容</span><br><span class="line"></span><br><span class="line">    out.close();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  static List&lt;String&gt; listPath()</span><br><span class="line">      throws Exception</span><br><span class="line">  &#123;</span><br><span class="line">    List&lt;String&gt; list = new ArrayList&lt;String&gt;();</span><br><span class="line">    BufferedReader reader = new BufferedReader(new FileReader(&quot;c:/checkstyle-list.txt&quot;));</span><br><span class="line">    String line;</span><br><span class="line">    while ((line = reader.readLine()) != null)</span><br><span class="line">    &#123;</span><br><span class="line">      list.add(line);</span><br><span class="line">    &#125;</span><br><span class="line">    reader.close();</span><br><span class="line"></span><br><span class="line">    return list;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

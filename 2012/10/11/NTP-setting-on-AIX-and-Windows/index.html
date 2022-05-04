@@ -1,0 +1,157 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>NTP setting on AIX and Windows | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="NTP setting on AIX and Windows"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-NTP-setting-on-AIX-and-Windows" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2012-10-11T01:36:59.000Z"><a href="/2012/10/11/NTP-setting-on-AIX-and-Windows/">2012-10-11</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">NTP setting on AIX and Windows</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h1 id="AIX"><a href="#AIX" class="headerlink" title="AIX:"></a>AIX:</h1><h2 id="Server-side-10-13-135-72"><a href="#Server-side-10-13-135-72" class="headerlink" title="Server side(10.13.135.72)"></a>Server side(10.13.135.72)</h2><ol>
+<li>vi &#x2F;etc&#x2F;ntp.conf<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">broadcastclient</span><br><span class="line">server 127.127.1.0 prefer</span><br><span class="line">driftfile /etc/ntp.drift</span><br><span class="line">tracefile /etc/ntp.trace</span><br></pre></td></tr></table></figure></li>
+<li><code>startsrc -s xntpd</code></li>
+<li><code>lssrc -ls xntpd</code></li>
+</ol>
+<h2 id="Client-side-10-13-135-71"><a href="#Client-side-10-13-135-71" class="headerlink" title="Client side(10.13.135.71)"></a>Client side(10.13.135.71)</h2><h3 id="Method-1"><a href="#Method-1" class="headerlink" title="Method 1:"></a>Method 1:</h3><ol>
+<li>vi &#x2F;etc&#x2F;ntp.conf<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">broadcastclient</span><br><span class="line">server 10.13.135.71</span><br><span class="line">driftfile /etc/ntp.drift</span><br><span class="line">tracefile /etc/ntp.trace</span><br></pre></td></tr></table></figure></li>
+<li><code>startsrc -s xntpd</code></li>
+<li><code>lssrc -ls xntpd</code></li>
+</ol>
+<h3 id="Method-2"><a href="#Method-2" class="headerlink" title="Method 2:"></a>Method 2:</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ntpdate 10.13.135.72</span><br><span class="line">crontab -e</span><br><span class="line">0 5,12 * * * ntpdate 10.13.135.72</span><br></pre></td></tr></table></figure>
+
+<h2 id="Windows-Client"><a href="#Windows-Client" class="headerlink" title="Windows Client"></a>Windows Client</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">w32tm /stripchart /computer:10.13.135.72 /samples:2 /dataonly</span><br><span class="line">w32tm /config /syncfromflags:manual /manualpeerlist:10.13.135.72</span><br><span class="line">w32tm /config /update</span><br><span class="line">net stop w32time</span><br><span class="line">net start w32time</span><br></pre></td></tr></table></figure>
+
+<h1 id="Ref"><a href="#Ref" class="headerlink" title="Ref:"></a>Ref:</h1><p><a target="_blank" rel="noopener" href="http://www-01.ibm.com/support/docview.wss?uid=isg3T1000653">http://www-01.ibm.com/support/docview.wss?uid=isg3T1000653</a><br><a target="_blank" rel="noopener" href="http://www.aixchina.net/club/thread-1630-1-1.html">http://www.aixchina.net/club/thread-1630-1-1.html</a><br><a target="_blank" rel="noopener" href="http://www.wretch.cc/blog/jerry0822/13996334">http://www.wretch.cc/blog/jerry0822/13996334</a><br><a target="_blank" rel="noopener" href="http://technet.microsoft.com/zh-cn/library/cc773263(v=ws.10).aspx">http://technet.microsoft.com/zh-cn/library/cc773263(v=ws.10).aspx</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/AIX/">AIX</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

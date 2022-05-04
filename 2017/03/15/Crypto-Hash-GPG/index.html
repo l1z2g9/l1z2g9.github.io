@@ -1,0 +1,182 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Openssl Hash Crypto Sign Verify | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Openssl Hash Crypto Sign Verify"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Crypto-Hash-GPG" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2017-03-15T07:56:39.000Z"><a href="/2017/03/15/Crypto-Hash-GPG/">2017-03-15</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Openssl Hash Crypto Sign Verify</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h1 id="Random"><a href="#Random" class="headerlink" title="Random"></a>Random</h1><p><code>openssl rand -base64 32</code><br>&#x3D;&#x3D;&gt;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Generally, salt is produced with class SecureRandom</span><br><span class="line">SecureRandom random = new SecureRandom();</span><br><span class="line">byte[] salt = new byte[32];</span><br><span class="line">random.nextBytes(salt);</span><br></pre></td></tr></table></figure>
+<p>Other ways</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">date +%s | sha256sum | base64 | head -c 32 ; echo</span><br><span class="line">date | md5sum</span><br><span class="line">tr -cd &#x27;[:alnum:]&#x27; &lt; /dev/urandom | fold -w30 | head -n1</span><br></pre></td></tr></table></figure>
+
+<p>Reference<br><a target="_blank" rel="noopener" href="https://www.howtogeek.com/howto/30184/10-ways-to-generate-a-random-password-from-the-command-line/">https://www.howtogeek.com/howto/30184/10-ways-to-generate-a-random-password-from-the-command-line/</a></p>
+<h1 id="Hash"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</h1><h2 id="Encoding-with-hex-hexdump-or-xxd-x2F-base64-and-openssl-base64"><a href="#Encoding-with-hex-hexdump-or-xxd-x2F-base64-and-openssl-base64" class="headerlink" title="Encoding with hex(hexdump or xxd)&#x2F;base64 and openssl base64"></a>Encoding with hex(hexdump or xxd)&#x2F;base64 and openssl base64</h2><p><code>echo -n AP0PZxpsbyyrznZzeMkkEAPn726JmkgzwZrE5qwHKNY=|base64 -d &gt; salt.txt</code><br>&#x3D;&#x3D;&gt;<br><code>echo -n AP0PZxpsbyyrznZzeMkkEAPn726JmkgzwZrE5qwHKNY=|openssl base64 -d &gt; salt.txt</code></p>
+<p><code>cat salt.txt|base64</code><br>&#x3D;&#x3D;&gt;<br><code>cat salt.txt|openssl base64</code> Display the character “AP0PZxpsbyyrznZzeMkkEAPn726JmkgzwZrE5qwHKNY&#x3D;”</p>
+<p><code>hexdump -C salt.txt</code> OR <code>cat salt.txt |hexdump -C</code> OR <code>xxd salt.txt</code><br>&#x3D;&#x3D;&gt;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">JAVA code</span><br><span class="line">BASE64Decoder decoder = new BASE64Decoder();</span><br><span class="line">for (byte b : decoder.decodeBuffer(&quot;AP0PZxpsbyyrznZzeMkkEAPn726JmkgzwZrE5qwHKNY=&quot;)) &#123;</span><br><span class="line">  System.out.printf(&quot;%02x&quot;, b); // same as encoded by xxd -p</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>To decode hexadecimal number, using <code>echo -n &#39;0: 50617373776f72643031&#39; | xxd -r</code> &#x3D;&gt; Password01 OR <code>echo -n 50617373776f72643031 | xxd -r -p</code></p>
+<h2 id="Message-Digest-or-Hash-md5sum-sha1sum-sha256sum-and-openssl-md5-sha1-sha256-sha512"><a href="#Message-Digest-or-Hash-md5sum-sha1sum-sha256sum-and-openssl-md5-sha1-sha256-sha512" class="headerlink" title="Message Digest or Hash: md5sum, sha1sum, sha256sum and openssl md5, sha1, sha256, sha512"></a>Message Digest or Hash: md5sum, sha1sum, sha256sum and openssl md5, sha1, sha256, sha512</h2><p><code>md5sum salt.txt</code> &#x3D;&#x3D; <code>cat salt.txt |openssl md5</code> &#x3D;&#x3D; <code>openssl dgst -md5 -hex salt.txt</code> &#x3D;&#x3D; <code>openssl md5 &lt; salt.txt</code><br><code>sha1sum salt.txt</code> &#x3D;&#x3D; <code>cat salt.txt |openssl sha1</code> &#x3D;&#x3D; <code>openssl dgst -sha1 -hex salt.txt</code>  &#x3D;&#x3D; <code>openssl sha1 &lt; salt.txt</code><br><code>sha256sum salt.txt</code> &#x3D;&#x3D; <code>cat salt.txt |openssl sha256</code> &#x3D;&#x3D; <code>openssl dgst -sha256 -hex salt.txt</code> &#x3D;&#x3D; <code>openssl sha256 &lt; salt.txt</code><br><code>sha512sum salt.txt</code> &#x3D;&#x3D; <code>cat salt.txt |openssl sha256</code> &#x3D;&#x3D; <code>openssl dgst -sha512 -hex salt.txt</code> &#x3D;&#x3D; <code>openssl sha512 &lt; salt.txt</code></p>
+<h2 id="Hash-password-with-salt-sha512-salt-password"><a href="#Hash-password-with-salt-sha512-salt-password" class="headerlink" title="Hash password with salt [sha512(salt+password)]"></a>Hash password with salt [sha512(salt+password)]</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">echo Password01 &gt; pass.txt (or with -n to remove the \n or using printf)</span><br><span class="line">cat salt.txt pass.txt &gt; combined.txt</span><br><span class="line">tr -d &#x27;\n&#x27; &lt; combined.txt &gt; combined2.txt // remove the \n</span><br><span class="line">sha512sum combined2.txt</span><br></pre></td></tr></table></figure>
+<p>&#x3D;&#x3D;&gt;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">JAVA code</span><br><span class="line">MessageDigest md = MessageDigest.getInstance(&quot;SHA-512&quot;);</span><br><span class="line">BASE64Decoder decoder = new BASE64Decoder();</span><br><span class="line"></span><br><span class="line">ByteArrayOutputStream array = new ByteArrayOutputStream();</span><br><span class="line">array.write(d.decodeBuffer(&quot;AP0PZxpsbyyrznZzeMkkEAPn726JmkgzwZrE5qwHKNY=&quot;)); // salt</span><br><span class="line">array.write(&quot;Password01&quot;.getBytes()); // password</span><br><span class="line"></span><br><span class="line">/* Same as below</span><br><span class="line">md.update(d.decodeBuffer(&quot;AP0PZxpsbyyrznZzeMkkEAPn726JmkgzwZrE5qwHKNY=&quot;)); // salt</span><br><span class="line">md.update(&quot;Password01&quot;.getBytes()); // password</span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line">for (byte b : md.digest(array.toByteArray())) &#123;</span><br><span class="line">  System.out.printf(&quot;%02x&quot;, b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Encrypt-x2F-Decrypt"><a href="#Encrypt-x2F-Decrypt" class="headerlink" title="Encrypt&#x2F;Decrypt"></a>Encrypt&#x2F;Decrypt</h1><h2 id="Symmetric-crypto-with-AES"><a href="#Symmetric-crypto-with-AES" class="headerlink" title="Symmetric crypto with AES"></a>Symmetric crypto with AES</h2><h3 id="Encrypt-using-salt"><a href="#Encrypt-using-salt" class="headerlink" title="Encrypt using salt"></a>Encrypt using salt</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;randomprhase&quot; | openssl aes-128-cbc -out message.enc (default with salt)</span><br><span class="line">echo &quot;randomprhase&quot; | openssl aes-128-cbc -nosalt -out nosalt.enc (without salt)</span><br></pre></td></tr></table></figure>
+<p>Reference: <a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/7303103/java-aes-encryption-with-salt">http://stackoverflow.com/questions/7303103/java-aes-encryption-with-salt</a></p>
+<h3 id="Encryption-by-openssl-and-java"><a href="#Encryption-by-openssl-and-java" class="headerlink" title="Encryption by openssl and java"></a>Encryption by openssl and java</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">echo -n qkjll5@2md3gs5Q@|xxd -p ==&gt; 716b6a6c6c3540326d643367733551400a</span><br><span class="line"></span><br><span class="line">echo -n secret | openssl enc -aes-128-ecb -K 716b6a6c6c3540326d643367733551400a -a</span><br></pre></td></tr></table></figure>
+<p>&#x3D;&gt;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">public class CipherTest &#123;</span><br><span class="line">    </span><br><span class="line">    private static final String ALGORITHM = &quot;AES/ECB/PKCS5Padding&quot;;</span><br><span class="line">    private static byte[] keyValue = &quot;qkjll5@2md3gs5Q@&quot;.getBytes(); // key length should be 16</span><br><span class="line"></span><br><span class="line">    public static String encrypt(String valueToEnc) throws Exception &#123;</span><br><span class="line">        Key key = generateKey();</span><br><span class="line">        Cipher c = Cipher.getInstance(ALGORITHM);</span><br><span class="line">        c.init(Cipher.ENCRYPT_MODE, key);</span><br><span class="line">        byte[] encValue = c.doFinal(valueToEnc.getBytes());</span><br><span class="line">        String encryptedValue = new BASE64Encoder().encode(encValue);</span><br><span class="line">        return encryptedValue;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static String decrypt(String encryptedValue) throws Exception &#123;</span><br><span class="line">        Key key = generateKey();</span><br><span class="line">        Cipher c = Cipher.getInstance(ALGORITHM);</span><br><span class="line">        c.init(Cipher.DECRYPT_MODE, key);</span><br><span class="line">        byte[] decordedValue = new BASE64Decoder().decodeBuffer(encryptedValue);</span><br><span class="line">        byte[] decValue = c.doFinal(decordedValue);</span><br><span class="line">        String decryptedValue = new String(decValue);</span><br><span class="line">        return decryptedValue;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static Key generateKey() throws Exception &#123;</span><br><span class="line">        Key key = new SecretKeySpec(keyValue, &quot;AES&quot;);</span><br><span class="line">        // SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(ALGORITHM);</span><br><span class="line">        // key = keyFactory.generateSecret(new DESKeySpec(keyValue));</span><br><span class="line">        return key;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    public static void main(String[] args) throws Exception &#123;</span><br><span class="line">        String password = &quot;secret&quot;;</span><br><span class="line">        String passwordEnc = CipherTest.encrypt(password);</span><br><span class="line">        String passwordDec = CipherTest.decrypt(passwordEnc);</span><br><span class="line"></span><br><span class="line">        System.out.println(&quot;Plain Text : &quot; + password);</span><br><span class="line">        System.out.println(&quot;Encrypted : &quot; + passwordEnc);</span><br><span class="line">        System.out.println(&quot;Decrypted : &quot; + passwordDec);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>For cbc or cfb, iv should be provided. In java code, the IvParameterSpec is need to define.</p>
+<h3 id="Openssl-encryption-sample"><a href="#Openssl-encryption-sample" class="headerlink" title="Openssl encryption sample"></a>Openssl encryption sample</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">echo &#x27;0: 63616e746765747468697332776f726b&#x27; | xxd -r | openssl enc -aes-128-ecb -a -K 00000000000000000000000000000000</span><br><span class="line">=&gt;</span><br><span class="line">N2+bVLU8fIS7ucFW1Qr/xwFD22PuZrDN/59pkXaAFR4= (base64 encoded with option -a)</span><br><span class="line"></span><br><span class="line">echo &#x27;0: 63616e746765747468697332776f726b&#x27; | xxd -r | openssl enc -aes-128-ecb -nopad -K 00000000000000000000000000000000|xxd -p</span><br><span class="line">=&gt;</span><br><span class="line">376f9b54b53c7c84bbb9c156d50affc7 (hex encoded with options -nopad, and xxd -p)</span><br><span class="line"></span><br><span class="line">echo &#x27;0: 63616e746765747468697332776f726b&#x27; | xxd -r | openssl enc -aes-128-ecb -nopad -K 00000000000000000000000000000000|xxd |cut -c10-50</span><br><span class="line">=&gt;</span><br><span class="line">376f 9b54 b53c 7c84 bbb9 c156 d50a ffc7 (hex encoded with cut -c10-50)</span><br><span class="line"></span><br><span class="line">echo -n &#x27;63616e746765747468697332776f726b&#x27; | xxd -r -p | openssl enc -aes-128-ecb -nopad -K 00000000000000000000000000000000|xxd |cut -c10-50</span><br><span class="line">=&gt;</span><br><span class="line">376f 9b54 b53c 7c84 bbb9 c156 d50a ffc7 (xxd -r -p and hex encoded with cut -c10-50)</span><br></pre></td></tr></table></figure>
+<p>Reference: <a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/38082644/how-to-generate-the-output-in-hexadecimal-in-openssl">http://stackoverflow.com/questions/38082644/how-to-generate-the-output-in-hexadecimal-in-openssl</a></p>
+<h2 id="Asymmetric-crypto-with-RSA"><a href="#Asymmetric-crypto-with-RSA" class="headerlink" title="Asymmetric crypto with RSA"></a>Asymmetric crypto with RSA</h2><h3 id="Generate-key-publicKey"><a href="#Generate-key-publicKey" class="headerlink" title="Generate key, publicKey"></a>Generate key, publicKey</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">openssl genrsa -out key.pem</span><br><span class="line">openssl rsa -in key.pem -pubout &gt; key-pub.pem</span><br><span class="line"></span><br><span class="line">openssl rsautl -encrypt -in pass.txt -pubin -inkey key-pub.pem -out pass.encrypted</span><br><span class="line">openssl rsautl -decrypt -in pass.encrypted -inkey key.pem</span><br></pre></td></tr></table></figure>
+
+<h3 id="Encrypt-x2F-decrypt-with-base64-x2F-hex-encode-x2F-decode-Interesting"><a href="#Encrypt-x2F-decrypt-with-base64-x2F-hex-encode-x2F-decode-Interesting" class="headerlink" title="Encrypt&#x2F;decrypt with base64&#x2F;hex encode&#x2F;decode (Interesting)"></a>Encrypt&#x2F;decrypt with base64&#x2F;hex encode&#x2F;decode (Interesting)</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">echo -n test | openssl rsautl -encrypt -pubin -inkey key-pub.pem | base64 | base64 -d|openssl rsautl -decrypt -inkey key.pem =&gt; test</span><br><span class="line"></span><br><span class="line">echo -n test | openssl rsautl -encrypt -pubin -inkey key-pub.pem | xxd -p | xxd -r -p |openssl rsautl -decrypt -inkey key.pem =&gt; test</span><br></pre></td></tr></table></figure>
+<p>Java: <a target="_blank" rel="noopener" href="https://javadigest.wordpress.com/2012/08/26/rsa-encryption-example/">https://javadigest.wordpress.com/2012/08/26/rsa-encryption-example/</a></p>
+<h1 id="Sign-x2F-Verify"><a href="#Sign-x2F-Verify" class="headerlink" title="Sign&#x2F;Verify"></a>Sign&#x2F;Verify</h1><h2 id="Generate-key-publicKey-1"><a href="#Generate-key-publicKey-1" class="headerlink" title="Generate key, publicKey"></a>Generate key, publicKey</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">openssl genrsa -out key.pem</span><br><span class="line">openssl rsa -in key.pem -pubout &gt; key-pub.pem</span><br></pre></td></tr></table></figure>
+
+<h2 id="Sign-x2F-Verify-a-file-with-openssl-dgst"><a href="#Sign-x2F-Verify-a-file-with-openssl-dgst" class="headerlink" title="Sign&#x2F;Verify a file with openssl dgst"></a>Sign&#x2F;Verify a file with openssl dgst</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">openssl dgst -sha256 -sign key.pem -out pass.sign pass.txt</span><br><span class="line">openssl dgst -sha256 -verify key-pub.pem -signature pass.sign pass.txt</span><br></pre></td></tr></table></figure>
+
+<h2 id="Sign-x2F-Verify-a-file-with-openssl-rsautl"><a href="#Sign-x2F-Verify-a-file-with-openssl-rsautl" class="headerlink" title="Sign&#x2F;Verify a file with openssl rsautl"></a>Sign&#x2F;Verify a file with openssl rsautl</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">openssl rsautl -sign -inkey key.pem -out pass.rsa -in pass.txt</span><br><span class="line">openssl rsautl -verify -inkey key-pub.pem -in pass.rsa -pubin</span><br><span class="line">openssl rsautl -verify -inkey key-pub.pem -in pass.sign -pubin</span><br></pre></td></tr></table></figure>
+
+<h1 id="GPG"><a href="#GPG" class="headerlink" title="GPG"></a>GPG</h1><p>Convert keys between GnuPG, OpenSsh and OpenSSL<br><a target="_blank" rel="noopener" href="http://sysmic.org/dotclear/index.php?post/2010/03/24/Convert-keys-betweens-GnuPG,-OpenSsh-and-OpenSSL">http://sysmic.org/dotclear/index.php?post/2010/03/24/Convert-keys-betweens-GnuPG%2C-OpenSsh-and-OpenSSL</a></p>
+<h1 id="Other-openssl-command"><a href="#Other-openssl-command" class="headerlink" title="Other openssl command"></a>Other openssl command</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">ssh public key stored in .ssh folder: </span><br><span class="line">ssh-keygen -f koding -y &gt; koding_id_rsa.pub (openssl genrsa -out key.pem)</span><br><span class="line"></span><br><span class="line">show public key from the private key</span><br><span class="line">openssl rsa -in koding -pubout &gt; koding-pub.pem</span><br><span class="line"></span><br><span class="line">show -modulus from the private key</span><br><span class="line">openssl rsa -in key.pem -noout -modulus</span><br><span class="line"></span><br><span class="line">p12 file (usually with .pfx extension) contains certificate, public key, private key</span><br><span class="line">openssl x509 - for certificate</span><br><span class="line">openssl x509 -inform der -in certificate.cer -out certificate.pem (with -pubkey -noout to print public key only)</span><br><span class="line"></span><br><span class="line">openssl pkcs12 - for p12 file</span><br><span class="line">openssl pkcs12 -in certificate.pfx -out certificate.cer -nodes -passin pass:&quot;3228474250821687&quot; | openssl x509 -noout -subject</span><br><span class="line">keytool -list -v -keystore P_DS_WONGTWOMANA1136227_Valid785781e3_123.p12 -storepass 123 -storetype pkcs12</span><br><span class="line"></span><br><span class="line">openssl rsa - for private key</span><br><span class="line">openssl rsa -in koding -out koding2 (Remove a passphrase from a private key)</span><br><span class="line"></span><br><span class="line">openssl req - for private key and csr related</span><br><span class="line">openssl req -out koding.csr -key koding -new</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">scratch domain csr</span><br><span class="line">openssl req -new -sha256 -key scratch.key -subj &quot;/CN=www.scratch.hk&quot; &gt; scratch.csr</span><br><span class="line">openssl req -new -sha256 -key scratch.key -subj &quot;/&quot; -reqexts SAN -config &lt;(cat /etc/ssl/openssl.cnf &lt;(printf &quot;[SAN]\nsubjectAltName=DNS:scratch.hk,DNS:www.scratch.hk&quot;)) &gt; scratch.csr</span><br><span class="line"></span><br><span class="line">protocal: ssh, ssl </span><br><span class="line">symmetric cryptographic algorithm : aes, des, 3des</span><br><span class="line">asymmetric cryptographic algorithm: rsa, dsa</span><br><span class="line">hash    : crc32, md5, sha1, sha256, sha512</span><br><span class="line">aes/des加密速度快,适合大量数据,des容易破解,一般用3重des,后来又出现了更快更安全的aes</span><br><span class="line">rsa是公钥加密,速度慢,只能处理少量数据,优点是公钥即使在不安全的网络上公开,也能保证安全</span><br><span class="line">常见情况是双方用rsa协商出一个密钥后通过aes/3des给数据加密</span><br><span class="line"></span><br><span class="line">=========</span><br><span class="line">Using a car analogy:</span><br><span class="line"></span><br><span class="line">PGP     is a car</span><br><span class="line">OpenPGP is the design for the PGP car</span><br><span class="line">GnuPG   is another car using the same design</span><br><span class="line">RSA     is a diesel engine, and other engines are available</span><br><span class="line">SSH     isn&#x27;t a car at all. But it uses engines.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://program-think.blogspot.com/2010/06/howto-prevent-hacker-attack-3.html">https://program-think.blogspot.com/2010/06/howto-prevent-hacker-attack-3.html</a></p>
+<h1 id="Golang"><a href="#Golang" class="headerlink" title="Golang"></a>Golang</h1><p>encoding&#x2F;json, csv, xml, hex, base64<br>crypto&#x2F;aes, des, rsa, dsa, md5, sha1, sha256, sha512, x509  </p>
+<h1 id="New-command-to-learn"><a href="#New-command-to-learn" class="headerlink" title="New command to learn"></a>New command to learn</h1><p><code>tr, xxd</code></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

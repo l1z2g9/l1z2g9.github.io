@@ -1,0 +1,153 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Sign Jar | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Sign Jar"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Sign-Jar" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2019-05-08T03:40:39.000Z"><a href="/2019/05/08/Sign-Jar/">2019-05-08</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Sign Jar</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h2 id="generate-certitficate-signing-request"><a href="#generate-certitficate-signing-request" class="headerlink" title="generate certitficate signing request"></a>generate certitficate signing request</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">keytool -certreq -alias xxx -keystore xxx_signing.jks -file certreq.pem.2</span><br><span class="line">keytool -importcert -alias inter   -file intermediate.pem  -keystore xxx_signing.jks -storepass yyy.xxx@2017</span><br><span class="line">keytool -importcert -alias root    -file root.pem          -keystore xxx_signing.jks -storepass yyy.xxx@2017</span><br><span class="line">keytool -importcert -alias xxx  -file signedcert.pem    -keystore xxx_signing.jks -storepass yyy.xxx@2017</span><br></pre></td></tr></table></figure>
+
+<h2 id="print-certificate-request"><a href="#print-certificate-request" class="headerlink" title="print certificate request"></a>print certificate request</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">keytool -printcertreq -file certreq.pem</span><br><span class="line">openssl req -in certreq.pem -noout -text</span><br></pre></td></tr></table></figure>
+
+<h2 id="sign-jnlp-jar"><a href="#sign-jnlp-jar" class="headerlink" title="sign jnlp jar"></a>sign jnlp jar</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">D:\signjar&gt; mkdir hk\gov\ogcio</span><br><span class="line">D:\signjar&gt; mkdir hk\gov\xxx\user\fxbrowser</span><br><span class="line"></span><br><span class="line">xxx\public\bin&gt; </span><br><span class="line">xcopy /y hk\gov\ogcio /s D:\signjar\bin\hk\gov\ogcio</span><br><span class="line">xcopy /y hk\gov\xxx\user\fxbrowser /s D:\signjar\bin\hk\gov\xxx\user\fxbrowser</span><br><span class="line">copy smartid.properties D:\signjar\bin</span><br><span class="line">copy pkcs12.properties D:\signjar\bin</span><br><span class="line">copy etoken.properties D:\signjar\bin </span><br><span class="line"></span><br><span class="line">jar -cf fxbrowser.jar -C bin/ .</span><br><span class="line">jar ufm fxbrowser.jar Manifest.txt</span><br><span class="line">pack200 --repack fxbrowser.jar</span><br><span class="line">// pack200 --repack itextpdf-5.5.6.jar</span><br><span class="line">// pack200 --repack bcprov-jdk15on-1.56.jar</span><br><span class="line">// pack200 --repack bcpkix-jdk15on-1.56.jar</span><br><span class="line"></span><br><span class="line">jarsigner -tsa http://sha256timestamp.ws.symantec.com/sha256/timestamp -keystore xxx_signing.jks fxbrowser.jar xxx -storepass yyy.xxx@2017</span><br><span class="line">jarsigner -tsa http://sha256timestamp.ws.symantec.com/sha256/timestamp -keystore xxx_signing.jks itextpdf-5.5.6.jar xxx -storepass yyy.xxx@2017</span><br><span class="line">jarsigner -tsa http://sha256timestamp.ws.symantec.com/sha256/timestamp -keystore xxx_signing.jks bcprov-jdk15on-1.56.jar xxx -storepass yyy.xxx@2017</span><br><span class="line">jarsigner -tsa http://sha256timestamp.ws.symantec.com/sha256/timestamp -keystore xxx_signing.jks bcpkix-jdk15on-1.56.jar xxx -storepass yyy.xxx@2017</span><br><span class="line"></span><br><span class="line">pack200 fxbrowser.jar.pack.gz fxbrowser.jar</span><br><span class="line">pack200 itextpdf-5.5.6.jar.pack.gz itextpdf-5.5.6.jar</span><br><span class="line">pack200 bcprov-jdk15on-1.56.jar.pack.gz bcprov-jdk15on-1.56.jar</span><br><span class="line">pack200 bcpkix-jdk15on-1.56.jar.pack.gz bcpkix-jdk15on-1.56.jar</span><br><span class="line"></span><br><span class="line">del fxbrowser__V1.4.jar.pack.gz</span><br><span class="line">rename fxbrowser.jar.pack.gz fxbrowser__V1.4.jar.pack.gz</span><br><span class="line">rename itextpdf-5.5.6.jar.pack.gz itextpdf-5.5.6__V1.0.jar.pack.gz</span><br><span class="line">rename bcprov-jdk15on-1.56.jar.pack.gz bcprov-jdk15on-1.56__V1.0.jar.pack.gz</span><br><span class="line">rename bcpkix-jdk15on-1.56.jar.pack.gz bcpkix-jdk15on-1.56__V1.0.jar.pack.gz</span><br><span class="line"></span><br><span class="line">copy /y fxbrowser__V1.4.jar.pack.gz C:\Users\my\Desktop\Forrest\workspace\xxx\public\src\main\resources\public\user</span><br><span class="line">copy /y fxbrowser__V1.4.jar.pack.gz Y:\public\bin\public\user</span><br></pre></td></tr></table></figure>
+
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p>  <a target="_blank" rel="noopener" href="https://docs.oracle.com/cd/E19509-01/820-3503/ggezu/">https://docs.oracle.com/cd/E19509-01/820-3503/ggezu/</a><br>  <a target="_blank" rel="noopener" href="https://blogs.oracle.com/blogbypuneeth/steps-to-create-a-csr-certificate-signing-request-using-keytool-and-get-it-signed-from-an-external-ca-certificate-authority-thawte">https://blogs.oracle.com/blogbypuneeth/steps-to-create-a-csr-certificate-signing-request-using-keytool-and-get-it-signed-from-an-external-ca-certificate-authority-thawte</a><br>  <a target="_blank" rel="noopener" href="http://docs.oracle.com/javase/7/docs/technotes/guides/jweb/security/rsa_signing.html">http://docs.oracle.com/javase/7/docs/technotes/guides/jweb/security/rsa_signing.html</a></p>
+<h2 id="Import-certificate"><a href="#Import-certificate" class="headerlink" title="Import certificate"></a>Import certificate</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keytool -import -trustcacerts -keystore xxx_signing.jks -alias xxx -file ssl_certificate.p7b</span><br></pre></td></tr></table></figure>
+
+<h2 id="Add-key-entry-to-xxx-signing-jks-for-pdf-signing"><a href="#Add-key-entry-to-xxx-signing-jks-for-pdf-signing" class="headerlink" title="Add key entry to xxx_signing.jks for pdf signing"></a>Add key entry to xxx_signing.jks for pdf signing</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">useless:</span><br><span class="line"> openssl pkcs12 -export -inkey www.dummy.gov.hk-privateKey.key -in www.dummy.gov.hk.crt -name xxx-cert -out xxx-cert.p12</span><br><span class="line"> keytool -importkeystore -srckeystore ..\apache\ssl\public\xxx-cert.p12 -srcstoretype pkcs12 -alias xxx-cert -destkeystore xxx_signing.jks</span><br><span class="line"></span><br><span class="line">self-sign:</span><br><span class="line">  openssl req -x509 -newkey rsa:2048 -keyout sign-pdf-cert-key.pem -out sign-pdf-cert.pem -days 3650</span><br><span class="line">  openssl x509 -text -noout -in sign-pdf-cert.pem (review cert)</span><br><span class="line">  openssl pkcs12 -inkey sign-pdf-cert-key.pem -in sign-pdf-cert.pem -export -name xxx-cert -out sign-pdf-cert.p12</span><br><span class="line">  openssl pkcs12 -in certificate.p12 -noout -info (validate p12 file)</span><br><span class="line">  keytool -importkeystore -srckeystore sign-pdf-cert.p12 -srcstoretype pkcs12 -alias xxx-cert -destkeystore xxx_signing.jks</span><br></pre></td></tr></table></figure>
+
+<h2 id="jks-location"><a href="#jks-location" class="headerlink" title="jks location"></a>jks location</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">D:\keystore\xxx_signing.jks comes from public\config\jws\xxx_signing.jks</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

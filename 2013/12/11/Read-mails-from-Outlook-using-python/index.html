@@ -1,0 +1,147 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Read mails from Outlook using python | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Read mails from Outlook using python"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Read-mails-from-Outlook-using-python" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2013-12-11T06:11:36.000Z"><a href="/2013/12/11/Read-mails-from-Outlook-using-python/">2013-12-11</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Read mails from Outlook using python</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h1 id="code-as-following"><a href="#code-as-following" class="headerlink" title="code as following"></a>code as following</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">import win32com.client, sqlite3</span><br><span class="line">from datetime import datetime</span><br><span class="line"></span><br><span class="line">def collectMail():</span><br><span class="line">    conn = sqlite3.connect(&#x27;outlook.db&#x27;)</span><br><span class="line">    i = 0</span><br><span class="line">    try:</span><br><span class="line">        outlook = win32com.client.Dispatch(&quot;Outlook.Application&quot;).GetNamespace(&quot;MAPI&quot;)</span><br><span class="line"></span><br><span class="line">        inbox = outlook.GetDefaultFolder(6)</span><br><span class="line">        messages = inbox.Items</span><br><span class="line">        print &#x27;total messages: &#x27;, len(messages)</span><br><span class="line">        message = messages.GetFirst ()</span><br><span class="line">        while message:</span><br><span class="line">            i += 1</span><br><span class="line">            try:</span><br><span class="line">                subject = message.Subject</span><br><span class="line">                #print i, subject</span><br><span class="line"></span><br><span class="line">                received_time = str(message.ReceivedTime)</span><br><span class="line">                #print received_time</span><br><span class="line">                received_time = datetime.strptime(received_time, &#x27;%m/%d/%y %H:%M:%S&#x27;)</span><br><span class="line">                #print message.EntryID</span><br><span class="line">                html_body = message.HTMLBody</span><br><span class="line">                size = long(message.Size)</span><br><span class="line"></span><br><span class="line">                sender =  message.SenderName</span><br><span class="line">                receiver = message.To</span><br><span class="line">                cc = message.Cc</span><br><span class="line">                body = message.Body</span><br><span class="line">                conn.execute(&#x27;insert into outlook(SUBJECT, SENDER, RECEIVER, CC, SIZE, RECEIVED_TIME, BODY, HTML_BODY) values(?, ?, ?, ?, ?, ?, ?, ?)&#x27;, (subject, sender, receiver, cc, size, received_time, body, html_body))</span><br><span class="line">                conn.commit()</span><br><span class="line">            except:</span><br><span class="line">                print i, &#x27;skip&#x27;</span><br><span class="line">                continue</span><br><span class="line"></span><br><span class="line">            message = messages.GetNext()</span><br><span class="line">    finally:</span><br><span class="line">        print &#x27;connection closed&#x27;</span><br><span class="line">        conn.close()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">collectMail()</span><br></pre></td></tr></table></figure>
+
+<h1 id="sql-to-create-table"><a href="#sql-to-create-table" class="headerlink" title="sql to create table"></a>sql to create table</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">create table outlook(</span><br><span class="line">ID INTEGER PRIMARY KEY   AUTOINCREMENT,</span><br><span class="line">SUBJECT VARCHAR(200) NOT NULL,</span><br><span class="line">SENDER VARCHAR(200) NOT NULL,</span><br><span class="line">RECEIVER VARCHAR(200) NOT NULL,</span><br><span class="line">CC  VARCHAR(200) NOT NULL,</span><br><span class="line">SIZE LONG NOT NULL,</span><br><span class="line">RECEIVED_TIME DATETIME,</span><br><span class="line">BODY TEXT,</span><br><span class="line">HTML_BODY TEXT);</span><br></pre></td></tr></table></figure>
+
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/18761465/python-script-to-read-the-emails-from-custom-folder-from-microsoft-outlook-mailb">python-script-to-read-the-emails-from-custom-folder-from-microsoft-outlook-mailb</a><br><a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/5077625/reading-e-mails-from-outlook-with-python-through-mapi">reading-e-mails-from-outlook-with-python-through-mapi</a><br><a target="_blank" rel="noopener" href="http://msdn.microsoft.com/en-us/library/microsoft.office.interop.outlook.aspx">microsoft.office.interop.outlook</a><br><a target="_blank" rel="noopener" href="http://www.tutorialspoint.com/sqlite/sqlite_using_autoincrement.htm">sqlite_using_autoincrement</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/AIX/">AIX</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

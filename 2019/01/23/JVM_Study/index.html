@@ -1,0 +1,149 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>JVM Study | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="JVM Study"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-JVM_Study" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2019-01-23T05:13:53.000Z"><a href="/2019/01/23/JVM_Study/">2019-01-23</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">JVM Study</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h2 id="List-all-VM-flags"><a href="#List-all-VM-flags" class="headerlink" title="List all VM flags"></a>List all VM flags</h2><p><code>java -XX:+UnlockDiagnosticVMOptions -XX:+PrintFlagsFinal -version</code></p>
+<h2 id="JAVA-OPTS-settings-for-OpenJDK-11"><a href="#JAVA-OPTS-settings-for-OpenJDK-11" class="headerlink" title="JAVA_OPTS settings for OpenJDK 11"></a>JAVA_OPTS settings for OpenJDK 11</h2><p>File: <code>d:\App\wildfly-10.1.0.Final\bin\standalone.conf.bat</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set &quot;JAVA_OPTS=%JAVA_OPTS% -Dhk.gov.ogcio.egis.rm.common.PROPERTIES_FILEPATH=D:\rm -Djboss.bind.address=0.0.0.0 -Dspring.profiles.active=uat -Djavax.net.ssl.trustStore=D:\keystore\tcspls_egis.jks -Dfreetts.voices=de.dfki.lt.freetts.en.us.MbrolaVoiceDirectory -Dmbrola.base=D:\mbrola&quot;</span><br><span class="line">set &quot;JAVA_OPTS=%JAVA_OPTS% -XX:MaxGCPauseMillis=500 -XX:ErrorFile=D:/log/hserrpid%p.log -XX:HeapDumpPath=D:/log/ -Xloggc:D:/log/gc.log -XX:+PrintGCDetails -XX:+HeapDumpOnOutOfMemoryError&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Profiling-commands"><a href="#Profiling-commands" class="headerlink" title="Profiling commands"></a>Profiling commands</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">jinfo &lt;pid&gt;</span><br><span class="line"></span><br><span class="line">jmap -dump:live,format=b,file=heap.bin &lt;pid&gt;</span><br><span class="line">jstack &lt;pid&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a target="_blank" rel="noopener" href="http://stas-blogspot.blogspot.com/2011/07/most-complete-list-of-xx-options-for.html">http://stas-blogspot.blogspot.com/2011/07/most-complete-list-of-xx-options-for.html</a><br><a target="_blank" rel="noopener" href="https://www.oracle.com/technetwork/java/javase/tech/vmoptions-jsp-140102.html#Options">https://www.oracle.com/technetwork/java/javase/tech/vmoptions-jsp-140102.html#Options</a><br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/43087831/complete-list-of-jvm-options">https://stackoverflow.com/questions/43087831/complete-list-of-jvm-options</a><br><a target="_blank" rel="noopener" href="https://my.oschina.net/u/3627055/blog/2995973">https://my.oschina.net/u/3627055/blog/2995973</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>安装wssh, zdaemon,pagekite等 | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="安装wssh, zdaemon,pagekite等"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-安装wssh,-zdaemon,pagekite等" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2014-01-08T02:41:46.000Z"><a href="/2014/01/08/%E5%AE%89%E8%A3%85wssh,-zdaemon,pagekite%E7%AD%89/">2014-01-08</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">安装wssh, zdaemon,pagekite等</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <p>安装wssh遇到许多问题和有趣的东西，记录如下：</p>
+<ul>
+<li>要安装wssh，需要先装 <a target="_blank" rel="noopener" href="http://my.oschina.net/l1z2g9/blog/189309">gevent</a>和 <a target="_blank" rel="noopener" href="http://my.oschina.net/l1z2g9/blog/190780">pyCrypto</a>，其余用 <code>sudo pip install flask paramiko werkzeug jinja2 ecdsa gevent-websocket</code>等</li>
+<li>从<a target="_blank" rel="noopener" href="https://github.com/aluzzardi/wssh.git%E4%B8%8B%E8%BD%BDwssh">https://github.com/aluzzardi/wssh.git下载wssh</a> <code>python setup.py install</code> 运行sudo wsshd, 如果发现缺少包，就用pip install</li>
+<li>fix问题, 用浏览器打开<a target="_blank" rel="noopener" href="http://ip:5000/">http://ip:5000</a></li>
+<li>change <code>from geventwebsocket import WebSocketHandler</code> to <code>from geventwebsocket.handler import WebSocketHandler</code> in file EGG-INFO&#x2F;scripts&#x2F;wsshd</li>
+<li>change <code>raw.github.com</code> to <code>rawgithub.com</code> in file wssh&#x2F;templates&#x2F;index.html</li>
+<li>运行命令sudo wssh也可以连接</li>
+<li>安装zdaemon， <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install zdaemon</span><br><span class="line">zdaemon -p wsshd start</span><br></pre></td></tr></table></figure></li>
+<li>安装PageKite<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl -s https://pagekite.net/pk/ |sudo bash</span><br><span class="line">pagekite.py --signup</span><br><span class="line">pagekite.py 5000 mypi.pagekite.me</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a target="_blank" rel="noopener" href="https://github.com/amitsaha/raspi-guide/blob/master/doc/install.rst">https://github.com/amitsaha/raspi-guide/blob/master/doc/install.rst</a><br><a target="_blank" rel="noopener" href="http://echorand.me/2012/10/13/web-based-ssh-access-to-your-raspberry-pi/">http://echorand.me/2012/10/13/web-based-ssh-access-to-your-raspberry-pi/</a><br><a target="_blank" rel="noopener" href="http://www.vpsee.com/2013/06/invoke-a-linux-shell-with-ssh-account-from-browser/">http://www.vpsee.com/2013/06/invoke-a-linux-shell-with-ssh-account-from-browser/</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/AIX/">AIX</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

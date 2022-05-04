@@ -1,0 +1,157 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Run a program as windows service or background job | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Run a program as windows service or background job"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Run-a-program-as-windows-service-or-background-job" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2014-01-17T05:50:39.000Z"><a href="/2014/01/17/Run-a-program-as-windows-service-or-background-job/">2014-01-17</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Run a program as windows service or background job</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h1 id="nssm"><a href="#nssm" class="headerlink" title="nssm"></a>nssm</h1><p>Download nssm from <a target="_blank" rel="noopener" href="http://nssm.cc/download">http://nssm.cc/download</a> and follow its usage to install custom program as service.</p>
+<h1 id="instsrv"><a href="#instsrv" class="headerlink" title="instsrv"></a>instsrv</h1><ul>
+<li>instsrv myProgram “c:\Program Files\Windows Resource Kits\Tools\srvany.exe”</li>
+<li>install_service.reg<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Windows Registry Editor Version 5.00</span><br><span class="line">[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\myProgram\Parameters]</span><br><span class="line">&quot;AppDirectory&quot;=&quot;d:\\bin\\myProgram&quot;</span><br><span class="line">&quot;Application&quot;=&quot;D:\\bin\\myProgram\\myProgram.exe&quot;</span><br><span class="line">&quot;AppParameters&quot;=&quot;-d -f d:\\MyWorkDir\\myProgram.ini&quot;</span><br></pre></td></tr></table></figure></li>
+<li>sc config myProgram depend&#x3D; Tcpip</li>
+<li><code>net start myProgram</code> or <code>sc start myProgram</code></li>
+</ul>
+<h1 id="java"><a href="#java" class="headerlink" title="java"></a>java</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public class Run&#123;</span><br><span class="line">        public static void main(String[] args) throws InterruptedException, IOException &#123;</span><br><span class="line">                  Process pr = Runtime.getRuntime().exec(&quot;D:\\bin\\myProgram\\myProgram.exe -d -f   d:\\MyWorkDir\\myProgram.ini&quot;);</span><br><span class="line">                  pr.waitFor();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    javaw -cp . Run</span><br></pre></td></tr></table></figure>
+
+<h1 id="wscript"><a href="#wscript" class="headerlink" title="wscript"></a>wscript</h1><p>run.vbs</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Set WshShell = WScript.CreateObject(&quot;WScript.Shell&quot;)</span><br><span class="line">obj = WshShell.Run(&quot;plink.exe -load remotes_server -N&quot;, 0)</span><br><span class="line">set WshShell = Nothing</span><br></pre></td></tr></table></figure>
+
+<p>wscript run.vbs</p>
+<h1 id="at"><a href="#at" class="headerlink" title="at"></a>at</h1><p>if the session is closed such as remote desktop(mstsc), above program will be shutdown. But schedule job has no this problem <code>at 17:50 wscript run.vbs</code> then delete this scheduled job</p>
+<h1 id="run-nohup-in-cygwin"><a href="#run-nohup-in-cygwin" class="headerlink" title="run nohup in cygwin"></a>run nohup in cygwin</h1><p><code>nohup wscript run.vbs 2>&1 &</code></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Problem-Solve/">Problem Solve</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

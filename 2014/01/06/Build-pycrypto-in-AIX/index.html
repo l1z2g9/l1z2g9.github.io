@@ -1,0 +1,160 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Build pycrypto in AIX | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Build pycrypto in AIX"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Build-pycrypto-in-AIX" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2014-01-06T07:48:15.000Z"><a href="/2014/01/06/Build-pycrypto-in-AIX/">2014-01-06</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Build pycrypto in AIX</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <ul>
+<li><p>Download pycrypto-2.6.1 from <a target="_blank" rel="noopener" href="https://www.dlitz.net/software/pycrypto/">https://www.dlitz.net/software/pycrypto/</a> </p>
+</li>
+<li><p>Unzip pycrypto <code>tar xzvf pycrypto-2.6.1.tar.gz</code></p>
+</li>
+<li><p>set environment vairable and build source code <code>export ac_cv_func_malloc_0_nonnull=yes</code>(It would throw Error “undefined symbol rpl_malloc”) <code>python setup.py build</code>Refer to <a target="_blank" rel="noopener" href="http://embetek.blogspot.hk/2012/04/iperf-for-arm-cross-compile.html">iperf-for-arm-cross-compile</a> and <a target="_blank" rel="noopener" href="https://forum.openwrt.org/viewtopic.php?pid=4158">openwrt</a></p>
+</li>
+<li><p>Download dependencies and install them <a target="_blank" rel="noopener" href="http://www.bullfreeware.com/recherche.php">http://www.bullfreeware.com/recherche.php</a></p>
+<ul>
+<li>gmp-devel-5.1.3-1.aix6.1.ppc.rpm<br><a target="_blank" rel="noopener" href="http://www.perzl.org/aix/index.php">http://www.perzl.org/aix/index.php</a></li>
+<li>libtomcrypt-1.17-1.aix5.1.ppc.rpm</li>
+<li>libtomcrypt-devel-1.17-1.aix5.1.ppc.rpm</li>
+<li>libtommath-0.42.0-1.aix5.1.ppc.rpm</li>
+</ul>
+</li>
+<li><p>Makefile as below </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">CC=gcc</span><br><span class="line">CFLAGS=-pthread -fno-strict-aliasing -fwrapv -Wall -Wstrict-prototypes -fPIC -std=c99 -O3 -fomit-frame-pointer -Isrc/ -I/opt/freeware/include/python2.7 -c</span><br><span class="line">LDFLAGS=-pthread -shared -lpython2.7</span><br><span class="line">OBJ_DIR=build/temp.aix-7.1-2.7/src</span><br><span class="line">SO_DIR=build/lib.aix-7.1-2.7/Crypto</span><br><span class="line"></span><br><span class="line">all:</span><br><span class="line">    echo &quot;building &#x27;Crypto.PublicKey._fastmath&#x27; extension&quot;</span><br><span class="line">    $(CC) $(CFLAGS) src/_fastmath.c -o $(OBJ_DIR)/fastmath.o</span><br><span class="line">    $(CC) $(LDFLAGS) -lgmp -lm $(OBJ_DIR)/fastmath.o -o $(SO_DIR)/PublicKey/_fastmath.so  (added -lgmp -lm)</span><br><span class="line"></span><br><span class="line">    echo &quot;building &#x27;Crypto.Hash._MD2&#x27; extension&quot;</span><br><span class="line">    $(CC) $(CFLAGS) src/MD2.c -o $(OBJ_DIR)/MD2.o</span><br><span class="line">    $(CC) $(LDFLAGS) $(OBJ_DIR)/MD2.o -o $(SO_DIR)/Hash/_MD2.so</span><br><span class="line"></span><br><span class="line">    echo &quot;building &#x27;Crypto.Hash._SHA256&#x27; extension&quot;</span><br><span class="line">    $(CC) $(CFLAGS) src/MD2.c -o $(OBJ_DIR)/SHA256.o</span><br><span class="line">    $(CC) $(LDFLAGS) $(OBJ_DIR)/MD2.o -o $(SO_DIR)/Hash/_SHA256.so</span><br><span class="line"></span><br><span class="line">    echo &quot;building &#x27;Crypto.Hash._SHA224&#x27; extension&quot;</span><br><span class="line">    $(CC) $(CFLAGS) src/SHA224.c -o $(OBJ_DIR)/SHA224.o</span><br><span class="line">    $(CC) $(LDFLAGS) $(OBJ_DIR)/SHA224.o -o $(SO_DIR)/Hash/_SHA224.so</span><br><span class="line"></span><br><span class="line">    echo &quot;building &#x27;Crypto.Hash._SHA384&#x27; extension&quot;</span><br><span class="line">    $(CC) $(CFLAGS) src/SHA384.c -o $(OBJ_DIR)/SHA384.o</span><br><span class="line">    $(CC) $(LDFLAGS) $(OBJ_DIR)/SHA384.o -o $(SO_DIR)/Hash/_SHA384.so</span><br><span class="line"></span><br><span class="line">    echo &quot;building &#x27;Crypto.Hash._SHA512&#x27; extension&quot;</span><br><span class="line">    $(CC) $(CFLAGS) src/SHA512.c -o $(OBJ_DIR)/SHA512.o</span><br><span class="line">    $(CC) $(LDFLAGS) $(OBJ_DIR)/SHA512.o -o $(SO_DIR)/Hash/_SHA512.so</span><br><span class="line"></span><br><span class="line">    echo &quot;building &#x27;Crypto.Hash._RIPEMD160&#x27; extension&quot;</span><br><span class="line">    $(CC) $(CFLAGS) src/RIPEMD160.c -o $(OBJ_DIR)/RIPEMD160.o</span><br><span class="line">    $(CC) $(LDFLAGS) $(OBJ_DIR)/RIPEMD160.o -o $(SO_DIR)/Hash/_RIPEMD160.so</span><br><span class="line"></span><br><span class="line">    echo &quot;building &#x27;Crypto.Cipher._AES&#x27; extension&quot;</span><br><span class="line">    $(CC) $(CFLAGS) src/AES.c -o $(OBJ_DIR)/AES.o</span><br><span class="line">    $(CC) $(LDFLAGS) $(OBJ_DIR)/AES.o -o $(SO_DIR)/Cipher/_AES.so</span><br><span class="line"></span><br><span class="line">    echo &quot;building &#x27;Crypto.Cipher._ARC2&#x27; extension&quot;</span><br><span class="line">    $(CC) $(CFLAGS) src/ARC2.c -o $(OBJ_DIR)/ARC2.o</span><br><span class="line">    $(CC) $(LDFLAGS) $(OBJ_DIR)/ARC2.o -o $(SO_DIR)/Cipher/_ARC2.so</span><br><span class="line"></span><br><span class="line">    echo &quot;building &#x27;Crypto.Cipher._Blowfish&#x27; extension&quot;</span><br><span class="line">    $(CC) $(CFLAGS) src/Blowfish.c -o $(OBJ_DIR)/Blowfish.o</span><br><span class="line">    $(CC) $(LDFLAGS) $(OBJ_DIR)/Blowfish.o -o $(SO_DIR)/Cipher/_Blowfish.so</span><br><span class="line"></span><br><span class="line">    echo &quot;building &#x27;Crypto.Cipher._CAST&#x27; extension&quot;</span><br><span class="line">    $(CC) $(CFLAGS) src/CAST.c -o $(OBJ_DIR)/CAST.o</span><br><span class="line">    $(CC) $(LDFLAGS) $(OBJ_DIR)/CAST.o -o $(SO_DIR)/Cipher/_CAST.so</span><br><span class="line"></span><br><span class="line">    echo &quot;building &#x27;Crypto.Cipher._DES&#x27; extension&quot;</span><br><span class="line">    $(CC) $(CFLAGS) -I/opt/freeware/include/tomcrypt src/DES.c -o $(OBJ_DIR)/DES.o (added -I/opt/freeware/include/tomcrypt)</span><br><span class="line">    $(CC) $(LDFLAGS) -ltomcrypt $(OBJ_DIR)/DES.o -o $(SO_DIR)/Cipher/_DES.so  (added -ltomcrypt)</span><br><span class="line"></span><br><span class="line">    echo &quot;building &#x27;Crypto.Cipher._DES3&#x27; extension&quot;</span><br><span class="line">    $(CC) $(CFLAGS) -I/opt/freeware/include/tomcrypt src/DES3.c -o $(OBJ_DIR)/DES3.o  (added -I/opt/freeware/include/tomcrypt)</span><br><span class="line">    $(CC) $(LDFLAGS) -ltomcrypt $(OBJ_DIR)/DES3.o -o $(SO_DIR)/Cipher/_DES3.so (added -ltomcrypt)</span><br><span class="line"></span><br><span class="line">    echo &quot;building &#x27;Crypto.Cipher._ARC4&#x27; extension&quot;</span><br><span class="line">    $(CC) $(CFLAGS) src/ARC4.c -o $(OBJ_DIR)/ARC4.o</span><br><span class="line">    $(CC) $(LDFLAGS) $(OBJ_DIR)/ARC4.o -o $(SO_DIR)/Cipher/_ARC4.so</span><br><span class="line"></span><br><span class="line">    echo &quot;building &#x27;Crypto.Cipher._XOR&#x27; extension&quot;</span><br><span class="line">    $(CC) $(CFLAGS) src/XOR.c -o $(OBJ_DIR)/XOR.o</span><br><span class="line">    $(CC) $(LDFLAGS) $(OBJ_DIR)/XOR.o -o $(SO_DIR)/Cipher/_XOR.so</span><br><span class="line"></span><br><span class="line">    echo &quot;building &#x27;Crypto.Util.strxor&#x27; extension&quot;</span><br><span class="line">    $(CC) $(CFLAGS) src/strxor.c -o $(OBJ_DIR)/strxor.o</span><br><span class="line">    $(CC) $(LDFLAGS) $(OBJ_DIR)/strxor.o -o $(SO_DIR)/Util/strxor.so</span><br><span class="line"></span><br><span class="line">    echo &quot;building &#x27;Crypto.Util._counter&#x27; extension&quot;</span><br><span class="line">    $(CC) $(CFLAGS) src/_counter.c -o $(OBJ_DIR)/counter.o</span><br><span class="line">    $(CC) $(LDFLAGS) $(OBJ_DIR)/counter.o -o $(SO_DIR)/Util/_counter.so</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/AIX/">AIX</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Do Something With ElasticSearch | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Do Something With ElasticSearch"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Do-Something-With-ElasticSearch" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2015-12-11T03:37:44.000Z"><a href="/2015/12/11/Do-Something-With-ElasticSearch/">2015-12-11</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Do Something With ElasticSearch</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h1 id="elasticsearch-yml-node01-node02"><a href="#elasticsearch-yml-node01-node02" class="headerlink" title="elasticsearch.yml (node01, node02)"></a>elasticsearch.yml (node01, node02)</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">network.host: $xx</span><br><span class="line">http.port: 9200</span><br><span class="line">transport.tcp.port: 9300</span><br><span class="line">index.number_of_replicas: 1</span><br><span class="line">discovery:</span><br><span class="line">  zen:</span><br><span class="line">    ping:</span><br><span class="line">      multicast.enabled: false</span><br><span class="line">      unicast.hosts: [&quot;$yy&quot;]</span><br><span class="line">      timeout: &quot;3s&quot;</span><br><span class="line">cluster:</span><br><span class="line">  name: es-cluster</span><br><span class="line">node:</span><br><span class="line">  name: $zz</span><br><span class="line">path.repo: [&quot;/mount/backups&quot;]</span><br><span class="line"></span><br><span class="line">index.search.slowlog.threshold.query.warn: 10s</span><br><span class="line">index.search.slowlog.threshold.query.info: 5s</span><br><span class="line">index.search.slowlog.threshold.query.debug: 2s</span><br><span class="line">index.search.slowlog.threshold.query.trace: 500ms</span><br><span class="line"></span><br><span class="line">index.search.slowlog.threshold.fetch.warn: 1s</span><br><span class="line">index.search.slowlog.threshold.fetch.info: 800ms</span><br><span class="line">index.search.slowlog.threshold.fetch.debug: 500ms</span><br><span class="line">index.search.slowlog.threshold.fetch.trace: 200ms</span><br><span class="line"></span><br><span class="line">index.indexing.slowlog.threshold.index.warn: 10s</span><br><span class="line">index.indexing.slowlog.threshold.index.info: 5s</span><br><span class="line">index.indexing.slowlog.threshold.index.debug: 2s</span><br><span class="line">index.indexing.slowlog.threshold.index.trace: 500ms</span><br></pre></td></tr></table></figure>
+
+<p>replace vairable in node01 with ($xx&#x3D;node01, $yy&#x3D;node2, $zz&#x3D;es-node01)<br>replace vairable in node02 with ($xx&#x3D;node02, $yy&#x3D;node1, $zz&#x3D;es-node02)</p>
+<h1 id="docker-compose-yml"><a href="#docker-compose-yml" class="headerlink" title="docker-compose.yml"></a>docker-compose.yml</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">elasticsearch:</span><br><span class="line">  build: elasticsearch/</span><br><span class="line">  net: &quot;host&quot;</span><br><span class="line">  volumes:</span><br><span class="line">    - ./elasticsearch/config:/opt/elasticsearch/config:ro</span><br><span class="line">    - /var/data:/opt/elasticsearch/data</span><br><span class="line">    - /opt/backups/es_backup:/mount/backups</span><br><span class="line">  expose:</span><br><span class="line">    - &quot;9200&quot;</span><br><span class="line">    - &quot;9300&quot;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Install-x2F-Configure-NFS-server-and-client"><a href="#Install-x2F-Configure-NFS-server-and-client" class="headerlink" title="Install&#x2F;Configure NFS server and client"></a>Install&#x2F;Configure NFS server and client</h1><h2 id="In-node02-add-NFS-server"><a href="#In-node02-add-NFS-server" class="headerlink" title="In node02 add NFS server"></a>In node02 add NFS server</h2><p><code>sudo apt-get install nfs-kernel-server</code><br><code>vi /etc/exports</code> to add below setting<br><code>/opt/backups/es_backup node01(rw,sync,no_subtree_check)</code><br>then run <code>exportfs -ra</code></p>
+<h2 id="In-node01-add-NFS-client"><a href="#In-node01-add-NFS-client" class="headerlink" title="In node01 add NFS client"></a>In node01 add NFS client</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install nfs-common</span><br><span class="line">midir -p /opt/backups/es_backup</span><br><span class="line">mount node02:/opt/backups/es_backup es_backup</span><br></pre></td></tr></table></figure>
+<p><code>vi /etc/fstab</code> to add below setting<br><code>10.13.135.38:/opt/backups/es_backup /opt/backups/es_backup nfs rw,hard,intr 0 0</code></p>
+<h1 id="Restart-docker"><a href="#Restart-docker" class="headerlink" title="Restart docker"></a>Restart docker</h1><p>Run command <code>docker-compose up -d</code> to build and run ES.</p>
+<h1 id="Create-snapshot-in-ES-with-sense"><a href="#Create-snapshot-in-ES-with-sense" class="headerlink" title="Create snapshot in ES with sense"></a>Create snapshot in ES with sense</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">PUT _snapshot/logstash_repo</span><br><span class="line">&#123;</span><br><span class="line">    &quot;type&quot;: &quot;fs&quot;,</span><br><span class="line">    &quot;settings&quot;: &#123;</span><br><span class="line">      &quot;compress&quot;: &quot;true&quot;,</span><br><span class="line">      &quot;location&quot;: &quot;/mount/backups/logstash_repo&quot;,</span><br><span class="line">      &quot;max_snapshot_bytes_per_sec&quot; : &quot;50mb&quot;,</span><br><span class="line">      &quot;max_restore_bytes_per_sec&quot; : &quot;50mb&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Backup-x2F-Restore-indices"><a href="#Backup-x2F-Restore-indices" class="headerlink" title="Backup&#x2F;Restore indices"></a>Backup&#x2F;Restore indices</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">PUT _snapshot/logstash_repo/snapshot_20151211</span><br><span class="line">&#123;</span><br><span class="line">  &quot;indices&quot;: &quot;logstash-2015.12.10,logstash-2015.12.11&quot;,</span><br><span class="line">  &quot;ignore_unavailable&quot;: &quot;true&quot;,</span><br><span class="line">  &quot;include_global_state&quot;: &quot;false&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">GET /_snapshot/logstash_repo/_all or GET /_snapshot/logstash_repo/snapshot_20151211/_status (Check)</span><br><span class="line"></span><br><span class="line">DELETE logstash-2015.12.10,logstash-2015.12.11 (Delete Indice)</span><br><span class="line"></span><br><span class="line">POST /_snapshot/logstash_repo/snapshot_20151211/_restore?wait_for_completion (Restore)</span><br><span class="line"></span><br><span class="line">DELETE /_snapshot/logstash_repo (Delete Snapshot)</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="Following-command-should-be-remembered"><a href="#Following-command-should-be-remembered" class="headerlink" title="Following command should be remembered"></a>Following command should be remembered</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">GET _cluster/health</span><br><span class="line">  or GET _cluster/health?level=indices</span><br><span class="line">  or GET _cluster/health?level=shards</span><br><span class="line">  or GET _cluster/health?wait_for_status=green</span><br><span class="line"></span><br><span class="line">GET _cat/indices</span><br><span class="line"></span><br><span class="line">GET logstash-2015.12.09/_settings</span><br><span class="line"></span><br><span class="line">GET logstash-2015.12.09/_count</span><br><span class="line"></span><br><span class="line">GET logstash-2015.12.09/_mapping</span><br><span class="line"></span><br><span class="line">GET logstash-2015.12.16/server-SystemOut/_search?q=message:Exception</span><br><span class="line"></span><br><span class="line">GET logstash-2015.12.08/server-SystemOut/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;match&quot;: &#123;</span><br><span class="line">      &quot;message&quot;: &quot;Exception&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">GET logstash-2015.12.15/_search?fields=timestamp,host</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;filtered&quot;: &#123;</span><br><span class="line">      &quot;query&quot;: &#123;</span><br><span class="line">        &quot;match&quot;: &#123;</span><br><span class="line">          &quot;message&quot;: &quot;Exception&quot;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;filter&quot;: &#123;</span><br><span class="line">        &quot;range&quot;: &#123;</span><br><span class="line">          &quot;@timestamp&quot;: &#123;</span><br><span class="line">            &quot;gte&quot;: 1450212195957,</span><br><span class="line">            &quot;lte&quot;: 1450265395957,</span><br><span class="line">            &quot;format&quot;: &quot;epoch_millis&quot;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;sort&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;@timestamp&quot;: &#123;</span><br><span class="line">        &quot;order&quot;: &quot;asc&quot;,</span><br><span class="line">        &quot;unmapped_type&quot;: &quot;boolean&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  &quot;size&quot;: 10,</span><br><span class="line">  &quot;from&quot;: 0,</span><br><span class="line">  &quot;fields&quot;: [&quot;host&quot;,&quot;message&quot;]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">GET logstash-2015.12.15/_search?size=20&amp;fields=message</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;query_string&quot;: &#123;</span><br><span class="line">      &quot;query&quot;: &quot;message : Exception AND type : moon01&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Client-API-to-search-ES-cluster"><a href="#Client-API-to-search-ES-cluster" class="headerlink" title="Client API to search ES cluster"></a>Client API to search ES cluster</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line">package dh;</span><br><span class="line"></span><br><span class="line">import io.searchbox.client.JestClient;</span><br><span class="line">import io.searchbox.client.JestClientFactory;</span><br><span class="line">import io.searchbox.client.config.HttpClientConfig;</span><br><span class="line">import io.searchbox.core.Search;</span><br><span class="line">import io.searchbox.core.SearchResult;</span><br><span class="line"></span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.util.Calendar;</span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">import org.elasticsearch.index.query.QueryBuilder;</span><br><span class="line">import org.elasticsearch.index.query.QueryBuilders;</span><br><span class="line">import org.elasticsearch.search.builder.SearchSourceBuilder;</span><br><span class="line"></span><br><span class="line">public class Main &#123;</span><br><span class="line">	public static void main(String[] args) throws IOException &#123;</span><br><span class="line">		JestClientFactory factory = new JestClientFactory();</span><br><span class="line">		factory.setHttpClientConfig(new HttpClientConfig.Builder(&quot;http://10.13.135.37:9200&quot;).build());</span><br><span class="line">		JestClient client = factory.getObject();</span><br><span class="line"></span><br><span class="line">		SearchSourceBuilder builder = new SearchSourceBuilder();</span><br><span class="line"></span><br><span class="line">		// single and mutilple criteria </span><br><span class="line">		QueryBuilder q1 = QueryBuilders.queryStringQuery(&quot;message : Exception AND type : moon01&quot;);</span><br><span class="line">		QueryBuilder q2 = QueryBuilders.matchQuery(&quot;message&quot;, &quot;Exception&quot;);</span><br><span class="line"></span><br><span class="line">		long now = System.currentTimeMillis();</span><br><span class="line">		Calendar c = Calendar.getInstance();</span><br><span class="line">		c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH) - 3);</span><br><span class="line">		long thatDay = c.getTimeInMillis();</span><br><span class="line"></span><br><span class="line">		String filtered = builder.query(</span><br><span class="line">				QueryBuilders.filteredQuery(QueryBuilders.queryFilter(q2), QueryBuilders.rangeQuery(&quot;@timestamp&quot;).from(</span><br><span class="line">						Long.toString(thatDay)).to(Long.toString(now)).format(&quot;epoch_millis&quot;))).sort(&quot;@timestamp&quot;)</span><br><span class="line">				.size(200).from(0).field(&quot;_source&quot;).toString();</span><br><span class="line"></span><br><span class="line">		System.out.println(&quot;DSL Query &quot; + filtered);</span><br><span class="line"></span><br><span class="line">		Search search = ((Search.Builder) new Search.Builder(filtered).addIndex(&quot;logstash-2015.12.15&quot;).addIndex(</span><br><span class="line">				&quot;logstash-2015.12.16&quot;)).build();</span><br><span class="line">		SearchResult result = (SearchResult) client.execute(search);</span><br><span class="line"></span><br><span class="line">		List&lt;SearchResult.Hit&lt;Log, Void&gt;&gt; hits = result.getHits(Log.class);</span><br><span class="line"></span><br><span class="line">		int i = 0;</span><br><span class="line">		for (SearchResult.Hit&lt;Log, Void&gt; hit : hits) &#123;</span><br><span class="line">			i++;</span><br><span class="line">			if (hit.source.getWas_message() != null &amp;&amp; hit.source.getWas_message().length() &gt; 200) &#123;</span><br><span class="line">				System.out.println(i + &quot; &quot; + hit.index + &quot;, &quot; + hit.source.getType() + &quot;, &quot;</span><br><span class="line">						+ hit.source.getWas_message().substring(0, 200));</span><br><span class="line">			&#125; else &#123;</span><br><span class="line">				System.out.println(i + &quot; &quot; + hit.index + &quot;, &quot; + hit.source.getType() + &quot;, &quot;</span><br><span class="line">						+ hit.source.getWas_message());</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(&quot;Total: &quot; + result.getTotal() + &quot;, Hits size: &quot; + hits.size());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Log &#123;</span><br><span class="line">	private String type;</span><br><span class="line">	private String was_message;</span><br><span class="line"></span><br><span class="line">	public String getType() &#123;</span><br><span class="line">		return type;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void setType(String type) &#123;</span><br><span class="line">		this.type = type;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public String getWas_message() &#123;</span><br><span class="line">		return was_message;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void setWas_message(String was_message) &#123;</span><br><span class="line">		this.was_message = was_message;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Software-installed-in-server"><a href="#Software-installed-in-server" class="headerlink" title="Software installed in server"></a>Software installed in server</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">fun:</span><br><span class="line">  cowsay</span><br><span class="line">  fortune</span><br><span class="line">  sl</span><br><span class="line">  jq</span><br><span class="line">  banner</span><br><span class="line">  toilet</span><br><span class="line">  figlet</span><br><span class="line">  libaa-bin</span><br><span class="line"></span><br><span class="line">utility:</span><br><span class="line">  htop</span><br><span class="line">  python-pip</span><br><span class="line">  atop</span><br><span class="line">  sysstat</span><br><span class="line"></span><br><span class="line">pip:</span><br><span class="line">  paramiko</span><br><span class="line">  fabric</span><br><span class="line">  elasticsearch</span><br><span class="line"></span><br><span class="line">nfs:</span><br><span class="line">  nfs-common</span><br><span class="line">  nfs-kernel-server</span><br></pre></td></tr></table></figure>
+
+<h1 id="Monitor-docker-with-following-technology"><a href="#Monitor-docker-with-following-technology" class="headerlink" title="Monitor docker with following technology"></a>Monitor docker with following technology</h1><p>Rsyslog<br>ElasticSearch + Logstash + Kibana<br>Graphite<br>Collectd<br>grafana&#x2F;grafana<br>tutum&#x2F;influxdb<br>google&#x2F;cadvisor<br>Heka<br>flunted</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a target="_blank" rel="noopener" href="https://help.ubuntu.com/community/SettingUpNFSHowTo">https://help.ubuntu.com/community/SettingUpNFSHowTo</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

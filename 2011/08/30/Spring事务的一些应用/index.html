@@ -1,0 +1,148 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Spring事务的一些应用 | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Spring事务的一些应用"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Spring事务的一些应用" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2011-08-30T07:42:24.000Z"><a href="/2011/08/30/Spring%E4%BA%8B%E5%8A%A1%E7%9A%84%E4%B8%80%E4%BA%9B%E5%BA%94%E7%94%A8/">2011-08-30</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Spring事务的一些应用</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <p>  TransactionManager通过TransactionSynchronizationManager进行事务控制，TransactionTemplate就使用transactionManager运行sql。 </p>
+<p>  TransactionTemplate -&gt; PlatformTransactionManager  -&gt; TransactionSynchronizationManager </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);</span><br><span class="line">transactionTemplate.execute(new TransactionCallbackWithoutResult() &#123;</span><br><span class="line">  @Override</span><br><span class="line">  protected void doInTransactionWithoutResult(TransactionStatus arg0) &#123;</span><br><span class="line">    int count = em.createNativeQuery(&quot;delete XX&quot;).executeUpdate();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>  可以利用TransactionAspectSupport.currentTransactionStatus()控制事务状态，利用setRollbackOnly<br>  要知道是否一个活动事务可以用TransactionSynchronizationManager.isActualTransactionActive() </p>
+<p>  写了一个Audit，目的在事务结束前调用一个oracle的package，记录所有变化的数据。 </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">import java.lang.reflect.Field;</span><br><span class="line">import java.sql.CallableStatement;</span><br><span class="line">import java.sql.Connection;</span><br><span class="line">import java.sql.SQLException;</span><br><span class="line">import java.util.Map;</span><br><span class="line"></span><br><span class="line">import javax.persistence.EntityManager;</span><br><span class="line"></span><br><span class="line">import oracle.jdbc.driver.OracleTypes;</span><br><span class="line"></span><br><span class="line">import org.apache.log4j.Logger;</span><br><span class="line">import org.aspectj.lang.JoinPoint;</span><br><span class="line">import org.aspectj.lang.annotation.After;</span><br><span class="line">import org.aspectj.lang.annotation.Aspect;</span><br><span class="line">import org.aspectj.lang.annotation.Before;</span><br><span class="line">import org.aspectj.lang.annotation.Pointcut;</span><br><span class="line">import org.hibernate.Session;</span><br><span class="line">import org.hibernate.jdbc.Work;</span><br><span class="line">import org.springframework.orm.jpa.EntityManagerFactoryInfo;</span><br><span class="line">import org.springframework.orm.jpa.EntityManagerHolder;</span><br><span class="line">import org.springframework.orm.jpa.LocalEntityManagerFactoryBean;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line">import org.springframework.transaction.interceptor.TransactionAspectSupport;</span><br><span class="line">import org.springframework.transaction.support.TransactionSynchronizationManager;</span><br><span class="line"></span><br><span class="line">@Component</span><br><span class="line">@Aspect</span><br><span class="line">public class AuditRecorder &#123;</span><br><span class="line">  private static final Logger log = Logger.getLogger(AuditRecorder.class);</span><br><span class="line"></span><br><span class="line">  @After(&quot;execution(public * xx.yy..*Service.*(..)) &amp;&amp; @annotation(auditable)&quot;)</span><br><span class="line">  public void recordUsage(JoinPoint jp) &#123;</span><br><span class="line">    audit();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  private void audit() &#123;</span><br><span class="line">    if (TransactionSynchronizationManager.isActualTransactionActive()) &#123;</span><br><span class="line">      Map map = TransactionSynchronizationManager.getResourceMap();</span><br><span class="line">      log.info(&quot;mapsize &quot; + map.size());</span><br><span class="line">      for (Object key : map.keySet()) &#123;</span><br><span class="line">        log.debug(&quot;key  &quot; + key + &quot; , &quot; + map.get(key));</span><br><span class="line"></span><br><span class="line">        if (key instanceof EntityManagerFactoryInfo) &#123;</span><br><span class="line">          EntityManagerFactoryInfo info = (EntityManagerFactoryInfo) key;</span><br><span class="line"></span><br><span class="line">          String unitName = info.getPersistenceUnitName();</span><br><span class="line">          if (!unitName.contains(&quot;srs&quot;) &amp;&amp; !unitName.contains(&quot;cas&quot;)) &#123;</span><br><span class="line">            log.debug(&quot;call audit procedure.&quot;);</span><br><span class="line">            if (map.get(key) instanceof EntityManagerHolder) &#123;</span><br><span class="line">              EntityManagerHolder emHolder = (EntityManagerHolder) map</span><br><span class="line">                  .get(key);</span><br><span class="line">              EntityManager em = emHolder.getEntityManager();</span><br><span class="line">              Session s = (Session) em.getDelegate();</span><br><span class="line">              s.doWork(new Work() &#123;</span><br><span class="line">                public void execute(Connection conn)</span><br><span class="line">                    throws SQLException &#123;</span><br><span class="line">                  String sql = &quot;&#123;call SP_COMMON.setloginuser(?)&#125;&quot;;</span><br><span class="line">                  CallableStatement call = conn</span><br><span class="line">                      .prepareCall(sql);</span><br><span class="line">                  call.setString(1, &quot;test&quot;);</span><br><span class="line">                  call.executeUpdate();</span><br><span class="line"></span><br><span class="line">                  CallableStatement call2 = conn</span><br><span class="line">                      .prepareCall(&quot;&#123;? = call SP_COMMON.getloginuser&#125;&quot;);</span><br><span class="line">                  call2.registerOutParameter(1,</span><br><span class="line">                      OracleTypes.VARCHAR);</span><br><span class="line">                  call2.executeQuery();</span><br><span class="line"></span><br><span class="line">                  System.out.println(&quot;&lt;&lt; &quot;</span><br><span class="line">                      + call2.getString(1));</span><br><span class="line">                &#125;</span><br><span class="line">              &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

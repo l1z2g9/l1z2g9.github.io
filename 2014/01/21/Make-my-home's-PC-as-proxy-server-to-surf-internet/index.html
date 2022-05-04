@@ -1,0 +1,168 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Make my home&#39;s PC as proxy server to surf internet | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Make my home&#39;s PC as proxy server to surf internet"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Make-my-home&#39;s-PC-as-proxy-server-to-surf-internet" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2014-01-21T09:52:15.000Z"><a href="/2014/01/21/Make-my-home's-PC-as-proxy-server-to-surf-internet/">2014-01-21</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Make my home&#39;s PC as proxy server to surf internet</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h1 id="Step"><a href="#Step" class="headerlink" title="Step"></a>Step</h1><h2 id="At-home"><a href="#At-home" class="headerlink" title="At home"></a>At home</h2><ul>
+<li>Install cygwin and openssh package in my home’s PC</li>
+<li>Install pagekite and run following command as a scheduled job<br><code>python.exe pagekite.py 22 ssh:YOU.pagekite.me</code></li>
+</ul>
+<h2 id="At-workstation"><a href="#At-workstation" class="headerlink" title="At workstation"></a>At workstation</h2><ul>
+<li>Use putty to login YOU.pagekite.me:22 through http proxy **YOU.pagekite.me:443</strong></li>
+<li>Create dynamic port forwarding -D1080 in localhost</li>
+<li>In putty: Connection -&gt; Seconds between keepalives should be larger than 0(such as 10)</li>
+<li>Setup firefox to use socks proxy localhost:1080</li>
+</ul>
+<h2 id="Another-method-Using-Squid"><a href="#Another-method-Using-Squid" class="headerlink" title="Another method(Using Squid)"></a>Another method(Using Squid)</h2><ul>
+<li>at home: install squid</li>
+<li>at workstation: using putty to create local port forwarding: **-L3128:localhost:3128</strong></li>
+<li>Setup firefox to use http proxy localhost:3128</li>
+</ul>
+<h2 id="PS-Proxy-tools"><a href="#PS-Proxy-tools" class="headerlink" title="PS: Proxy tools"></a>PS: Proxy tools</h2><p>connect or netcat or <a target="_blank" rel="noopener" href="http://www.agroman.net/corkscrew/">corkscrew</a> or nc <a target="_blank" rel="noopener" href="http://www.proxycap.com/">proxycap</a> or <a target="_blank" rel="noopener" href="http://www.nocrew.org/software/httptunnel.html">httptunnel</a> <a target="_blank" rel="noopener" href="https://www.stunnel.org/docs.html">stunnel</a></p>
+<h2 id="Reverse-Proxy"><a href="#Reverse-Proxy" class="headerlink" title="Reverse Proxy"></a>Reverse Proxy</h2><p><a target="_blank" rel="noopener" href="http://pagekite.net/">pagekite</a><br><a target="_blank" rel="noopener" href="http://progrium.com/localtunnel/#readme">localtunnel</a><br><a target="_blank" rel="noopener" href="https://github.com/proxylocal/proxylocal-gem">proxylocal</a></p>
+<h2 id="VNC"><a href="#VNC" class="headerlink" title="VNC"></a>VNC</h2><p><strong>vnc loopback connections are not enabled</strong><br>Solved:</p>
+<ul>
+<li>enable <strong>Allow loopback connections</strong></li>
+<li>uncheck the <strong>Use password</strong><br>Ref:<br><a target="_blank" rel="noopener" href="http://diddy.boot-land.net/ssh/files/vnc.htm">Tunnelling VNC over SSH</a><br><a target="_blank" rel="noopener" href="http://support.jumpdesktop.com/entries/227821-VNC-Server-Error-message-Loopback-connections-are-disabled-">VNC: Server Error message “Loopback connections are disabled”</a></li>
+</ul>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a target="_blank" rel="noopener" href="https://pagekite.net/wiki/Howto/SshOverPageKite/">ssh pagekite</a><br><a target="_blank" rel="noopener" href="https://pagekite.net/wiki/Howto/Windows/SSHAndTunnels/">putty pagekite</a><br><a target="_blank" rel="noopener" href="http://blog.changyy.org/2009/02/windows-squid-proxy-server-windows-xp_12.html">安裝 Squid Proxy Server @ Windows XP</a></p>
+<h3 id="setup-dynamic-port-forwarding"><a href="#setup-dynamic-port-forwarding" class="headerlink" title="setup dynamic port forwarding"></a>setup dynamic port forwarding</h3><p><a target="_blank" rel="noopener" href="https://www.linode.com/wiki/index.php/SSH_Dynamic_Port_Forwarding">SSH Dynamic Port Forwarding</a><br><a target="_blank" rel="noopener" href="http://en.wikibooks.org/wiki/OpenSSH/Cookbook/Proxies_and_Jump_Hosts">Proxies_and_Jump_Hosts</a></p>
+<h3 id="Troubleshoot"><a href="#Troubleshoot" class="headerlink" title="Troubleshoot"></a>Troubleshoot</h3><p><a target="_blank" rel="noopener" href="http://glandium.org/blog/?p=223">SSH using a SOCKS or HTTP proxy</a><br><a target="_blank" rel="noopener" href="http://danielthat.blogspot.hk/2012/10/ssh-putty-session-network-time-out.html">Network error: Software caused connection abort</a><br><a target="_blank" rel="noopener" href="http://superuser.com/questions/454210/how-can-i-use-ssh-with-a-socks-5-proxy">How can I use SSH with a SOCKS 5 proxy</a></p>
+<h3 id="Others-must-read"><a href="#Others-must-read" class="headerlink" title="Others(must read)"></a>Others(must read)</h3><p><a target="_blank" rel="noopener" href="http://superuser.com/questions/657977/ssh-as-socks-proxy-through-multiple-hosts-with-http-proxy-involved">SSH as socks proxy through multiple hosts (with http proxy involved)</a><br><a target="_blank" rel="noopener" href="http://superuser.com/questions/332850/ssh-as-socks-proxy-through-multiple-hosts">SSH as socks proxy through multiple hosts</a><br><a target="_blank" rel="noopener" href="http://daniel.haxx.se/docs/sshproxy.html">SSH Through or Over Proxy</a><br><a target="_blank" rel="noopener" href="https://calomel.org/firefox_ssh_proxy.html">Proxy Firefox through a SSH tunnel</a><br><a target="_blank" rel="noopener" href="http://unix.stackexchange.com/questions/97142/whats-the-difference-between-ssh-and-squid-when-using-them-as-proxies">What’s the difference between SSH and Squid when using them as proxies</a><br><a target="_blank" rel="noopener" href="http://chamibuddhika.wordpress.com/2012/03/21/ssh-tunnelling-explained/">SSH Tunneling Explained</a><br><a target="_blank" rel="noopener" href="http://pagekite.net/wiki/Floss/PySocksipyChain/">PySocksipyChain</a><br><a target="_blank" rel="noopener" href="http://etutorials.org/Networking/network+security+hacks/Chapter+6.+Secure+Tunnels/Hack+76+Encrypt+and+Tunnel+Traffic+with+SSL/">Secure+Tunnels&#x2F;Hack+76+Encrypt+and+Tunnel+Traffic+with+SSL</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

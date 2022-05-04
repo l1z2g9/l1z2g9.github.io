@@ -1,0 +1,150 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>dds4 and tsm backup | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="dds4 and tsm backup"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-dds4-and-tsm-backup" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2012-11-23T05:25:57.000Z"><a href="/2012/11/23/dds4-and-tsm-backup/">2012-11-23</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">dds4 and tsm backup</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h1 id="Backup"><a href="#Backup" class="headerlink" title="Backup"></a>Backup</h1><p> <code>find /tmp/forest | backup -ivqf /dev/rmt0</code></p>
+<h2 id="Commands-of-controlling-DDS4-tape"><a href="#Commands-of-controlling-DDS4-tape" class="headerlink" title="Commands of controlling DDS4 tape"></a>Commands of controlling DDS4 tape</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mt -t /dev/rmt0 rewind</span><br><span class="line">mt -t /dev/rmt0 offline</span><br></pre></td></tr></table></figure>
+
+<h1 id="Daily-backup"><a href="#Daily-backup" class="headerlink" title="Daily backup:"></a>Daily backup:</h1><h2 id="Backup-x2F-dh-x2F-db-x2F-bkup-x2F-exp-x2F-exp-ora-dow-dmp-gz"><a href="#Backup-x2F-dh-x2F-db-x2F-bkup-x2F-exp-x2F-exp-ora-dow-dmp-gz" class="headerlink" title="Backup &#x2F;dh&#x2F;db&#x2F;bkup&#x2F;exp&#x2F;exp_ora_{dow}.dmp.gz"></a>Backup &#x2F;dh&#x2F;db&#x2F;bkup&#x2F;exp&#x2F;exp_ora_{dow}.dmp.gz</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">restore -Tvqf /dev/rmt0 (View)</span><br><span class="line">restore -Tqdvf /dev/rmt0 /dh/db/bkup/exp</span><br><span class="line">restore -rvqf /dev/rmt0 (Restore)</span><br><span class="line">restore -xvqf /dev/rmt0</span><br><span class="line">restore -xdvqf /dev/rmt0 /dh/db/bkup/exp</span><br></pre></td></tr></table></figure>
+
+<h2 id="Weekly-backup-system-backup"><a href="#Weekly-backup-system-backup" class="headerlink" title="Weekly backup(system backup):"></a>Weekly backup(system backup):</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">restore -s4 -Tvqf /dev/rmt0.1 (View)</span><br><span class="line">lsmksysb -f /dev/rmt0</span><br><span class="line">restore -s4 -rvqf /dev/rmt0.1 (Restore)</span><br></pre></td></tr></table></figure>
+
+<p>  <a target="_blank" rel="noopener" href="http://www.oucs.ox.ac.uk/hfs/backup/allcli/index.xml?splitLevel=-1">http://www.oucs.ox.ac.uk/hfs/backup/allcli/index.xml?splitLevel=-1</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">dsmc restore /dh/db/bkup/exp/exp_ora_1.dmp.gz</span><br><span class="line">dsmc restore /dh/db/bkup/exp/exp_ora_1.dmp.gz /tmp/xx/</span><br><span class="line">dsmc restore /dh/db/bkup/exp/* /tmp/xx/</span><br><span class="line">dsmc query file</span><br><span class="line">dsmc query backup &quot;/dh/db/bkup/*&quot; -subdir=yes</span><br><span class="line">dsmc q ba &quot;/dsmdb/bkup/exp/*&quot; -subdir=yes (-inactive)</span><br><span class="line">dsmc q ba &quot;/dh/db/bkup/arch/*&quot; -su=yes</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

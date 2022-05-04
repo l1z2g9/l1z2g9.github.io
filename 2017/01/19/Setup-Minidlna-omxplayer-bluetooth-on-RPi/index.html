@@ -1,0 +1,211 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Setup Minidlna omxplayer bluetooth on RPi | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Setup Minidlna omxplayer bluetooth on RPi"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Setup-Minidlna-omxplayer-bluetooth-on-RPi" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2017-01-19T09:22:55.000Z"><a href="/2017/01/19/Setup-Minidlna-omxplayer-bluetooth-on-RPi/">2017-01-19</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Setup Minidlna omxplayer bluetooth on RPi</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h1 id="Install-minidlna-by-sudo-apt-get-install-minidlna"><a href="#Install-minidlna-by-sudo-apt-get-install-minidlna" class="headerlink" title="Install minidlna by sudo apt-get install minidlna"></a>Install minidlna by <code>sudo apt-get install minidlna</code></h1><p>Changes in &#x2F;etc&#x2F;minidlna.conf</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">media_dir=/home/pi/minidlna</span><br><span class="line">db_dir=/var/lib/minidlna (allow minidlna to index files)</span><br></pre></td></tr></table></figure>
+<p>Restart minidlna, </p>
+<ol>
+<li><code>sudo systemctl restart minidlna</code></li>
+<li><code>sudo service minidlna start</code></li>
+<li><code>sudo /etc/init.d/minidlna start</code></li>
+<li><code>sudo service minidlna status -l</code></li>
+<li><code>sudo systemctl status minidlna -l</code></li>
+</ol>
+<p><a target="_blank" rel="noopener" href="http://mkitby.com/2015/11/09/raspberry-pi-nas-upnp-dlna/">http://mkitby.com/2015/11/09/raspberry-pi-nas-upnp-dlna/</a><br><a target="_blank" rel="noopener" href="http://cheng-min-i-taiwan.blogspot.hk/2013/02/raspberry-pi-dlna.html">http://cheng-min-i-taiwan.blogspot.hk/2013/02/raspberry-pi-dlna.html</a></p>
+<h1 id="Install-the-command-line-media-player-by-sudo-apt-get-install-omxplayer-then-play-the-music-from-ssh-command-line"><a href="#Install-the-command-line-media-player-by-sudo-apt-get-install-omxplayer-then-play-the-music-from-ssh-command-line" class="headerlink" title="Install the command line media player by sudo apt-get install omxplayer, then play the music from ssh command line."></a>Install the command line media player by <code>sudo apt-get install omxplayer</code>, then play the music from ssh command line.</h1><p>Control the playback via such app “OMX Remote” or “Raspicast” which can be download from google play.</p>
+<p><a target="_blank" rel="noopener" href="https://codeyarns.com/2016/09/09/how-to-cast-to-raspberry-pi-using-raspicast/">https://codeyarns.com/2016/09/09/how-to-cast-to-raspberry-pi-using-raspicast/</a><br><a target="_blank" rel="noopener" href="https://codeyarns.com/2016/03/20/omxplayer/">https://codeyarns.com/2016/03/20/omxplayer/</a><br><a target="_blank" rel="noopener" href="https://codeyarns.com/2016/09/09/omx-remote/">https://codeyarns.com/2016/09/09/omx-remote/</a></p>
+<h1 id="Connect-to-bluetooth-speaker"><a href="#Connect-to-bluetooth-speaker" class="headerlink" title="Connect to bluetooth speaker"></a>Connect to bluetooth speaker</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">hcitool dev</span><br><span class="line">hciconfig - show BD address of Pi</span><br><span class="line">hciconfig -a hci0</span><br><span class="line">rfkill unblock bluetooth or rfkill unblock all // If bluetoothctl cannot find any controller, the bluetooth device may be blocked. Try to unblock it using rfkill</span><br><span class="line">sudo bluetoothctl</span><br><span class="line"># scan on (find the BD address)</span><br><span class="line"># scan off</span><br><span class="line"># agent on</span><br><span class="line"># default-agent</span><br><span class="line"># pair A0:E4:53:20:77:79</span><br><span class="line"># trust A0:E4:53:20:77:79</span><br><span class="line"># connect A0:E4:53:20:77:79</span><br><span class="line"># list</span><br><span class="line"># devices</span><br><span class="line"># show</span><br><span class="line"># disconnect A0:E4:53:20:77:79</span><br></pre></td></tr></table></figure>
+
+<h1 id="Play-music-with-the-bluetooth-speaker-Phillips-BT3000-using-A2DP-profile"><a href="#Play-music-with-the-bluetooth-speaker-Phillips-BT3000-using-A2DP-profile" class="headerlink" title="Play music with the bluetooth speaker(Phillips BT3000) using A2DP profile"></a>Play music with the bluetooth speaker(Phillips BT3000) using A2DP profile</h1><ol>
+<li><p>Check if pulseaudio is running (Reference <a target="_blank" rel="noopener" href="https://wiki.archlinux.org/index.php/PulseAudio_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)">https://wiki.archlinux.org/index.php/PulseAudio_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)</a>)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ps aux | grep pulseaudio</span><br><span class="line">=&gt;</span><br><span class="line">/usr/bin/start-pulseaudio-X11</span><br><span class="line">pulseaudio --start</span><br><span class="line">(PulseAudio would run along with X11 desktop startup)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>List the sound cards <code>pacmd list-cards</code>. Test audio output of left and right channal <code>speaker-test -c 2</code></p>
+</li>
+<li><p>List the audio output <code>pacmd list-sinks</code> or <code>pactl list sinks short</code>. Check the default audio sink <code>aplay -L</code></p>
+</li>
+<li><p>List the audio input <code>pacmd list-sources</code> or <code>pactl list sources short</code></p>
+</li>
+<li><p>Set the Bluetooth speaker becomes default sink <code>pacmd set-default-sink 1</code> (index 1 is like bluez_sink.xx_xx_xx_xx_xx_xx)</p>
+</li>
+<li><p>Turn up the PulseAudio volume <code>pacmd set-sink-volume 0 65537</code> Or turn up the ALSA volume <code>amixer set Master 100%</code> or <code>amixer cset numid=3 100%</code><br>  Reference:<br>  <a target="_blank" rel="noopener" href="http://youness.net/raspberry-pi/bluetooth-headset-raspberry-pi">http://youness.net/raspberry-pi/bluetooth-headset-raspberry-pi</a><br>  <a target="_blank" rel="noopener" href="http://www.crazy-audio.com/2014/09/pulseaudio-on-the-raspbery-pi/">http://www.crazy-audio.com/2014/09/pulseaudio-on-the-raspbery-pi/</a></p>
+</li>
+<li><p>Show soundcard information <code>aplay -L</code> or <code>aplay -l</code>, play a music <code>aplay -v -V stereo HANA.mp3</code></p>
+</li>
+</ol>
+<h1 id="Stream-music-to-RPi-from-mobile-phone-connecting-with-bluetooth-Optional-maybe-RPi-can-automatically-detect-the-audio-source-bluetooth-and-sink-3-5mm-audio-jack"><a href="#Stream-music-to-RPi-from-mobile-phone-connecting-with-bluetooth-Optional-maybe-RPi-can-automatically-detect-the-audio-source-bluetooth-and-sink-3-5mm-audio-jack" class="headerlink" title="Stream music to RPi from mobile phone connecting with bluetooth (Optional, maybe RPi can automatically detect the audio source (bluetooth) and sink(3.5mm audio jack)"></a>Stream music to RPi from mobile phone connecting with bluetooth (Optional, maybe RPi can automatically detect the audio source (bluetooth) and sink(3.5mm audio jack)</h1><p>  <code>pactl load-module module-loopback source=bluez_source.B8_C6_8E_52_E8_CA sink=alsa_output.platform-bcm2835_AUD0.0.analog-stereo</code><br>  Reference:<br>  <a target="_blank" rel="noopener" href="http://kmonkey711.blogspot.hk/2012/12/a2dp-audio-on-raspberry-pi.html">http://kmonkey711.blogspot.hk/2012/12/a2dp-audio-on-raspberry-pi.html</a><br>  <a target="_blank" rel="noopener" href="http://www.dreamincode.net/forums/blog/62/entry-4272-sound-on-an-arch-linux-arm-raspberry-pi/">http://www.dreamincode.net/forums/blog/62/entry-4272-sound-on-an-arch-linux-arm-raspberry-pi/</a></p>
+<h1 id="Bluetooth-stack"><a href="#Bluetooth-stack" class="headerlink" title="Bluetooth stack"></a>Bluetooth stack</h1><p>  Controller stack<br>    HCI(Host Controller Interface)<br>  Protocol stack<br>    - L2CAP (Logical Link Control and Adaptation Protocol) -<br>    - SDP (Service Discovery protocol) - scan devices<br>    - RFCOMM (Radio frequency communication) -  on top of L2CAP, providing emulated RS-232 serial ports<br>    - BNEP (Bluetooth network encapsulation protocol) - on top of L2CAP, for personal area networking (PAN) profile<br>  Profiles<br>    - A2DP (Advanced Audio Distribution Profile) - for headset<br>    - DUN (Dial-up Networking Profile) - for accessing internet by dialing up on a modem<br>  <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/List_of_Bluetooth_protocols">https://en.wikipedia.org/wiki/List_of_Bluetooth_protocols</a><br>  <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/List_of_Bluetooth_profiles">https://en.wikipedia.org/wiki/List_of_Bluetooth_profiles</a></p>
+<h1 id="Setup-PAN"><a href="#Setup-PAN" class="headerlink" title="Setup PAN"></a>Setup PAN</h1><ol>
+<li><p>Install bridge-utils <code>sudo apt install bridge-utils</code></p>
+</li>
+<li><p>Install python-dbus <code>sudo apt install python-dbus</code></p>
+</li>
+<li><p>Download bt-pan script <code>wget https://raw.githubusercontent.com/mk-fg/fgtk/master/bt-pan</code></p>
+</li>
+<li><p>Setup bpen bridge</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sdptool add NAP # advertise NAP service, but found sdptool does not work in bluez 5</span><br><span class="line">brctl show bnep</span><br><span class="line">sudo brctl addbr bnep</span><br><span class="line">sudo brctl setfd bnep 0</span><br><span class="line">sudo brctl stp bnep off</span><br><span class="line">sudo ip addr add 192.168.12.3/24 dev bnep</span><br><span class="line">sudo ip link set bnep up</span><br></pre></td></tr></table></figure></li>
+<li><p>Setup server via dbus</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dbus-send --system --dest=org.bluez --print-reply --type=method_call /org/bluez/hci0 org.bluez.NetworkServer1.Unregister string:&#x27;nap&#x27;</span><br><span class="line">dbus-send --system --dest=org.bluez --print-reply --type=method_call /org/bluez/hci0 org.bluez.NetworkServer1.Register string:&#x27;nap&#x27; string:&#x27;bnep&#x27;</span><br></pre></td></tr></table></figure>
+<p>Reference</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">dbus-send --system --type=method_call --print-reply --dest=org.bluez /org/bluez org.freedesktop.DBus.Introspectable.Introspect</span><br><span class="line">dbus-send --system --dest=org.bluez --type=method_call --print-reply /org/bluez/hci0 org.freedesktop.DBus.Introspectable.Introspect</span><br><span class="line">dbus-send --system --type=method_call --print-reply=literal --dest=org.bluez /org/bluez/hci0 org.freedesktop.DBus.Properties.Set string:org.bluez.Adapter1 string:Powered variant:boolean:false</span><br><span class="line">dbus-send --system --type=method_call --print-reply --dest=org.bluez /org/bluez/hci0 org.freedesktop.DBus.Properties.Get string:org.bluez.Adapter1 string:Address</span><br><span class="line">dbus-send --system --type=method_call --print-reply --dest=org.freedesktop.DBus / org.freedesktop.DBus.ListNames</span><br><span class="line"></span><br><span class="line">//below script is from http://rrbluetoothx.blogspot.hk/2016/06/rr-bluetooth-list-dbus-services-buses.html</span><br><span class="line">dbus-send --system            \</span><br><span class="line">  --dest=org.freedesktop.DBus \</span><br><span class="line">  --type=method_call          \</span><br><span class="line">  --print-reply               \</span><br><span class="line">  /org/freedesktop/DBus       \</span><br><span class="line">  org.freedesktop.DBus.ListNames</span><br><span class="line"></span><br><span class="line">//below script is from https://gist.github.com/studiofuga/5262efb95968b02a365d</span><br><span class="line">* Making an adapter discoverable (check that rfkill is enabled, otherwise /org/bluez/hci0 will not be available)</span><br><span class="line">dbus-send --system --dest=org.bluez --print-reply /org/bluez/hci0 \</span><br><span class="line">  org.freedesktop.DBus.Properties.Set \</span><br><span class="line">  string:org.bluez.Adapter1 string:Discoverable variant:boolean:true</span><br><span class="line">  </span><br><span class="line">* Changing the discoverable timeout. Default is 180s.</span><br><span class="line"></span><br><span class="line">dbus-send --system --dest=org.bluez --print-reply /org/bluez/hci0 \</span><br><span class="line">  org.freedesktop.DBus.Properties.Set \</span><br><span class="line">  string:org.bluez.Adapter1 string:DiscoverableTimeout variant:uint32:0</span><br></pre></td></tr></table></figure>
+<p>Or Run bt server <code>./bt-pan --debug server bnep</code></p>
+</li>
+<li><p>Run bt client <code>./bt-pan --debug client 00:11:67:55:8F:69</code><br><a target="_blank" rel="noopener" href="https://blind.guru/tag/bluetooth-pan.html">https://blind.guru/tag/bluetooth-pan.html</a><br><a target="_blank" rel="noopener" href="http://blog.fraggod.net/2015/03/28/bluetooth-pan-network-setup-with-bluez-5x.html">http://blog.fraggod.net/2015/03/28/bluetooth-pan-network-setup-with-bluez-5x.html</a> (provide the bt-pan script)<br><a target="_blank" rel="noopener" href="http://www.agouros.de/Elwood/Bluetooth.html">http://www.agouros.de/Elwood/Bluetooth.html</a><br><a target="_blank" rel="noopener" href="http://trac.gateworks.com/wiki/wireless/bluetooth">http://trac.gateworks.com/wiki/wireless/bluetooth</a> (very detail)<br><a target="_blank" rel="noopener" href="http://wiki.openmoko.org/wiki/Manually_using_Bluetooth#Bluetooth_networking_with_a_Linux_system_-_More_secure_way">http://wiki.openmoko.org/wiki/Manually_using_Bluetooth#Bluetooth_networking_with_a_Linux_system_-_More_secure_way</a></p>
+</li>
+</ol>
+<h1 id="sshfs"><a href="#sshfs" class="headerlink" title="sshfs"></a>sshfs</h1><ol>
+<li>Install sshfs <code>sudo apt-get install sshfs</code></li>
+<li>Mount the directory by<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sshfs -o allow_other -o kernel_cache -o auto_cache -o reconnect \</span><br><span class="line">  -o compression=no -o cache_timeout=600 -o ServerAliveInterval=15 \</span><br><span class="line">  support@192.168.42.1:/tmp/song /home/pi/minidlna</span><br></pre></td></tr></table></figure></li>
+<li>Refresh the list to load new songs from sshfs directory by <code>minidlnad -R</code></li>
+<li>Reload minidlna service <code>sudo service minidlna force-reload</code></li>
+<li>Unmount directory <code>fusermount -u ~/minidlna</code></li>
+</ol>
+<h1 id="tinyproxy-and-iptables"><a href="#tinyproxy-and-iptables" class="headerlink" title="tinyproxy and iptables"></a>tinyproxy and iptables</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install tinyproxy</span><br><span class="line">sudo service tinyproxy start</span><br></pre></td></tr></table></figure>
+
+<p>After install tinyproxy in my chromebook, found RPi cannot connect to 8888 port of tinyproxy(<code>nc -l 8888</code> in chromebook and fail to connect by <code>nc 192.168.42.9 8888</code> in RPi), which is caused by iptables rule. Then add it,</p>
+<ol>
+<li>Save the rules <code>sudo iptables-save &gt; iptables.rules</code> </li>
+<li>Add the rule for proxy working <code>sudo iptables -A INPUT -s 192.168.42.0/24 -i wlan0 -p tcp -dport 8888 -j ACCEPT</code></li>
+<li>Restore the rules <code>sudo iptables-restore &lt; iptables.rules</code></li>
+</ol>
+<h1 id="mpg321-mpg123-speedtest-cli-just-mark-this-this-is-nothing"><a href="#mpg321-mpg123-speedtest-cli-just-mark-this-this-is-nothing" class="headerlink" title="mpg321, mpg123, speedtest-cli (just mark this, this is nothing)"></a>mpg321, mpg123, speedtest-cli (just mark this, this is nothing)</h1><h1 id="Check-the-release-or-other-useful-information"><a href="#Check-the-release-or-other-useful-information" class="headerlink" title="Check the release or other useful information"></a>Check the release or other useful information</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">lsb_release -a</span><br><span class="line">vcgencmd version</span><br><span class="line"></span><br><span class="line">cat /etc/os-release</span><br><span class="line">cat /etc/rpi-issue</span><br><span class="line">cat /etc/debian_version</span><br><span class="line"></span><br><span class="line">cat /proc/cpuinfo</span><br><span class="line">cat /proc/meminfo</span><br><span class="line">cat /proc/version</span><br></pre></td></tr></table></figure>
+
+<h1 id="Show-various-hardware-information-to-RPi"><a href="#Show-various-hardware-information-to-RPi" class="headerlink" title="Show various hardware information to RPi"></a>Show various hardware information to RPi</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">vcgencmd commands</span><br><span class="line"></span><br><span class="line">vcgencmd measure_clock arm</span><br><span class="line">vcgencmd measure_clock core</span><br><span class="line"></span><br><span class="line">vcgencmd get_config int</span><br><span class="line"></span><br><span class="line">vcgencmd get_mem arm</span><br><span class="line">vcgencmd get_mem gpu</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Raspberry-Pi/">Raspberry Pi</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

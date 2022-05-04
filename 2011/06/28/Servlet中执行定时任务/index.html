@@ -1,0 +1,142 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Servlet中执行定时任务 | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Servlet中执行定时任务"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Servlet中执行定时任务" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2011-06-28T09:51:14.000Z"><a href="/2011/06/28/Servlet%E4%B8%AD%E6%89%A7%E8%A1%8C%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/">2011-06-28</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Servlet中执行定时任务</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h1 id="由于用spring配置的quartz在启动后不能获得UOWManager，考虑多时，只好在servlet启动时候执行定时任务。"><a href="#由于用spring配置的quartz在启动后不能获得UOWManager，考虑多时，只好在servlet启动时候执行定时任务。" class="headerlink" title="由于用spring配置的quartz在启动后不能获得UOWManager，考虑多时，只好在servlet启动时候执行定时任务。"></a>由于用spring配置的quartz在启动后不能获得UOWManager，考虑多时，只好在servlet启动时候执行定时任务。</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">import java.io.IOException;</span><br><span class="line">import java.util.Timer;</span><br><span class="line"></span><br><span class="line">import javax.naming.InitialContext;</span><br><span class="line">import javax.naming.NamingException;</span><br><span class="line">import javax.persistence.EntityManager;</span><br><span class="line">import javax.persistence.Persistence;</span><br><span class="line">import javax.servlet.GenericServlet;</span><br><span class="line">import javax.servlet.ServletConfig;</span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.ServletRequest;</span><br><span class="line">import javax.servlet.ServletResponse;</span><br><span class="line"></span><br><span class="line">import org.apache.log4j.Logger;</span><br><span class="line">import org.springframework.web.context.support.WebApplicationContextUtils;</span><br><span class="line"></span><br><span class="line">import com.ibm.websphere.uow.UOWSynchronizationRegistry;</span><br><span class="line">import com.ibm.ws.uow.UOWManager;</span><br><span class="line">import com.ibm.wsspi.uow.UOWAction;</span><br><span class="line">import com.ibm.wsspi.uow.UOWActionException;</span><br><span class="line">import com.ibm.wsspi.uow.UOWException;</span><br><span class="line"></span><br><span class="line">public class CronJobServlet extends GenericServlet &#123;</span><br><span class="line">  private static final Logger log = Logger.getLogger(CronJobServlet.class);</span><br><span class="line">  private static UOWManager manager;</span><br><span class="line">  private static EntityManager em;</span><br><span class="line">  private XXJob clearXXJob;</span><br><span class="line"></span><br><span class="line">  @Override</span><br><span class="line">  public void init(ServletConfig config) throws ServletException &#123;</span><br><span class="line">    initJob(config);</span><br><span class="line">    try &#123;</span><br><span class="line">      InitialContext ic = new InitialContext();</span><br><span class="line">      manager = (UOWManager) ic.lookup(&quot;java:comp/websphere/UOWManager&quot;);</span><br><span class="line">    &#125; catch (NamingException e) &#123;</span><br><span class="line">      e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    try &#123;</span><br><span class="line">      manager.runUnderUOW(</span><br><span class="line">          UOWSynchronizationRegistry.UOW_TYPE_GLOBAL_TRANSACTION,</span><br><span class="line">          false, new UOWAction() &#123;</span><br><span class="line">            public void run() throws Exception &#123;</span><br><span class="line">              Timer timer = new Timer();</span><br><span class="line">              timer.schedule(clearXXJob, 2000,1000);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">          &#125;);</span><br><span class="line">    &#125; catch (UOWActionException e) &#123;</span><br><span class="line">      e.printStackTrace();</span><br><span class="line">    &#125; catch (UOWException e) &#123;</span><br><span class="line">      e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  private void initJob(ServletConfig config) &#123;</span><br><span class="line">    em = Persistence.createEntityManagerFactory(&quot;xx&quot;)</span><br><span class="line">        .createEntityManager();</span><br><span class="line"></span><br><span class="line">    final CronJobService cronJobService = (CronJobService) WebApplicationContextUtils</span><br><span class="line">        .getWebApplicationContext(config.getServletContext()).getBean(</span><br><span class="line">            &quot;cronJobService&quot;);</span><br><span class="line">    cronJobService.setEntityManager(em);</span><br><span class="line">    clearXXJob = new ClearXXJob(cronJobService);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  @Override</span><br><span class="line">  public void service(ServletRequest arg0, ServletResponse arg1)</span><br><span class="line">      throws ServletException, IOException &#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>linux echo颜色控制 | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="linux echo颜色控制"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-linux-echo颜色控制" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2011-12-12T05:43:11.000Z"><a href="/2011/12/12/linux-echo%E9%A2%9C%E8%89%B2%E6%8E%A7%E5%88%B6/">2011-12-12</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">linux echo颜色控制</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h2 id="echo要变换颜色的时候，要使用参数-e"><a href="#echo要变换颜色的时候，要使用参数-e" class="headerlink" title="echo要变换颜色的时候，要使用参数-e"></a>echo要变换颜色的时候，要使用参数-e</h2><p>格式: echo -e “\033[字背景颜色;字体颜色m字符串\033[0m” </p>
+<p>例如:<br>echo -e “\033[41;36m something here \033[0m” </p>
+<p>其中41的位置代表底色, 36的位置是代表字的颜色 </p>
+<p>那些ascii code 是对颜色调用的始末. </p>
+<p>\033[ ; m …… \033[0m </p>
+<h2 id="让字体变为红色并且不停的闪烁"><a href="#让字体变为红色并且不停的闪烁" class="headerlink" title="让字体变为红色并且不停的闪烁"></a>让字体变为红色并且不停的闪烁</h2><p>#echo -e “\033[31m \33[05m 请确认是否要停止当前的squid进程,输入 [Y&#x2F;N] \033[0m” </p>
+<p>或者 </p>
+<p>#echo -e “\033[31m \033[05m 请确认是否要停止当前的squid进程,输入 [Y&#x2F;N] \033[0m” </p>
+<h2 id="字背景颜色范围-40—-49"><a href="#字背景颜色范围-40—-49" class="headerlink" title="字背景颜色范围:40—-49"></a>字背景颜色范围:40—-49</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">40:黑 </span><br><span class="line"></span><br><span class="line">41:深红 </span><br><span class="line"></span><br><span class="line">42:绿 </span><br><span class="line"></span><br><span class="line">43:黄色 </span><br><span class="line"></span><br><span class="line">44:蓝色 </span><br><span class="line"></span><br><span class="line">45:紫色 </span><br><span class="line"></span><br><span class="line">46:深绿 </span><br><span class="line"></span><br><span class="line">47:白色 </span><br></pre></td></tr></table></figure>
+
+<h2 id="字颜色-30———–39"><a href="#字颜色-30———–39" class="headerlink" title="字颜色:30———–39"></a>字颜色:30———–39</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">30:黑 </span><br><span class="line"></span><br><span class="line">31:红 </span><br><span class="line"></span><br><span class="line">32:绿 </span><br><span class="line"></span><br><span class="line">33:黄 </span><br><span class="line"></span><br><span class="line">34:蓝色 </span><br><span class="line"></span><br><span class="line">35:紫色 </span><br><span class="line"></span><br><span class="line">36:深绿 </span><br><span class="line"></span><br><span class="line">37:白色 </span><br></pre></td></tr></table></figure>
+
+<h2 id="ANSI控制码的说明"><a href="#ANSI控制码的说明" class="headerlink" title="ANSI控制码的说明"></a>ANSI控制码的说明</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">\33[0m 关闭所有属性 </span><br><span class="line"></span><br><span class="line">\33[1m 设置高亮度 </span><br><span class="line"></span><br><span class="line">\33[4m 下划线 </span><br><span class="line"></span><br><span class="line">\33[5m 闪烁 </span><br><span class="line"></span><br><span class="line">\33[7m 反显 </span><br><span class="line"></span><br><span class="line">\33[8m 消隐 </span><br><span class="line"></span><br><span class="line">\33[30m -- \33[37m 设置前景色 </span><br><span class="line"></span><br><span class="line">\33[40m -- \33[47m 设置背景色 </span><br><span class="line"></span><br><span class="line">\33[nA 光标上移n行 </span><br><span class="line"></span><br><span class="line">\33[nB 光标下移n行 </span><br><span class="line"></span><br><span class="line">\33[nC 光标右移n行 </span><br><span class="line"></span><br><span class="line">\33[nD 光标左移n行 </span><br><span class="line"></span><br><span class="line">\33[y;xH设置光标位置 </span><br><span class="line"></span><br><span class="line">\33[2J 清屏 </span><br><span class="line"></span><br><span class="line">\33[K 清除从光标到行尾的内容 </span><br><span class="line"></span><br><span class="line">\33[s 保存光标位置 </span><br><span class="line"></span><br><span class="line">\33[u 恢复光标位置 </span><br><span class="line"></span><br><span class="line">\33[?25l 隐藏光标 </span><br><span class="line"></span><br><span class="line">\33[?25h 显示光标 </span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

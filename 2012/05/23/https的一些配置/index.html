@@ -1,0 +1,157 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>https的一些配置 | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="https的一些配置"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-https的一些配置" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2012-05-23T01:18:59.000Z"><a href="/2012/05/23/https%E7%9A%84%E4%B8%80%E4%BA%9B%E9%85%8D%E7%BD%AE/">2012-05-23</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">https的一些配置</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h3 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h3><p>tunein<br>sky.fm<br>browser import cert<br>ssl in archlinux<br>ssl in tomcat</p>
+<h3 id="Openssl"><a href="#Openssl" class="headerlink" title="Openssl"></a>Openssl</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">openssl test https</span><br><span class="line">openssl s_client -showcerts -connect 10.13.139.102:443 -state -debug</span><br><span class="line">openssl s_client -connect 10.13.139.102:465</span><br><span class="line"></span><br><span class="line">OpenSSL Command-Line HOWTO</span><br><span class="line">http://www.madboa.com/geek/openssl/(中文版http://www.linuxfly.org/post/185/1/4/)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Tomcat"><a href="#Tomcat" class="headerlink" title="Tomcat"></a>Tomcat</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">keytool -genkey -alias developerstation -keyalg RSA -keystore developerstation.keystore -keysize 2048</span><br><span class="line"></span><br><span class="line">&lt;Connector port=&quot;8443&quot; protocol=&quot;HTTP/1.1&quot; SSLEnabled=&quot;true&quot;</span><br><span class="line">               maxThreads=&quot;150&quot; scheme=&quot;https&quot; secure=&quot;true&quot;</span><br><span class="line">               clientAuth=&quot;false&quot; sslProtocol=&quot;TLS&quot; keystoreFile=&quot;C:\Software\Tomcat\conf\developerstation.keystore&quot; keystorePass=&quot;password&quot;/&gt;</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="http://developerstation.sinaapp.com/2012/03/27/tomcat7%E4%B8%AD%E9%85%8D%E7%BD%AEssl%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4%E5%8F%8C%E5%90%91%E8%AE%A4%E8%AF%81/">tomcat7中配置ssl的详细步骤(双向认证)</a></p>
+<p><a target="_blank" rel="noopener" href="http://developerstation.sinaapp.com/2012/03/22/tomcat7%E4%B8%AD%E9%85%8D%E7%BD%AEssl%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4/">tomcat7中配置ssl的详细步骤(单向认证)</a></p>
+<h3 id="IHS"><a href="#IHS" class="headerlink" title="IHS"></a>IHS</h3><p>例子</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Listen 10.13.139.102:443</span><br><span class="line">&lt;VirtualHost 10.13.139.102:443&gt;</span><br><span class="line">   SSLEnable</span><br><span class="line">   SSLClientAuth none</span><br><span class="line">   Keyfile C:\temp\ssl\key.kdb</span><br><span class="line">   SSLV2Timeout 100</span><br><span class="line">   SSLV3Timeout 1000</span><br><span class="line">&lt;/VirtualHost&gt;</span><br><span class="line">SSLDisable</span><br></pre></td></tr></table></figure>
+
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference:"></a>Reference:</h3><p><a target="_blank" rel="noopener" href="http://www-01.ibm.com/support/docview.wss?uid=swg21179559">Guide to properly setting up SSL within the IBM HTTP Server</a><br><a target="_blank" rel="noopener" href="http://www.blogjava.net/fastzch/archive/2007/08/03/134292.html">在IHS上配置SSL</a><br><a target="_blank" rel="noopener" href="http://publib.boulder.ibm.com/infocenter/ltscnnct/v2r0/index.jsp?topic=/com.ibm.lc_2.0_IC/t_configure_ihs.html">Configuring the IBM HTTP Server for SSL</a><br><a target="_blank" rel="noopener" href="http://www-01.ibm.com/software/webservers/httpservers/doc/v1319/9acdssl.htm#sslen">SSL Directives</a><br><a target="_blank" rel="noopener" href="http://prefetch.net/articles/debuggingssl.html">Debugging SSL communications</a></p>
+<h3 id="IKEYMAN生成证书"><a href="#IKEYMAN生成证书" class="headerlink" title="IKEYMAN生成证书"></a>IKEYMAN生成证书</h3><p>例子</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&quot;C:\Program Files\IBM\gsk5\bin\gsk5cmd.exe&quot; -keydb -create -db xx.kdb -pw password -type cms -expire 60 -stash</span><br><span class="line">&quot;C:\Program Files\IBM\gsk5\bin\gsk5cmd.exe&quot; -cert -create -db xx.kdb -pw password -size 1024 -dn &quot;CN=weblinux.raleigh.ibm.com,O=IBM,OU=IBM HTTP Server,L=RTP,ST=NC,C=US&quot; -label mylabel -default_cert yes</span><br><span class="line">&quot;C:\Program Files\IBM\gsk5\bin\gsk5cmd.exe&quot; -cert -list -db xx.kdb -pw password</span><br><span class="line">&quot;C:\Program Files\IBM\gsk5\bin\gsk5cmd.exe&quot; -cert -details -db xx.kdb -pw password -label mylabel</span><br><span class="line">&quot;C:\Program Files\IBM\gsk5\bin\gsk5cmd.exe&quot; -cert -extract -db xx.kdb -pw password -label mylabel -format ascii -target forest-certficate</span><br><span class="line">&quot;C:\Program Files\IBM\gsk5\bin\gsk5cmd.exe&quot; -cert -export -db xx.kdb -pw password -label mylabel -target forest.p12 -target_pw password -target_type pkcs12 -encryption strong</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="http://www-01.ibm.com/support/docview.wss?rs=177&context=SSEQTJ&uid=swg21006430">Using iKeyman to create a key database file</a><br><a target="_blank" rel="noopener" href="http://www-01.ibm.com/software/webservers/httpservers/doc/v2047/manual/ibm/en_US/9atikeyu.htm">Using the Key Management Utility</a><br><a target="_blank" rel="noopener" href="http://www-01.ibm.com/software/webservers/httpservers/doc/v1312/ibm/2tabcontents.htm">httpservers doc</a><br><a target="_blank" rel="noopener" href="http://publib.boulder.ibm.com/infocenter/pcomhelp/v5r9/index.jsp?topic=/com.ibm.pcomm.doc/books/html/admin_guide13.htm">ikeycmd参考</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

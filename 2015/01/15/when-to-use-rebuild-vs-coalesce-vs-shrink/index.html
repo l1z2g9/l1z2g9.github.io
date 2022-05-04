@@ -1,0 +1,162 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>when-to-use-rebuild-vs-coalesce-vs-shrink | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="when-to-use-rebuild-vs-coalesce-vs-shrink"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-when-to-use-rebuild-vs-coalesce-vs-shrink" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2015-01-15T04:07:07.000Z"><a href="/2015/01/15/when-to-use-rebuild-vs-coalesce-vs-shrink/">2015-01-15</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">when-to-use-rebuild-vs-coalesce-vs-shrink</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <ul>
+<li>Find out the table size<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">SELECT owner, segment_name, segment_type, partition_name, ROUND(bytes/(1024*1024),2) SIZE_MB, tablespace_name</span><br><span class="line">FROM DBA_SEGMENTS</span><br><span class="line">WHERE SEGMENT_TYPE IN (&#x27;TABLE&#x27;, &#x27;TABLE PARTITION&#x27;, &#x27;TABLE SUBPARTITION&#x27;,</span><br><span class="line">&#x27;INDEX&#x27;, &#x27;INDEX PARTITION&#x27;, &#x27;INDEX SUBPARTITION&#x27;, &#x27;TEMPORARY&#x27;, &#x27;LOBINDEX&#x27;, &#x27;LOBSEGMENT&#x27;, &#x27;LOB PARTITION&#x27;)</span><br><span class="line">--AND TABLESPACE_NAME LIKE &#x27;COSTE%&#x27;</span><br><span class="line">--AND SEGMENT_NAME LIKE &#x27;P2010201%&#x27;</span><br><span class="line">--AND partition_name LIKE &#x27;P20100201%&#x27;</span><br><span class="line">--AND segment_type = &#x27;TABLE&#x27;</span><br><span class="line">--AND OWNER = &#x27;TARGET_POC&#x27;</span><br><span class="line">--AND ROUND(bytes/(1024*1024),2) &gt; 1000</span><br><span class="line">ORDER BY bytes DESC;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>You can group by tablespace, owner and segment type and see the total space occupied in MBytes</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">SELECT tablespace_name, owner, segment_type &quot;Object Type&quot;,</span><br><span class="line">   COUNT(owner) &quot;Number of Objects&quot;,</span><br><span class="line">   ROUND(SUM(bytes) / 1024 / 1024, 2) &quot;Total Size in MB&quot;</span><br><span class="line">FROM   sys.dba_segments</span><br><span class="line">WHERE  tablespace_name IN (&#x27;MPIS&#x27;)</span><br><span class="line">GROUP BY tablespace_name, owner, segment_type</span><br><span class="line">ORDER BY tablespace_name, owner, segment_type;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>find out the usage of tablespace</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">select df.tablespace_name &quot;Tablespace&quot;,</span><br><span class="line">totalusedspace &quot;Used MB&quot;,</span><br><span class="line">(df.totalspace - tu.totalusedspace) &quot;Free MB&quot;,</span><br><span class="line">df.totalspace &quot;Total MB&quot;,</span><br><span class="line">round(100 * ( (df.totalspace - tu.totalusedspace)/ df.totalspace))</span><br><span class="line">&quot;Pct. Free&quot;</span><br><span class="line">from</span><br><span class="line">(select tablespace_name,</span><br><span class="line">round(sum(bytes) / 1048576) TotalSpace</span><br><span class="line">from dba_data_files</span><br><span class="line">group by tablespace_name) df,</span><br><span class="line">(select round(sum(bytes)/(1024*1024)) totalusedspace, tablespace_name</span><br><span class="line">from dba_segments</span><br><span class="line">group by tablespace_name) tu</span><br><span class="line">where df.tablespace_name = tu.tablespace_name order by &quot;Pct. Free&quot;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Shrink table</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alter table STATS$SQL_SUMMARY enable row movement;</span><br><span class="line">alter table STATS$SQL_SUMMARY shrink space;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Shrink index</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">alter index STATS$SQL_SUMMARY_PK shrink space compact</span><br><span class="line">alter index STATS$SQL_SUMMARY_PK shrink space;</span><br><span class="line">alter index STATS$SYSSTAT_PK coalesce</span><br><span class="line">alter index STATS$SQL_SUMMARY_PK rebuild</span><br><span class="line">shrink space compact = coalesce</span><br></pre></td></tr></table></figure>
+
+</li>
+<li><p>Reference<br><a target="_blank" rel="noopener" href="https://richardfoote.files.wordpress.com/2007/12/when-to-use-rebuild-vs-coalesce-vs-shrink-space.pdf">when-to-use-rebuild-vs-coalesce-vs-shrink-space</a><br><a target="_blank" rel="noopener" href="http://blog.sina.com.cn/s/blog_7c21b5d90101gw8r.html">深入理解重建索引</a><br><a target="_blank" rel="noopener" href="http://www.askmaclean.com/archives/alter-index-coalesce-vs-shrink-space.html">Alter index coalesce VS shrink space</a><br><a target="_blank" rel="noopener" href="http://blog.csdn.net/techchan/article/details/6693275">alter index coalesce和alter index rebuild的区别</a></p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Oracle/">Oracle</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

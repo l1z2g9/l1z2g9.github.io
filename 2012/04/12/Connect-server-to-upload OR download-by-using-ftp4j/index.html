@@ -1,0 +1,146 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Connect server to upload/download by using ftp4j | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Connect server to upload/download by using ftp4j"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Connect-server-to-upload OR download-by-using-ftp4j" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2012-04-12T01:37:02.000Z"><a href="/2012/04/12/Connect-server-to-upload%20OR%20download-by-using-ftp4j/">2012-04-12</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Connect server to upload/download by using ftp4j</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <p>My machine’s charset is traditional chinese(cp950) while server’s charset is utf-8, it must be decoded&#x2F;encoded characters when uploading&#x2F;downloading.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br></pre></td><td class="code"><pre><span class="line">package ftp;</span><br><span class="line"></span><br><span class="line">import it.sauronsoftware.ftp4j.FTPClient;</span><br><span class="line"></span><br><span class="line">import java.io.File;</span><br><span class="line">import java.io.FileInputStream;</span><br><span class="line">import java.io.FileOutputStream;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.InputStreamReader;</span><br><span class="line">import java.io.OutputStream;</span><br><span class="line">import java.io.OutputStreamWriter;</span><br><span class="line"></span><br><span class="line">import org.apache.commons.cli.CommandLine;</span><br><span class="line">import org.apache.commons.cli.CommandLineParser;</span><br><span class="line">import org.apache.commons.cli.Options;</span><br><span class="line">import org.apache.commons.cli.PosixParser;</span><br><span class="line"></span><br><span class="line">public class FileFetch &#123;</span><br><span class="line"></span><br><span class="line">  /**</span><br><span class="line">   * @param args</span><br><span class="line">   * @throws Exception</span><br><span class="line">   */</span><br><span class="line">  public static void main(String[] args) throws Exception &#123;</span><br><span class="line">    run(args);</span><br><span class="line">    //changeFormat(&quot;test.txt&quot;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  private static void changeFormat(String file) throws IOException &#123;</span><br><span class="line">    String tmp = &quot;tmp&quot;;</span><br><span class="line">    InputStreamReader reader = new InputStreamReader(new FileInputStream(</span><br><span class="line">        file), &quot;cp936&quot;);</span><br><span class="line">    OutputStream ow = new FileOutputStream(tmp);</span><br><span class="line"></span><br><span class="line">    char[] buffer = new char[4096];</span><br><span class="line"></span><br><span class="line">    int len = 0;</span><br><span class="line">    while (len != -1) &#123;</span><br><span class="line">      len = reader.read(buffer);</span><br><span class="line">      if (len != -1) &#123;</span><br><span class="line">        ow.write(new String(new String(buffer, 0, len)</span><br><span class="line">            .getBytes(&quot;cp936&quot;)).getBytes(&quot;utf-8&quot;));</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    reader.close();</span><br><span class="line">    ow.close();</span><br><span class="line"></span><br><span class="line">    new File(file).delete();</span><br><span class="line">    new File(tmp).renameTo(new File(file));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  private static void run(String[] args) throws Exception &#123;</span><br><span class="line">    Options options = new Options();</span><br><span class="line">    options.addOption(&quot;ip&quot;, true, &quot;FTP Server IP&quot;);</span><br><span class="line">    options.addOption(&quot;u&quot;, &quot;user&quot;, true, &quot;login user name&quot;);</span><br><span class="line">    options.addOption(&quot;p&quot;, &quot;password&quot;, true, &quot;login password&quot;);</span><br><span class="line">    options.addOption(&quot;rr&quot;, &quot;remoateRoot&quot;, true,</span><br><span class="line">        &quot;remote file path to be fetch&quot;);</span><br><span class="line">    options.addOption(&quot;rd&quot;, &quot;remoteDir&quot;, true,</span><br><span class="line">        &quot;remote file path to be fetch&quot;);</span><br><span class="line">    options.addOption(&quot;d&quot;, &quot;drive&quot;, true, &quot;storage file path drive&quot;);</span><br><span class="line">    options.addOption(&quot;f&quot;, &quot;file&quot;, true, &quot;storage file path&quot;);</span><br><span class="line">    options.addOption(&quot;dn&quot;, &quot;down&quot;, false, &quot;flag to down&quot;);</span><br><span class="line">    options.addOption(&quot;up&quot;, &quot;upload&quot;, false, &quot;flag to upload&quot;);</span><br><span class="line"></span><br><span class="line">    CommandLineParser parser = new PosixParser();</span><br><span class="line">    CommandLine line = parser.parse(options, args);</span><br><span class="line"></span><br><span class="line">    String ip = line.getOptionValue(&quot;ip&quot;);</span><br><span class="line">    String user = line.getOptionValue(&quot;user&quot;);</span><br><span class="line">    String password = line.getOptionValue(&quot;password&quot;);</span><br><span class="line">    String remoateRoot = line.getOptionValue(&quot;remoateRoot&quot;);</span><br><span class="line">    String remoteDir = line.getOptionValue(&quot;remoteDir&quot;);</span><br><span class="line">    String drive = line.getOptionValue(&quot;drive&quot;);</span><br><span class="line">    String filePath = line.getOptionValue(&quot;file&quot;);</span><br><span class="line">    if (line.hasOption(&quot;down&quot;)) &#123;</span><br><span class="line">      getFiles(ip, user, password, remoateRoot, remoteDir, drive,</span><br><span class="line">          filePath, true);</span><br><span class="line">    &#125; else if (line.hasOption(&quot;upload&quot;)) &#123;</span><br><span class="line">      getFiles(ip, user, password, remoateRoot, remoteDir, drive,</span><br><span class="line">          filePath, false);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  private static void getFiles(String ip, String user, String passwd,</span><br><span class="line">      String remoateRoot, String remoteDir, String drive,</span><br><span class="line">      String fileName, boolean down) throws Exception &#123;</span><br><span class="line">    FTPClient client = new FTPClient();</span><br><span class="line">    String[] ret = client.connect(ip);</span><br><span class="line">    for (String r : ret) &#123;</span><br><span class="line">      System.out.println(&quot;out &quot; + r);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    client.login(user, passwd);</span><br><span class="line"></span><br><span class="line">    client.changeDirectory(remoateRoot);</span><br><span class="line">    client.changeDirectory(remoteDir);</span><br><span class="line">    String[] fileNames = client.listNames();</span><br><span class="line">    for (String file : fileNames) &#123;</span><br><span class="line">      if (file.matches(fileName)) &#123;</span><br><span class="line">        String filePath = drive + &quot;/&quot; + remoteDir + &quot;/&quot; + file;</span><br><span class="line">        client.setCharset(&quot;UTF-8&quot;);</span><br><span class="line">        if (down) &#123;</span><br><span class="line">          File dir = new File(drive + &quot;/&quot; + remoteDir);</span><br><span class="line">          if (!dir.exists()) &#123;</span><br><span class="line">            dir.mkdirs();</span><br><span class="line">          &#125;</span><br><span class="line">          OutputStream f = new FileOutputStream(filePath);</span><br><span class="line">          client.download(file, f, -1, null);</span><br><span class="line">          OutputStreamWriter wr = new OutputStreamWriter(f, &quot;UTF-8&quot;);</span><br><span class="line">          wr.flush();</span><br><span class="line">          wr.close();</span><br><span class="line">          changeFormat(filePath);</span><br><span class="line">          System.out.println(&quot;file &quot; + filePath + &quot; is downloaded.&quot;);</span><br><span class="line"></span><br><span class="line">        &#125; else &#123;</span><br><span class="line">          client.upload(new File(filePath));</span><br><span class="line">          System.out.println(&quot;file &quot; + filePath + &quot; is uploaded.&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>  ftpfetch.bat<br><code>java -cp bin;lib/ftp4j-1.7.jar;lib/commons-cli-1.2.jar ftp.FileFetch -ip 10.13.135.81 -u root -p password -rr /piers/apps/uat/installedApps/XXApps.ear/xx.war -d C:\xx -up -rd . -f pros.*</code></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

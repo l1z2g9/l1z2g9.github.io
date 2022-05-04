@@ -1,0 +1,152 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>System Performance Statistics Report Summary | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="System Performance Statistics Report Summary"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-System-Performance-Statistics-Report-Summary" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2012-11-20T05:17:22.000Z"><a href="/2012/11/20/System-Performance-Statistics-Report-Summary/">2012-11-20</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">System Performance Statistics Report Summary</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h1 id="statpack"><a href="#statpack" class="headerlink" title="statpack"></a>statpack</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ls -lt /sharedrive/data/statpack_result | grep MM</span><br><span class="line">/sharedrive/scripts/perfstat/spreport.sh MM</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sqlplus perfstat/password@&quot;(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=DBServer)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=xxrac)))&quot;</span><br><span class="line">@$ORACLE_HOME/rdbms/admin/spreport.sql</span><br><span class="line">@?/rdbms/admin/spreport.sql</span><br><span class="line">@$ORACLE_HOME/rdbms/admin/sppurge.sql</span><br></pre></td></tr></table></figure>
+
+<h2 id="find-max-min-snap-id"><a href="#find-max-min-snap-id" class="headerlink" title="find max, min snap_id"></a>find max, min snap_id</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select startup_time, count(1) from STATS$snapshot where snap_time between to_date(&#x27;2014-11-01&#x27;, &#x27;yyyy-mm-dd&#x27;) and to_date(&#x27;2014-11-30&#x27;, &#x27;yyyy-mm-dd&#x27;) group by startup_time;</span><br><span class="line"></span><br><span class="line">select * from STATS$snapshot where snap_time between to_date(&#x27;2014-11-01&#x27;, &#x27;yyyy-mm-dd&#x27;) and to_date(&#x27;2014-11-30&#x27;, &#x27;yyyy-mm-dd&#x27;) and to_char(startup_time, &#x27;yyyy-mm-dd hh24:mi:ss&#x27;) = &#x27;2014-10-16 18:42:52&#x27; order by snap_id;</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="http://burleson-dba.com/SP/">http://burleson-dba.com/SP/</a></p>
+<h1 id="performance-statistic"><a href="#performance-statistic" class="headerlink" title="performance statistic"></a>performance statistic</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">/aix-combine-csv-daily-to-csv-month-parameter.sh Server 2015 07</span><br><span class="line">/aix-calc-monthly-avg.sh Server 2015 07 </span><br><span class="line">/aix-calc-monthly-avg.sh Server 2015 07 | awk  -F &#x27;,&#x27;  &#x27;&#123;print $2&quot;,&quot;$4&quot;M&quot;&#125;&#x27;</span><br><span class="line">/aix-calc-monthly-avg.sh Server 2015 07 | awk  -F &#x27;,&#x27;  &#x27;&#123;print $2&quot;,&quot;$5&quot;%&quot;&#125;&#x27;</span><br><span class="line"></span><br><span class="line">select df.tablespace_name &quot;Tablespace&quot;,</span><br><span class="line">round(100 * ( (df.totalspace - tu.totalusedspace)/ df.totalspace)) || &#x27;%&#x27;</span><br><span class="line">&quot;Pct. Free&quot;</span><br><span class="line">from</span><br><span class="line">(select tablespace_name,</span><br><span class="line">round(sum(bytes) / 1048576) TotalSpace</span><br><span class="line">from dba_data_files </span><br><span class="line">group by tablespace_name) df,</span><br><span class="line">(select round(sum(bytes)/(1024*1024)) totalusedspace, tablespace_name</span><br><span class="line">from dba_segments </span><br><span class="line">group by tablespace_name) tu</span><br><span class="line">where df.tablespace_name = tu.tablespace_name order by df.tablespace_name ;</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="WEB-server"><a href="#WEB-server" class="headerlink" title="WEB server"></a>WEB server</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">D:\perfstat-bin\convert\relog-daily-blg-to-monthly-csv.bat 201501</span><br><span class="line">./relog-daily-blg-to-monthly-csv.bat 201501</span><br><span class="line">check D:\perfstat-csv</span><br><span class="line"></span><br><span class="line">cd /cygdrive/d/perfstat-bin/convert</span><br><span class="line">relog ../../PerfLogs/Web_201506*.blg -cf relog-parameters.txt -f csv -o ../../perfstat-csv/Web_201506.csv</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/AIX/">AIX</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

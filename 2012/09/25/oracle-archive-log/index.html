@@ -1,0 +1,151 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>oracle archive log | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="oracle archive log"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-oracle-archive-log" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2012-09-25T00:27:44.000Z"><a href="/2012/09/25/oracle-archive-log/">2012-09-25</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">oracle archive log</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h1 id="to-check-setting-about-archive-log"><a href="#to-check-setting-about-archive-log" class="headerlink" title="to check setting about archive log"></a>to check setting about archive log</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">sqlplus /nolog</span><br><span class="line">conn /as sysdba</span><br><span class="line"></span><br><span class="line">SQL&gt;archive log list</span><br><span class="line">SQL&gt;show parameter archive</span><br><span class="line"></span><br><span class="line">sql&gt;select * from v$archive_processes;</span><br><span class="line">sql&gt;select log_mode from v$database;</span><br><span class="line">sql&gt;select archiver from v$instance</span><br><span class="line"></span><br><span class="line">sql&gt;select group#,members,sequence#,archived,status,first_change#,to_char(first_time, &#x27;yyyy-mm-dd hh24:mi:ss&#x27;)  first_change_time from v$log;</span><br><span class="line">sql&gt;select name,sequence#,archived,status,first_change#, to_char(first_time, &#x27;yyyy-mm-dd hh24:mi:ss&#x27;) first_change_time from v$archived_log;</span><br><span class="line"></span><br><span class="line">SQL&gt;select * from V$BACKUP_REDOLOG;</span><br><span class="line">SQL&gt;select * from V$archive_dest;</span><br></pre></td></tr></table></figure>
+
+<h1 id="to-clean-archive-log"><a href="#to-clean-archive-log" class="headerlink" title="to clean archive log"></a>to clean archive log</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rman target / (rman target sys/sys@dbname more than one instance)</span><br><span class="line">RMAN&gt;list archivelog all;</span><br></pre></td></tr></table></figure>
+
+<p>  method 1：<br>  <code>RMAN&gt;delete archivelog until time &#39;sysdate-1&#39;;</code></p>
+<p>  method 2：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mv arch_1_1234.arc /tmp</span><br><span class="line">RMAN&gt;crosscheck archivelog all;</span><br><span class="line">RMAN&gt;list expired archivelog all;</span><br><span class="line">RMAN&gt;delete expired archivelog all;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p> <a target="_blank" rel="noopener" href="http://www.cumt.org/blog/585">http://www.cumt.org/blog/585</a><br> <a target="_blank" rel="noopener" href="http://www.cnblogs.com/woody-wu/archive/2009/08/23/1552372.html">http://www.cnblogs.com/woody-wu/archive/2009/08/23/1552372.html</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

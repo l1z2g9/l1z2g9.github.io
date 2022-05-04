@@ -1,0 +1,156 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>RMI学习 | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="RMI学习"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-RMI学习" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2012-06-21T07:38:29.000Z"><a href="/2012/06/21/RMI%E5%AD%A6%E4%B9%A0/">2012-06-21</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">RMI学习</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">package rmi;</span><br><span class="line"></span><br><span class="line">import java.rmi.Remote;</span><br><span class="line">import java.rmi.RemoteException;</span><br><span class="line"></span><br><span class="line">public interface MyService extends Remote &#123;</span><br><span class="line">  void sayHi(String name) throws RemoteException;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">package rmi;</span><br><span class="line"></span><br><span class="line">import java.rmi.RemoteException;</span><br><span class="line">import java.rmi.server.UnicastRemoteObject;</span><br><span class="line"></span><br><span class="line">public class MyServiceImpl extends UnicastRemoteObject implements MyService &#123;</span><br><span class="line"></span><br><span class="line">  private static final long serialVersionUID = -8550790423811608199L;</span><br><span class="line"></span><br><span class="line">  protected MyServiceImpl() throws RemoteException &#123;</span><br><span class="line">    super();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  public void sayHi(String name) &#123;</span><br><span class="line">    System.out.println(&quot;hello &quot; + name);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">package rmi;</span><br><span class="line"></span><br><span class="line">import java.net.MalformedURLException;</span><br><span class="line">import java.rmi.Naming;</span><br><span class="line">import java.rmi.RMISecurityManager;</span><br><span class="line">import java.rmi.RemoteException;</span><br><span class="line"></span><br><span class="line">public class RmiServer &#123;</span><br><span class="line">  public static void main(String[] args) &#123;</span><br><span class="line">    if (System.getSecurityManager() == null) &#123;</span><br><span class="line">      System.setSecurityManager(new RMISecurityManager());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // String server = &quot;0.0.0.0&quot;;</span><br><span class="line">    String server = &quot;10.13.139.98&quot;;</span><br><span class="line">    String rmiPort = &quot;2012&quot;;</span><br><span class="line">    System.out.println(&quot;starting server &quot; + server);</span><br><span class="line">    try &#123;</span><br><span class="line">      Naming.rebind(&quot;rmi://&quot; + server + &quot;:&quot; + rmiPort + &quot;/MyService&quot;,</span><br><span class="line">          new MyServiceImpl());</span><br><span class="line">    &#125; catch (RemoteException e) &#123;</span><br><span class="line">      // TODO Auto-generated catch block</span><br><span class="line">      e.printStackTrace();</span><br><span class="line">    &#125; catch (MalformedURLException e) &#123;</span><br><span class="line">      // TODO Auto-generated catch block</span><br><span class="line">      e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">package rmi;</span><br><span class="line"></span><br><span class="line">import java.net.MalformedURLException;</span><br><span class="line">import java.rmi.Naming;</span><br><span class="line">import java.rmi.NotBoundException;</span><br><span class="line">import java.rmi.RemoteException;</span><br><span class="line"></span><br><span class="line">public class Client &#123;</span><br><span class="line">  public static void morning() &#123;</span><br><span class="line">    String server = &quot;10.13.139.100&quot;;</span><br><span class="line">    String rmiPort = &quot;2012&quot;;</span><br><span class="line">    try &#123;</span><br><span class="line">      MyService myService = (MyService) Naming.lookup(&quot;rmi://&quot; + server</span><br><span class="line">          + &quot;:&quot; + rmiPort + &quot;/MyService&quot;);</span><br><span class="line">      System.out.println(&quot;myService = &quot; + myService);</span><br><span class="line">      myService.sayHi(&quot;Forest, Good morning!&quot;);</span><br><span class="line">    &#125; catch (MalformedURLException e) &#123;</span><br><span class="line">      e.printStackTrace();</span><br><span class="line">    &#125; catch (RemoteException e) &#123;</span><br><span class="line">      e.printStackTrace();</span><br><span class="line">    &#125; catch (NotBoundException e) &#123;</span><br><span class="line">      e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  public static void main(String[] args) &#123;</span><br><span class="line">    morning();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="my-policy"><a href="#my-policy" class="headerlink" title="my.policy"></a>my.policy</h4><figure class="highlight plaintext"><figcaption><span>codeBase "file:///C:/workspace/rmi/bin/*"&#123;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">  permission java.net.SocketPermission &quot;0.0.0.0:2012&quot;, &quot;connect,resolve&quot;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Run-commands"><a href="#Run-commands" class="headerlink" title="Run commands,"></a>Run commands,</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">C:\j2sdk1.4.2_10\bin\rmic.exe rmi.MyServiceImpl</span><br><span class="line"></span><br><span class="line">rmiregistry.exe 2012</span><br><span class="line"></span><br><span class="line">java.exe -Djava.rmi.server.hostname=10.13.139.98 -Djava.rmi.server.codebase=file:///C:/workspace/rmi/bin/ -Djava.security.policy=my.policy -cp . rmi.RmiServer</span><br><span class="line"></span><br><span class="line">java.exe -cp . rmi.Client</span><br></pre></td></tr></table></figure>
+
+<h3 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h3><ol>
+<li>如果机器上有多个IP，可以使用java.rmi.server.hostname指定其中一个，如果打印lookup后的对象，会看到MyServiceImpl_Stub[RemoteStub [ref: [endpoint:<a href="remote">10.13.139.98:1085</a>,objID:[f72617:1380931e011:-8000, 0]]]] </li>
+<li>java.rmi.server.codebase&#x3D;file:&#x2F;&#x2F;&#x2F;C:&#x2F;workspace&#x2F;rmi&#x2F;bin&#x2F;，windows下file后要有3个&#x2F;，和最后要有个&#x2F; </li>
+<li>my.policy中的*，代表该目录下的所有全限定类拥有权限，是classpath的路径，而不是在.class的目录</li>
+</ol>
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><p><a target="_blank" rel="noopener" href="http://docs.oracle.com/javase/1.4.2/docs/guide/rmi/getstart.doc.html">http://docs.oracle.com/javase/1.4.2/docs/guide/rmi/getstart.doc.html</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

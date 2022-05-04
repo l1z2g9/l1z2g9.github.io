@@ -1,0 +1,164 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>misc of command | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="misc of command"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-misc-of-command" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2012-09-26T08:25:39.000Z"><a href="/2012/09/26/misc-of-command/">2012-09-26</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">misc of command</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h1 id="Windows-get-uptime"><a href="#Windows-get-uptime" class="headerlink" title="Windows get uptime"></a>Windows get uptime</h1><ol>
+<li><code>net stats srv|findstr</code></li>
+<li><code>systeminfo | find &quot;System Boot Time:&quot;</code></li>
+<li><code>eventvwr.msc -&gt; filter EventID(6005)</code></li>
+</ol>
+<h1 id="Control-a-service"><a href="#Control-a-service" class="headerlink" title="Control a service"></a>Control a service</h1><ol>
+<li><p><code>net start tlntsvr</code></p>
+</li>
+<li><p><code>sc \\hostname start tlntsvr</code></p>
+</li>
+<li><p>Enable telnet service</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$tlntsvr = gwmi -ComputerName webserver -Class Win32_Service -filter &quot;name=&#x27;tlntsvr&#x27;&quot; -Credential $cred</span><br><span class="line"></span><br><span class="line">$tlntsvr.ChangeStartMode(&quot;Manual&quot;) (default it is Disabled)</span><br><span class="line"></span><br><span class="line">$tlntsvr.StartService()</span><br><span class="line"></span><br><span class="line">$ihs = gwmi -ComputerName webserver -Class Win32_Service -filter &quot;name like &#x27;IBM%1.3%&#x27;&quot; -Credential $cred</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Enable remote desktop</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$terminalService = gwmi -Class Win32_TerminalServiceSetting -Namespace root\cimv2\terminalservices -ComputerName webserver -Credential $cred //Windows Vista and Windows Server 2008</span><br><span class="line"></span><br><span class="line">$terminalService = gwmi -Class Win32_TerminalServiceSetting -Namespace root\cimv2 -ComputerName webserver -Credential $cred //Windows XP and Windows Server 2003</span><br><span class="line"></span><br><span class="line">$terminalService.AllowTsConnections // test the state</span><br><span class="line"></span><br><span class="line">$terminalService.SetAllowTSConnections(1)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>View eventlog by powershell</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$username = &quot;admin&quot;</span><br><span class="line">$password = &quot;password&quot;</span><br><span class="line">$secstr = New-Object -TypeName System.Security.SecureString</span><br><span class="line">$password.ToCharArray() | ForEach-Object &#123;$secstr.AppendChar($_)&#125;</span><br><span class="line">$cred = new-object -typename System.Management.Automation.PSCredential -argumentlist $username, $secstr</span><br><span class="line"></span><br><span class="line">$time = [System.Management.ManagementDateTImeConverter]::ToDmtfDateTime((Get-Date).AddHours(-72))</span><br><span class="line"></span><br><span class="line">gwmi Win32_NTLogEvent -filter &quot;(LogFile=&#x27;System&#x27;) AND (Type=&#x27;Error&#x27;) AND (TimeWritten &gt;= &#x27;$time&#x27;)&quot; -computer webserver -credential $cred | ft EventCode, EventType, Message -auto</span><br></pre></td></tr></table></figure></li>
+<li><p>Open remote server path <code>net use \\webserver\ipc$ password /user:username \\werbserver\c$</code></p>
+</li>
+</ol>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a target="_blank" rel="noopener" href="http://ss64.com/nt/sc.html">http://ss64.com/nt/sc.html</a><br><a target="_blank" rel="noopener" href="http://www.petri.co.il/check-uptime-in-server-2008.htm&quot;">http://www.petri.co.il/check-uptime-in-server-2008.htm&quot;</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

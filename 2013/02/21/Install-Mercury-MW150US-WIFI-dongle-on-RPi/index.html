@@ -1,0 +1,181 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Install Mercury MW150US WIFI dongle on RPi | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Install Mercury MW150US WIFI dongle on RPi"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Install-Mercury-MW150US-WIFI-dongle-on-RPi" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2013-02-21T01:23:24.000Z"><a href="/2013/02/21/Install-Mercury-MW150US-WIFI-dongle-on-RPi/">2013-02-21</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Install Mercury MW150US WIFI dongle on RPi</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <p>The wifi dongle cannot be recognized by command lsusb and lsusb, found the chipset of MW150US is rtl8188eu, not rtl8192cu, it is very important.</p>
+<p> My RPi kernel is 3.2.27+, it is need to compile module rtl8188eu with RPi source code.</p>
+<p> Procedure as below</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># apt-get install build-essential</span><br><span class="line">#</span><br><span class="line"># cd /usr/src</span><br><span class="line"># wget -O rpi-3.2.27.tar.gz https://github.com/raspberrypi/linux/tarball/rpi-3.2.27</span><br><span class="line"># tar xzf ./rpi-3.2.27.tar.gz</span><br><span class="line"># KVER=`uname -r`</span><br><span class="line"># mv raspberrypi-linux-* linux-$KVER</span><br><span class="line"># cd linux-$KVER/</span><br><span class="line"># sed -i &#x27;s/EXTRAVERSION =.*/EXTRAVERSION = +/&#x27; Makefile</span><br><span class="line"># zcat /proc/config.gz &gt; .config</span><br><span class="line"># wget https://github.com/raspberrypi/firmware/raw/master/extra/Module.symvers</span><br><span class="line"># make oldconfig</span><br><span class="line"># make modules_prepare</span><br><span class="line"># ln -s /usr/src/linux-$KVER /usr/src/linux</span><br><span class="line"># ln -s /usr/src/linux-$KVER /lib/modules/$KVER/source</span><br><span class="line"># ln -s /usr/src/linux-$KVER /lib/modules/$KVER/build</span><br></pre></td></tr></table></figure>
+<p>Get rtl8188eu source code from <a target="_blank" rel="noopener" href="http://gutspot.com/wp-content/uploads/2013/01/8188eu_USB_linux.zip">http://gutspot.com/wp-content/uploads/2013/01/8188eu_USB_linux.zip</a><br>unzip the file and go to directory driver<br><code># make &amp;&amp; make install</code></p>
+<p>In my case, it’s all. The module rtl8188eu has been load into RPi, MW150US WIFI dongle can be recognized.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ifconfig -a</span><br><span class="line">iwcofnig</span><br><span class="line">iwlist wlan0 scan</span><br></pre></td></tr></table></figure>
+
+<p>If it does not work, try the following method,</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># lsmod</span><br><span class="line"># rmmod 8192cu</span><br><span class="line"># insmod 8188eu.ko</span><br><span class="line"># modprobe 8188eu</span><br><span class="line"># modinfo 8188eu</span><br><span class="line">for autoload in RPi</span><br><span class="line"># echo &quot;8188eu&quot; &gt;&gt; /etc/modules</span><br><span class="line"># echo &quot;blacklist rtl8192cu&quot; &gt;&gt; /etc/modprobe.d/blacklist.conf (not necessary)</span><br></pre></td></tr></table></figure>
+
+<p><code>sudo nano /etc/network/interfaces</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">auto lo</span><br><span class="line"></span><br><span class="line">iface lo inet loopback</span><br><span class="line">iface eth0 inet dhcp</span><br><span class="line"></span><br><span class="line">auto wlan0</span><br><span class="line">iface wlan0 inet dhcp</span><br><span class="line"># try one of below options</span><br><span class="line">wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf</span><br><span class="line">OR</span><br><span class="line">pre-up wpa_supplicant -Dwext -iwlan0 -c/etc/wpa_supplicant.conf -B</span><br></pre></td></tr></table></figure>
+
+<p><code>sudo nano /etc/wpa_supplicant/wpa_supplicant.conf</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">network=&#123;</span><br><span class="line">ssid=&quot;YOUR-SSID&quot;</span><br><span class="line">scan_ssid=1</span><br><span class="line">proto=RSN</span><br><span class="line">key_mgmt=WPA-PSK</span><br><span class="line">pairwise=CCMP TKIP</span><br><span class="line">group=CCMP TKIP</span><br><span class="line">psk=&quot;WPA-PASSWORD&quot; # wpa_passphrase</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Join WIFI network by running from command prompt with wpa_cli</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#wpa_cli</span><br><span class="line">&gt;scan</span><br><span class="line">&gt;scan_results</span><br><span class="line">&gt;add_network</span><br><span class="line">&gt;set_network 0 ssid &quot;Xperia T2 Ultra&quot;</span><br><span class="line">&gt;set_network 0 psk &quot;74125896&quot;</span><br><span class="line">&gt;enable_network 0</span><br></pre></td></tr></table></figure>
+
+<h1 id="For-reference"><a href="#For-reference" class="headerlink" title="For reference"></a>For reference</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ssid:   your wifi name</span><br><span class="line">scan_ssid:   value of 1 means broadcast and value of 2 means hidden (suggest you enter value of 1)</span><br><span class="line">psk:   your wifi password</span><br><span class="line">proto:   your choice of RSN or WPA. RSN is WP2 and WPA is WPA1. (most config is RSN)</span><br><span class="line">key_mgmt:   your choice of WPA-PSK or WPA-EAP (pre-shared or enterprise respectively)</span><br><span class="line">pairwise:   your choice of CCMP or TKIP ( WPA2 or WPA1 respectively)</span><br><span class="line">auth_alg:   OPEN option is required for WPA and WPA2 (other option, SHARED &amp; LEAP)</span><br></pre></td></tr></table></figure>
+
+<p>Then run</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># /etc/init.d/networking restart</span><br><span class="line">Or</span><br><span class="line"># ifup wlan0</span><br><span class="line"></span><br><span class="line"># dhclient wlan0</span><br></pre></td></tr></table></figure>
+
+<p>script for auto-start wifi connection(Optional) <code>/etc/init.d/wifi-connect</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh</span><br><span class="line">#wifi-connect auto-start</span><br><span class="line"></span><br><span class="line">case $1 in</span><br><span class="line">start)</span><br><span class="line">  wpa_supplicant -B -iwlan0 -c/etc/wpa_supplicant/wpa_supplicant.conf -Dwext -s</span><br><span class="line">  wpa_cli -B -p/var/lib/run/wpa_supplicant -s</span><br><span class="line"> ;;</span><br><span class="line">stop)</span><br><span class="line"></span><br><span class="line"> ;;</span><br><span class="line">restart)</span><br><span class="line"></span><br><span class="line"> ;;</span><br><span class="line">*)</span><br><span class="line"> echo &#x27;Usage:wifi-connect start|stop|restart&#x27;</span><br><span class="line"> ;;</span><br><span class="line">esac</span><br><span class="line">exit 0</span><br><span class="line"></span><br><span class="line"># chmod +x /etc/init.d/wifi-connect</span><br><span class="line"># update-rc.d wifi-connect defaults</span><br><span class="line"># update-rc.d -f wifi-connect remove</span><br></pre></td></tr></table></figure>
+
+<h1 id="Install-hostapd"><a href="#Install-hostapd" class="headerlink" title="Install hostapd"></a>Install hostapd</h1><ol>
+<li>unzip wpa_supplicant_hostapd-0.8_rtw_20120803.zip<br>go to directory hostapd and compile<br><code>make &amp;&amp; make install</code><br>** should not ** start hostapd by <code>/etc/init.d/hostapd start</code> just run<br><code>/usr/local/bin/hostapd p2p_hostapd.conf -B</code><br>then hostapd started with ssid DIRECT-RT</li>
+<li>config IP address<br><code>ifconfig wlan0 192.168.0.1 netmask 255.255.255.0 (the segment should be match with udhcp)</code></li>
+<li><code>sudo apt-get udhcpd</code><br>  <code>/etc/init.d/udhcp start</code></li>
+</ol>
+<p> Open your mobile’s wifi to search ssid “DIRECT-RT” and pair with it using pasword “12345678”, it will obtain the IP adddress dynamically.</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference:"></a>Reference:</h1><p> <a target="_blank" rel="noopener" href="http://omer.me/2012/04/setting-up-wireless-networks-under-debian-on-raspberry-pi/">http://omer.me/2012/04/setting-up-wireless-networks-under-debian-on-raspberry-pi/</a><br> <a target="_blank" rel="noopener" href="http://tasksofohm.wordpress.com/hardware/connecting-raspberry-to-a-ew-7811un">http://tasksofohm.wordpress.com/hardware/connecting-raspberry-to-a-ew-7811un</a><br> <a target="_blank" rel="noopener" href="http://www.ctrl-alt-del.cc/2012/05/raspberry-pi-meets-edimax-ew-7811un-wireless-ada.html">http://www.ctrl-alt-del.cc/2012/05/raspberry-pi-meets-edimax-ew-7811un-wireless-ada.html</a><br> <a target="_blank" rel="noopener" href="https://guts.me/2013/01/30/set-up-wifi-router-with-raspberry-pi-2-compile-driver-for-8188eu-and-set-up-hostap/">https://guts.me/2013/01/30/set-up-wifi-router-with-raspberry-pi-2-compile-driver-for-8188eu-and-set-up-hostap/</a><br> <a target="_blank" rel="noopener" href="http://blog.elevendroids.com/2012/12/building-tp-link-tl-wn725n-wifi-usb-adapter-driver-for-raspberry-pi/">http://blog.elevendroids.com/2012/12/building-tp-link-tl-wn725n-wifi-usb-adapter-driver-for-raspberry-pi/</a><br> <a target="_blank" rel="noopener" href="http://jarhead.blog.163.com/blog/static/175217041201317102236535/">http://jarhead.blog.163.com/blog/static/175217041201317102236535/</a><br> <a target="_blank" rel="noopener" href="http://alansun.iteye.com/blog/1150893">http://alansun.iteye.com/blog/1150893</a></p>
+<h2 id="hostapd"><a href="#hostapd" class="headerlink" title="hostapd"></a>hostapd</h2><p> <a target="_blank" rel="noopener" href="http://www.raspberrypi.org/phpBB3/viewtopic.php?t=19120">http://www.raspberrypi.org/phpBB3/viewtopic.php?t=19120</a> <a target="_blank" rel="noopener" href="http://elinux.org/RPI-Wireless-Hotspot">http://elinux.org/RPI-Wireless-Hotspot</a></p>
+<p> *** New Version for 3.12.22+ ***<br> Just install a script to install rtl8188eu.ko as below,<br> tar -zxvf 8188eu-201xyyzz.tar.gz<br> &lt;–set data code for driver version above</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo install -p -m 644 8188eu.ko /lib/modules/$(uname -r)/kernel/drivers/net/wireless</span><br><span class="line">sudo insmod /lib/modules/$(uname -r)/kernel/drivers/net/wireless/8188eu.ko</span><br><span class="line">sudo depmod -a</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="http://www.raspberrypi.org/forums/viewtopic.php?p=462982#p462982">http://www.raspberrypi.org/forums/viewtopic.php?p=462982#p462982</a><br><a target="_blank" rel="noopener" href="http://www.fars-robotics.net/">http://www.fars-robotics.net/</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Raspberry-Pi/">Raspberry Pi</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

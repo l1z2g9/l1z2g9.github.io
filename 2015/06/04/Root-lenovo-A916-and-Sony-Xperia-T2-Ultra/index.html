@@ -1,0 +1,164 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Root lenovo A916 and Sony Xperia T2 Ultra | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Root lenovo A916 and Sony Xperia T2 Ultra"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Root-lenovo-A916-and-Sony-Xperia-T2-Ultra" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2015-06-04T10:13:04.000Z"><a href="/2015/06/04/Root-lenovo-A916-and-Sony-Xperia-T2-Ultra/">2015-06-04</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Root lenovo A916 and Sony Xperia T2 Ultra</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <p>Root lenovo A916 and Sony Xperia T2 Ultra.<br>Download adb and fastboot1. </p>
+<ul>
+<li>In windows, download <a target="_blank" rel="noopener" href="http://downloads.rubenalamina.mx/custom-installers/Android%20ADB%20Fastboot%201.3.msi">Android ADB Fastboot 1.3.msi</a></li>
+<li>In Ubuntu, <code>apt-get install android-tools-adb android-tools-fastboot</code> unlock bootloader, flash cwm-recovery and root phone<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">adb reboot-bootloader</span><br><span class="line">fastboot devices</span><br><span class="line">fastboot oem unlock</span><br><span class="line">fastboot reboot</span><br><span class="line">fastboot flash recovery cwm-recovery.img</span><br><span class="line">fastboot reboot</span><br><span class="line">adb push UPDATE-SuperSU-v2.46.zip /sdcard/</span><br><span class="line">Install SuperSU zip according by ClockworkMod menu</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>Extra: check information</p>
+<ul>
+<li>A916 -&gt; adb reboot recovery -&gt; check internel version, found version: A916_S205_141013, call <code>*#*#5448264#*#*</code> to enable dual sim dual standby</li>
+<li>D5303 -&gt; call <code>*#*#7378423#*#*</code> to check service information</li>
+</ul>
+<p>Reference:<br>Dual Sim card dual standby <a target="_blank" rel="noopener" href="http://ask.lenovomobile.com/index.php?question/view/598417.html">http://ask.lenovomobile.com/index.php?question/view/598417.html</a><br><a target="_blank" rel="noopener" href="https://forums.lenovo.com/t5/A-and-P-Series/Lenovo-phone-a916-A916-S1205-141013/td-p/2049911">https://forums.lenovo.com/t5/A-and-P-Series/Lenovo-phone-a916-A916-S1205-141013/td-p/2049911</a><br><a target="_blank" rel="noopener" href="http://pdadb.net/index.php?m=specs&amp;id=6663&amp;c=lenovo_a916_dual_sim_td-lte">http://pdadb.net/index.php?m=specs&amp;id=6663&amp;c=lenovo_a916_dual_sim_td-lte</a></p>
+<p>Download A916 offical ROM and CWM Recovery <a target="_blank" rel="noopener" href="http://ask.lenovomobile.com/?q-594219.html">http://ask.lenovomobile.com/?q-594219.html</a></p>
+<p>Dual SIM Dual Standby Official ROM <a target="_blank" rel="noopener" href="http://blog.cellphonemic.com/?p=624">http://blog.cellphonemic.com/?p=624</a><br>Recovery <a target="_blank" rel="noopener" href="http://blog.cellphonemic.com/?p=694">http://blog.cellphonemic.com/?p=694</a><br>One Key Root <a target="_blank" rel="noopener" href="http://blog.cellphonemic.com/?p=627">http://blog.cellphonemic.com/?p=627</a></p>
+<p>unlock bootloader of T2 Ultra <a target="_blank" rel="noopener" href="http://developer.sonymobile.com/unlockbootloader/">http://developer.sonymobile.com/unlockbootloader/</a></p>
+<p>HTC&#x2F;华为&#x2F;酷派手机官方解锁教程 <a target="_blank" rel="noopener" href="http://bbs.360safe.com/thread-4954939-1-1.html">http://bbs.360safe.com/thread-4954939-1-1.html</a></p>
+<p>All in this post (VERY USEFUL) <a target="_blank" rel="noopener" href="http://forum.xda-developers.com/showthread.php?t=2788632">[GUIDE] OnePlus One - How to Unlock Bootloader, Install Custom Recovery and Root</a></p>
+<p><a target="_blank" rel="noopener" href="http://forum.gamer.com.tw/C.php?bsn=60528&snA=4057">【攻略】Android 進階開發教學：讓你一次補足所有知識！</a></p>
+<p>lifehacker<br><a target="_blank" rel="noopener" href="http://lifehacker.com/the-most-useful-things-you-can-do-with-adb-and-fastboot-1590337225">The Most Useful Things You Can Do with ADB and Fastboot on Android</a><br><a target="_blank" rel="noopener" href="http://lifehacker.com/how-to-flash-a-rom-to-your-android-phone-30885281">How to Flash a ROM to Your Android Phone</a></p>
+<p>WIKI Of CM and CWM recovery <a target="_blank" rel="noopener" href="http://wiki.cyanogenmod.org/w/Doc:_fastboot_intro">http://wiki.cyanogenmod.org/w/Doc:_fastboot_intro</a><br>(fix the issue of “wait for the device”)<br><a target="_blank" rel="noopener" href="http://wiki.cyanogenmod.org/w/All_About_Recovery_Images">http://wiki.cyanogenmod.org/w/All_About_Recovery_Images</a><br><a target="_blank" rel="noopener" href="http://wiki.cyanogenmod.org/w/ClockWorkMod_Instructions">http://wiki.cyanogenmod.org/w/ClockWorkMod_Instructions</a></p>
+<p>Unlock bootloader and install recovery<br><a target="_blank" rel="noopener" href="http://playfuldroid.com/how-to-root-lenovo-a916-phablet-in-less-than-an-hour/">How to root Lenovo A916 phablet in less than an hour</a><br><a target="_blank" rel="noopener" href="http://http//www.cwm-twrp-recovery.org/mp3-0/lenovo-a916-6855.html">Download CWM &amp; TWRP Recovery for Lenovo A916</a><br><a target="_blank" rel="noopener" href="https://forums.oneplus.net/threads/root-recovery-root.61595/">用臨時Recovery root機</a><br><a target="_blank" rel="noopener" href="http://www.androidtablets.net/threads/howto-unlocking-the-bootloader-windows.52434/">[HowTo] Unlocking the Bootloader (Windows)</a></p>
+<p>Reference:<br>木子软件 <a target="_blank" rel="noopener" href="http://www.muzisoft.com/recovery/">http://www.muzisoft.com/recovery/</a> <a target="_blank" rel="noopener" href="http://www.muzisoft.com/root/">http://www.muzisoft.com/root/</a><br>刷机网 <a target="_blank" rel="noopener" href="http://www.shuaji.net/">http://www.shuaji.net/</a><br>线刷宝 - 华为fastboot机型解锁教程 <a target="_blank" rel="noopener" href="http://www.xianshuabao.com/skill/285.html">http://www.xianshuabao.com/skill/285.html</a></p>
+<p>Root Sony WT19i<br><a target="_blank" rel="noopener" href="http://forum.xda-developers.com/showthread.php?t=1559685">http://forum.xda-developers.com/showthread.php?t=1559685</a><br><a target="_blank" rel="noopener" href="http://forum.xda-developers.com/showthread.php?t=1865037">http://forum.xda-developers.com/showthread.php?t=1865037</a><br><a target="_blank" rel="noopener" href="http://www.android.gs/root-sony-xperia-live-walkman-wt19i/">http://www.android.gs/root-sony-xperia-live-walkman-wt19i/</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

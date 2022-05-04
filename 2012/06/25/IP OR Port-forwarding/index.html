@@ -1,0 +1,153 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>IP/Port forwarding | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="IP/Port forwarding"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-IP OR Port-forwarding" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2012-06-25T08:29:30.000Z"><a href="/2012/06/25/IP%20OR%20Port-forwarding/">2012-06-25</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">IP/Port forwarding</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h3 id="nix"><a href="#nix" class="headerlink" title="*nix"></a>*nix</h3><p>rinetd (<a target="_blank" rel="noopener" href="http://www.boutell.com/rinetd/">http://www.boutell.com/rinetd/</a>)</p>
+<p>netcat ( <a target="_blank" rel="noopener" href="http://netcat.sourceforge.net/">http://netcat.sourceforge.net/</a>)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkfifo backpipe</span><br><span class="line">nc -l 12345  0&lt;backpipe | nc www.google.com 80 1&gt;backpipe</span><br></pre></td></tr></table></figure>
+
+<p>socat (<a target="_blank" rel="noopener" href="http://www.dest-unreach.org/socat/">http://www.dest-unreach.org/socat/</a>)</p>
+<p>iptables (<a target="_blank" rel="noopener" href="http://www.netfilter.org/downloads.html">http://www.netfilter.org/downloads.html</a>)</p>
+<h3 id="ssh"><a href="#ssh" class="headerlink" title="ssh"></a>ssh</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">ssh user@10.13.135.47 -L 7001:10.13.135.54:9081 -g</span><br><span class="line">端口7001在当前运行这个命令的机器上打开</span><br><span class="line">ssh user@10.13.135.47 -R 7001:10.13.135.54:9081 -g</span><br><span class="line">端口7001在10.13.135.47机器上打开</span><br><span class="line"></span><br><span class="line">A跟B是同一个网络，B跟C是一个网络，C跟D同一个网络，但A不能到达D。</span><br><span class="line"></span><br><span class="line">B机上运行</span><br><span class="line">ssh root@C_host -L 7001:D_host:9081 -g</span><br><span class="line"></span><br><span class="line">B机上运行</span><br><span class="line">netstat -an|grep 7001</span><br><span class="line">会看到0.0.0.0的端口7001在监听（如果没有-g，会显示127.0.0.1:7001在监听）</span><br><span class="line"></span><br><span class="line">这样A可以通过B的7001端口发送数据可以到达D的9081端口，其中B到C的数据链路是被加密了的，而A-&gt;B和C-&gt;D是没有的。</span><br><span class="line"></span><br><span class="line">反向代理</span><br><span class="line">如果A可以到B，但由于防火墙导致B不能到A，那么就可以使用ssh -R，让端口开在B。例如A是proxy，希望让B可以访问internet，可以使用如下方法：</span><br><span class="line">在A上运行：ssh -R 7001:localhost:8080 B</span><br><span class="line">再在B上运行：export http_proxy=http://localhost:7001</span><br><span class="line"></span><br><span class="line">题外话：</span><br><span class="line">如果在C上配置nginx/squid了，这样可以使用C为proxy。</span><br><span class="line">A-&gt;B(7001)-&gt;C(9081)-&gt;C(80/443)</span><br></pre></td></tr></table></figure>
+
+<h3 id="java"><a href="#java" class="headerlink" title="java"></a>java</h3><p>mina (<a target="_blank" rel="noopener" href="http://mina.apache.org/">http://mina.apache.org</a>)<br>netty (<a target="_blank" rel="noopener" href="http://netty.io/">http://netty.io</a>)<br>openportmapper (<a target="_blank" rel="noopener" href="http://openportmapper.sf.net/">http://openportmapper.sf.net</a>)</p>
+<h3 id="window"><a href="#window" class="headerlink" title="window"></a>window</h3><p>netcat (<a target="_blank" rel="noopener" href="http://joncraton.org/blog/46/netcat-for-windows">http://joncraton.org/blog/46/netcat-for-windows</a>)<br>ncat (<a target="_blank" rel="noopener" href="http://nmap.org/">http://nmap.org</a>)<br>3proxy (<a target="_blank" rel="noopener" href="http://3proxy.ru/">http://3proxy.ru/</a>)</p>
+<h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref:"></a>Ref:</h2><p><a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Netcat">http://en.wikipedia.org/wiki/Netcat</a><br><a target="_blank" rel="noopener" href="http://www.debianadmin.com/howto-use-ssh-local-and-remote-port-forwarding.html">http://www.debianadmin.com/howto-use-ssh-local-and-remote-port-forwarding.html</a><br><a target="_blank" rel="noopener" href="http://fsfoundry.org/codefreak/2006/05/18/ssh-port-forwarding-basics/">http://fsfoundry.org/codefreak/2006/05/18/ssh-port-forwarding-basics/</a><br><a target="_blank" rel="noopener" href="https://www.ibm.com/developerworks/cn/linux/l-cn-sshforward/">https://www.ibm.com/developerworks/cn/linux/l-cn-sshforward/</a><br><a target="_blank" rel="noopener" href="http://blog.moonforest.org/2011/02/use-sshtunnel-and-nginx-as-proxy-on-android/">http://blog.moonforest.org/2011/02/use-sshtunnel-and-nginx-as-proxy-on-android/</a><br><a target="_blank" rel="noopener" href="http://madeye.me/2011/02/10/ssh-tunnel-on-the-android-application-puff-android-edition">http://madeye.me/2011/02/10/ssh-tunnel-on-the-android-application-puff-android-edition</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

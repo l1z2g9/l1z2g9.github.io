@@ -1,0 +1,148 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>自定义访问权限控制 | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="自定义访问权限控制"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-自定义访问权限控制" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2011-07-08T02:56:50.000Z"><a href="/2011/07/08/%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AE%BF%E9%97%AE%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6/">2011-07-08</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">自定义访问权限控制</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h1 id="项目需要做一些权限访问控制，觉得比较好的方案是AOP-annotation，因为在Java-EE的权限控制也是使用类似方式实现。"><a href="#项目需要做一些权限访问控制，觉得比较好的方案是AOP-annotation，因为在Java-EE的权限控制也是使用类似方式实现。" class="headerlink" title="项目需要做一些权限访问控制，觉得比较好的方案是AOP+annotation，因为在Java EE的权限控制也是使用类似方式实现。"></a>项目需要做一些权限访问控制，觉得比较好的方案是AOP+annotation，因为在Java EE的权限控制也是使用类似方式实现。</h1><h2 id="AccessRight的注解"><a href="#AccessRight的注解" class="headerlink" title="AccessRight的注解"></a>AccessRight的注解</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@Target( &#123; ElementType.METHOD, ElementType.FIELD &#125;)</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">public @interface AccessRight &#123;</span><br><span class="line">  String code();</span><br><span class="line"></span><br><span class="line">  boolean access() default false;</span><br><span class="line"></span><br><span class="line">  boolean create() default false;</span><br><span class="line"></span><br><span class="line">  boolean update() default false;</span><br><span class="line"></span><br><span class="line">  boolean delete() default false;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="AccessControlAspect切面"><a href="#AccessControlAspect切面" class="headerlink" title="AccessControlAspect切面"></a>AccessControlAspect切面</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">@Component //如果不加，spring似乎不会识别这是一个切面</span><br><span class="line">@Aspect</span><br><span class="line">public class AccessControlAspect &#123;</span><br><span class="line">  private static final Logger log = Logger</span><br><span class="line">      .getLogger(AccessControlAspect.class);</span><br><span class="line"></span><br><span class="line">  @Pointcut(&quot;execution(* xx.*Bean.*()) &quot;)</span><br><span class="line">  public void accessControl() &#123;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  @Around(&quot;accessControl()&quot;)</span><br><span class="line">  public Object checkRight(ProceedingJoinPoint jp) throws Throwable &#123;</span><br><span class="line">    String methodName = jp.getSignature().getName();</span><br><span class="line">    log.info(&quot;check right: &quot; + methodName);</span><br><span class="line">    Method method = jp.getTarget().getClass().getDeclaredMethod(methodName);</span><br><span class="line">    if (method.isAnnotationPresent(AccessRight.class)) &#123;</span><br><span class="line">      AccessRight right = method.getAnnotation(AccessRight.class);</span><br><span class="line">      FunctionPermission permission = getRight(right.code());</span><br><span class="line">      if (right.access() &amp;&amp; permission.hasAccessPermission()) &#123;</span><br><span class="line">        log.info(&quot;has right to do&quot;);</span><br><span class="line">        return jp.proceed();</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        log.error(&quot;no right to do&quot;);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    return jp.proceed();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  private FunctionPermission getRight(String code) &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="applicationContext-xml加如下内容："><a href="#applicationContext-xml加如下内容：" class="headerlink" title="applicationContext.xml加如下内容："></a>applicationContext.xml加如下内容：</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;context:component-scan base-package=&quot;xx&quot; /&gt;</span><br><span class="line">&lt;aop:aspectj-autoproxy proxy-target-class=&quot;false&quot;/&gt; true表示使用cglib代理，否则使用java反射代理</span><br></pre></td></tr></table></figure>
+
+<h2 id="应用在controller中"><a href="#应用在controller中" class="headerlink" title="应用在controller中"></a>应用在controller中</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@Controller</span><br><span class="line">@Scope(&quot;request&quot;)</span><br><span class="line">public class xxBean &#123;</span><br><span class="line">  @AccessRight(code = &quot;something&quot;, access = true)</span><br><span class="line">  public String foobar() &#123;</span><br><span class="line">    log.info(&quot;test...&quot;);</span><br><span class="line">    return &quot;test&quot;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

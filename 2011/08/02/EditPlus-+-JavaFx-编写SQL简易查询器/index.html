@@ -1,0 +1,152 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>EditPlus + JavaFx 编写SQL简易查询器 | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="EditPlus + JavaFx 编写SQL简易查询器"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-EditPlus-+-JavaFx-编写SQL简易查询器" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2011-08-02T07:34:05.000Z"><a href="/2011/08/02/EditPlus-+-JavaFx-%E7%BC%96%E5%86%99SQL%E7%AE%80%E6%98%93%E6%9F%A5%E8%AF%A2%E5%99%A8/">2011-08-02</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">EditPlus + JavaFx 编写SQL简易查询器</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h1 id="用过DbVisualizer和Oracle-SQL-Developer，感觉有不足之处，遂期望在EditPlus上打造一个简易的SQL查询器。"><a href="#用过DbVisualizer和Oracle-SQL-Developer，感觉有不足之处，遂期望在EditPlus上打造一个简易的SQL查询器。" class="headerlink" title="用过DbVisualizer和Oracle SQL Developer，感觉有不足之处，遂期望在EditPlus上打造一个简易的SQL查询器。"></a>用过DbVisualizer和Oracle SQL Developer，感觉有不足之处，遂期望在EditPlus上打造一个简易的SQL查询器。</h1><h2 id="Query-java-用于在EditPlus上显示结果"><a href="#Query-java-用于在EditPlus上显示结果" class="headerlink" title="Query.java, 用于在EditPlus上显示结果"></a>Query.java, 用于在EditPlus上显示结果</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br></pre></td><td class="code"><pre><span class="line">package forest;</span><br><span class="line"></span><br><span class="line">import static java.lang.System.out;</span><br><span class="line"></span><br><span class="line">import java.sql.Connection;</span><br><span class="line">import java.sql.DriverManager;</span><br><span class="line">import java.sql.ResultSet;</span><br><span class="line">import java.sql.ResultSetMetaData;</span><br><span class="line">import java.sql.SQLException;</span><br><span class="line">import java.sql.Statement;</span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">import org.apache.commons.beanutils.BasicDynaClass;</span><br><span class="line">import org.apache.commons.beanutils.DynaBean;</span><br><span class="line">import org.apache.commons.beanutils.DynaProperty;</span><br><span class="line"></span><br><span class="line">public class Query &#123;</span><br><span class="line">  static Connection conn;</span><br><span class="line">  static String xxUrl = &quot;jdbc:oracle:thin:@192.168.0.1:1521:SP&quot;;</span><br><span class="line">  static String yyUrl = &quot;jdbc:oracle:thin:@192.168.0.2:1521:XE&quot;;</span><br><span class="line">  static String zzUrl = &quot;jdbc:sqlserver://192.168.0.3:1433;DatabaseName=northwind&quot;;</span><br><span class="line">  static List&lt;DynaBean&gt; beans = new ArrayList&lt;DynaBean&gt;();</span><br><span class="line">  static List&lt;String&gt; columnNames = new ArrayList&lt;String&gt;();</span><br><span class="line">  static &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">      Class.forName(&quot;oracle.jdbc.driver.OracleDriver&quot;);</span><br><span class="line">      Class.forName(&quot;com.microsoft.sqlserver.jdbc.SQLServerDriver&quot;);</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">      e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  public static List&lt;DynaBean&gt; getBeans() &#123;</span><br><span class="line">    return beans;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  public static List&lt;String&gt; getColumnNames() &#123;</span><br><span class="line">    return columnNames;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  private static void consoleRunSQL(String sql) throws Exception &#123;</span><br><span class="line">    runSQL(sql);</span><br><span class="line">    StringBuilder sb = new StringBuilder();</span><br><span class="line">    for (DynaBean bean : beans) &#123;</span><br><span class="line">      for (int i = 1; i &lt;= columnNames.size(); i++) &#123;</span><br><span class="line">        String col = columnNames.get(i - 1);</span><br><span class="line">        String row = String.format(&quot;%-18s = %s\n&quot;, col, bean.get(col));</span><br><span class="line">        sb.append(row);</span><br><span class="line">      &#125;</span><br><span class="line">      sb.append(&quot;-------------------------\n\n&quot;);</span><br><span class="line">      sb.append(&quot;total: &quot; + beans.size() + &quot; records.&quot;);</span><br><span class="line">      out.println(sb.toString());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  private static void runSQL(String sql) throws Exception &#123;</span><br><span class="line">    if (sql.trim().length() == 0) &#123;</span><br><span class="line">      out.println(&quot;sql is empty.&quot;);</span><br><span class="line">      return;</span><br><span class="line">    &#125;</span><br><span class="line">    // out.println(&quot;run &quot; + sql);</span><br><span class="line">    ResultSet rs = null;</span><br><span class="line">    Statement stmt = null;</span><br><span class="line"></span><br><span class="line">    out.println(&quot;&quot;);</span><br><span class="line">    if (!sql.startsWith(&quot;select&quot;)) &#123;</span><br><span class="line">      stmt = conn.createStatement();</span><br><span class="line">      int rows = stmt.executeUpdate(sql);</span><br><span class="line">      out.println(rows + &quot; reords has been process.&quot;);</span><br><span class="line">      return;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    try &#123;</span><br><span class="line">      stmt = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY,</span><br><span class="line">          ResultSet.CONCUR_READ_ONLY);</span><br><span class="line">      rs = stmt.executeQuery(sql);</span><br><span class="line">      ResultSetMetaData metaRs = rs.getMetaData();</span><br><span class="line"></span><br><span class="line">      int columns = metaRs.getColumnCount();</span><br><span class="line"></span><br><span class="line">      List&lt;DynaProperty&gt; props = new ArrayList&lt;DynaProperty&gt;();</span><br><span class="line">      for (int i = 1; i &lt;= columns; i++) &#123;</span><br><span class="line">        String colName = metaRs.getColumnName(i).toLowerCase();</span><br><span class="line">        props.add(new DynaProperty(colName, String.class));</span><br><span class="line"></span><br><span class="line">        columnNames.add(colName);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      BasicDynaClass dynaClass = new BasicDynaClass(&quot;JDBCResult&quot;, null,</span><br><span class="line">          props.toArray(new DynaProperty[0]));</span><br><span class="line"></span><br><span class="line">      while (rs.next()) &#123;</span><br><span class="line">        DynaBean bean = dynaClass.newInstance();</span><br><span class="line">        for (int i = 1; i &lt;= columns; i++) &#123;</span><br><span class="line">          bean.set(columnNames.get(i - 1).toLowerCase(), rs</span><br><span class="line">              .getString(i));</span><br><span class="line">        &#125;</span><br><span class="line">        beans.add(bean);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">    &#125; finally &#123;</span><br><span class="line">      if (rs != null) &#123;</span><br><span class="line">        rs.close();</span><br><span class="line">        stmt.close();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  public static void launch(String[] args) throws Exception &#123;</span><br><span class="line">    if (args.length &lt; 2) &#123;</span><br><span class="line">      out.println(&quot;enter arguments.&quot;);</span><br><span class="line">      return;</span><br><span class="line">    &#125;</span><br><span class="line">    if (args[0].equals(&quot;xx&quot;)) &#123;</span><br><span class="line">      initSP();</span><br><span class="line">    &#125; else if (args[0].equals(&quot;yy&quot;)) &#123;</span><br><span class="line">      initSRS();</span><br><span class="line">    &#125; else if (args[0].equals(&quot;zz&quot;)) &#123;</span><br><span class="line">      initCAS();</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      out.println(&quot;type is wrong, it should be xx / yy / zz.&quot;);</span><br><span class="line">      return;</span><br><span class="line">    &#125;</span><br><span class="line">    try &#123;</span><br><span class="line">      if (args.length == 2)</span><br><span class="line">        consoleRunSQL(args[1]);</span><br><span class="line">      else</span><br><span class="line">        runSQL(args[2]);</span><br><span class="line">    &#125; finally &#123;</span><br><span class="line">      conn.close();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  private static void initSP() throws SQLException &#123;</span><br><span class="line">    conn = DriverManager.getConnection(xxUrl, &quot;xx&quot;, &quot;xx&quot;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  private static void initSRS() throws SQLException &#123;</span><br><span class="line">    conn = DriverManager.getConnection(yyUrl, &quot;yy&quot;, &quot;yy&quot;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  private static void initCAS() throws SQLException &#123;</span><br><span class="line">    conn = DriverManager.getConnection(zzUrl, &quot;zz&quot;, &quot;zz&quot;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  public static void test() throws Exception &#123;</span><br><span class="line">    String[] args = new String[] &#123; &quot;xx&quot;,</span><br><span class="line">        &quot;select * from xxTable&quot; &#125;;</span><br><span class="line">    launch(args);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  public static void main(String[] args) throws Exception &#123;</span><br><span class="line">    launch(args);</span><br><span class="line">    // test();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="QueryVisual-java-用于在GUI上显示结果"><a href="#QueryVisual-java-用于在GUI上显示结果" class="headerlink" title="QueryVisual.java, 用于在GUI上显示结果"></a>QueryVisual.java, 用于在GUI上显示结果</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line">package forest;</span><br><span class="line"></span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">import javafx.application.Application;</span><br><span class="line">import javafx.collections.FXCollections;</span><br><span class="line">import javafx.event.EventHandler;</span><br><span class="line">import javafx.geometry.Insets;</span><br><span class="line">import javafx.scene.Group;</span><br><span class="line">import javafx.scene.Scene;</span><br><span class="line">import javafx.scene.control.Label;</span><br><span class="line">import javafx.scene.control.ScrollPane;</span><br><span class="line">import javafx.scene.control.TableColumn;</span><br><span class="line">import javafx.scene.control.TableView;</span><br><span class="line">import javafx.scene.control.ScrollPane.ScrollBarPolicy;</span><br><span class="line">import javafx.scene.input.KeyCode;</span><br><span class="line">import javafx.scene.input.KeyEvent;</span><br><span class="line">import javafx.scene.layout.VBox;</span><br><span class="line">import javafx.scene.text.Font;</span><br><span class="line">import javafx.stage.Stage;</span><br><span class="line">import javafx.util.Callback;</span><br><span class="line"></span><br><span class="line">import org.apache.commons.beanutils.BasicDynaBean;</span><br><span class="line">import org.apache.commons.beanutils.DynaBean;</span><br><span class="line"></span><br><span class="line">public class QueryVisual extends Application implements EventHandler&lt;KeyEvent&gt; &#123;</span><br><span class="line">  private TableView&lt;DynaBean&gt; table = new TableView&lt;DynaBean&gt;();</span><br><span class="line"></span><br><span class="line">  public static void main(String[] args) throws Exception &#123;</span><br><span class="line">    Query.launch(args);</span><br><span class="line">    launch(args);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  @Override</span><br><span class="line">  public void start(Stage stage) throws Exception &#123;</span><br><span class="line">    Scene scene = new Scene(new Group());</span><br><span class="line">    stage.setTitle(&quot;Result View&quot;);</span><br><span class="line"></span><br><span class="line">    final Label label = new Label(&quot;SQL Result&quot;);</span><br><span class="line">    label.setFont(new Font(&quot;Arial&quot;, 20));</span><br><span class="line"></span><br><span class="line">    table.setStyle(&quot;-fx-base: #b6e7c9;&quot;);</span><br><span class="line"></span><br><span class="line">    final List&lt;String&gt; cols = Query.getColumnNames();</span><br><span class="line">    List&lt;DynaBean&gt; rows = Query.getBeans();</span><br><span class="line">    for (final String col : cols) &#123;</span><br><span class="line">      TableColumn&lt;String&gt; nameCol = new TableColumn&lt;String&gt;(col);</span><br><span class="line">      nameCol</span><br><span class="line">          .setDataRetriever(new Callback&lt;TableColumn.CellDataFeatures&lt;String&gt;, String&gt;() &#123;</span><br><span class="line">            public String call(</span><br><span class="line">                TableColumn.CellDataFeatures&lt;String&gt; p) &#123;</span><br><span class="line">              return (String) ((BasicDynaBean) p.getValue())</span><br><span class="line">                  .get(col.toLowerCase());</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;);</span><br><span class="line">      table.getColumns().add(nameCol);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    table.setItems(FXCollections.observableArrayList(rows));</span><br><span class="line">    table.setPrefHeight(380);</span><br><span class="line">    table.setPrefWidth(600);</span><br><span class="line">    final VBox vbox = new VBox();</span><br><span class="line">    vbox.setSpacing(5);</span><br><span class="line">    vbox.getChildren().addAll(label, table);</span><br><span class="line">    vbox.setPadding(new Insets(10, 0, 0, 10));</span><br><span class="line">    ScrollPane sp = new ScrollPane();</span><br><span class="line">    sp.setHbarPolicy(ScrollBarPolicy.ALWAYS);</span><br><span class="line">    sp.setVbarPolicy(ScrollBarPolicy.ALWAYS);</span><br><span class="line"></span><br><span class="line">    sp.setPrefHeight(400);</span><br><span class="line">    sp.setPrefWidth(760);</span><br><span class="line"></span><br><span class="line">    sp.setNode(vbox);</span><br><span class="line"></span><br><span class="line">    sp.setOnKeyReleased(this);</span><br><span class="line">    scene.setOnKeyReleased(this);</span><br><span class="line"></span><br><span class="line">    ((Group) scene.getRoot()).getChildren().add(sp);</span><br><span class="line">    stage.setScene(scene);</span><br><span class="line">    stage.setVisible(true);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  @Override</span><br><span class="line">  public void handle(KeyEvent event) &#123;</span><br><span class="line">    if (event.getCode().equals(KeyCode.ESCAPE))</span><br><span class="line">      System.exit(0);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="EditPlus的用户工具配置"><a href="#EditPlus的用户工具配置" class="headerlink" title="EditPlus的用户工具配置"></a>EditPlus的用户工具配置</h2><h3 id="tool-ui-ini"><a href="#tool-ui-ini" class="headerlink" title="tool_ui.ini"></a>tool_ui.ini</h3><p>控制台显示</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Text=run SQL in Console</span><br><span class="line">Command=C:\Users\user\Desktop\Forest\command\run SQL.bat</span><br><span class="line">Argument=$(Prompt) &quot;$(CurSel)&quot;</span><br><span class="line">InitDir=$(FileDir)</span><br></pre></td></tr></table></figure>
+<p>run SQL.bat<br><code>&quot;C:\Program Files\Java\jre7\bin\java.exe&quot; -cp .;&quot;C:\Users\user\workspace\SQL Query\bin&quot;;C:\Users\user\workspace\common-lib\ojdbc14.jar;C:\Users\user\workspace\common-lib\sqljdbc4.jar;C:/Users/user/Desktop/Forest/spring-framework-2.5.6/lib/jakarta-commons/commons-beanutils.jar;C:/Users/user/Desktop/Forest/spring-framework-2.5.6/lib/jakarta-commons/commons-lang.jar forest.Query %1 %2</code></p>
+<p>GUI显示</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Text=run SQL in GUI</span><br><span class="line">Command=C:\Users\user\Desktop\Forest\command\javafx.bat</span><br><span class="line">Argument=$(Prompt) &quot;$(CurSel)&quot;</span><br><span class="line">InitDir=$(FileDir)</span><br></pre></td></tr></table></figure>
+<p>javafx.bat<br><code>&quot;C:\Program Files\Java\jre7\bin\java.exe&quot; -cp C:\Users\user\Downloads\javafx-sdk2.0-beta\rt\lib\jfxrt.jar;.;&quot;C:\Users\user\workspace\SQL Query\bin&quot;;C:\Users\user\workspace\common-lib\ojdbc14.jar;C:\Users\user\workspace\common-lib\sqljdbc4.jar;C:/Users/user/Desktop/Forest/spring-framework-2.5.6/lib/jakarta-commons/commons-beanutils.jar;C:/Users/user/Desktop/Forest/spring-framework-2.5.6/lib/jakarta-commons/commons-lang.jar forest.QueryVisual %1 &quot;gui&quot; %2</code></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

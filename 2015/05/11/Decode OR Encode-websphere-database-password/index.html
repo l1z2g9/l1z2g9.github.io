@@ -1,0 +1,153 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Decode/Encode websphere database password | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Decode/Encode websphere database password"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Decode OR Encode-websphere-database-password" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2015-05-11T09:14:53.000Z"><a href="/2015/05/11/Decode%20OR%20Encode-websphere-database-password/">2015-05-11</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Decode/Encode websphere database password</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <ul>
+<li><p>Locate the file at <code>/usr/IBM/WebSphere/AppServer/profiles/AppSrvMars01/config/cells/mars01Cell01/security.xml</code></p>
+</li>
+<li><p>Find the “authDataEntries” tag and then get the password attribute.</p>
+</li>
+<li><p>Open console and goto directory <code>/usr/IBM/WebSphere/AppServer</code>,<br>  <strong>encode</strong>:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -cp plugins/com.ibm.ws.runtime.jar:lib/bootstrap.jar:runtimes/com.ibm.jaxws.thinclient_7.0.0.jar com.ibm.ws.security.util.PasswordEncoder password</span><br></pre></td></tr></table></figure>
+<p>  <strong>decode</strong>:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -cp plugins/com.ibm.ws.runtime.jar:lib/bootstrap.jar:runtimes/com.ibm.jaxws.thinclient_7.0.0.jar com.ibm.ws.security.util.PasswordDecoder &#123;xor&#125;Lz4sLCgwLTs=</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>Reference:<br><a target="_blank" rel="noopener" href="http://www.sysman.nl/wasdecoder/">http://www.sysman.nl/wasdecoder/</a><br><a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/7885134/how-to-recover-admin-password-in-websphere-portal-v7">http://stackoverflow.com/questions/7885134/how-to-recover-admin-password-in-websphere-portal-v7</a><br><a target="_blank" rel="noopener" href="http://weblogic-wonders.com/weblogic/tag/com-ibm-ws-bootstrap-raswsloggerfactory/">http://weblogic-wonders.com/weblogic/tag/com-ibm-ws-bootstrap-raswsloggerfactory/</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/AIX/">AIX</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

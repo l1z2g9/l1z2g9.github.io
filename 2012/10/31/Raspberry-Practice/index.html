@@ -1,0 +1,161 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Raspberry Practice | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Raspberry Practice"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Raspberry-Practice" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2012-10-31T05:44:31.000Z"><a href="/2012/10/31/Raspberry-Practice/">2012-10-31</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Raspberry Practice</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <ol>
+<li>Run raspi-config to set parameter</li>
+<li>Login as pi&#x2F;raspberry, sudo passwd root</li>
+<li>Run sudo vi &#x2F;boot&#x2F;config.txt to set framebuffer</li>
+<li>Install JDK1.8.0 and run javafx samples  <a target="_blank" rel="noopener" href="http://javafx.steveonjava.com/javafx-on-raspberry-pi-3-easy-steps">http://javafx.steveonjava.com/javafx-on-raspberry-pi-3-easy-steps</a></li>
+<li>Install Tomcat</li>
+<li>Install TightVNC <a target="_blank" rel="noopener" href="http://www.neil-black.co.uk/raspberry-pi-beginners-guide">raspberry-pi-beginners-guide</a> <a target="_blank" rel="noopener" href="http://www.penguintutor.com/linux/tightvnc">tightvnc</a></li>
+<li>Install transmission-daemon, transmission-remote-gui&#x2F;java remember to disable rpc-white-list and set the login user&#x2F;password <a target="_blank" rel="noopener" href="http://www.lijingquan.net/pt-linux-vps.html">pt-linux-vps</a> <a target="_blank" rel="noopener" href="http://www.webupd8.org/2009/12/setting-up-transmission-remote-gui-in.html">setting-up-transmission-remote-gui-in</a></li>
+<li>Install samba <code>sudo apt-get install samba</code><br>  &#x2F;etc&#x2F;samba&#x2F;smb.conf<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[bt-download]</span><br><span class="line">comment = transmission download folder</span><br><span class="line">browsable = yes</span><br><span class="line">path = /var/lib/transmission-daemon/downloads</span><br><span class="line">public = yes</span><br><span class="line">writable = yes</span><br><span class="line">guest ok = yes</span><br></pre></td></tr></table></figure></li>
+<li>Install chromium <code>sudo apt-get install chromium</code></li>
+<li>Install wiringPi <a target="_blank" rel="noopener" href="https://projects.drogon.net/raspberry-pi/wiringpi/download-and-install">https://projects.drogon.net/raspberry-pi/wiringpi/download-and-install</a></li>
+<li>Install xrdp (ru tightvncserver in backend imho) <code>sudo apt-get install xrdp</code></li>
+<li>Install bluetooth <code>sudo apt-get install bluez blueman</code></li>
+<li>Install mpd <code>sudo apt-get install mpd mpc icecast2</code><br>set bind_to_address to 0.0.0.0 in mpd.conf<br>uncomment the block Icecast of audio_output<br><a target="_blank" rel="noopener" href="http://www.t3node.com/blog/streaming-audio-with-mpd-and-icecast2-on-raspberry-pi/">streaming-audio-with-mpd-and-icecast2-on-raspberry-pi</a></li>
+<li>Install Pifm <a target="_blank" rel="noopener" href="http://www.icrobotics.co.uk/wiki/index.php/Turning_the_Raspberry_Pi_Into_an_FM_Transmitter">Turning_the_Raspberry_Pi_Into_an_FM_Transmitter</a></li>
+<li>check revision cat <code>/proc/cpuinfo</code> <a target="_blank" rel="noopener" href="http://elinux.org/RPi_Hub">http://elinux.org/RPi_Hub</a> And <a target="_blank" rel="noopener" href="http://rpitc.blogspot.hk/">http://rpitc.blogspot.hk/</a></li>
+</ol>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p>  <a target="_blank" rel="noopener" href="http://whatswhat.no/computer/linux/raspberry-pi/481-raspberry-pi-mediacenter-raspbmc-setup-and-use-ipad-or-iphone-as-remote">http://whatswhat.no/computer/linux/raspberry-pi/481-raspberry-pi-mediacenter-raspbmc-setup-and-use-ipad-or-iphone-as-remote</a><br>  <a target="_blank" rel="noopener" href="http://blog.thestateofme.com/2012/05/27/raspberry-pi-on-ipad/">http://blog.thestateofme.com/2012/05/27/raspberry-pi-on-ipad/</a><br>  <a target="_blank" rel="noopener" href="http://www.oracle.com/technetwork/articles/java/raspberrypi-1704896.html">http://www.oracle.com/technetwork/articles/java/raspberrypi-1704896.html</a></p>
+<p>  <a target="_blank" rel="noopener" href="http://projectdp.wordpress.com/2012/09/24/pi-k3w-kindle-3-display-for-raspberry-pi/">http://projectdp.wordpress.com/2012/09/24/pi-k3w-kindle-3-display-for-raspberry-pi/</a><br>  <a target="_blank" rel="noopener" href="http://www.raspberrypi.org/">http://www.raspberrypi.org</a><br>  <a target="_blank" rel="noopener" href="https://www.riscosopen.org/news/articles/2012/10/26/risc-os-pi-released-risc-os-for-the-raspberry-pi">https://www.riscosopen.org/news/articles/2012/10/26/risc-os-pi-released-risc-os-for-the-raspberry-pi</a><br>  <a target="_blank" rel="noopener" href="http://www.reddit.com/r/raspberry_pi/comments/zoivv/kindleberry_pi/">http://www.reddit.com/r/raspberry_pi/comments/zoivv/kindleberry_pi/</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Raspberry-Pi/">Raspberry Pi</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

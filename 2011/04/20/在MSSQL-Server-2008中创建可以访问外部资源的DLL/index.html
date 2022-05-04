@@ -1,0 +1,151 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>在MSSQL Server 2008中创建可以访问外部资源的DLL | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="在MSSQL Server 2008中创建可以访问外部资源的DLL"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-在MSSQL-Server-2008中创建可以访问外部资源的DLL" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2011-04-20T03:53:43.000Z"><a href="/2011/04/20/%E5%9C%A8MSSQL-Server-2008%E4%B8%AD%E5%88%9B%E5%BB%BA%E5%8F%AF%E4%BB%A5%E8%AE%BF%E9%97%AE%E5%A4%96%E9%83%A8%E8%B5%84%E6%BA%90%E7%9A%84DLL/">2011-04-20</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">在MSSQL Server 2008中创建可以访问外部资源的DLL</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">CREATE ASSEMBLY [CharSetUtil]</span><br><span class="line">FROM &#x27;XXX.dll&#x27;</span><br><span class="line">WITH PERMISSION_SET = EXTERNAL_ACCESS</span><br><span class="line">GO</span><br><span class="line"></span><br><span class="line">ALTER DATABASE [somedb] set TRUSTWORTHY on</span><br><span class="line">EXEC sp_changedbowner &#x27;sa&#x27;</span><br><span class="line"></span><br><span class="line">USE somedb</span><br><span class="line">GRANT EXTERNAL ACCESS ASSEMBLY TO sa</span><br><span class="line"></span><br><span class="line">exec sp_configure &#x27;show advanced options&#x27;, &#x27;1&#x27;;</span><br><span class="line">reconfigure;</span><br><span class="line">go</span><br><span class="line"></span><br><span class="line">exec sp_configure &#x27;clr enabled&#x27;, &#x27;1&#x27;</span><br><span class="line">go</span><br><span class="line"></span><br><span class="line">reconfigure;</span><br><span class="line">exec sp_configure &#x27;show advanced options&#x27;, &#x27;1&#x27;;</span><br><span class="line">go</span><br></pre></td></tr></table></figure>
+
+
+<p>编写clr函数注意： </p>
+<ol>
+<li>静态类型static修饰的函数 </li>
+<li>如果函数内部不执行sql查询，应定义DataAccessKind.None </li>
+<li>最好定义IsDeterministic &#x3D; true。但如果是DataAccessKind.READ，定义确定性函数也是没有用的。</li>
+</ol>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

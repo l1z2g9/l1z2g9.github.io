@@ -1,0 +1,152 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>使用XA事务 | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="使用XA事务"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-使用XA事务" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2011-07-27T03:27:33.000Z"><a href="/2011/07/27/%E4%BD%BF%E7%94%A8XA%E4%BA%8B%E5%8A%A1/">2011-07-27</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">使用XA事务</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h2 id="如果使用WAS配置XA事务，可以参考"><a href="#如果使用WAS配置XA事务，可以参考" class="headerlink" title="如果使用WAS配置XA事务，可以参考"></a>如果使用WAS配置XA事务，可以参考</h2><p><a target="_blank" rel="noopener" href="http://www.ibm.com/developerworks/cn/websphere/library/techarticles/0407_woolf/0407_woolf.html">http://www.ibm.com/developerworks/cn/websphere/library/techarticles/0407_woolf/0407_woolf.html</a><br><a target="_blank" rel="noopener" href="http://liuqiang5151.iteye.com/blog/584422">http://liuqiang5151.iteye.com/blog/584422</a>  </p>
+<h2 id="如果使用Tomcat，可以使用atomickos"><a href="#如果使用Tomcat，可以使用atomickos" class="headerlink" title="如果使用Tomcat，可以使用atomickos"></a>如果使用Tomcat，可以使用atomickos</h2><p><a target="_blank" rel="noopener" href="http://www.atomikos.com/">http://www.atomikos.com/</a>  </p>
+<h2 id="在WAS-Oracle环境中使用XA事务"><a href="#在WAS-Oracle环境中使用XA事务" class="headerlink" title="在WAS+Oracle环境中使用XA事务"></a>在WAS+Oracle环境中使用XA事务</h2><ol>
+<li>定义XA数据源   </li>
+<li>使用XA的JDBC Driver   </li>
+<li>使用WebSphereUowTransactionManager，spring定义<br><code>&lt;bean id=&quot;transactionManager&quot; class=&quot;org.springframework.transaction.jta.WebSphereUowTransactionManager&quot;/&gt;</code><br>或者使用EJB的CMT或者使用JNDI获得transactionManager控制事务 </li>
+<li>如果是SQL SERVER 2008，则还需要如下步骤：<br>Control Panel -&gt; Administrative Tools -&gt; Component Services -&gt; Local DT -&gt; right click -&gt; Properties -&gt; Enable XA Transactions<br>之后restart SQLServer, restart WebServer(WAS or JBoss等)</li>
+</ol>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考:"></a>参考:</h2><p>JBoss的XA<br><a target="_blank" rel="noopener" href="http://wenku.baidu.com/view/9441cafa770bf78a65295463.html">http://wenku.baidu.com/view/9441cafa770bf78a65295463.html</a>  </p>
+<p>SQL Server的XA<br><a target="_blank" rel="noopener" href="http://msdn.microsoft.com/en-us/library/aa342335.aspx">http://msdn.microsoft.com/en-us/library/aa342335.aspx</a><br><a target="_blank" rel="noopener" href="http://support.riversedgesoftware.com/knowledgebase.php?article=3">http://support.riversedgesoftware.com/knowledgebase.php?article=3</a> </p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

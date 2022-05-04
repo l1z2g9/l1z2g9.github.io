@@ -1,0 +1,177 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>stackpack | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="stackpack"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-stackpack" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2014-10-16T03:13:57.000Z"><a href="/2014/10/16/stackpack/">2014-10-16</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">stackpack</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <ul>
+<li><strong>Get all snapshot</strong></li>
+</ul>
+<p><code>select * from STATS$snapshot;</code></p>
+<ul>
+<li><p><strong>Check database instance</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select * from STATS$DATABASE_INSTANCE; – in case database restarted, an error will be thrown as ORA-20200: The instance was shutdown between snapshots 981 and 982</span><br><span class="line">select * from v$instance;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Run stackpack</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sqlplus perfstat/password@“(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=server)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=xxrac)))”</span><br><span class="line">@$ORACLE_HOME/rdbms/admin/spreport.sql</span><br><span class="line">OR</span><br><span class="line">@?/rdbms/admin/spreport.sql</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Purge stackpack</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@$ORACLE_HOME/rdbms/admin/sppurge.sql</span><br><span class="line">OR</span><br><span class="line">@?/rdbms/admin/sppurge.sql</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Oracle jobs</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select * from user_jobs; SELECT job, next_date, next_sec, failures, broken, SUBSTR(what,1,40) DESCRIPTION FROM dba_jobs; </span><br><span class="line">EXEC dbms_job.broken(24, false); </span><br><span class="line">EXEC dbms_job.run(24, false); – reset job when failure 16 attemps to run</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Oracle job for schedule run sppurge</strong></p>
+</li>
+</ul>
+<p>——————– Check the snap present before 20 days ——————–</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">select count(*) from stats$snapshot where snap_time &lt; sysdate-20</span><br><span class="line"></span><br><span class="line">----Create the procedure which will purge statspack snapshot after 20 days gap---------</span><br><span class="line">create or replace procedure statspackpurge is</span><br><span class="line">var_lo_snap number;</span><br><span class="line">var_hi_snap number;</span><br><span class="line">var_db_id number;</span><br><span class="line">var_instance_no number;</span><br><span class="line">noofsnapshot number;</span><br><span class="line">n_count number ;</span><br><span class="line">begin</span><br><span class="line"></span><br><span class="line">n_count := 0;</span><br><span class="line"></span><br><span class="line">select count(*) into n_count from stats$snapshot where snap_time &lt; sysdate-20;</span><br><span class="line"></span><br><span class="line">if n_count &gt; 0 then</span><br><span class="line"></span><br><span class="line">select min(s.snap_id) , max(s.snap_id),max(di.dbid),max(di.instance_number) into  var_lo_snap, var_hi_snap,var_db_id,var_instance_no</span><br><span class="line">  from stats$snapshot s</span><br><span class="line">     , stats$database_instance di</span><br><span class="line"> where s.dbid              = di.dbid</span><br><span class="line">   and s.instance_number   = di.instance_number</span><br><span class="line">   and di.startup_time     = s.startup_time</span><br><span class="line">   and s.snap_time &lt; sysdate-20;</span><br><span class="line"></span><br><span class="line">  noofsnapshot := statspack.purge( i_begin_snap      =&gt; var_lo_snap</span><br><span class="line">                                      , i_end_snap        =&gt; var_hi_snap</span><br><span class="line">                                      , i_snap_range      =&gt; true</span><br><span class="line">                                      , i_extended_purge  =&gt; false</span><br><span class="line">                                      , i_dbid            =&gt; var_db_id</span><br><span class="line">                                      , i_instance_number =&gt; var_instance_no);</span><br><span class="line"></span><br><span class="line"> dbms_output.Put_line(&#x27;snapshot deleted&#x27;||to_char(noofsnapshot));</span><br><span class="line"></span><br><span class="line">end if;</span><br><span class="line">end;</span><br><span class="line">/</span><br></pre></td></tr></table></figure>
+
+<p>——————– check the job already exits in the database  ——————–</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT  job, next_date, next_sec, failures, broken, SUBSTR(what,1,40) DESCRIPTION FROM dba_jobs;</span><br></pre></td></tr></table></figure>
+
+<p>——————– scheduled the  job at mid night ——————–</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">declare</span><br><span class="line">  my_job number;</span><br><span class="line">begin</span><br><span class="line">  dbms_job.submit(job =&gt; my_job,</span><br><span class="line">    what =&gt; &#x27;statspackpurge;&#x27;,</span><br><span class="line">    next_date =&gt; trunc(sysdate)+1,</span><br><span class="line">    interval =&gt; &#x27;trunc(sysdate)+1&#x27;);</span><br><span class="line">end;</span><br><span class="line">/</span><br></pre></td></tr></table></figure>
+<p>————–  Another way———————————————————-</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">variable v_jobno number;</span><br><span class="line">begin</span><br><span class="line">dbms_job.submit(:v_jobno,&#x27;statspack.purge(i_num_days=&gt;15,i_extended_purge=&gt;TRUE);&#x27;,trunc(sysdate)+1+2/24,&#x27;SYSDATE&#x27;,TRUE);</span><br><span class="line">commit;</span><br><span class="line">end;</span><br><span class="line">/</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Reference</li>
+</ul>
+<p><strong>Stackpack</strong><br><a target="_blank" rel="noopener" href="http://www.oracle-base.com/articles/8i/statspack-8i.php">http://www.oracle-base.com/articles/8i/statspack-8i.php</a><br><a target="_blank" rel="noopener" href="http://docs.oracle.com/cd/B10500_01/server.920/a96533/statspac.htm">http://docs.oracle.com/cd/B10500_01/server.920/a96533/statspac.htm</a></p>
+<p><strong>Oracle job</strong><br><a target="_blank" rel="noopener" href="http://www.orafaq.com/wiki/DBMS_JOB">http://www.orafaq.com/wiki/DBMS_JOB</a><br><a target="_blank" rel="noopener" href="http://www.dba-oracle.com/tips_oracle_statspack_purge_utility.htm">http://www.dba-oracle.com/tips_oracle_statspack_purge_utility.htm</a><br><a target="_blank" rel="noopener" href="http://myoracleworld.hobby-electronics.net/DB-statspack.html">http://myoracleworld.hobby-electronics.net/DB-statspack.html</a><br><a target="_blank" rel="noopener" href="http://dbaworks-sunny.blogspot.hk/2012/12/statspack-purge-script-for-scheduling.html">http://dbaworks-sunny.blogspot.hk/2012/12/statspack-purge-script-for-scheduling.html</a><br><a target="_blank" rel="noopener" href="http://docs.oracle.com/cd/B19306_01/appdev.102/b14258/d_job.htm#i1000769">http://docs.oracle.com/cd/B19306_01/appdev.102/b14258/d_job.htm#i1000769</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Oracle/">Oracle</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

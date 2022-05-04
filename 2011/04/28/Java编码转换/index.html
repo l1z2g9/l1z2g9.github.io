@@ -1,0 +1,149 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java编码转换 | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Java编码转换"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Java编码转换" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2011-04-28T05:09:20.000Z"><a href="/2011/04/28/Java%E7%BC%96%E7%A0%81%E8%BD%AC%E6%8D%A2/">2011-04-28</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Java编码转换</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h1 id="gbk-cp18030-x2F-cp936-转unicode-cp1200"><a href="#gbk-cp18030-x2F-cp936-转unicode-cp1200" class="headerlink" title="gbk(cp18030&#x2F;cp936)转unicode(cp1200)"></a>gbk(cp18030&#x2F;cp936)转unicode(cp1200)</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">String str = &quot;没有任何意义的一句说话&quot;;</span><br><span class="line">for (int i = 0; i &lt; str.length(); i++) &#123;</span><br><span class="line">    String charactor = str.substring(i, i + 1);</span><br><span class="line">    byte[] b = charactor.getBytes(&quot;UTF-16BE&quot;); // 如果是UTF-16LE，则高低位翻转</span><br><span class="line">    String s1 = Integer.toHexString(b[0]).replace(&quot;ffffff&quot;, &quot;&quot;);</span><br><span class="line">    String s2 = Integer.toHexString(b[1]).replace(&quot;ffffff&quot;, &quot;&quot;);</span><br><span class="line">    if (s1.length() &lt; 2)</span><br><span class="line">        s1 = &quot;0&quot; + s1;</span><br><span class="line">    if (s2.length() &lt; 2)</span><br><span class="line">        s2 = &quot;0&quot; + s2;</span><br><span class="line">    String s = s1 + s2;</span><br><span class="line">    out.println(String.format(&quot;十六进制的表示 &amp;#x%s;&quot;, s));</span><br><span class="line">    out.println(String.format(&quot;十进制的表示   &amp;#%s;&quot;, Integer.parseInt(s, 16))); //Integer.valueOf(s, 16) or Integer.decode(&quot;0x&quot; + s)</span><br><span class="line">    out.println();</span><br><span class="line">&#125;&lt;span class=&quot;Apple-style-span&quot; style=&quot;font-family:&#x27;&#x27;sans serif&#x27;, tahoma, verdana, helvetica&#x27;;font-size:x-large;&quot;&gt;&lt;span class=&quot;Apple-style-span&quot; style=&quot;font-size:19px;line-height:19px;white-space:normal;&quot;&gt; &lt;/span&gt;&lt;/span&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="numeric-character-reference-NCR"><a href="#numeric-character-reference-NCR" class="headerlink" title="numeric character reference(NCR)"></a>numeric character reference(NCR)</h1><p> 以&amp;#x03A3(16进制);或&amp;#0931(十进制);都可以在html显示unicode字符，例如:Σ<br> Python的方法会简单一些：<br> unicode(‘没有任何意义的一句说话‘,’gbk’)可以输出它的unicode编码<br> 显示十进制结果：int(‘3A3’, 16) </p>
+<h1 id="还原big5文字"><a href="#还原big5文字" class="headerlink" title="还原big5文字"></a>还原big5文字</h1><p> char.txt文件保存的汉字是繁体big5编码的【書院】，但显示为【皘】 </p>
+<p> 编写如下代码还原 </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">InputStreamReader reader = new InputStreamReader(new FileInputStream(&quot;char.txt&quot;));</span><br><span class="line">char[] chars = new char[892600];</span><br><span class="line">int len = reader.read(chars);</span><br><span class="line">String sql = new String(chars, 0, len);</span><br><span class="line">out.println(new String(sql.getBytes(), &quot;big5_hkscs&quot;));</span><br><span class="line">reader.close();</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><p> <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Numeric_character_reference%22%3Ehttp://en.wikipedia.org/wiki/">Numeric_character_reference</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

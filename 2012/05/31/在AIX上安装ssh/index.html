@@ -1,0 +1,162 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>在AIX上安装ssh | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="在AIX上安装ssh"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-在AIX上安装ssh" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2012-05-31T08:54:06.000Z"><a href="/2012/05/31/%E5%9C%A8AIX%E4%B8%8A%E5%AE%89%E8%A3%85ssh/">2012-05-31</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">在AIX上安装ssh</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <p>由于没有办法在AIX 5.2上使用smitty install_all openssh，因为安装完后调用ssh命令出现error，只有在一台当年已经安装了ssh的机器上copy过来，另外由于不想再&#x2F;usr&#x2F;local上安装这个ssh，在&#x2F;tmp上安装这个ssh了。</p>
+<ol>
+<li><p>使用nfs搭桥到装有ssh的机器。</p>
+</li>
+<li><p>Copy files</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">copy -rp /usr/local/sbin/sshd /tmp/xx/ssh/sbin</span><br><span class="line">copy -rp /usr/local/bin  /tmp/xx/ssh/</span><br><span class="line">copy -rp /usr/local/etc  /tmp/xx/ssh/</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建子系统</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkssys -s sshd -p /tmp/xx/ssh/sbin/sshd -a &quot;-D -f /tmp/xx/ssh/etc/sshd_config&quot; -u 0 -e /dev/console -i /dev/console -o /dev/console -R -Q -S -f 9 -n 15 -E 20 -G ssh -d -w 20</span><br><span class="line">lssrc -S -s sshd (check it exists)</span><br></pre></td></tr></table></figure>
+
+<p>如果有什么改动，可以<br><code>chssys -s sshd -a &quot;-D -f /tmp/xx/ssh/etc/sshd_config&quot;</code></p>
+</li>
+<li><p>由于系统没有sshd用户，所以启动时候有些错误，可以增加sshd用户，或者在sshd_config中将<br><code>UsePrivilegeSeparation no</code></p>
+</li>
+<li><p>和修改key的路径</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">HostKey /tmp/xx/ssh/etc/ssh_host_rsa_key</span><br><span class="line">HostKey /tmp/xx/ssh/etc/ssh_host_dsa_key</span><br><span class="line">HostKey /tmp/xx/ssh/etc/ssh_host_ecdsa_key</span><br></pre></td></tr></table></figure></li>
+<li><p>启动sshd，startsrc -g ssh</p>
+</li>
+</ol>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="http://www.ibm.com/developerworks/forums/thread.jspa?threadID=249556">http://www.ibm.com/developerworks/forums/thread.jspa?threadID=249556</a><br><a target="_blank" rel="noopener" href="http://daning.iteye.com/blog/166186">http://daning.iteye.com/blog/166186</a><br><a target="_blank" rel="noopener" href="http://unix.ittoolbox.com/groups/technical-functional/ibm-aix-l/sshd-daemon-does-not-start-during-boot-1524597">http://unix.ittoolbox.com/groups/technical-functional/ibm-aix-l/sshd-daemon-does-not-start-during-boot-1524597</a><br><a target="_blank" rel="noopener" href="http://unix.ittoolbox.com/groups/technical-functional/ibm-aix-l/how-to-restart-ssh-in-aix-1551784">http://unix.ittoolbox.com/groups/technical-functional/ibm-aix-l/how-to-restart-ssh-in-aix-1551784</a><br><a target="_blank" rel="noopener" href="http://www.unixguide.net/sun/ssh_installation.shtml">http://www.unixguide.net/sun/ssh_installation.shtml</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/AIX/">AIX</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

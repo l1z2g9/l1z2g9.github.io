@@ -1,0 +1,168 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Install gevent in AIX with gcc | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Install gevent in AIX with gcc"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Install-gevent-in-AIX-with-gcc" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2013-12-31T09:55:50.000Z"><a href="/2013/12/31/Install-gevent-in-AIX-with-gcc/">2013-12-31</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Install gevent in AIX with gcc</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h1 id="greenlet"><a href="#greenlet" class="headerlink" title="greenlet"></a>greenlet</h1><p>Download greenlet-0.4.1.zip from <a target="_blank" rel="noopener" href="https://github.com/python-greenlet/greenlet">https://github.com/python-greenlet/greenlet</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo gcc -pthread -fno-strict-aliasing -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -fPIC -fno-tree-dominator-opts -I. -I/opt/freeware/include/python2.7 -c greenlet.c -o build/greenlet.o</span><br><span class="line">sudo gcc -shared -lpthreads -lpython2.7 -o build/greenlet.so build/greenlet.o</span><br><span class="line">sudo cp build/greenlet.so /opt/freeware/lib/python2.7/site-packages/</span><br></pre></td></tr></table></figure>
+
+<h1 id="libev"><a href="#libev" class="headerlink" title="libev"></a>libev</h1><p>Download libev-4.15.tar.gz from <a target="_blank" rel="noopener" href="http://dist.schmorp.de/libev/">http://dist.schmorp.de/libev/</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/usr/local/libev</span><br><span class="line">gmake &amp;&amp; sudo gmake install</span><br></pre></td></tr></table></figure>
+
+<h1 id="c-ares"><a href="#c-ares" class="headerlink" title="c-ares"></a>c-ares</h1><p>Download c-ares from <a target="_blank" rel="noopener" href="http://c-ares.haxx.se/">http://c-ares.haxx.se/</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/usr/local/c-ares</span><br><span class="line">gmake &amp;&amp; sudo gmake install</span><br></pre></td></tr></table></figure>
+<p>Or just run<br>run <code>configure CONFIG_COMMANDS= CONFIG_FILES=</code></p>
+<h1 id="gevent"><a href="#gevent" class="headerlink" title="gevent"></a>gevent</h1><ul>
+<li>Download gevent-1.0.tar.gz from <a target="_blank" rel="noopener" href="https://pypi.python.org/pypi/gevent#downloads">https://pypi.python.org/pypi/gevent#downloads</a><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir build</span><br><span class="line">mkdir build/gevent</span><br><span class="line">cp gevent/*py build/gevent</span><br></pre></td></tr></table></figure></li>
+<li>build core.so <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo gcc -pthread -fno-strict-aliasing -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -fPIC -fno-tree-dominator-opts -I/opt/freeware/include/python2.7 -I/usr/local/libev/include gevent/gevent.core.c -c -o build/gevent/core.o </span><br><span class="line">gcc -pthread -shared -lpython2.7 -L/usr/local/libev/lib -lev -lm build/gevent/core.o -o build/gevent/core.so ( **-lm should be added** otherwise error throw “ld: 0711-317 ERROR: Undefined symbol: .floor”)</span><br></pre></td></tr></table></figure></li>
+<li>build ares.so<br> 1.change folder to c-ares and then run <code>configure CONFIG_COMMANDS= CONFIG_FILES=</code><br> In file gevent&#x2F;dnshelper.c, replace<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#ifdef HAVE_NETDB_H</span><br><span class="line">#include &lt;netdb.h&gt;</span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
+to<br><code>#include &lt;netdb.h&gt;</code> reason: Error throw “dereferencing pointer to incomplete type” <strong>Ref to</strong><br><a target="_blank" rel="noopener" href="http://richliu.pixnet.net/blog/post/25765892-gcc-%3A-error%3A-dereferencing-pointer-to-incomplete-type">http://richliu.pixnet.net/blog/post/25765892-gcc-%3A-error%3A-dereferencing-pointer-to-incomplete-type</a><br><a target="_blank" rel="noopener" href="http://blog.csdn.net/david_xtd/article/details/7781160">http://blog.csdn.net/david_xtd/article/details/7781160</a><br><a target="_blank" rel="noopener" href="http://liuzhigong.blog.163.com/blog/static/1782723752011314113857852/">http://liuzhigong.blog.163.com/blog/static/1782723752011314113857852/</a></li>
+</ul>
+<p>2.build share object</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gcc -pthread -fno-strict-aliasing -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -fPIC -fno-tree-dominator-opts -I/opt/freeware/include/python2.7 -Ic-ares gevent/gevent.ares.c -c -o build/gevent/gevent.ares.o</span><br><span class="line">gcc -pthread -shared -lpython2.7 -L/home/sms_dev/soft/usr/local/c-ares/lib -lcares -lrt -o build/gevent/ares.so build/gevent/gevent.ares.o</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>build semaphore.so </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo gcc -pthread -fno-strict-aliasing -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -fPIC -fno-tree-dominator-opts -I/opt/freeware/include/python2.7 gevent/gevent.**semaphore.c -c -o build/gevent/gevent.**semaphore.o </span><br><span class="line">gcc -pthread -shared -lpython2.7 build/gevent/gevent.**semaphore.o -o build/gevent/**semaphore.so</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>build **util.so </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo gcc -pthread -fno-strict-aliasing -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -fPIC -fno-tree-dominator-opts -I/opt/freeware/include/python2.7 gevent/gevent.**util.c -c -o build/gevent/gevent._util.o </span><br><span class="line">gcc -pthread -shared -lpython2.7 build/gevent/gevent.**util.o -o build/gevent/**util.so</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference:"></a>Reference:</h1><p><a target="_blank" rel="noopener" href="http://blog.longwin.com.tw/2013/03/linux-a-so-la-library-diff-2013/">Linux 的 .a &#x2F; .so &#x2F; .la 函式庫的差異</a><br><a target="_blank" rel="noopener" href="http://bbs.chinaunix.net/thread-1332374-1-1.html">问个.a和.so的区别</a><br><a target="_blank" rel="noopener" href="http://blog.csdn.net/rich_baba/article/details/6138110">Linux下静态链接库与动态链接库的区别</a><br><a target="_blank" rel="noopener" href="http://yxmhero1989.blog.163.com/blog/static/11215795620131124944442/">凡你醉处 你说过 皆非他乡</a><br><a target="_blank" rel="noopener" href="http://blog.ez2learn.com/2010/07/17/talk-about-coroutine-and-gevent/">淺談coroutine與gevent</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/AIX/">AIX</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

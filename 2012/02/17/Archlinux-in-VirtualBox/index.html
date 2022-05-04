@@ -1,0 +1,199 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Archlinux in VirtualBox | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Archlinux in VirtualBox"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Archlinux-in-VirtualBox" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2012-02-17T05:36:43.000Z"><a href="/2012/02/17/Archlinux-in-VirtualBox/">2012-02-17</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Archlinux in VirtualBox</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h1 id="Archlinux安装时候选择"><a href="#Archlinux安装时候选择" class="headerlink" title="Archlinux安装时候选择"></a>Archlinux安装时候选择</h1><pre><code>base-devel
+kernel header
+</code></pre>
+<h1 id="Sharepoint"><a href="#Sharepoint" class="headerlink" title="Sharepoint"></a>Sharepoint</h1><pre><code>mount -t vboxsf sharepoint /mnt/share
+download jre1.7u2
+</code></pre>
+<h1 id="Settings"><a href="#Settings" class="headerlink" title="Settings"></a>Settings</h1><pre><code>download tomcat
+set .profile_bash
+export JRE_HOME=/home/jre.1.7.0_02
+export PATH=$PATH:$JRE_HOME/bin
+</code></pre>
+<h1 id="网络设置"><a href="#网络设置" class="headerlink" title="网络设置"></a>网络设置</h1><ol>
+<li><p>VirtualBox设置为Bridge模式</p>
+</li>
+<li><p>查看IP<br> ip addr<br> ls &#x2F;sys&#x2F;class&#x2F;net&#x2F;</p>
+</li>
+<li><p>设置IP和DNS<br> cat rc.conf<br> cat resolv.conf</p>
+</li>
+<li><p>设置host主机的浏览器访问192.168.56.*的IP不经过proxy</p>
+</li>
+<li><p>设置<a target="_blank" rel="noopener" href="https://wiki.archlinux.org/index.php/Secure_Shell">ssh</a></p>
+</li>
+</ol>
+<p>设置root的密码：<code>passwd root</code></p>
+<p>6.建立pacman的本地仓库<br><a target="_blank" rel="noopener" href="https://wiki.archlinux.org/index.php/Pacman_Tips#Installing_packages_from_a_CD.2FDVD.2FISO">https://wiki.archlinux.org/index.php/Pacman_Tips#Installing_packages_from_a_CD.2FDVD.2FISO</a></p>
+<p>由于暂时不能上网，所以在pacman.conf文件里注释掉extra和community部分</p>
+<p>简单的测试：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pacman -Syu</span><br><span class="line">pacman -U sqlite3-3.7.7.1-1-i686.pkg.tar.xz</span><br></pre></td></tr></table></figure>
+
+<ol start="7">
+<li>使用netty的example下的HexDumpProxy作为代理服务器，<br><code>java -cp netty.jar HexDumpProxy 1099 myproxy 8080 </code></li>
+</ol>
+<p>设置环境变量 export http_proxy&#x3D;<a target="_blank" rel="noopener" href="http://192.168.56.15:1099/">http://192.168.56.15:1099</a></p>
+<p><code>export no_proxy=&quot;localhost,127.0.0.1,192.168.56.15&quot;</code><br>reference:  <a target="_blank" rel="noopener" href="https://wiki.archlinux.org/index.php/Proxy_settings">https://wiki.archlinux.org/index.php/Proxy_settings</a></p>
+<ol start="8">
+<li><p>使用lynx测试, lynx <a target="_blank" rel="noopener" href="http://www.google.com/">http://www.google.com</a></p>
+</li>
+<li><p>取消pacman.conf的extra和community的注释（因为之前不能上网），在pacman.d&#x2F;mirrorlist打开任意一个Server<br><code>pacman -Syu</code></p>
+</li>
+<li><p>下载nginx, pacman -S nginx<br>查看<code>pacman -Qil nginx</code></p>
+</li>
+<li><p>运行nginx出现找不到libpcre.so.1的error<br>处理</p>
+</li>
+</ol>
+<ul>
+<li><code>export LD_LIBRARY_PATH=/usr/lib</code></li>
+<li><code>ldconfig</code></li>
+<li><code>ln -s /usr/lib/libpcre.so /usr/lib/libpcre.so.1</code></li>
+</ul>
+<ol start="12">
+<li>安装vsftpd，方便可以在windows上使用editplus编辑文件，然后upload到arch。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pacman -S vsftp</span><br><span class="line">/etc/rc.d/vsftpd start</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>vsftpd.conf</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">write_enable=YES</span><br><span class="line">local_enable=YES</span><br><span class="line"></span><br><span class="line">注释掉anonymous_enable=YES</span><br><span class="line">由于是standalone模式，所以保持listen=YES</span><br></pre></td></tr></table></figure>
+
+<p>参考<br><a target="_blank" rel="noopener" href="https://wiki.archlinux.org/index.php/Very_Secure_FTP_Daemon">https://wiki.archlinux.org/index.php/Very_Secure_FTP_Daemon</a><br><a target="_blank" rel="noopener" href="http://os.51cto.com/art/201008/222036.htm">http://os.51cto.com/art/201008/222036.htm</a></p>
+<p>意外情况，安装vsftpd时候，出现很多package的pgp签名有问题的错误，可以参考Archlinux的wiki上pacman-key的文章，我的解决方法是在&#x2F;etc&#x2F;pacman.conf中设置SigLevel&#x3D;Never，不验证package的签名，然后运行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pacman -Syy</span><br><span class="line">pacman -S pacman</span><br><span class="line">pacman -Syu</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>8</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>68</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2022 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>
