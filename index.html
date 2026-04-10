@@ -47,17 +47,66 @@
 </header>
   <div id="content" class="inner">
     <div id="main-col" class="alignleft"><div id="wrapper">
-  <article id="post-JBoss-Performance_Monitor" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <article id="post-IBM-MQ-Cluster-And-Monitor" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   
   <div class="post-content">
     <header>
       
         <div class="icon"></div>
-        <time class="dt-published" datetime="2025-12-23T06:41:49.000Z"><a href="/2025/12/23/JBoss-Performance_Monitor/">2025-12-23</a></time>
+        <time class="dt-published" datetime="2026-04-10T06:41:49.000Z"><a href="/2026/04/10/IBM-MQ-Cluster-And-Monitor/">2026-04-10</a></time>
       
       
   
-    <h1 class="title"><a href="/2025/12/23/JBoss-Performance_Monitor/">JBoss Performance Monitor</a></h1>
+    <h1 class="title"><a href="/2026/04/10/IBM-MQ-Cluster-And-Monitor/">IBM MQ Cluster and Monitor</a></h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h3 id="Check-queue-manager-and-cluster-status"><a href="#Check-queue-manager-and-cluster-status" class="headerlink" title="Check queue manager and cluster status"></a>Check queue manager and cluster status</h3><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">DISPLAY</span> QMSTATUS <span class="attribute">ALL</span></span><br><span class="line"></span><br><span class="line">DIS QMGR</span><br><span class="line">DIS <span class="built_in">CHL</span>(CCM.APP.SVRCONN) <span class="attribute">all</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">DISPLAY</span> <span class="built_in">CLUSQMGR</span>(*) QMTYPE SSLPEER STATUS</span><br><span class="line">** Full Repository</span><br><span class="line"><span class="attribute">DISPLAY</span> <span class="built_in">CLUSQMGR</span>(*) <span class="built_in">WHERE</span>(QMTYPE EQ REPOS)</span><br><span class="line"></span><br><span class="line">-- Partial Repository</span><br><span class="line"><span class="attribute">DISPLAY</span> <span class="built_in">CLUSQMGR</span>(*) <span class="built_in">WHERE</span>(QMTYPE EQ NORMAL)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Check-channel-x2F-queue-x2F-listener-status"><a href="#Check-channel-x2F-queue-x2F-listener-status" class="headerlink" title="Check channel &#x2F; queue &#x2F; listener status"></a>Check channel &#x2F; queue &#x2F; listener status</h3><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">DISPLAY</span> <span class="built_in">CHSTATUS</span>(&#x27;XXX.APP.SVRCONN&#x27;) MONITOR</span><br><span class="line"></span><br><span class="line"><span class="attribute">DISPLAY</span> <span class="built_in">QSTATUS</span>(&#x27;XXX.YYY.Q&#x27;) MONITOR CURDEPTH</span><br><span class="line"><span class="attribute">DISPLAY</span> <span class="built_in">QSTATUS</span>(XXX.YYY.Q) <span class="built_in">TYPE</span>(HANDLE)</span><br><span class="line"></span><br><span class="line"><span class="attribute">DISPLAY</span> <span class="built_in">LSSTATUS</span>(*) <span class="attribute">ALL</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Enable-monitor"><a href="#Enable-monitor" class="headerlink" title="Enable monitor"></a>Enable monitor</h3><figure class="highlight isbl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">ALTER</span> <span class="variable">QMGR</span> <span class="function"><span class="title">MONQ</span>(<span class="variable">HIGH</span>)</span></span><br><span class="line"><span class="variable">ALTER</span> <span class="variable">QMGR</span> <span class="function"><span class="title">STATQ</span>(<span class="variable">ON</span>)</span></span><br><span class="line"><span class="variable">ALTER</span> <span class="variable">QMGR</span> <span class="function"><span class="title">MONCHL</span>(<span class="variable">HIGH</span>)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Check-cluster-queue"><a href="#Check-cluster-queue" class="headerlink" title="Check cluster queue"></a>Check cluster queue</h3><figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DISPLAY QCLUSTER<span class="comment">(*) all</span></span><br><span class="line"><span class="comment">DISPLAY QUEUE(STD*)</span> CLUSINFO</span><br></pre></td></tr></table></figure>
+
+<h3 id="Refresh-cluster-Run-in-PR"><a href="#Refresh-cluster-Run-in-PR" class="headerlink" title="Refresh cluster (Run in PR)"></a>Refresh cluster (Run in PR)</h3><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">REFRESH <span class="built_in">CLUSTER</span>(MYCLUS)</span><br><span class="line">REFRESH <span class="built_in">CLUSTER</span>(MYCLUS) <span class="built_in">REPOS</span>(YES)</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="Test-sending-message"><a href="#Test-sending-message" class="headerlink" title="Test sending message"></a>Test sending message</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">export MQSAMP_USER_ID=mquser</span><br><span class="line">export MQCCDTURL=<span class="regexp">/tmp/m</span>qtest/ccdt.json</span><br><span class="line">export MQSSLKEYR=<span class="regexp">/tmp/m</span>qtest/qm</span><br><span class="line"></span><br><span class="line">** browser message</span><br><span class="line"><span class="regexp">/opt/m</span>qm<span class="regexp">/samp/</span>bin/amqsbcgc XXX.YYY.Q TEST_QM &lt;&lt;&lt; <span class="string">&#x27;passw0rd&#x27;</span></span><br><span class="line"></span><br><span class="line">** consume message</span><br><span class="line"><span class="regexp">/opt/m</span>qm<span class="regexp">/samp/</span>bin/amqsghac XXX.YYY.Q TEST_QM</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="Resolve-in-doubt-transaction-typically-happen-in-application-throw-error-in-receive-message"><a href="#Resolve-in-doubt-transaction-typically-happen-in-application-throw-error-in-receive-message" class="headerlink" title="Resolve in-doubt transaction (typically happen in application throw error in receive message)"></a>Resolve in-doubt transaction (typically happen in application throw error in receive message)</h3><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">dspmqtrn</span> -m TEST_QM</span><br><span class="line"><span class="attribute">rsvmqtrn</span> -m TEST_QM -a</span><br><span class="line"><span class="attribute">rsvmqtrn</span> -m TEST_QM -b <span class="number">0</span>,<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Test-SSL-config"><a href="#Test-SSL-config" class="headerlink" title="Test SSL config"></a>Test SSL config</h3><p><code>/opt/mqm/samp/bin/amqssslc -m TEST_QM -c XXX.APP.SVRCONN -x localhost -s TLS_AES_128_GCM_SHA256</code></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article id="post-JBoss-Performance-Monitor" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2025-12-23T06:41:49.000Z"><a href="/2025/12/23/JBoss-Performance-Monitor/">2025-12-23</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2025/12/23/JBoss-Performance-Monitor/">JBoss Performance Monitor</a></h1>
   
 
     </header>
@@ -7530,6 +7579,8 @@ export PATH=$PATH:$JRE_HOME/bin
   <ul class="entry">
   
     <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/IBM-MQ/">IBM MQ</a><small>1</small></li>
   
     <li><a href="/tags/JBoss/">JBoss</a><small>1</small></li>
   
