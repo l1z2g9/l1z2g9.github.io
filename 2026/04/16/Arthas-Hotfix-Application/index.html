@@ -1,0 +1,148 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Arthas Hotfix Application | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Arthas Hotfix Application"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-Arthas-Hotfix-Application" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2026-04-16T06:36:43.000Z"><a href="/2026/04/16/Arthas-Hotfix-Application/">2026-04-16</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">Arthas Hotfix Application</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h3 id="Search-JBoss-PID"><a href="#Search-JBoss-PID" class="headerlink" title="Search JBoss PID"></a>Search JBoss PID</h3><figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ jcmd </span><br><span class="line">=&gt; <span class="number">2133763</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Hot-fix-application"><a href="#Hot-fix-application" class="headerlink" title="Hot fix application"></a>Hot fix application</h3><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>. Enter arthas</span><br><span class="line"><span class="variable">$ </span>java -jar arthas-boot.jar <span class="number">2133763</span></span><br><span class="line">[arthas<span class="variable">@2133763</span>]<span class="variable">$ </span>jvm</span><br><span class="line">[arthas<span class="variable">@2133763</span>]<span class="variable">$ </span>sysprop</span><br><span class="line">[arthas<span class="variable">@2133763</span>]<span class="variable">$ </span>sysenv</span><br><span class="line">[arthas<span class="variable">@2133763</span>]<span class="variable">$ </span>dashboard</span><br><span class="line">[arthas<span class="variable">@2133763</span>]<span class="variable">$ </span>thread -b</span><br><span class="line"></span><br><span class="line"><span class="number">2</span>. sc - search <span class="class"><span class="keyword">class</span></span></span><br><span class="line">[arthas<span class="variable">@2133763</span>]<span class="variable">$ </span>sc -d *SendShipInfoTasklet| grep classLoader</span><br><span class="line"> =&gt; classLoaderHash   <span class="number">75</span>faff</span><br><span class="line"></span><br><span class="line"><span class="number">3</span>. jad - java decompile</span><br><span class="line">[arthas<span class="variable">@2133763</span>]<span class="variable">$ </span>jad -c <span class="number">75</span>faff --source-only xx.yy.frt.tasklet.SendShipInfoTasklet -d /tmp &gt; <span class="regexp">/tmp/</span>SendShipInfoTasklet.java</span><br><span class="line"></span><br><span class="line"><span class="number">4</span>. mc - memory compile</span><br><span class="line">[arthas<span class="variable">@2133763</span>]<span class="variable">$ </span>mc -c <span class="number">75</span>faff /tmp/SendShipInfoTasklet.java -d /tmp</span><br><span class="line"></span><br><span class="line"><span class="number">5</span>. Or compile outside in IDE and place the <span class="class"><span class="keyword">class</span> <span class="title">into</span> /<span class="title">tmp</span></span></span><br><span class="line">[arthas<span class="variable">@2133763</span>]<span class="variable">$ </span>redefine -c <span class="number">75</span>faff /tmp/SendShipInfoTasklet.<span class="keyword">class</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/IBM-MQ/">IBM MQ</a><small>1</small></li>
+  
+    <li><a href="/tags/JBoss/">JBoss</a><small>1</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>9</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>73</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2026 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>

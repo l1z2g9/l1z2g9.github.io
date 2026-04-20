@@ -1,0 +1,159 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>HCP Object Management | My Blog</title>
+  <meta name="author" content="Forrest Wan">
+  
+  <meta name="description" content="My Blog">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="HCP Object Management"/>
+  <meta property="og:site_name" content="My Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  <link rel="shortcut icon" href="/favicon.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+  
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">My Blog</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/null">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article id="post-HCP-Object-Management" class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time class="dt-published" datetime="2026-04-16T06:36:43.000Z"><a href="/2026/04/16/HCP-Object-Management/">2026-04-16</a></time>
+      
+      
+  
+    <h1 class="p-name title" itemprop="headline name">HCP Object Management</h1>
+  
+
+    </header>
+    <div class="e-content entry" itemprop="articleBody">
+      
+        <h3 id="s5cmd"><a href="#s5cmd" class="headerlink" title="s5cmd"></a>s5cmd</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">export AWS_ACCESS_KEY_ID=Y2NtdXNlcg==</span><br><span class="line">export AWS_SECRET_ACCESS_KEY=<span class="number">47</span>a56a2a894cf0f3c17d42ab4d9fa502</span><br><span class="line">export S3_ENDPOINT_URL=https:<span class="regexp">//</span>xxx.object.yyy.zzz</span><br><span class="line"></span><br><span class="line">.<span class="regexp">/s5cmd ls --show-fullpath s3:/</span><span class="regexp">/rd-info/</span><span class="number">0003</span>/*</span><br><span class="line">.<span class="regexp">/s5cmd head s3:/</span><span class="regexp">/rd-info/</span>data<span class="regexp">/0002/</span><span class="number">0</span>d/<span class="number">55660</span>cbc-da9a-<span class="number">4</span>c29-<span class="number">8</span>dba-<span class="number">4</span>b719ea70e50 | jq .</span><br><span class="line">.<span class="regexp">/s5cmd rm s3:/</span><span class="regexp">/rd-info/</span><span class="number">0003</span>/*</span><br><span class="line">.<span class="regexp">/s5cmd du --humanize --group s3:/</span><span class="regexp">/intf-file/</span>*</span><br></pre></td></tr></table></figure>
+
+<p><code>./s5cmd run command.txt</code><br><em>command.txt</em></p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rm s3:<span class="regexp">//</span>rd-info<span class="regexp">/data/</span><span class="number">1</span>*</span><br><span class="line">rm s3:<span class="regexp">//</span>rd-info<span class="regexp">/data/</span><span class="number">2</span>*</span><br><span class="line">rm s3:<span class="regexp">//</span>rd-info<span class="regexp">/data/</span><span class="number">3</span>*</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="s3cmd"><a href="#s3cmd" class="headerlink" title="s3cmd"></a>s3cmd</h3><p><em>.s3cfg</em></p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">access_key</span> = Y2NtdXNlcg==</span><br><span class="line"><span class="attr">host_base</span> = xxx.object.yyy.zzz</span><br><span class="line"><span class="attr">host_bucket</span> = %(bucket)s.xxx.object.yyy.zzz</span><br><span class="line"><span class="attr">secret_key</span> = <span class="number">47</span>a56a2a894cf0f3c17d42ab4d9fa502</span><br><span class="line"><span class="attr">website_endpoint</span> = https://xxx.object.yyy.zzz:<span class="number">8000</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">./s3cmd</span> <span class="keyword">ls</span> s3:<span class="string">//rd-info/0006</span> <span class="params">--no-check-hostname</span> <span class="params">--recursive</span></span><br><span class="line"><span class="string">./s3cmd</span> rm s3:<span class="string">//rd-info/0006</span> <span class="params">--no-check-hostname</span> <span class="params">--recursive</span></span><br><span class="line"><span class="string">./s3cmd</span> del s3:<span class="string">//rd-info/data/0000/61/36bd4f8d-a5a7-40a3-b45f-da999ceecd97</span> <span class="params">--add-header=</span><span class="string">&quot;x-amz-bypass-governance-retention:true&quot;</span> <span class="params">--no-check-hostname</span></span><br><span class="line"><span class="string">./s3cmd</span> setobjectretention GOVERNANCE 2026-04-17T23<span class="function">:59</span><span class="function">:59Z</span> s3:<span class="string">//rd-info/data/0000/61/36bd4f8d-a5a7-40a3-b45f-da999ceecd97</span> <span class="params">--no-check-hostname</span></span><br><span class="line"></span><br><span class="line">nohup <span class="string">./s3cmd</span> rm s3:<span class="string">//rd-info-bak/data/</span> <span class="params">--no-check-hostname</span> <span class="params">--recursive</span> <span class="params">--force</span> &gt; output.log 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="aws-s3-x2F-s3api"><a href="#aws-s3-x2F-s3api" class="headerlink" title="aws s3 &#x2F; s3api"></a>aws s3 &#x2F; s3api</h3><figure class="highlight dsconfig"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">aws</span> <span class="string">s3</span> <span class="string">ls</span> <span class="built_in">--endpoint-url</span> <span class="string">https</span>://<span class="string">xxx</span>.<span class="string">object</span>.<span class="string">yyy</span>.<span class="string">zzz</span> <span class="string">s3</span>://<span class="string">rd-info</span>/<span class="string">data</span>/<span class="string">0000</span>/ <span class="built_in">--no-verify-ssl</span> <span class="built_in">--recursive</span> <span class="built_in">--summarize</span></span><br><span class="line"></span><br><span class="line"><span class="string">aws</span> <span class="string">s3api</span> <span class="string">put-object-retention</span> <span class="built_in">--endpoint-url</span> <span class="string">https</span>://<span class="string">xxx</span>.<span class="string">object</span>.<span class="string">yyy</span>.<span class="string">zzz</span> <span class="built_in">--bucket</span> <span class="string">rd-info</span> <span class="built_in">--key</span> <span class="string">data</span>/<span class="string">0000</span>/<span class="string">61</span>/<span class="string">36bd4f8d-a5a7-40a3-b45f-da999ceecd97</span> <span class="built_in">--retention</span> <span class="string">&#x27;&#123; &quot;Mode&quot;: &quot;GOVERNANCE&quot;, &quot;RetainUntilDate&quot;: &quot;2026-04-17T18:20:35&quot; &#125;&#x27;</span> <span class="built_in">--no-verify-ssl</span> <span class="built_in">--bypass-governance-retention</span></span><br><span class="line"></span><br><span class="line"><span class="string">aws</span> <span class="string">s3api</span> <span class="built_in">delete-object</span> <span class="built_in">--endpoint-url</span> <span class="string">https</span>://<span class="string">xxx</span>.<span class="string">object</span>.<span class="string">yyy</span>.<span class="string">zzz</span> <span class="built_in">--bucket</span> <span class="string">rd-info</span> <span class="built_in">--key</span> <span class="string">data</span>/<span class="string">0000</span>/<span class="string">61</span>/<span class="string">36bd4f8d-a5a7-40a3-b45f-da999ceecd97</span> <span class="built_in">--no-verify-ssl</span> </span><br><span class="line"></span><br><span class="line"><span class="string">aws</span> <span class="string">s3api</span> <span class="string">head-object</span> <span class="built_in">--endpoint-url</span> <span class="string">https</span>://<span class="string">xxx</span>.<span class="string">object</span>.<span class="string">yyy</span>.<span class="string">zzz</span> <span class="built_in">--bucket</span> <span class="string">rd-info</span> <span class="built_in">--key</span> <span class="string">data</span>/<span class="string">0000</span>/<span class="string">61</span>/<span class="string">36bd4f8d-a5a7-40a3-b45f-da999ceecd97</span> <span class="built_in">--no-verify-ssl</span> </span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="as_sitesearch" value="l1z2g9.github.io">
+  </form>
+</div>
+
+
+  
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/AIX/">AIX</a><small>29</small></li>
+  
+    <li><a href="/tags/IBM-MQ/">IBM MQ</a><small>1</small></li>
+  
+    <li><a href="/tags/JBoss/">JBoss</a><small>1</small></li>
+  
+    <li><a href="/tags/MySQL/">MySQL</a><small>2</small></li>
+  
+    <li><a href="/tags/Oracle/">Oracle</a><small>14</small></li>
+  
+    <li><a href="/tags/Problem-Solve/">Problem Solve</a><small>9</small></li>
+  
+    <li><a href="/tags/Raspberry-Pi/">Raspberry Pi</a><small>12</small></li>
+  
+    <li><a href="/tags/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/">工作日志</a><small>73</small></li>
+  
+    <li><a href="/tags/%E6%97%A5%E5%B8%B8%E8%AE%B0%E5%BD%95/">日常记录</a><small>23</small></li>
+  
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2026 Forrest Wan
+  
+</div>
+<div class="clearfix"></div></footer>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+
+
+<script src="/js/gallery.js"></script>
+
+
+
+
+
+</body>
+</html>
